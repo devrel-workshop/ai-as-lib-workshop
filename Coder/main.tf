@@ -237,7 +237,7 @@ module "git-clone" {
   source      = "registry.coder.com/modules/git-clone/coder"
   version     = "1.0.18"
   agent_id    = coder_agent.main.id
-  url         = "https://github.com/devrel-workshop/101-AI-Enpoints"
+  url         = "https://github.com/devrel-workshop/ai-as-lib-workshop"
   branch_name = "main"
 }
 
