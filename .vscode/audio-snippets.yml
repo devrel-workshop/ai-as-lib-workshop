@@ -1,0 +1,511 @@
+# Audio section
+
+snippet audio-requirements:
+  name: "Audio requirements"
+  prefix: "sol-audio-requirements"
+  #scope: "python"
+  body: | 
+    # audio section
+    # Gradio to create the application, see https://pypi.org/project/gradio/
+    gradio==5.5.0
+    # NVIDIA client to use AIEndpoints, see https://pypi.org/project/nvidia-riva-client/, https://github.com/nvidia-riva/python-clients
+    nvidia-riva-client==2.17.0 
+    # Pydub to manipulate audio files, see https://pypi.org/project/pydub/
+    pydub==0.25.1
+    # Numpy to do sientific computing with Python
+    numpy==2.1.3
+    # Manage http requests, see https://pypi.org/project/requests/
+    requests==2.32.3
+
+# Text to speech GRPC section
+
+snippet tts-grpc-riva-client:
+  name: "TTS GRPC riva client"
+  prefix: "sol-tts-grpc-riva-client"
+  scope: "python"
+  body: | 
+    tts_service = riva.client.SpeechSynthesisService(
+        riva.client.Auth(
+            uri="nvr-tts-en-us.endpoints-grpc.kepler.ai.cloud.ovh.net:443",
+            use_ssl=True,
+            metadata_args=[["authorization", f"bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}"]]
+        )
+    )
+
+snippet tts-grpc-config:
+  name: "TTS GRPC config"
+  prefix: "sol-tts-grpc-config"
+  scope: "python"
+  body: | 
+    tts_config = {
+        "voice_name": "English-US.Female-1",
+        "language_code": "en-US",  # languages: en-US / es-ES / de-DE / it-IT / zh-CN
+        "encoding": riva.client.AudioEncoding.LINEAR_PCM,
+        "sample_rate_hz": 44100,  # sample rate: 44.1KHz audio
+        "custom_dictionary": {},
+        "text": textToTransform,
+    }
+
+snippet tts-grpc-response:
+  name: "TTS GRPC response"
+  prefix: "sol-tts-grpc-response"
+  scope: "python"
+  body: | 
+    response = tts_service.synthesize(**tts_config)
+
+snippet tts-grpc-return:
+  name: "TTS GRPC return"
+  prefix: "sol-tts-grpc-return"
+  scope: "python"
+  body: | 
+    audio_samples = (44100, np.frombuffer(response.audio, dtype=np.int16))
+
+    return audio_samples
+
+snippet tts-grpc-input:
+  name: "TTS GRPC input"
+  prefix: "sol-tts-grpc-input"
+  scope: "python"
+  body: | 
+    input_text = gr.Textbox(
+        label="🏴󠁧󠁢󠁥󠁮󠁧󠁿",
+    )
+
+snippet tts-grpc-output:
+  name: "TTS GRPC output"
+  prefix: "sol-tts-grpc-output"
+  scope: "python"
+  body: | 
+    output_audio = gr.Audio(
+        label="Audio synthesis (.wav)", type="numpy", show_download_button=False
+    )
+
+snippet tts-grpc-demo:
+  name: "TTS GRPC demo"
+  prefix: "sol-tts-grpc-demo"
+  scope: "python"
+  body: | 
+    demo = gr.Interface(
+        fn=text_to_speech, inputs=input_text, outputs=output_audio, allow_flagging="never"
+    )
+
+# Speech to text GRPC section
+
+snippet stt-grpc-riva-client:
+  name: "STT GRPC riva client"
+  prefix: "sol-stt-grpc-riva-client"
+  scope: "python"
+  body: | 
+    asr_service = riva.client.ASRService(
+        riva.client.Auth(
+            uri="nvr-asr-fr-fr.endpoints-grpc.kepler.ai.cloud.ovh.net:443",
+            use_ssl=True,
+            metadata_args=[["authorization", f"bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}"]]
+        )
+    )
+
+
+snippet stt-grpc-config:
+  name: "STT GRPC config"
+  prefix: "sol-stt-grpc-config"
+  scope: "python"
+  body: | 
+    asr_config = riva.client.RecognitionConfig(
+        language_code="fr-FR", 
+        max_alternatives=1,
+        enable_automatic_punctuation=True,
+        audio_channel_count = 1,
+    ) 
+
+
+snippet stt-grpc-audio-transform:
+  name: "STT GRPC audio tranform"
+  prefix: "sol-stt-grpc-audio-transform"
+  scope: "python"
+  body: | 
+    audio_input = AudioSegment.from_file(audio, "wav")
+    process_audio_to_wav = audio_input.set_channels(1)
+    process_audio_to_wav = process_audio_to_wav.set_frame_rate(16000)
+    process_audio_to_wav.export("audio.wav", format="wav")
+
+snippet stt-grpc-audio-as-bytes:
+  name: "STT GRPC audio as bytes"
+  prefix: "sol-stt-grpc-audio-as-bytes"
+  scope: "python"
+  body: | 
+    with open("audio.wav", 'rb') as fh:
+        audio_to_analyse = fh.read()
+
+
+snippet stt-grpc-response:
+  name: "STT GRPC response"
+  prefix: "sol-stt-grpc-response"
+  scope: "python"
+  body: | 
+    response = asr_service.offline_recognize(audio_to_analyse, asr_config)
+
+snippet stt-grpc-return:
+  name: "STT GRPC return"
+  prefix: "sol-stt-grpc-return"
+  scope: "python"
+  body: | 
+    output = []
+    for res in range(len(response.results)):
+        output.append(response.results[res].alternatives[0].transcript)
+
+    return ' '.join(output)
+
+snippet stt-grpc-input:
+  name: "STT GRPC input"
+  prefix: "sol-stt-grpc-input"
+  scope: "python"
+  body: | 
+    input_audio = gr.Audio(
+        sources=['upload', 'microphone'],
+        type='filepath'
+    )
+
+snippet stt-grpc-demo:
+  name: "STT GRPC demo"
+  prefix: "sol-stt-grpc-demo"
+  scope: "python"
+  body: | 
+    demo = gr.Interface(
+        fn=speechToText,
+        inputs=input_audio,
+        outputs="text",
+        allow_flagging="never"
+    )
+
+# Text to speech HTTP section
+
+snippet tts-http-model-url:
+  name: "TTS model URL"
+  prefix: "sol-tts-http-model-url"
+  scope: "python"
+  body: | 
+    url = "https://nvr-tts-en-us.endpoints.kepler.ai.cloud.ovh.net/api/v1/tts/text_to_audio"
+
+snippet tts-http-bearer:
+  name: "TTS bearer"
+  prefix: "sol-tts-http-bearer"
+  scope: "python"
+  body: | 
+    headers = {
+        "Authorization": f"Bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}",
+    }
+
+snippet tts-http-payload:
+  name: "TTS HTTP payload"
+  prefix: "sol-tts-http-payload"
+  scope: "python"
+  body: | 
+    payload = {
+        "encoding": 1,
+        "language_code": "en-US",
+        "sample_rate_hz": 16000,
+        "text": textToTransform,
+        "voice_name": "English-US.Female-1",
+    }
+
+snippet tts-http-response:
+  name: "TTS HTTP response"
+  prefix: "sol-tts-http-response"
+  scope: "python"
+  body: | 
+    response = requests.post(url, json=payload, headers=headers)
+
+snippet tts-http-return:
+  name: "TTS HTTP return"
+  prefix: "sol-tts-http-return"
+  scope: "python"
+  body: | 
+    audio = (16000, np.frombuffer(response.content, dtype=np.int16))
+
+    return audio
+
+snippet tts-http-input:
+  name: "TTS HTTP input"
+  prefix: "sol-tts-http-input"
+  scope: "python"
+  body: | 
+    input_text = gr.Textbox(
+        label="🏴󠁧󠁢󠁥󠁮󠁧󠁿",
+    )
+
+snippet tts-http-output:
+  name: "TTS HTTP output"
+  prefix: "sol-tts-http-output"
+  scope: "python"
+  body: | 
+    output_audio = gr.Audio(
+        label="Audio synthesis (.wav)", type="numpy", show_download_button=False
+    )
+
+snippet tts-http-demo:
+  name: "TTS HTTP demo"
+  prefix: "sol-tts-http-demo"
+  scope: "python"
+  body: | 
+    demo = gr.Interface(
+        fn=text_to_speech, inputs=input_text, outputs=output_audio, allow_flagging="never"
+    )
+
+# Speech to text HTTP section
+
+snippet stt-http-model-url:
+  name: "STT model URL"
+  prefix: "sol-stt-http-model-url"
+  scope: "python"
+  body: | 
+    url = "https://nvr-asr-fr-fr.endpoints.kepler.ai.cloud.ovh.net/api/v1/asr/recognize"
+
+snippet stt-http-bearer:
+  name: "STT bearer"
+  prefix: "sol-stt-http-bearer"
+  scope: "python"
+  body: | 
+    headers = {
+        "Authorization": f"Bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}",
+    }
+
+snippet stt-http-audio-transform:
+  name: "STT HTTP audio tranform"
+  prefix: "sol-stt-http-audio-transform"
+  scope: "python"
+  body: | 
+    audio_input = AudioSegment.from_file(audio, "wav")
+    process_audio_to_wav = audio_input.set_channels(1)
+    process_audio_to_wav = process_audio_to_wav.set_frame_rate(16000)
+    process_audio_to_wav.export("audio.wav", format="wav")
+
+snippet stt-http-file-to-send:
+  name: "STT HTTP file to send"
+  prefix: "sol-stt-http-file-to-send"
+  scope: "python"
+  body: | 
+    filetoSend = [('audio', open("audio.wav", 'rb'))]
+
+
+snippet stt-http-response:
+  name: "STT HTTP response"
+  prefix: "sol-stt-http-response"
+  scope: "python"
+  body: | 
+    response = requests.post(url, files=filetoSend, headers=headers)
+    responseToDisplay=''
+    if response.status_code == 200:
+        # Handle response
+        response_data = response.json()
+        for alternative in response_data:
+            responseToDisplay+=alternative['alternatives'][0]['transcript']
+    else:
+        print("Error:", response.status_code)
+        responseToDisplay='Unable to do the transcription 😭'
+    
+    return responseToDisplay
+
+snippet stt-http-input:
+  name: "STT HTTP input"
+  prefix: "sol-stt-http-input"
+  scope: "python"
+  body: | 
+    input_audio = gr.Audio(
+        sources=['upload', 'microphone'],
+        type='filepath'
+    )
+
+snippet stt-http-demo:
+  name: "STT HTTP demo"
+  prefix: "sol-stt-http-demo"
+  scope: "python"
+  body: | 
+    demo = gr.Interface(
+        fn=speechToText,
+        inputs=input_audio,
+        outputs="text",
+        allow_flagging="never"
+    )
+
+# Speech to speech GRPC section
+
+snippet sts-translate-riva-client:
+  name: "STS translate riva client"
+  prefix: "sol-sts-translate-riva-client"
+  scope: "python"
+  body: | 
+    nmt_service = riva.client.NeuralMachineTranslationClient(
+        riva.client.Auth(
+            uri="nvr-nmt-en-fr.endpoints-grpc.kepler.ai.cloud.ovh.net:443",
+            use_ssl=True,
+            metadata_args=[
+                [
+                    "authorization",
+                    f"bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}",
+                ]
+            ],
+        )
+    )
+
+snippet sts-translate-model:
+  name: "STS translate model"
+  prefix: "sol-sts-translate-model"
+  scope: "python"
+  body: | 
+    model_name = "fr_en_24x6"
+
+snippet sts-translate-response:
+  name: "STS translate response"
+  prefix: "sol-sts-translate-response"
+  scope: "python"
+  body: | 
+    response = nmt_service.translate([textToTranslate], model_name, "fr", "en")
+
+    return response.translations[0].text
+
+snippet sts-tts-riva-client:
+  name: "STS TTS riva client"
+  prefix: "sol-sts-tts-riva-client:"
+  scope: "python"
+  body: | 
+    tts_service = riva.client.SpeechSynthesisService(
+        riva.client.Auth(
+            uri="nvr-tts-en-us.endpoints-grpc.kepler.ai.cloud.ovh.net:443",
+            use_ssl=True,
+            metadata_args=[
+                [
+                    "authorization",
+                    f"bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}",
+                ]
+            ],
+        )
+    )
+
+snippet sts-tts-config:
+  name: "STT TTS config"
+  prefix: "sol-sts-tts-config"
+  scope: "python"
+  body: | 
+    tts_config = {
+        "voice_name": "English-US.Female-1",
+        "language_code": "en-US",  # languages: en-US / es-ES / de-DE / it-IT / zh-CN
+        "encoding": riva.client.AudioEncoding.LINEAR_PCM,
+        "sample_rate_hz": 44100,  # sample rate: 44.1KHz audio
+        "custom_dictionary": {},
+        "text": textToTransform,
+    }
+
+snippet sts-tts-response:
+  name: "STT TTS response"
+  prefix: "sol-sts-tts-response"
+  scope: "python"
+  body: | 
+    response = tts_service.synthesize(**tts_config)
+
+
+snippet sts-tts-return:
+  name: "STT TTS  return"
+  prefix: "sol-sts-tts-return"
+  scope: "python"
+  body: | 
+    audio_samples = (44100, np.frombuffer(response.audio, dtype=np.int16))
+
+    return audio_samples
+
+snippet sts-riva-client:
+  name: "STS riva client"
+  prefix: "sol-sts-riva-client:"
+  scope: "python"
+  body: | 
+    asr_service = riva.client.ASRService(
+        riva.client.Auth(
+            uri="nvr-asr-fr-fr.endpoints-grpc.kepler.ai.cloud.ovh.net:443",
+            use_ssl=True,
+            metadata_args=[
+                [
+                    "authorization",
+                    f"bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}",
+                ]
+            ],
+        )
+    )
+
+snippet sts-config:
+  name: "STS config"
+  prefix: "sol-sts-config"
+  scope: "python"
+  body: | 
+    asr_config = riva.client.RecognitionConfig(
+        language_code="fr-FR",
+        max_alternatives=1,
+        enable_automatic_punctuation=True,
+        audio_channel_count=1,
+    )
+
+snippet sts-audio-transform:
+  name: "STS audio transform"
+  prefix: "sol-sts-audio-transform"
+  scope: "python"
+  body: | 
+    audio_input = AudioSegment.from_file(audio, "wav")
+    process_audio_to_wav = audio_input.set_channels(1)
+    process_audio_to_wav = process_audio_to_wav.set_frame_rate(16000)
+    process_audio_to_wav.export("audio.wav", format="wav")
+
+snippet sts-audio-as-bytes:
+  name: "STS audio as bytes"
+  prefix: "sol-sts-audio-as-bytes"
+  scope: "python"
+  body: | 
+    with open("audio.wav", "rb") as fh:
+        audio_to_analyse = fh.read()
+
+snippet sts-response:
+  name: "STS response"
+  prefix: "sol-sts-response"
+  scope: "python"
+  body: | 
+    response = asr_service.offline_recognize(audio_to_analyse, asr_config)
+
+
+snippet sts-return:
+  name: "STS return"
+  prefix: "sol-sts-return"
+  scope: "python"
+  body: | 
+    output = []
+    for res in range(len(response.results)):
+        output.append(response.results[res].alternatives[0].transcript)
+
+    frenchText = " ".join(output)
+    englishText = translate_fr_to_en(frenchText)
+
+    return [frenchText, englishText, text_to_speech(englishText)]
+
+snippet sts-input:
+  name: "STS input"
+  prefix: "sol-sts-input"
+  scope: "python"
+  body: | 
+    input_audio = gr.Audio(sources=["upload", "microphone"], type="filepath")
+
+snippet sts-output:
+  name: "STS ouput"
+  prefix: "sol-sts-ouput"
+  scope: "python"
+  body: | 
+    output_audio = gr.Audio(
+      label="Audio synthesis (.wav)", type="numpy", show_download_button=False
+    )
+
+snippet sts-demo:
+  name: "STS demo"
+  prefix: "sol-sts-demo"
+  scope: "python"
+  body: | 
+    demo = gr.Interface(
+        fn=speechToSpeech,
+        inputs=input_audio,
+        outputs=["text", "text", output_audio],
+        allow_flagging="never",
+    )

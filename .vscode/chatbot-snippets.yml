@@ -1,0 +1,417 @@
+# java-langchain4j section
+
+snippet langchain4j-dep:
+  name: "LangChain4j dependency"
+  prefix: "sol-langchain4j-dep"
+  scope: "xml"
+  body: |
+    <dependency>
+      <groupId>dev.langchain4j</groupId>
+      <artifactId>langchain4j</artifactId>
+      <version>${langchain4j.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>dev.langchain4j</groupId>
+      <artifactId>langchain4j-mistral-ai</artifactId>
+      <version>${langchain4j.version}</version>
+    </dependency>
+
+snippet langchain4j-ovhai:
+  name: "LangChain4j OVHai dependency"
+  prefix: "sol-langchain4j-ovhai-dep"
+  scope: "xml"
+  body: |
+    <dependency>
+      <groupId>dev.langchain4j</groupId>
+      <artifactId>langchain4j-ovh-ai</artifactId>
+      <version>${langchain4j.version}</version>
+    </dependency>
+
+snippet simple-ai-services:
+  name: "Simple chatbot AI Services"
+  prefix: "sol-simple-ai-services"
+  scope: "java"
+  body: |
+    interface Assistant {
+      @SystemMessage("You are Nestor, a virtual assistant. Answer to the question.")
+      String chat(String message);
+    }
+
+snippet simple-model:
+  name: "Simple chatbot model"
+  prefix: "sol-simple-model"
+  scope: "java"
+  body: |
+    MistralAiChatModel chatModel = MistralAiChatModel.builder()
+        .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
+        .modelName("Mistral-7B-Instruct-v0.2")
+        .baseUrl(
+            "https://mistral-7b-instruct-v02.endpoints.kepler.ai.cloud.ovh.net/api/openai_compat/v1")
+        .maxTokens(512)
+        .temperature(0.0)
+        .logRequests(true)
+        .logResponses(true)
+        .build();
+
+snippet simple-assistant:
+  name: "Simple chatbot assistant"
+  prefix: "sol-simple-assistant"
+  scope: "java"
+  body: |
+    Assistant assistant = AiServices.builder(Assistant.class)
+        .chatLanguageModel(chatModel)
+        .build();
+
+snippet simple-call:
+  name: "Simple chatbot call"
+  prefix: "sol-simple-call"
+  scope: "java"
+  body: |
+    _LOG.info("💬: Question: What is the Codeurs en Seine conference?\n");
+    _LOG.info("🤖: {}", assistant.chat("What is the Codeurs en Seine conference?"));
+
+snippet streaming-ai-services:
+  name: "Streaming AI Services"
+  prefix: "sol-streaming-ai-services"
+  scope: "java"
+  body: |
+    interface Assistant {
+      @SystemMessage("You are Nestor, a virtual assistant. Answer to the question.")
+      TokenStream chat(String message);
+    }
+
+snippet streaming-model:
+  name: "Streaming model"
+  prefix: "sol-streaming-model"
+  scope: "java"
+  body: |
+    MistralAiStreamingChatModel steamingModel = MistralAiStreamingChatModel.builder()
+        .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
+        .modelName("Mistral-7B-Instruct-v0.2")
+        .baseUrl(
+            "https://mistral-7b-instruct-v02.endpoints.kepler.ai.cloud.ovh.net/api/openai_compat/v1")
+        .maxTokens(512)
+        .temperature(0.0)
+        .logRequests(false)
+        .logResponses(false)
+        .build();
+
+snippet streaming-assistant:
+  name: "Streaming assistant"
+  prefix: "sol-streaming-assistant"
+  scope: "java"
+  body: |
+    Assistant assistant = AiServices.builder(Assistant.class)
+        .streamingChatLanguageModel(steamingModel)
+        .build();
+
+snippet streaming-call:
+  name: "Streaming call"
+  prefix: "sol-streaming-call"
+  scope: "java"
+  body: |
+    _LOG.info("💬: What is the Codeurs en Seine conference?\n");
+    TokenStream tokenStream = assistant.chat("What is the Codeurs en Seine conference?");
+    _LOG.info("🤖: ");
+    tokenStream
+        .onNext(_LOG::info)
+        .onError(Throwable::printStackTrace).start();
+
+snippet memory-ai-services:
+  name: "Memory call"
+  prefix: "sol-memory-ai-services"
+  scope: "java"
+  body: |
+    interface Assistant {
+      @SystemMessage("You are Nestor, a virtual assistant. Answer to the question.")
+      TokenStream chat(String message);
+    }
+
+snippet memory-model:
+  name: "Memory model"
+  prefix: "sol-memory-model"
+  scope: "java"
+  body: |
+    MistralAiStreamingChatModel steamingModel = MistralAiStreamingChatModel.builder()
+        .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
+        .modelName("Mistral-7B-Instruct-v0.2")
+        .baseUrl(
+            "https://mistral-7b-instruct-v02.endpoints.kepler.ai.cloud.ovh.net/api/openai_compat/v1")
+        .maxTokens(512)
+        .temperature(0.0)
+        .logRequests(false)
+        .logResponses(false)
+        .build();
+
+snippet memory-memory:
+  name: "Memory memory storage"
+  prefix: "sol-memory-memory"
+  scope: "java"
+  body: |
+    ChatMemory chatMemory = MessageWindowChatMemory.withMaxMessages(10);
+
+snippet memory-assistant:
+  name: "Memory memory assistant"
+  prefix: "sol-memory-assistant"
+  scope: "java"
+  body: |
+    Assistant assistant = AiServices.builder(Assistant.class)
+        .streamingChatLanguageModel(steamingModel)
+        .chatMemory(chatMemory)
+        .build();  
+
+snippet memory-call:
+  name: "Memory memory call"
+  prefix: "sol-memory-call"
+  scope: "java"
+  body: |
+    _LOG.info("💬: My name is Stéphane.\n");
+        TokenStream tokenStream = assistant.chat("My name is Stéphane.");
+        _LOG.info("🤖: ");
+        tokenStream
+                .onNext(_LOG::info)
+                .onComplete(token -> {
+                    _LOG.info("\n💬: Do you remember what is my name?\n");
+                    _LOG.info("🤖: ");
+                    assistant.chat("Do you remember what is my name?")
+                            .onNext(_LOG::info)
+                            .onError(Throwable::printStackTrace).start();
+                })
+                .onError(Throwable::printStackTrace).start();
+
+snippet rag-ai-services:
+  name: "RAG AI Services"
+  prefix: "sol-rag-ai-services"
+  scope: "java"
+  body: |
+    interface Assistant {
+      @SystemMessage("You are Nestor, a virtual assistant. Answer to the question.")
+      TokenStream chat(String message);
+    }
+
+snippet rag-model:
+  name: "RAG model"
+  prefix: "sol-rag-model"
+  scope: "java"
+  body: |
+    MistralAiStreamingChatModel steamingModel = MistralAiStreamingChatModel.builder()
+        .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
+        .modelName("Mistral-7B-Instruct-v0.2")
+        .baseUrl(
+            "https://mistral-7b-instruct-v02.endpoints.kepler.ai.cloud.ovh.net/api/openai_compat/v1")
+        .maxTokens(512)
+        .temperature(0.0)
+        .logRequests(false)
+        .logResponses(false)
+        .build();
+
+snippet rag-memory:
+  name: "RAG memory"
+  prefix: "sol-rag-memory"
+  scope: "java"
+  body: |
+    ChatMemory chatMemory = MessageWindowChatMemory.withMaxMessages(10);
+
+snippet rag-chunk:
+  name: "RAG chunk"
+  prefix: "sol-rag-chunk"
+  scope: "java"
+  body: |
+    DocumentParser documentParser = new TextDocumentParser();
+    Document document = loadDocument(
+        RAGChatbot.class.getResource("/rag-files/content.txt").getFile(),
+        documentParser);
+    DocumentSplitter splitter = DocumentSplitters.recursive(400, 0);
+
+    List<TextSegment> segments = splitter.split(document);
+
+snippet rag-embedding:
+  name: "RAG embedding"
+  prefix: "sol-rag-embedding"
+  scope: "java"
+  body: |
+    EmbeddingModel embeddingModel = OvhAiEmbeddingModel.withApiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"));
+    List<Embedding> embeddings = embeddingModel.embedAll(segments).content();
+
+snippet rag-embedding-store:
+  name: "RAG embedding store"
+  prefix: "sol-rag-embedding-store"
+  scope: "java"
+  body: |
+    EmbeddingStore<TextSegment> embeddingStore = new InMemoryEmbeddingStore<>();
+    embeddingStore.addAll(embeddings, segments);
+    ContentRetriever contentRetriever = EmbeddingStoreContentRetriever.builder()
+        .embeddingStore(embeddingStore)
+        .embeddingModel(embeddingModel)
+        .maxResults(5)
+        .minScore(0.9)
+        .build();
+
+snippet rag-assistant:
+  name: "RAG assistant"
+  prefix: "sol-rag-assistant"
+  scope: "java"
+  body: |
+    Assistant assistant = AiServices.builder(Assistant.class)
+        .streamingChatLanguageModel(steamingModel)
+        .chatMemory(chatMemory)
+        .contentRetriever(contentRetriever)
+        .build();
+
+snippet rag-call:
+  name: "RAG call"
+  prefix: "sol-rag-call"
+  scope: "java"
+  body: |
+    _LOG.info("💬: What is AI Endpoints?\n");
+    TokenStream tokenStream = assistant.chat("What is AI Endpoints?");
+    _LOG.info("🤖: ");
+    tokenStream
+        .onNext(_LOG::info)
+        .onError(Throwable::printStackTrace).start();
+
+## java-quarkus section
+snippet quarkus-props:
+  name: "Quarkus properties"
+  prefix: "sol-quarkus-props"
+  body: |
+    quarkus.langchain4j.mistralai.base-url=\${OVH_AI_ENDPOINTS_MODEL_URL}
+    quarkus.langchain4j.mistralai.api-key=\${OVH_AI_ENDPOINTS_ACCESS_TOKEN}
+    quarkus.langchain4j.mistralai.chat-model.max-tokens=512
+    quarkus.langchain4j.mistralai.chat-model.model-name=\${OVH_AI_ENDPOINTS_MODEL_NAME}
+    quarkus.langchain4j.mistralai.log-requests=true
+    quarkus.langchain4j.mistralai.log-responses=false
+    quarkus.langchain4j.mistralai.chat-model.temperature=0.2
+
+snippet quarkus-svc-simple-class-annot:
+  name: "Class annotation simple"
+  prefix: "sol-quarkus-svc-simple-class-annot"
+  scope: "java"
+  body: |
+    @RegisterAiService
+
+snippet quarkus-svc-simple-question:
+  name: "Entry point to llm simple"
+  prefix: "sol-quarkus-svc-simple-question"
+  scope: "java"
+  body: |
+    @SystemMessage("You are a virtual assistant and your name is Nestor.")
+    @UserMessage("Answer as best possible to the following question: {question}. The answer must be in a style of a virtual assistant.")
+    String askAQuestion(String question);
+
+snippet quarkus-simple-resource-annot:
+  name: "Class annotation simple resource"
+  prefix: "sol-quarkus-simple-resource-annot"
+  scope: "java"
+  body: |
+    @Path("/chatbot")
+
+snippet quarkus-simple-resource-inject:
+  name: "Injection simple resource"
+  prefix: "sol-quarkus-simple-resource-inject"
+  scope: "java"
+  body: |
+    @Inject
+    AISimpleService aiEndpointService;
+
+snippet quarkus-simple-resource-ask:
+  name: "Simple resource ask method"
+  prefix: "sol-quarkus-simple-resource-ask"
+  scope: "java"
+  body: |
+    @Path("simple")
+    @POST
+    public String ask(String question) {
+      // Call the askAQuestion method of the AISimpleService service
+      return aiEndpointService.askAQuestion(question);
+    }
+    
+snippet quarkus-svc-advanced-class-annot:
+  name: "Class annotation advanced" 
+  prefix: "sol-quarkus-svc-advanced-class-annot"
+  scope: "java"
+  body: |
+    @RegisterAiService
+
+snippet quarkus-svc-advanced-question:
+  name: "Entry point to llm advanced"
+  prefix: "sol-quarkus-svc-advanced-question"
+  scope: "java"
+  body: |
+    @SystemMessage("You are a virtual assistant and your name is Nestor.")
+    @UserMessage("Answer as best possible to the following question: {question}. The answer must be in a style of a virtual assistant.")
+    Multi<String> askAQuestion(String question);
+
+snippet quarkus-advanced-resource-annot:
+  name: "Class annotation advanced resource"
+  prefix: "sol-quarkus-advanced-resource-annot"
+  scope: "java"
+  body: |
+    @Path("/chatbot")
+
+snippet quarkus-advanced-resource-inject:
+  name: "Injection advanced resource"
+  prefix: "sol-quarkus-advanced-resource-inject"
+  scope: "java"
+  body: |
+    @Inject
+    AIAdvancedService advancedService;
+
+snippet quarkus-advanced-resource-ask:
+  name: "Advanced resource ask method"
+  prefix: "sol-quarkus-advanced-resource-ask"
+  scope: "java"
+  body: |
+    @Path("advanced")
+    @POST
+    public Multi<String> ask(String question) {
+      // Call the askAQuestion method of the AISimpleService service and stream the
+      // answer, see https://quarkus.io/guides/getting-started-reactive
+      return advancedService.askAQuestion(question);
+    }
+
+snippet quarkus-svc-memory-class-annot:
+  name: "Class annotation memory"
+  prefix: "sol-quarkus-svc-memory-class-annot"
+  scope: "java"
+  body: |
+    @ApplicationScoped
+    @RegisterAiService
+
+snippet quarkus-svc-memory-question:
+  name: "Entry point to llm memory"
+  prefix: "sol-quarkus-svc-memory-question"
+  scope: "java"
+  body: |
+    @SystemMessage("You are a virtual assistant and your name is Nestor.")
+    @UserMessage("Answer as best possible to the following question: {question}. The answer must be in a style of a virtual assistant.")
+    Multi<String> askAQuestion(String question, @MemoryId String memoryId);
+
+snippet quarkus-memory-resource-annot:
+  name: "Class annotation memory resource"
+  prefix: "sol-quarkus-memory-resource-annot"
+  scope: "java"
+  body: |
+    @Path("/chatbot")
+
+snippet quarkus-memory-resource-inject:
+  name: "Injection memory resource"
+  prefix: "sol-quarkus-memory-resource-inject"
+  scope: "java"
+  body: |
+    @Inject
+    AIMemoryService aiMemoryService;
+
+snippet quarkus-memory-resource-ask:
+  name: "Memory resource ask method"
+  prefix: "sol-quarkus-memory-resource-ask"
+  scope: "java"
+  body: |
+    @Path("memory")
+    @POST
+    public Multi<String> ask(String question) {
+      // Call the askAQuestion method of the AISimpleService service and stream the
+      // answer, see https://quarkus.io/guides/getting-started-reactive
+      return aiMemoryService.askAQuestion(question, "user-one");
+    }
