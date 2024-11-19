@@ -129,22 +129,22 @@ def speechToSpeech(audio):
 
 
 # Create a Gradio output component
-input_audio = gr.Audio(sources=["upload", "microphone"], type="filepath")
+input_audio = gr.Audio(label = "French 🇫🇷", sources=["upload", "microphone"], type="filepath")
 
 # Create an output audio Gradio component
 output_audio = gr.Audio(
-    label="Audio synthesis (.wav)", type="numpy", show_download_button=False
+    label="English version 🏴󠁧󠁢󠁥󠁮󠁧󠁿", type="numpy", show_download_button=False
 )
 
 
 # Create a Gradio interface named demo
 # The function to call : reverse_audio
 # The inputs : input_audio
-# The outputs : "text", "text", output_audio
+# The outputs : "gr.Textbox(...)", "gr.Textbox(...)", output_audio
 demo = gr.Interface(
     fn=speechToSpeech,
     inputs=input_audio,
-    outputs=["text", "text", output_audio],
+    outputs=[gr.Textbox(label="🇫🇷"), gr.Textbox(label="🏴󠁧󠁢󠁥󠁮󠁧󠁿"), output_audio],
     allow_flagging="never",
 )
 
