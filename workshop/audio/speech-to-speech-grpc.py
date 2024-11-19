@@ -69,7 +69,7 @@ def speechToSpeech(audio):
 # Create a Gradio interface named demo
 # The function to call : reverse_audio
 # The inputs : input_audio
-# The outputs : "text", "text", output_audio
+# The outputs : "gr.Textbox(...)", "gr.Textbox(...)", output_audio
 
 # Main entry
 if __name__ == "__main__":
