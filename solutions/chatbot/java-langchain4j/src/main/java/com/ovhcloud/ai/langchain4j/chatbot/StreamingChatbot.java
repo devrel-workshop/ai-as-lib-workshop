@@ -48,8 +48,8 @@ public class StreamingChatbot {
         .build();
 
     // Send a prompt
-    _LOG.info("💬: What is the Codeurs en Seine conference?\n");
-    TokenStream tokenStream = assistant.chat("What is the Codeurs en Seine conference?");
+    _LOG.info("💬: Tell me a joke about Java developers\n");
+    TokenStream tokenStream = assistant.chat("Tell me a joke about Java developers");
     _LOG.info("🤖: ");
     tokenStream
         .onNext(_LOG::info)
