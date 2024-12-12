@@ -19,3 +19,7 @@ echo "   - OVH_AI_ENDPOINTS_ACCESS_TOKEN: " $OVH_AI_ENDPOINTS_ACCESS_TOKEN
 echo "   - OLLAM_API_KEY: " $OLLAM_API_KEY
 echo "   - OVH_AI_ENDPOINTS_MODEL_URL: " $OVH_AI_ENDPOINTS_MODEL_URL
 echo "   - OVH_AI_ENDPOINTS_MODEL_NAME: " $OVH_AI_ENDPOINTS_MODEL_NAME
+
+# create and activate a python venv
+python3 -m venv .venv
+source .venv/bin/activate
