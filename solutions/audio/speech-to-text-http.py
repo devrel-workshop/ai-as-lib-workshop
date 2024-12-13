@@ -42,7 +42,7 @@ def speechToText(audio):
 
 
 # Create a Gradio input component
-input_audio = gr.Audio(sources=["upload", "microphone"], type="filepath")
+input_audio = gr.Audio(sources=["upload", "microphone"], type="filepath", label="🇫🇷")
 
 # Create a Gradio interface named demo
 # The function to call : reverse_audio
