@@ -263,7 +263,8 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-quarkus-props"
+    "prefix": "sol-quarkus-props",
+    "scope": ""
   },
   "RAG AI Services": {
     "body": [
@@ -321,7 +322,9 @@
   },
   "RAG embedding": {
     "body": [
-      "EmbeddingModel embeddingModel = OvhAiEmbeddingModel.withApiKey(System.getenv(\"OVH_AI_ENDPOINTS_ACCESS_TOKEN\"));",
+      "EmbeddingModel embeddingModel = OvhAiEmbeddingModel.builder()",
+      "                .apiKey(System.getenv(\"OVH_AI_ENDPOINTS_ACCESS_TOKEN\"))",
+      "                .build();",
       "List\u003cEmbedding\u003e embeddings = embeddingModel.embedAll(segments).content();",
       ""
     ],
@@ -397,8 +400,8 @@
   },
   "Simple chatbot call": {
     "body": [
-      "_LOG.info(\"💬: Question: What is the Codeurs en Seine conference?\\n\");",
-      "_LOG.info(\"🤖: {}\", assistant.chat(\"What is the Codeurs en Seine conference?\"));",
+      "_LOG.info(\"💬: Question: Tell me a joke about Java developers\\n\");",
+      "_LOG.info(\"🤖: {}\", assistant.chat(\"Tell me a joke about Java developers\"));",
       ""
     ],
     "description": "",
