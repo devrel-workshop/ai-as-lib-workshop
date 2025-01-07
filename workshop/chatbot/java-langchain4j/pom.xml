@@ -6,7 +6,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.ovhcloud.ai</groupId>
-  <artifactId>java-langchain4j</artifactId>
+  <artifactId>java-langchain4j-workshop</artifactId>
   <version>1.0.0-SNAPSHOT</version>
 
   <name>java-langchain4j</name>
@@ -21,9 +21,25 @@
 
   <dependencies>
     <!-- Here you have to put the rigth dependency to use mistral model and lanchain4J, see https://docs.langchain4j.dev/integrations/embedding-models/mistral-ai -->
+<dependency>
+  <groupId>dev.langchain4j</groupId>
+  <artifactId>langchain4j</artifactId>
+  <version>${langchain4j.version}</version>
+</dependency>
+
+<dependency>
+  <groupId>dev.langchain4j</groupId>
+  <artifactId>langchain4j-mistral-ai</artifactId>
+  <version>${langchain4j.version}</version>
+</dependency>
 
     <!-- Here you have to put the right dependency to use OVHcloud embeded model, see
     https://docs.langchain4j.dev/integrations/embedding-models/ovh-ai -->
+<dependency>
+  <groupId>dev.langchain4j</groupId>
+  <artifactId>langchain4j-ovh-ai</artifactId>
+  <version>${langchain4j.version}</version>
+</dependency>
 
     <dependency>
       <groupId>ch.qos.logback</groupId>

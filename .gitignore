@@ -25,6 +25,7 @@ replay_pid*
 
 # IDE
 .vscode/settings.json
+.idea/
 
 # Python
 venv/
