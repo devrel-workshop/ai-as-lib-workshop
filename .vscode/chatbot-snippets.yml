@@ -68,8 +68,8 @@ snippet simple-call:
   prefix: "sol-simple-call"
   scope: "java"
   body: |
-    _LOG.info("💬: Question: What is the Codeurs en Seine conference?\n");
-    _LOG.info("🤖: {}", assistant.chat("What is the Codeurs en Seine conference?"));
+    _LOG.info("💬: Question: Tell me a joke about Java developers\n");
+    _LOG.info("🤖: {}", assistant.chat("Tell me a joke about Java developers"));
 
 snippet streaming-ai-services:
   name: "Streaming AI Services"
@@ -231,7 +231,9 @@ snippet rag-embedding:
   prefix: "sol-rag-embedding"
   scope: "java"
   body: |
-    EmbeddingModel embeddingModel = OvhAiEmbeddingModel.withApiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"));
+    EmbeddingModel embeddingModel = OvhAiEmbeddingModel.builder()
+                    .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
+                    .build();
     List<Embedding> embeddings = embeddingModel.embedAll(segments).content();
 
 snippet rag-embedding-store:

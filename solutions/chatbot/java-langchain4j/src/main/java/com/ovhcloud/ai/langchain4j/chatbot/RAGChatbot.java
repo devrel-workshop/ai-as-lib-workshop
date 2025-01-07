@@ -80,7 +80,9 @@ public class RAGChatbot {
     // Do the embeddings with AI Endpoint model
     // (https://docs.langchain4j.dev/integrations/embedding-models/ovh-ai) and store
     // them in a in memory embedding store
-    EmbeddingModel embeddingModel = OvhAiEmbeddingModel.withApiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"));
+    EmbeddingModel embeddingModel = OvhAiEmbeddingModel.builder()
+                    .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
+                    .build();
     List<Embedding> embeddings = embeddingModel.embedAll(segments).content();
 
     // Store the vectors in the in memory store, see https://docs.langchain4j.dev/integrations/embedding-stores/in-memory
