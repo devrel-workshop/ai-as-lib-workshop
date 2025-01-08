@@ -162,7 +162,8 @@ snippet stt-grpc-input:
   body: | 
     input_audio = gr.Audio(
         sources=['upload', 'microphone'],
-        type='filepath'
+        type='filepath', 
+        label="🇫🇷"
     )
 
 snippet stt-grpc-demo:
@@ -312,7 +313,8 @@ snippet stt-http-input:
   body: | 
     input_audio = gr.Audio(
         sources=['upload', 'microphone'],
-        type='filepath'
+        type='filepath',
+        label="🇫🇷"
     )
 
 snippet stt-http-demo:
@@ -487,7 +489,7 @@ snippet sts-input:
   prefix: "sol-sts-input"
   scope: "python"
   body: | 
-    input_audio = gr.Audio(sources=["upload", "microphone"], type="filepath")
+    input_audio = gr.Audio(label = "French 🇫🇷", sources=["upload", "microphone"], type="filepath")
 
 snippet sts-output:
   name: "STS ouput"
@@ -495,7 +497,7 @@ snippet sts-output:
   scope: "python"
   body: | 
     output_audio = gr.Audio(
-      label="Audio synthesis (.wav)", type="numpy", show_download_button=False
+      label="English version 🏴󠁧󠁢󠁥󠁮󠁧󠁿", type="numpy", show_download_button=False
     )
 
 snippet sts-demo:

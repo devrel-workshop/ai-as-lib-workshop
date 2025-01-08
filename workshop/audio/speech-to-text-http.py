@@ -21,14 +21,13 @@ def speechToText(audio):
     
     return None
 
-# Create a Gradio output component
+# Create a Gradio input component
 
 # Create a Gradio interface named demo
-
 # The function to call : reverse_audio
 # The inputs : input_audio
 # The outputs : "text"
 
 # Main entry
 if __name__ == "__main__":
-    demo.launch()
+    demo.launch(share=True)

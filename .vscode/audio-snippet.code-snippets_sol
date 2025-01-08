@@ -90,7 +90,7 @@
   },
   "STS input": {
     "body": [
-      "input_audio = gr.Audio(sources=[\"upload\", \"microphone\"], type=\"filepath\")",
+      "input_audio = gr.Audio(label = \"French 🇫🇷\", sources=[\"upload\", \"microphone\"], type=\"filepath\")",
       ""
     ],
     "description": "",
@@ -100,7 +100,7 @@
   "STS ouput": {
     "body": [
       "output_audio = gr.Audio(",
-      "  label=\"Audio synthesis (.wav)\", type=\"numpy\", show_download_button=False",
+      "  label=\"English version 🏴󠁧󠁢󠁥󠁮󠁧󠁿\", type=\"numpy\", show_download_button=False",
       ")",
       ""
     ],
@@ -247,7 +247,8 @@
     "body": [
       "input_audio = gr.Audio(",
       "    sources=['upload', 'microphone'],",
-      "    type='filepath'",
+      "    type='filepath', ",
+      "    label=\"🇫🇷\"",
       ")",
       ""
     ],
@@ -331,7 +332,8 @@
     "body": [
       "input_audio = gr.Audio(",
       "    sources=['upload', 'microphone'],",
-      "    type='filepath'",
+      "    type='filepath',",
+      "    label=\"🇫🇷\"",
       ")",
       ""
     ],

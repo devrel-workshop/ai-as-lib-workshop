@@ -27,7 +27,6 @@ def text_to_speech(textToTransform):
 # Create a Gradio input component
 
 # Create an output audio Gradio component
-
 # Create a Gradio interface named demo
 # The function to call : reverse_audio
 # The inputs : input_audio
@@ -35,4 +34,4 @@ def text_to_speech(textToTransform):
 
 # Main entry
 if __name__ == "__main__":
-    demo.launch()
+    demo.launch(share=True)

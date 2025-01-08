@@ -63,7 +63,7 @@ def speechToSpeech(audio):
 
 # Create a Gradio output component
 
-# Create an output audio Gradio component
+# Create an input audio Gradio component
 
 
 # Create a Gradio interface named demo

@@ -36,4 +36,4 @@ def text_to_speech(textToTransform):
 
 # Main entry
 if __name__ == "__main__":
-    demo.launch()
+    demo.launch(share=True)
