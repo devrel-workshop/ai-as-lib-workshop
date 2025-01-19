@@ -7,3 +7,4 @@
 # Numpy to do sientific computing with Python
 
 # Manage http requests, see https://pypi.org/project/requests/
+# sol-audio-requirements
