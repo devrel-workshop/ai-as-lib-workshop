@@ -19,15 +19,20 @@ public class MemoryChatbot {
   private static final Logger _LOG = LoggerFactory.getLogger(MemoryChatbot.class);
 
   // AI Service to create, see https://docs.langchain4j.dev/tutorials/ai-services
+  // sol-memory-ai-services
 
   public static void main(String[] args) {
     // Select the Mistral model to use (the streaming one)
+    // sol-memory-model
 
     // Create the memory store "in memory"
+    // sol-memory-memory
 
     // Build the chatbot thanks to the AIService builder
     // The chatbot must be in streaming mode with memory
+    // sol-memory-assistant
 
     // Send a prompt
+    // sol-memory-call
   }
 }

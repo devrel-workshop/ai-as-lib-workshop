@@ -18,12 +18,16 @@ public class SimpleChatbot {
   private static final Logger _LOG = LoggerFactory.getLogger(SimpleChatbot.class);
 
   // AI Service to create, see https://docs.langchain4j.dev/tutorials/ai-services
+  // sol-simple-ai-services
 
   public static void main(String[] args) {
     // Select the Mistral model to use
+    // sol-simple-model
 
     // Build the chatbot thanks to the AIService builder
+    // sol-simple-assistant
 
     // Send a prompt
+    // sol-simple-call
   }
 }
