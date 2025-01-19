@@ -21,9 +21,11 @@
 
   <dependencies>
     <!-- Here you have to put the rigth dependency to use mistral model and lanchain4J, see https://docs.langchain4j.dev/integrations/embedding-models/mistral-ai -->
+    <!-- sol-langchain4j-dep -->
 
     <!-- Here you have to put the right dependency to use OVHcloud embeded model, see
     https://docs.langchain4j.dev/integrations/embedding-models/ovh-ai -->
+    <!-- sol-langchain4j-ovhai-dep -->
 
     <dependency>
       <groupId>ch.qos.logback</groupId>
