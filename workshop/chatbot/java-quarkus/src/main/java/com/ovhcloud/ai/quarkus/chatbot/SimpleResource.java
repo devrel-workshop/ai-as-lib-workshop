@@ -10,11 +10,13 @@ package com.ovhcloud.ai.quarkus.chatbot;
  * see https://quarkus.io/guides/rest
  */
 // Declare a base path for the resource. call it "chatbot"
-
+// sol-quarkus-simple-resource-annot
 public class SimpleResource {
 
   // Inject the AISimpleService service
+  // sol-quarkus-simple-resource-inject
 
   // Declare a POST method with the "simple" path
+  // sol-quarkus-simple-resource-ask
 
 }

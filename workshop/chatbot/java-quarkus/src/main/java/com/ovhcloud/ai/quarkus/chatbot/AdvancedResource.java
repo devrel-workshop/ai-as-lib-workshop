@@ -10,13 +10,15 @@ package com.ovhcloud.ai.quarkus.chatbot;
  * see https://quarkus.io/guides/rest
  */
 // Declare a base path for the resource. call it "chatbot"
-
+// sol-quarkus-advanced-resource-annot
 public class AdvancedResource {
   // Inject the AIAdvancedService service
+  // sol-quarkus-advanced-resource-inject
 
   // Declare a POST method with the "advanced" path and activate the streaming
   // mode
   // Call the askAQuestion method of the AISimpleService service and stream the
   // answer, see https://quarkus.io/guides/getting-started-reactive
-
+  // sol-quarkus-advanced-resource-ask
+  
 }
