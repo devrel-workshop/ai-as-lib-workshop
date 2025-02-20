@@ -1,0 +1,135 @@
+{
+  "Emotion bearer": {
+    "body": [
+      "const options = {",
+      "  headers: {",
+      "    'Content-Type': 'application/json',",
+      "    'Authorization' : 'Bearer ' + process.env.OVH_AI_ENDPOINTS_ACCESS_TOKEN",
+      "  }",
+      "};",
+      ""
+    ],
+    "description": "",
+    "prefix": "js-02",
+    "scope": "javascript"
+  },
+  "Emotion call": {
+    "body": [
+      "axios",
+      "  .post('https://roberta-base-go-emotions.endpoints.kepler.ai.cloud.ovh.net/api/text2emotions', 'I love JS', options)",
+      "  .then(res =\u003e {",
+      "    const sortedEmotions = Object.entries(res.data).sort((a, b) =\u003e b[1] - a[1]);",
+      "    console.log(sortedEmotions[0][0]);",
+      "  })",
+      "  .catch(err =\u003e {",
+      "    console.error(err)",
+      "  })",
+      ""
+    ],
+    "description": "",
+    "prefix": "js-03",
+    "scope": "javascript"
+  },
+  "JavaScript dependency": {
+    "body": [
+      "\"axios\" :\"1.7.7\"",
+      ""
+    ],
+    "description": "",
+    "prefix": "js-01",
+    "scope": "json"
+  },
+  "Product bearer": {
+    "body": [
+      "const options = {",
+      "  headers: {",
+      "    'Content-Type': 'application/json',",
+      "    'Authorization' : 'Bearer ' + process.env.OVH_AI_ENDPOINTS_ACCESS_TOKEN",
+      "  }",
+      "};",
+      ""
+    ],
+    "description": "",
+    "prefix": "js-06",
+    "scope": "javascript"
+  },
+  "Product call": {
+    "body": [
+      "axios",
+      "  .post(\"https://bert-base-multilingual-uncased-sentiment.endpoints.kepler.ai.cloud.ovh.net/api/text2sentiments\", \"Bon produit, envoyé dans les temps. Service après vente perfectible.\", options)",
+      "  .then((res) =\u003e {",
+      "    const maxRating = Math.max(...Object.values(res.data));",
+      "    const maxRatingKey = Object.keys(res.data).find(key =\u003e res.data[key] === maxRating);",
+      "    ",
+      "    const numStars = parseInt(maxRatingKey.split(' ')[0]);",
+      "",
+      "    let starString = '';",
+      "    for (let i = 0; i \u003c numStars; i++) {",
+      "      starString += '⭐️';",
+      "    }",
+      "",
+      "    console.log(starString);    ",
+      "  })",
+      "  .catch((err) =\u003e {",
+      "    console.error(err);",
+      "  });",
+      ""
+    ],
+    "description": "",
+    "prefix": "js-07",
+    "scope": "javascript"
+  },
+  "Text classification bearer": {
+    "body": [
+      "const options = {",
+      "  headers: {",
+      "    'Content-Type': 'application/json',",
+      "    'Authorization' : 'Bearer ' + process.env.OVH_AI_ENDPOINTS_ACCESS_TOKEN",
+      "  }",
+      "};",
+      ""
+    ],
+    "description": "",
+    "prefix": "js-04",
+    "scope": "javascript"
+  },
+  "Text classification call": {
+    "body": [
+      "axios",
+      "  .post(\"https://bert-base-ner.endpoints.kepler.ai.cloud.ovh.net/api/text2ner\", \"My name is Clara and I live in Berkeley, California.\", options)",
+      "  .then((res) =\u003e {",
+      "    console.log(res.data);",
+      "    const output = res.data.map((entity) =\u003e {",
+      "      let description;",
+      "      switch (entity.entity) {",
+      "        case \"B-PER\":",
+      "          description = \"is a person\";",
+      "          break;",
+      "        case \"B-LOC\":",
+      "          description = \"a location\";",
+      "          break;",
+      "        case \"B-ORG\":",
+      "          description = \"an organization\";",
+      "          break;",
+      "        case \"B-MISC\":",
+      "          description = \"other\";",
+      "          break;",
+      "",
+      "        default:",
+      "          description = \"undefined\";",
+      "      }",
+      "      return `\\${entity.word} is \\${description}`;",
+      "    });",
+      "",
+      "    console.log(output.join(\", \"));",
+      "  })",
+      "  .catch((err) =\u003e {",
+      "    console.error(err);",
+      "  });",
+      ""
+    ],
+    "description": "",
+    "prefix": "js-05",
+    "scope": "javascript"
+  }
+}

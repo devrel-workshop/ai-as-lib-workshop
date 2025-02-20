@@ -2,7 +2,7 @@
 
 snippet nlp-js-dep:
   name: "JavaScript dependency"
-  prefix: "sol-nlp-js-dep"
+  prefix: "js-01"
   scope: "json"
   body: |
     "axios" :"1.7.7"
@@ -11,7 +11,7 @@ snippet nlp-js-dep:
 
 snippet emotion-bearer:
   name: "Emotion bearer"
-  prefix: "sol-emotion-bearer"
+  prefix: "js-02"
   scope: "javascript"
   body: |
     const options = {
@@ -23,7 +23,7 @@ snippet emotion-bearer:
 
 snippet emotion-call:
   name: "Emotion call"
-  prefix: "sol-emotion-call"
+  prefix: "js-03"
   scope: "javascript"
   body: |    
     axios
@@ -40,7 +40,7 @@ snippet emotion-call:
 
 snippet product-bearer:
   name: "Product bearer"
-  prefix: "sol-product-bearer"
+  prefix: "js-06"
   scope: "javascript"
   body: |
     const options = {
@@ -52,7 +52,7 @@ snippet product-bearer:
 
 snippet product-call:
   name: "Product call"
-  prefix: "sol-product-call"
+  prefix: "js-07"
   scope: "javascript"
   body: |    
     axios
@@ -78,7 +78,7 @@ snippet product-call:
 
 snippet text-class-bearer:
   name: "Text classification bearer"
-  prefix: "sol-text-class-bearer"
+  prefix: "js-04"
   scope: "javascript"
   body: |
     const options = {
@@ -90,7 +90,7 @@ snippet text-class-bearer:
 
 snippet text-class-call:
   name: "Text classification call"
-  prefix: "sol-text-class-call"
+  prefix: "js-05"
   scope: "javascript"
   body: |    
     axios
