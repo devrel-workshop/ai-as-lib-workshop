@@ -2,7 +2,7 @@
 
 snippet langchain4j-dep:
   name: "LangChain4j dependency"
-  prefix: "sol-langchain4j-dep"
+  prefix: "java-01"
   scope: "xml"
   body: |
     <dependency>
@@ -19,7 +19,7 @@ snippet langchain4j-dep:
 
 snippet langchain4j-ovhai:
   name: "LangChain4j OVHai dependency"
-  prefix: "sol-langchain4j-ovhai-dep"
+  prefix: "java-15"
   scope: "xml"
   body: |
     <dependency>
@@ -30,7 +30,7 @@ snippet langchain4j-ovhai:
 
 snippet simple-ai-services:
   name: "Simple chatbot AI Services"
-  prefix: "sol-simple-ai-services"
+  prefix: "java-02"
   scope: "java"
   body: |
     interface Assistant {
@@ -40,7 +40,7 @@ snippet simple-ai-services:
 
 snippet simple-model:
   name: "Simple chatbot model"
-  prefix: "sol-simple-model"
+  prefix: "java-03"
   scope: "java"
   body: |
     MistralAiChatModel chatModel = MistralAiChatModel.builder()
@@ -56,7 +56,7 @@ snippet simple-model:
 
 snippet simple-assistant:
   name: "Simple chatbot assistant"
-  prefix: "sol-simple-assistant"
+  prefix: "java-04"
   scope: "java"
   body: |
     Assistant assistant = AiServices.builder(Assistant.class)
@@ -65,7 +65,7 @@ snippet simple-assistant:
 
 snippet simple-call:
   name: "Simple chatbot call"
-  prefix: "sol-simple-call"
+  prefix: "java-05"
   scope: "java"
   body: |
     _LOG.info("💬: Question: Tell me a joke about Java developers\n");
@@ -73,7 +73,7 @@ snippet simple-call:
 
 snippet streaming-ai-services:
   name: "Streaming AI Services"
-  prefix: "sol-streaming-ai-services"
+  prefix: "java-06"
   scope: "java"
   body: |
     interface Assistant {
@@ -83,7 +83,7 @@ snippet streaming-ai-services:
 
 snippet streaming-model:
   name: "Streaming model"
-  prefix: "sol-streaming-model"
+  prefix: "java-07"
   scope: "java"
   body: |
     MistralAiStreamingChatModel steamingModel = MistralAiStreamingChatModel.builder()
@@ -99,7 +99,7 @@ snippet streaming-model:
 
 snippet streaming-assistant:
   name: "Streaming assistant"
-  prefix: "sol-streaming-assistant"
+  prefix: "java-08"
   scope: "java"
   body: |
     Assistant assistant = AiServices.builder(Assistant.class)
@@ -108,7 +108,7 @@ snippet streaming-assistant:
 
 snippet streaming-call:
   name: "Streaming call"
-  prefix: "sol-streaming-call"
+  prefix: "java-09"
   scope: "java"
   body: |
     _LOG.info("💬: Tell me a joke about Java developers\n");
@@ -120,7 +120,7 @@ snippet streaming-call:
 
 snippet memory-ai-services:
   name: "Memory call"
-  prefix: "sol-memory-ai-services"
+  prefix: "java-10"
   scope: "java"
   body: |
     interface Assistant {
@@ -130,7 +130,7 @@ snippet memory-ai-services:
 
 snippet memory-model:
   name: "Memory model"
-  prefix: "sol-memory-model"
+  prefix: "java-11"
   scope: "java"
   body: |
     MistralAiStreamingChatModel steamingModel = MistralAiStreamingChatModel.builder()
@@ -146,15 +146,15 @@ snippet memory-model:
 
 snippet memory-memory:
   name: "Memory memory storage"
-  prefix: "sol-memory-memory"
+  prefix: "java-12"
   scope: "java"
   body: |
     ChatMemory chatMemory = MessageWindowChatMemory.withMaxMessages(10);
 
 snippet memory-assistant:
   name: "Memory memory assistant"
-  prefix: "sol-memory-assistant"
-  scope: "java"
+  prefix: "java-13"
+  scope: "jva"
   body: |
     Assistant assistant = AiServices.builder(Assistant.class)
         .streamingChatLanguageModel(steamingModel)
@@ -163,7 +163,7 @@ snippet memory-assistant:
 
 snippet memory-call:
   name: "Memory memory call"
-  prefix: "sol-memory-call"
+  prefix: "java-14"
   scope: "java"
   body: |
     _LOG.info("💬: My name is Stéphane.\n");
@@ -182,7 +182,7 @@ snippet memory-call:
 
 snippet rag-ai-services:
   name: "RAG AI Services"
-  prefix: "sol-rag-ai-services"
+  prefix: "java-16"
   scope: "java"
   body: |
     interface Assistant {
@@ -192,7 +192,7 @@ snippet rag-ai-services:
 
 snippet rag-model:
   name: "RAG model"
-  prefix: "sol-rag-model"
+  prefix: "java-17"
   scope: "java"
   body: |
     MistralAiStreamingChatModel steamingModel = MistralAiStreamingChatModel.builder()
@@ -208,14 +208,14 @@ snippet rag-model:
 
 snippet rag-memory:
   name: "RAG memory"
-  prefix: "sol-rag-memory"
+  prefix: "java-18"
   scope: "java"
   body: |
     ChatMemory chatMemory = MessageWindowChatMemory.withMaxMessages(10);
 
 snippet rag-chunk:
   name: "RAG chunk"
-  prefix: "sol-rag-chunk"
+  prefix: "java-19"
   scope: "java"
   body: |
     DocumentParser documentParser = new TextDocumentParser();
@@ -228,7 +228,7 @@ snippet rag-chunk:
 
 snippet rag-embedding:
   name: "RAG embedding"
-  prefix: "sol-rag-embedding"
+  prefix: "java-20"
   scope: "java"
   body: |
     EmbeddingModel embeddingModel = OvhAiEmbeddingModel.builder()
@@ -238,7 +238,7 @@ snippet rag-embedding:
 
 snippet rag-embedding-store:
   name: "RAG embedding store"
-  prefix: "sol-rag-embedding-store"
+  prefix: "java-21"
   scope: "java"
   body: |
     EmbeddingStore<TextSegment> embeddingStore = new InMemoryEmbeddingStore<>();
@@ -252,7 +252,7 @@ snippet rag-embedding-store:
 
 snippet rag-assistant:
   name: "RAG assistant"
-  prefix: "sol-rag-assistant"
+  prefix: "java-22"
   scope: "java"
   body: |
     Assistant assistant = AiServices.builder(Assistant.class)
@@ -263,7 +263,7 @@ snippet rag-assistant:
 
 snippet rag-call:
   name: "RAG call"
-  prefix: "sol-rag-call"
+  prefix: "java-23"
   scope: "java"
   body: |
     _LOG.info("💬: What is AI Endpoints?\n");
@@ -276,7 +276,7 @@ snippet rag-call:
 ## java-quarkus section
 snippet quarkus-props:
   name: "Quarkus properties"
-  prefix: "sol-quarkus-props"
+  prefix: "quarkus-01"
   body: |
     quarkus.langchain4j.mistralai.base-url=\${OVH_AI_ENDPOINTS_MODEL_URL}
     quarkus.langchain4j.mistralai.api-key=\${OVH_AI_ENDPOINTS_ACCESS_TOKEN}
@@ -288,14 +288,14 @@ snippet quarkus-props:
 
 snippet quarkus-svc-simple-class-annot:
   name: "Class annotation simple"
-  prefix: "sol-quarkus-svc-simple-class-annot"
+  prefix: "quarkus-02"
   scope: "java"
   body: |
     @RegisterAiService
 
 snippet quarkus-svc-simple-question:
   name: "Entry point to llm simple"
-  prefix: "sol-quarkus-svc-simple-question"
+  prefix: "quarkus-03"
   scope: "java"
   body: |
     @SystemMessage("You are a virtual assistant and your name is Nestor.")
@@ -304,14 +304,14 @@ snippet quarkus-svc-simple-question:
 
 snippet quarkus-simple-resource-annot:
   name: "Class annotation simple resource"
-  prefix: "sol-quarkus-simple-resource-annot"
+  prefix: "quarkus-04"
   scope: "java"
   body: |
     @Path("/chatbot")
 
 snippet quarkus-simple-resource-inject:
   name: "Injection simple resource"
-  prefix: "sol-quarkus-simple-resource-inject"
+  prefix: "quarkus-05"
   scope: "java"
   body: |
     @Inject
@@ -319,7 +319,7 @@ snippet quarkus-simple-resource-inject:
 
 snippet quarkus-simple-resource-ask:
   name: "Simple resource ask method"
-  prefix: "sol-quarkus-simple-resource-ask"
+  prefix: "quarkus-06"
   scope: "java"
   body: |
     @Path("simple")
@@ -331,14 +331,14 @@ snippet quarkus-simple-resource-ask:
     
 snippet quarkus-svc-advanced-class-annot:
   name: "Class annotation advanced" 
-  prefix: "sol-quarkus-svc-advanced-class-annot"
+  prefix: "quarkus-07"
   scope: "java"
   body: |
     @RegisterAiService
 
 snippet quarkus-svc-advanced-question:
   name: "Entry point to llm advanced"
-  prefix: "sol-quarkus-svc-advanced-question"
+  prefix: "quarkus-08"
   scope: "java"
   body: |
     @SystemMessage("You are a virtual assistant and your name is Nestor.")
@@ -347,14 +347,14 @@ snippet quarkus-svc-advanced-question:
 
 snippet quarkus-advanced-resource-annot:
   name: "Class annotation advanced resource"
-  prefix: "sol-quarkus-advanced-resource-annot"
+  prefix: "quarkus-09"
   scope: "java"
   body: |
     @Path("/chatbot")
 
 snippet quarkus-advanced-resource-inject:
   name: "Injection advanced resource"
-  prefix: "sol-quarkus-advanced-resource-inject"
+  prefix: "quarkus-10"
   scope: "java"
   body: |
     @Inject
@@ -362,7 +362,7 @@ snippet quarkus-advanced-resource-inject:
 
 snippet quarkus-advanced-resource-ask:
   name: "Advanced resource ask method"
-  prefix: "sol-quarkus-advanced-resource-ask"
+  prefix: "quarkus-11"
   scope: "java"
   body: |
     @Path("advanced")
@@ -375,7 +375,7 @@ snippet quarkus-advanced-resource-ask:
 
 snippet quarkus-svc-memory-class-annot:
   name: "Class annotation memory"
-  prefix: "sol-quarkus-svc-memory-class-annot"
+  prefix: "quarkus-12"
   scope: "java"
   body: |
     @ApplicationScoped
@@ -383,7 +383,7 @@ snippet quarkus-svc-memory-class-annot:
 
 snippet quarkus-svc-memory-question:
   name: "Entry point to llm memory"
-  prefix: "sol-quarkus-svc-memory-question"
+  prefix: "quarkus-13"
   scope: "java"
   body: |
     @SystemMessage("You are a virtual assistant and your name is Nestor.")
@@ -392,14 +392,14 @@ snippet quarkus-svc-memory-question:
 
 snippet quarkus-memory-resource-annot:
   name: "Class annotation memory resource"
-  prefix: "sol-quarkus-memory-resource-annot"
+  prefix: "quarkus-14"
   scope: "java"
   body: |
     @Path("/chatbot")
 
 snippet quarkus-memory-resource-inject:
   name: "Injection memory resource"
-  prefix: "sol-quarkus-memory-resource-inject"
+  prefix: "quarkus-15"
   scope: "java"
   body: |
     @Inject
@@ -407,7 +407,7 @@ snippet quarkus-memory-resource-inject:
 
 snippet quarkus-memory-resource-ask:
   name: "Memory resource ask method"
-  prefix: "sol-quarkus-memory-resource-ask"
+  prefix: "quarkus-16"
   scope: "java"
   body: |
     @Path("memory")

@@ -8,8 +8,8 @@ package com.ovhcloud.ai.quarkus.chatbot.service;
  * The response must be in a streaming mode.
  */
 // add class annotation here
-// sol-quarkus-svc-advanced-class-annot
+// quarkus-07
 public interface AIAdvancedService {
   // Set the System and User message and activate the streaming mode
-  // sol-quarkus-svc-advanced-question
+  // quarkus-08
 }

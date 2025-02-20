@@ -18,17 +18,17 @@ public class StreamingChatbot {
   private static final Logger _LOG = LoggerFactory.getLogger(StreamingChatbot.class);
 
   // AI Service to create, see https://docs.langchain4j.dev/tutorials/ai-services
-  // sol-streaming-ai-services
+  // java-06
   
   public static void main(String[] args) {
     // Select the Mistral model to use (the streaming one)
-    // sol-streaming-model
+    // java-07
 
     // Build the chatbot thanks to the AIService builder
     // The chatbot must be in streaming mode
-    // sol-streaming-assistant
+    // java-08
 
     // Send a prompt
-    // sol-streaming-call
+    // java-09
   }
 }

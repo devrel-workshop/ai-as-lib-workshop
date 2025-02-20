@@ -11,8 +11,8 @@ package com.ovhcloud.ai.quarkus.chatbot.service;
  * The scope of the bean is application.
  */
 // add class annotation here
-// sol-quarkus-svc-memory-class-annot
+// quarkus-12
 public interface AIMemoryService {
   // Set the System and User message, activate the streaming mode and the memory. see https://docs.quarkiverse.io/quarkus-langchain4j/dev/ai-services.html#memory
-  // sol-quarkus-svc-memory-question
+  // quarkus-13
 }

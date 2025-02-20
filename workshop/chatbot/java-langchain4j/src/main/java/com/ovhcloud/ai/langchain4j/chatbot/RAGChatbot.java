@@ -24,33 +24,33 @@ public class RAGChatbot {
   private static final Logger _LOG = LoggerFactory.getLogger(RAGChatbot.class);
 
   // AI Service to create, see https://docs.langchain4j.dev/tutorials/ai-services
-  // sol-rag-ai-services
+  // // java-16
 
   public static void main(String[] args) {
     // Select the Mistral model to use (the streaming one)
-    // sol-rag-model
+    // java-17
 
     // Create the memory store "in memory"
-    // sol-rag-memory
+    // java-18
 
     // Load the document and split it into chunks
-    // sol-rag-chunk
+    // java-19
 
     // Do the embeddings with AI Endpoint model
     // (https://docs.langchain4j.dev/integrations/embedding-models/ovh-ai) and store
     // them in a in memory embedding store
-    // sol-rag-embedding
+    // java-20
 
     // Store the vectors in the in memory store, see
     // https://docs.langchain4j.dev/integrations/embedding-stores/in-memory
-    // sol-rag-embedding-store
+    // java-21
 
     // Build the chatbot thanks to the AIService builder
     // The chatbot must be in streaming mode with memory and RAC activated with the
     // previous contentRetriever
-    // sol-rag-assistant
+    // java-22
 
     // Send a prompt
-    // sol-rag-call
+    // java-23
   }
 }

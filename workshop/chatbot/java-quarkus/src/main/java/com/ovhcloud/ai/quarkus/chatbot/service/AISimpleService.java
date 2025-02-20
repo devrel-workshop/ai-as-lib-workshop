@@ -7,9 +7,9 @@ package com.ovhcloud.ai.quarkus.chatbot.service;
  * Set a user message to answer to questions. 
  */
 // add class annotation here
-// sol-quarkus-svc-simple-class-annot
+// quarkus-02
 public interface AISimpleService {
   // Set the System and User message
-  // sol-quarkus-svc-simple-question
+  // quarkus-03
 }
 
