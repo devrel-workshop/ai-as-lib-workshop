@@ -6,7 +6,7 @@ import numpy as np
 # Function to upload or record audio, see https://www.gradio.app/main/docs/gradio/audio
 def text_to_speech(textToTransform):
     # Configure the URL, see https://endpoints.ai.cloud.ovh.net/ (nvr-tts-en-us)
-    # sol-tts-http-model-url
+    # py-09
 
     # Configure header with bearer token
     # sol-tts-http-bearer
@@ -17,29 +17,29 @@ def text_to_speech(textToTransform):
     # - encoding: 1
     # - sample_rate_hz: 16000
     # - audio_channel_count: 1
-    # sol-tts-http-payload
+    # py-09
 
     # Send the request to endpoint with text to transform
-    # sol-tts-http-response
+    # py-10
 
     # Return the audio
     # see https://numpy.org/doc/stable/reference/generated/numpy.frombuffer.html
-    # sol-tts-http-return
+    # py-11
 
     return None
 
 
 # Create a Gradio input component
-# sol-tts-http-input
+# py-12
 
 # Create an output audio Gradio component
-# sol-tts-http-output
+# py-13
 
 # Create a Gradio interface named demo
 # The function to call : reverse_audio
 # The inputs : input_audio
 # The outputs : "text"
-# sol-tts-http-demo
+# py-14
 
 # Main entry
 if __name__ == "__main__":
