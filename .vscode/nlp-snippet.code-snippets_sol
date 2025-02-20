@@ -10,7 +10,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-emotion-bearer",
+    "prefix": "js-02",
     "scope": "javascript"
   },
   "Emotion call": {
@@ -27,7 +27,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-emotion-call",
+    "prefix": "js-03",
     "scope": "javascript"
   },
   "JavaScript dependency": {
@@ -36,7 +36,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-nlp-js-dep",
+    "prefix": "js-01",
     "scope": "json"
   },
   "Product bearer": {
@@ -50,7 +50,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-product-bearer",
+    "prefix": "js-06",
     "scope": "javascript"
   },
   "Product call": {
@@ -76,7 +76,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-product-call",
+    "prefix": "js-07",
     "scope": "javascript"
   },
   "Text classification bearer": {
@@ -90,7 +90,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-text-class-bearer",
+    "prefix": "js-04",
     "scope": "javascript"
   },
   "Text classification call": {
@@ -129,7 +129,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-text-class-call",
+    "prefix": "js-05",
     "scope": "javascript"
   }
 }

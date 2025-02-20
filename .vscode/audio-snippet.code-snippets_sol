@@ -15,7 +15,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-audio-requirements",
+    "prefix": "py-01",
     "scope": ""
   },
   "STS TTS riva client": {
@@ -35,7 +35,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-sts-tts-riva-client:",
+    "prefix": "py-33",
     "scope": "python"
   },
   "STS audio as bytes": {
@@ -45,7 +45,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-sts-audio-as-bytes",
+    "prefix": "py-40",
     "scope": "python"
   },
   "STS audio transform": {
@@ -57,7 +57,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-sts-audio-transform",
+    "prefix": "py-39",
     "scope": "python"
   },
   "STS config": {
@@ -71,7 +71,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-sts-config",
+    "prefix": "py-38",
     "scope": "python"
   },
   "STS demo": {
@@ -85,7 +85,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-sts-demo",
+    "prefix": "py-45",
     "scope": "python"
   },
   "STS input": {
@@ -94,7 +94,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-sts-input",
+    "prefix": "py-44",
     "scope": "python"
   },
   "STS ouput": {
@@ -105,7 +105,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-sts-ouput",
+    "prefix": "py-43",
     "scope": "python"
   },
   "STS response": {
@@ -114,7 +114,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-sts-response",
+    "prefix": "py-41",
     "scope": "python"
   },
   "STS return": {
@@ -130,7 +130,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-sts-return",
+    "prefix": "py-42",
     "scope": "python"
   },
   "STS riva client": {
@@ -150,7 +150,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-sts-riva-client:",
+    "prefix": "py-37",
     "scope": "python"
   },
   "STS translate model": {
@@ -159,7 +159,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-sts-translate-model",
+    "prefix": "py-31",
     "scope": "python"
   },
   "STS translate response": {
@@ -170,7 +170,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-sts-translate-response",
+    "prefix": "py-32",
     "scope": "python"
   },
   "STS translate riva client": {
@@ -190,7 +190,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-sts-translate-riva-client",
+    "prefix": "py-30",
     "scope": "python"
   },
   "STT GRPC audio as bytes": {
@@ -200,7 +200,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-stt-grpc-audio-as-bytes",
+    "prefix": "py-18",
     "scope": "python"
   },
   "STT GRPC audio tranform": {
@@ -212,7 +212,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-stt-grpc-audio-transform",
+    "prefix": "py-17",
     "scope": "python"
   },
   "STT GRPC config": {
@@ -226,7 +226,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-stt-grpc-config",
+    "prefix": "py-16",
     "scope": "python"
   },
   "STT GRPC demo": {
@@ -240,7 +240,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-stt-grpc-demo",
+    "prefix": "py-22",
     "scope": "python"
   },
   "STT GRPC input": {
@@ -253,7 +253,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-stt-grpc-input",
+    "prefix": "py-21",
     "scope": "python"
   },
   "STT GRPC response": {
@@ -262,7 +262,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-stt-grpc-response",
+    "prefix": "py-19",
     "scope": "python"
   },
   "STT GRPC return": {
@@ -275,7 +275,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-stt-grpc-return",
+    "prefix": "py-20",
     "scope": "python"
   },
   "STT GRPC riva client": {
@@ -290,7 +290,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-stt-grpc-riva-client",
+    "prefix": "py-15",
     "scope": "python"
   },
   "STT HTTP audio tranform": {
@@ -302,7 +302,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-stt-http-audio-transform",
+    "prefix": "py-04",
     "scope": "python"
   },
   "STT HTTP demo": {
@@ -316,7 +316,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-stt-http-demo",
+    "prefix": "py-08",
     "scope": "python"
   },
   "STT HTTP file to send": {
@@ -325,7 +325,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-stt-http-file-to-send",
+    "prefix": "py-05",
     "scope": "python"
   },
   "STT HTTP input": {
@@ -338,7 +338,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-stt-http-input",
+    "prefix": "py-07",
     "scope": "python"
   },
   "STT HTTP response": {
@@ -358,7 +358,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-stt-http-response",
+    "prefix": "py-06",
     "scope": "python"
   },
   "STT TTS  return": {
@@ -369,7 +369,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-sts-tts-return",
+    "prefix": "py-36",
     "scope": "python"
   },
   "STT TTS config": {
@@ -385,7 +385,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-sts-tts-config",
+    "prefix": "py-34",
     "scope": "python"
   },
   "STT TTS response": {
@@ -394,7 +394,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-sts-tts-response",
+    "prefix": "py-35",
     "scope": "python"
   },
   "STT bearer": {
@@ -405,7 +405,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-stt-http-bearer",
+    "prefix": "py-03",
     "scope": "python"
   },
   "STT model URL": {
@@ -414,7 +414,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-stt-http-model-url",
+    "prefix": "py-02",
     "scope": "python"
   },
   "TTS GRPC config": {
@@ -430,7 +430,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-tts-grpc-config",
+    "prefix": "py-24",
     "scope": "python"
   },
   "TTS GRPC demo": {
@@ -441,7 +441,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-tts-grpc-demo",
+    "prefix": "py-29",
     "scope": "python"
   },
   "TTS GRPC input": {
@@ -452,7 +452,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-tts-grpc-input",
+    "prefix": "py-27",
     "scope": "python"
   },
   "TTS GRPC output": {
@@ -463,7 +463,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-tts-grpc-output",
+    "prefix": "py-28",
     "scope": "python"
   },
   "TTS GRPC response": {
@@ -472,7 +472,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-tts-grpc-response",
+    "prefix": "py-25",
     "scope": "python"
   },
   "TTS GRPC return": {
@@ -483,7 +483,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-tts-grpc-return",
+    "prefix": "py-26",
     "scope": "python"
   },
   "TTS GRPC riva client": {
@@ -498,7 +498,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-tts-grpc-riva-client",
+    "prefix": "py-23",
     "scope": "python"
   },
   "TTS HTTP demo": {
@@ -509,7 +509,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-tts-http-demo",
+    "prefix": "py-14",
     "scope": "python"
   },
   "TTS HTTP input": {
@@ -520,7 +520,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-tts-http-input",
+    "prefix": "py-12",
     "scope": "python"
   },
   "TTS HTTP output": {
@@ -531,7 +531,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-tts-http-output",
+    "prefix": "py-13",
     "scope": "python"
   },
   "TTS HTTP payload": {
@@ -546,7 +546,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-tts-http-payload",
+    "prefix": "py-09",
     "scope": "python"
   },
   "TTS HTTP response": {
@@ -555,7 +555,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-tts-http-response",
+    "prefix": "py-10",
     "scope": "python"
   },
   "TTS HTTP return": {
@@ -566,7 +566,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-tts-http-return",
+    "prefix": "py-11",
     "scope": "python"
   },
   "TTS bearer": {
@@ -586,7 +586,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-tts-http-model-url",
+    "prefix": "py-09",
     "scope": "python"
   }
 }

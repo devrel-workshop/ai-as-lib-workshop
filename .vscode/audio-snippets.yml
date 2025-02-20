@@ -2,7 +2,7 @@
 
 snippet audio-requirements:
   name: "Audio requirements"
-  prefix: "sol-audio-requirements"
+  prefix: "py-01"
   #scope: "python"
   body: | 
     # audio section
@@ -21,7 +21,7 @@ snippet audio-requirements:
 
 snippet tts-grpc-riva-client:
   name: "TTS GRPC riva client"
-  prefix: "sol-tts-grpc-riva-client"
+  prefix: "py-23"
   scope: "python"
   body: | 
     tts_service = riva.client.SpeechSynthesisService(
@@ -34,7 +34,7 @@ snippet tts-grpc-riva-client:
 
 snippet tts-grpc-config:
   name: "TTS GRPC config"
-  prefix: "sol-tts-grpc-config"
+  prefix: "py-24"
   scope: "python"
   body: | 
     tts_config = {
@@ -48,14 +48,14 @@ snippet tts-grpc-config:
 
 snippet tts-grpc-response:
   name: "TTS GRPC response"
-  prefix: "sol-tts-grpc-response"
+  prefix: "py-25"
   scope: "python"
   body: | 
     response = tts_service.synthesize(**tts_config)
 
 snippet tts-grpc-return:
   name: "TTS GRPC return"
-  prefix: "sol-tts-grpc-return"
+  prefix: "py-26"
   scope: "python"
   body: | 
     audio_samples = (44100, np.frombuffer(response.audio, dtype=np.int16))
@@ -64,7 +64,7 @@ snippet tts-grpc-return:
 
 snippet tts-grpc-input:
   name: "TTS GRPC input"
-  prefix: "sol-tts-grpc-input"
+  prefix: "py-27"
   scope: "python"
   body: | 
     input_text = gr.Textbox(
@@ -73,7 +73,7 @@ snippet tts-grpc-input:
 
 snippet tts-grpc-output:
   name: "TTS GRPC output"
-  prefix: "sol-tts-grpc-output"
+  prefix: "py-28"
   scope: "python"
   body: | 
     output_audio = gr.Audio(
@@ -82,7 +82,7 @@ snippet tts-grpc-output:
 
 snippet tts-grpc-demo:
   name: "TTS GRPC demo"
-  prefix: "sol-tts-grpc-demo"
+  prefix: "py-29"
   scope: "python"
   body: | 
     demo = gr.Interface(
@@ -93,7 +93,7 @@ snippet tts-grpc-demo:
 
 snippet stt-grpc-riva-client:
   name: "STT GRPC riva client"
-  prefix: "sol-stt-grpc-riva-client"
+  prefix: "py-15"
   scope: "python"
   body: | 
     asr_service = riva.client.ASRService(
@@ -107,7 +107,7 @@ snippet stt-grpc-riva-client:
 
 snippet stt-grpc-config:
   name: "STT GRPC config"
-  prefix: "sol-stt-grpc-config"
+  prefix: "py-16"
   scope: "python"
   body: | 
     asr_config = riva.client.RecognitionConfig(
@@ -120,7 +120,7 @@ snippet stt-grpc-config:
 
 snippet stt-grpc-audio-transform:
   name: "STT GRPC audio tranform"
-  prefix: "sol-stt-grpc-audio-transform"
+  prefix: "py-17"
   scope: "python"
   body: | 
     audio_input = AudioSegment.from_file(audio, "wav")
@@ -130,7 +130,7 @@ snippet stt-grpc-audio-transform:
 
 snippet stt-grpc-audio-as-bytes:
   name: "STT GRPC audio as bytes"
-  prefix: "sol-stt-grpc-audio-as-bytes"
+  prefix: "py-18"
   scope: "python"
   body: | 
     with open("audio.wav", 'rb') as fh:
@@ -139,14 +139,14 @@ snippet stt-grpc-audio-as-bytes:
 
 snippet stt-grpc-response:
   name: "STT GRPC response"
-  prefix: "sol-stt-grpc-response"
+  prefix: "py-19"
   scope: "python"
   body: | 
     response = asr_service.offline_recognize(audio_to_analyse, asr_config)
 
 snippet stt-grpc-return:
   name: "STT GRPC return"
-  prefix: "sol-stt-grpc-return"
+  prefix: "py-20"
   scope: "python"
   body: | 
     output = []
@@ -157,7 +157,7 @@ snippet stt-grpc-return:
 
 snippet stt-grpc-input:
   name: "STT GRPC input"
-  prefix: "sol-stt-grpc-input"
+  prefix: "py-21"
   scope: "python"
   body: | 
     input_audio = gr.Audio(
@@ -168,7 +168,7 @@ snippet stt-grpc-input:
 
 snippet stt-grpc-demo:
   name: "STT GRPC demo"
-  prefix: "sol-stt-grpc-demo"
+  prefix: "py-22"
   scope: "python"
   body: | 
     demo = gr.Interface(
@@ -182,7 +182,7 @@ snippet stt-grpc-demo:
 
 snippet tts-http-model-url:
   name: "TTS model URL"
-  prefix: "sol-tts-http-model-url"
+  prefix: "py-09"
   scope: "python"
   body: | 
     url = "https://nvr-tts-en-us.endpoints.kepler.ai.cloud.ovh.net/api/v1/tts/text_to_audio"
@@ -198,7 +198,7 @@ snippet tts-http-bearer:
 
 snippet tts-http-payload:
   name: "TTS HTTP payload"
-  prefix: "sol-tts-http-payload"
+  prefix: "py-09"
   scope: "python"
   body: | 
     payload = {
@@ -211,14 +211,14 @@ snippet tts-http-payload:
 
 snippet tts-http-response:
   name: "TTS HTTP response"
-  prefix: "sol-tts-http-response"
+  prefix: "py-10"
   scope: "python"
   body: | 
     response = requests.post(url, json=payload, headers=headers)
 
 snippet tts-http-return:
   name: "TTS HTTP return"
-  prefix: "sol-tts-http-return"
+  prefix: "py-11"
   scope: "python"
   body: | 
     audio = (16000, np.frombuffer(response.content, dtype=np.int16))
@@ -227,7 +227,7 @@ snippet tts-http-return:
 
 snippet tts-http-input:
   name: "TTS HTTP input"
-  prefix: "sol-tts-http-input"
+  prefix: "py-12"
   scope: "python"
   body: | 
     input_text = gr.Textbox(
@@ -236,7 +236,7 @@ snippet tts-http-input:
 
 snippet tts-http-output:
   name: "TTS HTTP output"
-  prefix: "sol-tts-http-output"
+  prefix: "py-13"
   scope: "python"
   body: | 
     output_audio = gr.Audio(
@@ -245,7 +245,7 @@ snippet tts-http-output:
 
 snippet tts-http-demo:
   name: "TTS HTTP demo"
-  prefix: "sol-tts-http-demo"
+  prefix: "py-14"
   scope: "python"
   body: | 
     demo = gr.Interface(
@@ -256,14 +256,14 @@ snippet tts-http-demo:
 
 snippet stt-http-model-url:
   name: "STT model URL"
-  prefix: "sol-stt-http-model-url"
+  prefix: "py-02"
   scope: "python"
   body: | 
     url = "https://nvr-asr-fr-fr.endpoints.kepler.ai.cloud.ovh.net/api/v1/asr/recognize"
 
 snippet stt-http-bearer:
   name: "STT bearer"
-  prefix: "sol-stt-http-bearer"
+  prefix: "py-03"
   scope: "python"
   body: | 
     headers = {
@@ -272,7 +272,7 @@ snippet stt-http-bearer:
 
 snippet stt-http-audio-transform:
   name: "STT HTTP audio tranform"
-  prefix: "sol-stt-http-audio-transform"
+  prefix: "py-04"
   scope: "python"
   body: | 
     audio_input = AudioSegment.from_file(audio, "wav")
@@ -282,7 +282,7 @@ snippet stt-http-audio-transform:
 
 snippet stt-http-file-to-send:
   name: "STT HTTP file to send"
-  prefix: "sol-stt-http-file-to-send"
+  prefix: "py-05"
   scope: "python"
   body: | 
     filetoSend = [('audio', open("audio.wav", 'rb'))]
@@ -290,7 +290,7 @@ snippet stt-http-file-to-send:
 
 snippet stt-http-response:
   name: "STT HTTP response"
-  prefix: "sol-stt-http-response"
+  prefix: "py-06"
   scope: "python"
   body: | 
     response = requests.post(url, files=filetoSend, headers=headers)
@@ -308,7 +308,7 @@ snippet stt-http-response:
 
 snippet stt-http-input:
   name: "STT HTTP input"
-  prefix: "sol-stt-http-input"
+  prefix: "py-07"
   scope: "python"
   body: | 
     input_audio = gr.Audio(
@@ -319,7 +319,7 @@ snippet stt-http-input:
 
 snippet stt-http-demo:
   name: "STT HTTP demo"
-  prefix: "sol-stt-http-demo"
+  prefix: "py-08"
   scope: "python"
   body: | 
     demo = gr.Interface(
@@ -333,7 +333,7 @@ snippet stt-http-demo:
 
 snippet sts-translate-riva-client:
   name: "STS translate riva client"
-  prefix: "sol-sts-translate-riva-client"
+  prefix: "py-30"
   scope: "python"
   body: | 
     nmt_service = riva.client.NeuralMachineTranslationClient(
@@ -351,14 +351,14 @@ snippet sts-translate-riva-client:
 
 snippet sts-translate-model:
   name: "STS translate model"
-  prefix: "sol-sts-translate-model"
+  prefix: "py-31"
   scope: "python"
   body: | 
     model_name = "fr_en_24x6"
 
 snippet sts-translate-response:
   name: "STS translate response"
-  prefix: "sol-sts-translate-response"
+  prefix: "py-32"
   scope: "python"
   body: | 
     response = nmt_service.translate([textToTranslate], model_name, "fr", "en")
@@ -367,7 +367,7 @@ snippet sts-translate-response:
 
 snippet sts-tts-riva-client:
   name: "STS TTS riva client"
-  prefix: "sol-sts-tts-riva-client:"
+  prefix: "py-33"
   scope: "python"
   body: | 
     tts_service = riva.client.SpeechSynthesisService(
@@ -385,7 +385,7 @@ snippet sts-tts-riva-client:
 
 snippet sts-tts-config:
   name: "STT TTS config"
-  prefix: "sol-sts-tts-config"
+  prefix: "py-34"
   scope: "python"
   body: | 
     tts_config = {
@@ -399,7 +399,7 @@ snippet sts-tts-config:
 
 snippet sts-tts-response:
   name: "STT TTS response"
-  prefix: "sol-sts-tts-response"
+  prefix: "py-35"
   scope: "python"
   body: | 
     response = tts_service.synthesize(**tts_config)
@@ -407,7 +407,7 @@ snippet sts-tts-response:
 
 snippet sts-tts-return:
   name: "STT TTS  return"
-  prefix: "sol-sts-tts-return"
+  prefix: "py-36"
   scope: "python"
   body: | 
     audio_samples = (44100, np.frombuffer(response.audio, dtype=np.int16))
@@ -416,7 +416,7 @@ snippet sts-tts-return:
 
 snippet sts-riva-client:
   name: "STS riva client"
-  prefix: "sol-sts-riva-client:"
+  prefix: "py-37"
   scope: "python"
   body: | 
     asr_service = riva.client.ASRService(
@@ -434,7 +434,7 @@ snippet sts-riva-client:
 
 snippet sts-config:
   name: "STS config"
-  prefix: "sol-sts-config"
+  prefix: "py-38"
   scope: "python"
   body: | 
     asr_config = riva.client.RecognitionConfig(
@@ -446,7 +446,7 @@ snippet sts-config:
 
 snippet sts-audio-transform:
   name: "STS audio transform"
-  prefix: "sol-sts-audio-transform"
+  prefix: "py-39"
   scope: "python"
   body: | 
     audio_input = AudioSegment.from_file(audio, "wav")
@@ -456,7 +456,7 @@ snippet sts-audio-transform:
 
 snippet sts-audio-as-bytes:
   name: "STS audio as bytes"
-  prefix: "sol-sts-audio-as-bytes"
+  prefix: "py-40"
   scope: "python"
   body: | 
     with open("audio.wav", "rb") as fh:
@@ -464,7 +464,7 @@ snippet sts-audio-as-bytes:
 
 snippet sts-response:
   name: "STS response"
-  prefix: "sol-sts-response"
+  prefix: "py-41"
   scope: "python"
   body: | 
     response = asr_service.offline_recognize(audio_to_analyse, asr_config)
@@ -472,7 +472,7 @@ snippet sts-response:
 
 snippet sts-return:
   name: "STS return"
-  prefix: "sol-sts-return"
+  prefix: "py-42"
   scope: "python"
   body: | 
     output = []
@@ -486,14 +486,14 @@ snippet sts-return:
 
 snippet sts-input:
   name: "STS input"
-  prefix: "sol-sts-input"
+  prefix: "py-44"
   scope: "python"
   body: | 
     input_audio = gr.Audio(label = "French 🇫🇷", sources=["upload", "microphone"], type="filepath")
 
 snippet sts-output:
   name: "STS ouput"
-  prefix: "sol-sts-ouput"
+  prefix: "py-43"
   scope: "python"
   body: | 
     output_audio = gr.Audio(
@@ -502,7 +502,7 @@ snippet sts-output:
 
 snippet sts-demo:
   name: "STS demo"
-  prefix: "sol-sts-demo"
+  prefix: "py-45"
   scope: "python"
   body: | 
     demo = gr.Interface(

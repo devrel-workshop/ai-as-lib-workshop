@@ -7,40 +7,40 @@ import os
 def speechToText(audio):
     # Configure ASR Riva client, see https://endpoints.ai.cloud.ovh.net/ (nvr-asr-fr-fr model)
     # First, set the endpoint with SSL and your Bearer token
-    # sol-stt-grpc-riva-client
+    # py-15
 
     # Then set the recognition configuration:
     # - language_code: fr-FR
     # - max_alternatives: 1
     # - enable_automatic_punctuation: True
     # - audio_channel_count: 1
-    # sol-stt-grpc-config
+    # py-16
 
     # Load and process audio file to be in the right format, see https://github.com/jiaaro/pydub/tree/master
     # Set the channel to 1
     # set the framerate to 16000
     # export the file in wav format named audio.wav
-    # sol-stt-grpc-audio-transform
+    # py-17
 
     # Load proceeded file as bytes 
-    # sol-stt-grpc-audio-as-bytes
+    # py-18
 
     # Do the ASR recognition
-    # sol-stt-grpc-response
+    # py-19
 
     # Return the transcript
-    # sol-stt-grpc-return
+    # py-20
 
     return None
 
 # Create a Gradio input component
-# sol-stt-grpc-input
+# py-21
 
 # Create a Gradio interface named demo
 # The function to call : reverse_audio
 # The inputs : input_audio
 # The outputs : "text"
-# sol-stt-grpc-demo
+# py-22
 
 # Main entry
 if __name__ == "__main__":

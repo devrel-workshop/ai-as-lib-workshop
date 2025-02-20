@@ -6,9 +6,9 @@
 import axios from 'axios';
 
 // Set the bearer token and the header to access to AI Endpoint, see https://endpoints.ai.cloud.ovh.net/
-// sol-emotion-bearer
+// js-02
 
 // Use Axios (see https://github.com/axios/axios) to 
 //  - send a phrase to the model roberta-base-go_emotions, see https://endpoints.ai.cloud.ovh.net/
 //  - display the result (which type of emotion is in the text)
-// sol-emotion-call
+// js-03
