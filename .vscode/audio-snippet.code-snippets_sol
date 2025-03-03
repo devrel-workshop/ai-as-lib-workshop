@@ -4,8 +4,6 @@
       "# audio section",
       "# Gradio to create the application, see https://pypi.org/project/gradio/",
       "gradio==5.5.0",
-      "# NVIDIA client to use AIEndpoints, see https://pypi.org/project/nvidia-riva-client/, https://github.com/nvidia-riva/python-clients",
-      "nvidia-riva-client==2.17.0 ",
       "# Pydub to manipulate audio files, see https://pypi.org/project/pydub/",
       "pydub==0.25.1",
       "# Numpy to do sientific computing with Python",
@@ -193,106 +191,6 @@
     "prefix": "py-30",
     "scope": "python"
   },
-  "STT GRPC audio as bytes": {
-    "body": [
-      "with open(\"audio.wav\", 'rb') as fh:",
-      "    audio_to_analyse = fh.read()",
-      ""
-    ],
-    "description": "",
-    "prefix": "py-18",
-    "scope": "python"
-  },
-  "STT GRPC audio tranform": {
-    "body": [
-      "audio_input = AudioSegment.from_file(audio, \"wav\")",
-      "process_audio_to_wav = audio_input.set_channels(1)",
-      "process_audio_to_wav = process_audio_to_wav.set_frame_rate(16000)",
-      "process_audio_to_wav.export(\"audio.wav\", format=\"wav\")",
-      ""
-    ],
-    "description": "",
-    "prefix": "py-17",
-    "scope": "python"
-  },
-  "STT GRPC config": {
-    "body": [
-      "asr_config = riva.client.RecognitionConfig(",
-      "    language_code=\"fr-FR\", ",
-      "    max_alternatives=1,",
-      "    enable_automatic_punctuation=True,",
-      "    audio_channel_count = 1,",
-      ") ",
-      ""
-    ],
-    "description": "",
-    "prefix": "py-16",
-    "scope": "python"
-  },
-  "STT GRPC demo": {
-    "body": [
-      "demo = gr.Interface(",
-      "    fn=speechToText,",
-      "    inputs=input_audio,",
-      "    outputs=\"text\",",
-      "    allow_flagging=\"never\"",
-      ")",
-      ""
-    ],
-    "description": "",
-    "prefix": "py-22",
-    "scope": "python"
-  },
-  "STT GRPC input": {
-    "body": [
-      "input_audio = gr.Audio(",
-      "    sources=['upload', 'microphone'],",
-      "    type='filepath', ",
-      "    label=\"🇫🇷\"",
-      ")",
-      ""
-    ],
-    "description": "",
-    "prefix": "py-21",
-    "scope": "python"
-  },
-  "STT GRPC response": {
-    "body": [
-      "response = asr_service.offline_recognize(audio_to_analyse, asr_config)",
-      ""
-    ],
-    "description": "",
-    "prefix": "py-19",
-    "scope": "python"
-  },
-  "STT GRPC return": {
-    "body": [
-      "output = []",
-      "for res in range(len(response.results)):",
-      "    output.append(response.results[res].alternatives[0].transcript)",
-      "",
-      "return ' '.join(output)",
-      ""
-    ],
-    "description": "",
-    "prefix": "py-20",
-    "scope": "python"
-  },
-  "STT GRPC riva client": {
-    "body": [
-      "asr_service = riva.client.ASRService(",
-      "    riva.client.Auth(",
-      "        uri=\"nvr-asr-fr-fr.endpoints-grpc.kepler.ai.cloud.ovh.net:443\",",
-      "        use_ssl=True,",
-      "        metadata_args=[[\"authorization\", f\"bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}\"]]",
-      "    )",
-      ")",
-      ""
-    ],
-    "description": "",
-    "prefix": "py-15",
-    "scope": "python"
-  },
   "STT HTTP audio tranform": {
     "body": [
       "audio_input = AudioSegment.from_file(audio, \"wav\")",
@@ -410,95 +308,11 @@
   },
   "STT model URL": {
     "body": [
-      "url = \"https://nvr-asr-fr-fr.endpoints.kepler.ai.cloud.ovh.net/api/v1/asr/recognize\"",
+      "url = \"https://nvr-asr-en-gb.endpoints.kepler.ai.cloud.ovh.net/api/v1/asr/recognize\"",
       ""
     ],
     "description": "",
     "prefix": "py-02",
-    "scope": "python"
-  },
-  "TTS GRPC config": {
-    "body": [
-      "tts_config = {",
-      "    \"voice_name\": \"English-US.Female-1\",",
-      "    \"language_code\": \"en-US\",  # languages: en-US / es-ES / de-DE / it-IT / zh-CN",
-      "    \"encoding\": riva.client.AudioEncoding.LINEAR_PCM,",
-      "    \"sample_rate_hz\": 44100,  # sample rate: 44.1KHz audio",
-      "    \"custom_dictionary\": {},",
-      "    \"text\": textToTransform,",
-      "}",
-      ""
-    ],
-    "description": "",
-    "prefix": "py-24",
-    "scope": "python"
-  },
-  "TTS GRPC demo": {
-    "body": [
-      "demo = gr.Interface(",
-      "    fn=text_to_speech, inputs=input_text, outputs=output_audio, allow_flagging=\"never\"",
-      ")",
-      ""
-    ],
-    "description": "",
-    "prefix": "py-29",
-    "scope": "python"
-  },
-  "TTS GRPC input": {
-    "body": [
-      "input_text = gr.Textbox(",
-      "    label=\"🏴󠁧󠁢󠁥󠁮󠁧󠁿\",",
-      ")",
-      ""
-    ],
-    "description": "",
-    "prefix": "py-27",
-    "scope": "python"
-  },
-  "TTS GRPC output": {
-    "body": [
-      "output_audio = gr.Audio(",
-      "    label=\"Audio synthesis (.wav)\", type=\"numpy\", show_download_button=False",
-      ")",
-      ""
-    ],
-    "description": "",
-    "prefix": "py-28",
-    "scope": "python"
-  },
-  "TTS GRPC response": {
-    "body": [
-      "response = tts_service.synthesize(**tts_config)",
-      ""
-    ],
-    "description": "",
-    "prefix": "py-25",
-    "scope": "python"
-  },
-  "TTS GRPC return": {
-    "body": [
-      "audio_samples = (44100, np.frombuffer(response.audio, dtype=np.int16))",
-      "",
-      "return audio_samples",
-      ""
-    ],
-    "description": "",
-    "prefix": "py-26",
-    "scope": "python"
-  },
-  "TTS GRPC riva client": {
-    "body": [
-      "tts_service = riva.client.SpeechSynthesisService(",
-      "    riva.client.Auth(",
-      "        uri=\"nvr-tts-en-us.endpoints-grpc.kepler.ai.cloud.ovh.net:443\",",
-      "        use_ssl=True,",
-      "        metadata_args=[[\"authorization\", f\"bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}\"]]",
-      "    )",
-      ")",
-      ""
-    ],
-    "description": "",
-    "prefix": "py-23",
     "scope": "python"
   },
   "TTS HTTP demo": {

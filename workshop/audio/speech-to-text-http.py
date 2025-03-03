@@ -6,7 +6,7 @@ import gradio as gr
 # Function to upload or record audio, see https://www.gradio.app/main/docs/gradio/audio
 def speechToText(audio):
 
-    # Configure the URL, see https://endpoints.ai.cloud.ovh.net/ (nvr-asr-fr-fr model)
+    # Configure the URL, see https://endpoints.ai.cloud.ovh.net/ (nvr-asr-en-gb)
     # py-02
 
     # Configure header with bearer token

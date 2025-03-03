@@ -8,175 +8,12 @@ snippet audio-requirements:
     # audio section
     # Gradio to create the application, see https://pypi.org/project/gradio/
     gradio==5.5.0
-    # NVIDIA client to use AIEndpoints, see https://pypi.org/project/nvidia-riva-client/, https://github.com/nvidia-riva/python-clients
-    nvidia-riva-client==2.17.0 
     # Pydub to manipulate audio files, see https://pypi.org/project/pydub/
     pydub==0.25.1
     # Numpy to do sientific computing with Python
     numpy==2.1.3
     # Manage http requests, see https://pypi.org/project/requests/
     requests==2.32.3
-
-# Text to speech GRPC section
-
-snippet tts-grpc-riva-client:
-  name: "TTS GRPC riva client"
-  prefix: "py-23"
-  scope: "python"
-  body: | 
-    tts_service = riva.client.SpeechSynthesisService(
-        riva.client.Auth(
-            uri="nvr-tts-en-us.endpoints-grpc.kepler.ai.cloud.ovh.net:443",
-            use_ssl=True,
-            metadata_args=[["authorization", f"bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}"]]
-        )
-    )
-
-snippet tts-grpc-config:
-  name: "TTS GRPC config"
-  prefix: "py-24"
-  scope: "python"
-  body: | 
-    tts_config = {
-        "voice_name": "English-US.Female-1",
-        "language_code": "en-US",  # languages: en-US / es-ES / de-DE / it-IT / zh-CN
-        "encoding": riva.client.AudioEncoding.LINEAR_PCM,
-        "sample_rate_hz": 44100,  # sample rate: 44.1KHz audio
-        "custom_dictionary": {},
-        "text": textToTransform,
-    }
-
-snippet tts-grpc-response:
-  name: "TTS GRPC response"
-  prefix: "py-25"
-  scope: "python"
-  body: | 
-    response = tts_service.synthesize(**tts_config)
-
-snippet tts-grpc-return:
-  name: "TTS GRPC return"
-  prefix: "py-26"
-  scope: "python"
-  body: | 
-    audio_samples = (44100, np.frombuffer(response.audio, dtype=np.int16))
-
-    return audio_samples
-
-snippet tts-grpc-input:
-  name: "TTS GRPC input"
-  prefix: "py-27"
-  scope: "python"
-  body: | 
-    input_text = gr.Textbox(
-        label="🏴󠁧󠁢󠁥󠁮󠁧󠁿",
-    )
-
-snippet tts-grpc-output:
-  name: "TTS GRPC output"
-  prefix: "py-28"
-  scope: "python"
-  body: | 
-    output_audio = gr.Audio(
-        label="Audio synthesis (.wav)", type="numpy", show_download_button=False
-    )
-
-snippet tts-grpc-demo:
-  name: "TTS GRPC demo"
-  prefix: "py-29"
-  scope: "python"
-  body: | 
-    demo = gr.Interface(
-        fn=text_to_speech, inputs=input_text, outputs=output_audio, allow_flagging="never"
-    )
-
-# Speech to text GRPC section
-
-snippet stt-grpc-riva-client:
-  name: "STT GRPC riva client"
-  prefix: "py-15"
-  scope: "python"
-  body: | 
-    asr_service = riva.client.ASRService(
-        riva.client.Auth(
-            uri="nvr-asr-fr-fr.endpoints-grpc.kepler.ai.cloud.ovh.net:443",
-            use_ssl=True,
-            metadata_args=[["authorization", f"bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}"]]
-        )
-    )
-
-
-snippet stt-grpc-config:
-  name: "STT GRPC config"
-  prefix: "py-16"
-  scope: "python"
-  body: | 
-    asr_config = riva.client.RecognitionConfig(
-        language_code="fr-FR", 
-        max_alternatives=1,
-        enable_automatic_punctuation=True,
-        audio_channel_count = 1,
-    ) 
-
-
-snippet stt-grpc-audio-transform:
-  name: "STT GRPC audio tranform"
-  prefix: "py-17"
-  scope: "python"
-  body: | 
-    audio_input = AudioSegment.from_file(audio, "wav")
-    process_audio_to_wav = audio_input.set_channels(1)
-    process_audio_to_wav = process_audio_to_wav.set_frame_rate(16000)
-    process_audio_to_wav.export("audio.wav", format="wav")
-
-snippet stt-grpc-audio-as-bytes:
-  name: "STT GRPC audio as bytes"
-  prefix: "py-18"
-  scope: "python"
-  body: | 
-    with open("audio.wav", 'rb') as fh:
-        audio_to_analyse = fh.read()
-
-
-snippet stt-grpc-response:
-  name: "STT GRPC response"
-  prefix: "py-19"
-  scope: "python"
-  body: | 
-    response = asr_service.offline_recognize(audio_to_analyse, asr_config)
-
-snippet stt-grpc-return:
-  name: "STT GRPC return"
-  prefix: "py-20"
-  scope: "python"
-  body: | 
-    output = []
-    for res in range(len(response.results)):
-        output.append(response.results[res].alternatives[0].transcript)
-
-    return ' '.join(output)
-
-snippet stt-grpc-input:
-  name: "STT GRPC input"
-  prefix: "py-21"
-  scope: "python"
-  body: | 
-    input_audio = gr.Audio(
-        sources=['upload', 'microphone'],
-        type='filepath', 
-        label="🇫🇷"
-    )
-
-snippet stt-grpc-demo:
-  name: "STT GRPC demo"
-  prefix: "py-22"
-  scope: "python"
-  body: | 
-    demo = gr.Interface(
-        fn=speechToText,
-        inputs=input_audio,
-        outputs="text",
-        allow_flagging="never"
-    )
 
 # Text to speech HTTP section
 
@@ -259,7 +96,7 @@ snippet stt-http-model-url:
   prefix: "py-02"
   scope: "python"
   body: | 
-    url = "https://nvr-asr-fr-fr.endpoints.kepler.ai.cloud.ovh.net/api/v1/asr/recognize"
+    url = "https://nvr-asr-en-gb.endpoints.kepler.ai.cloud.ovh.net/api/v1/asr/recognize"
 
 snippet stt-http-bearer:
   name: "STT bearer"
