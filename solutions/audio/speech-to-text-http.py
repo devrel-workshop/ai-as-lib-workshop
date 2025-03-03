@@ -6,8 +6,8 @@ import gradio as gr
 
 # Function to upload or record audio, see https://www.gradio.app/main/docs/gradio/audio
 def speechToText(audio):
-    # Configure the URL, see https://endpoints.ai.cloud.ovh.net/ (nvr-asr-fr-fr model)
-    url = "https://nvr-asr-fr-fr.endpoints.kepler.ai.cloud.ovh.net/api/v1/asr/recognize"
+    # Configure the URL, see https://endpoints.ai.cloud.ovh.net/ (nvr-asr-en-gb)
+    url = "https://nvr-asr-en-gb.endpoints.kepler.ai.cloud.ovh.net/api/v1/asr/recognize"
 
     # Configure header with bearer token
     headers = {
@@ -42,7 +42,7 @@ def speechToText(audio):
 
 
 # Create a Gradio input component
-input_audio = gr.Audio(sources=["upload", "microphone"], type="filepath", label="🇫🇷")
+input_audio = gr.Audio(sources=["upload", "microphone"], type="filepath", label="🏴󠁧󠁢󠁥󠁮󠁧󠁿")
 
 # Create a Gradio interface named demo
 # The function to call : reverse_audio
