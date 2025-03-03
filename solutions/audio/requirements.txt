@@ -1,7 +1,5 @@
 # Gradio to create the application, see https://pypi.org/project/gradio/
 gradio==5.5.0
-# NVIDIA client to use AIEndpoints, see https://pypi.org/project/nvidia-riva-client/, https://github.com/nvidia-riva/python-clients
-nvidia-riva-client==2.17.0 
 # Pydub to manipulate audio files, see https://pypi.org/project/pydub/
 pydub==0.25.1
 # Numpy to do sientific computing with Python
