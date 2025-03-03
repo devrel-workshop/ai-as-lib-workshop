@@ -17,7 +17,6 @@ In the other case you need :
 ### 🤖 Module 1: Speech to text with HTTP 💬
 
 The goal of this module is to develop an application in Python and [Gradio](https://www.gradio.app/) with AI Endpoints to do speech to text.
-This time you will not use GRPC client thanks to AI Endpoints!
 The used model is nvr-asr-fr-fr from NVIDIA and it does automatic speech recognition (ASR) allowing audio recognition and transcription, especially human speech, into text.  
 This model is specialized for French speaking.
 
@@ -38,7 +37,6 @@ Follow the comments in the [speech-to-text-http.py](./speech-to-text-http.py) fi
 ### 🤖 Module 2: Text to speech with HTTP 💬
 
 The goal of this module is to develop an application in Python and [Gradio](https://www.gradio.app/) with AI Endpoints to do some text-to-speech.
-This time you will not use GRPC client thanks to AI Endpoints!
 The used model is nvr-tts-en-us from NVIDIA and it does text-to-speech (TTS) allowing text recognition and synthesis, especially text to speech.
 This model is specialized for English speaking.
 
@@ -55,21 +53,21 @@ Follow the comments in the [text-to-speech.py](./text-to-speech-http.py) file to
     - [requirements.txt](./requirements.txt) file, `pip install -r requirements.txt`
     - [text-to-speech-http.py](./text-to-speech-http.py) file
 
-### 🤖 Module 5: Bonus ! Speech to speech with translation with GRPC 💬 🇫🇷 🏴󠁧󠁢󠁥󠁮󠁧󠁿
+### 🤖 Module 3: Bonus ! Speech to speech with translation with HTTP 💬 🏴󠁧󠁢󠁥󠁮󠁧󠁿 🇪🇸
 
-The goal of this module is to develop an application in Python and [Gradio](https://www.gradio.app/) with AI Endpoints to do french speech to english speech translation.
-The used models are nvr-tts-en-us, nvr-nmt-en-fr and nvr-asr-fr-fr from NVIDIA and it does text-to-speech (TTS) allowing text recognition and synthesis, especially text to speech.
+The goal of this module is to develop an application in Python and [Gradio](https://www.gradio.app/) with AI Endpoints to do english speech to spanish translation.
+The used models are nvr-tts-es-ES and nvr-asr-en-GB from NVIDIA and Llama 3.3 for translation.
 
-All the exercise must be done in [speech-to-speech-grpc.py](./speech-to-speech-grpc.py) file.
+All the exercise must be done in [speech-to-speechhttp.py](./speech-to-speech-http.py) file.
 
-⚗️ Test your code by running the following commands: `python speech-to-speech-grpc.py`.
+⚗️ Test your code by running the following commands: `python speech-to-speech-http.py`.
 
 👩‍💻 How to develop ? 🧑‍💻
 
-Follow the comments in the [speech-to-speech-grpc.py](./speech-to-speech-grpc.py) file to discover the steps to create the script.
+Follow the comments in the [speech-to-speech-http.py](./speech-to-speech-http.py) file to discover the steps to create the script.
 
  - all needed files are pre-created in [workshop/audio](.) folder
  - the main resources:
     - [requirements.txt](./requirements.txt) file, `pip install -r requirements.txt`
-    - [text-to-speech-grpc.py](./speech-to-speech-grpc.py) file
+    - [text-to-speech-http.py](./speech-to-speech-http.py) file
 

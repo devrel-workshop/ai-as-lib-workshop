@@ -16,37 +16,51 @@
     "prefix": "py-01",
     "scope": ""
   },
-  "STS TTS riva client": {
+  "STS asr EN URL": {
     "body": [
-      "tts_service = riva.client.SpeechSynthesisService(",
-      "    riva.client.Auth(",
-      "        uri=\"nvr-tts-en-us.endpoints-grpc.kepler.ai.cloud.ovh.net:443\",",
-      "        use_ssl=True,",
-      "        metadata_args=[",
-      "            [",
-      "                \"authorization\",",
-      "                f\"bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}\",",
-      "            ]",
-      "        ],",
-      "    )",
-      ")",
+      "url = \"https://nvr-asr-en-gb.endpoints.kepler.ai.cloud.ovh.net/api/v1/asr/recognize\"",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-30",
+    "scope": "python"
+  },
+  "STS asr EN bearer": {
+    "body": [
+      "headers = {",
+      "    \"Authorization\": f\"Bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}\",",
+      "}",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-31",
+    "scope": "python"
+  },
+  "STS asr EN call": {
+    "body": [
+      "# Prepare the file to send to the endpoint",
+      "filetoSend = [(\"audio\", open(\"audio.wav\", \"rb\"))]",
+      "",
+      "# Do the POST request and display the transcription",
+      "response = requests.post(url, files=filetoSend, headers=headers)",
+      "responseToDisplay = \"\"",
+      "if response.status_code == 200:",
+      "    # Handle response",
+      "    response_data = response.json()",
+      "    for alternative in response_data:",
+      "        responseToDisplay += alternative[\"alternatives\"][0][\"transcript\"]",
+      "else:",
+      "    print(\"Error:\", response.status_code)",
+      "    responseToDisplay = \"Unable to do the transcription 😭\"",
+      "",
+      "return responseToDisplay",
       ""
     ],
     "description": "",
     "prefix": "py-33",
     "scope": "python"
   },
-  "STS audio as bytes": {
-    "body": [
-      "with open(\"audio.wav\", \"rb\") as fh:",
-      "    audio_to_analyse = fh.read()",
-      ""
-    ],
-    "description": "",
-    "prefix": "py-40",
-    "scope": "python"
-  },
-  "STS audio transform": {
+  "STS asr EN configure": {
     "body": [
       "audio_input = AudioSegment.from_file(audio, \"wav\")",
       "process_audio_to_wav = audio_input.set_channels(1)",
@@ -55,40 +69,53 @@
       ""
     ],
     "description": "",
-    "prefix": "py-39",
-    "scope": "python"
-  },
-  "STS config": {
-    "body": [
-      "asr_config = riva.client.RecognitionConfig(",
-      "    language_code=\"fr-FR\",",
-      "    max_alternatives=1,",
-      "    enable_automatic_punctuation=True,",
-      "    audio_channel_count=1,",
-      ")",
-      ""
-    ],
-    "description": "",
-    "prefix": "py-38",
+    "prefix": "py-32",
     "scope": "python"
   },
   "STS demo": {
     "body": [
       "demo = gr.Interface(",
-      "    fn=speechToSpeech,",
-      "    inputs=input_audio,",
-      "    outputs=[\"text\", \"text\", output_audio],",
-      "    allow_flagging=\"never\",",
+      "fn=speechToSpeech,",
+      "inputs=input_audio,",
+      "outputs=[gr.Textbox(label=\"🏴󠁧󠁢󠁥󠁮󠁧󠁿\"), gr.Textbox(label=\"🇪🇸\"), output_audio],",
+      "allow_flagging=\"never\",",
       ")",
       ""
     ],
     "description": "",
-    "prefix": "py-45",
+    "prefix": "py-46",
     "scope": "python"
   },
-  "STS input": {
+  "STS final asr en call": {
     "body": [
-      "input_audio = gr.Audio(label = \"French 🇫🇷\", sources=[\"upload\", \"microphone\"], type=\"filepath\")",
+      "englishText = speechToText(audio)",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-41",
+    "scope": "python"
+  },
+  "STS final return": {
+    "body": [
+      "return [englishText, spanishText, text_to_speech(spanishText)]",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-43",
+    "scope": "python"
+  },
+  "STS final translate call": {
+    "body": [
+      "spanishText = translate_en_to_spanish(englishText)",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-42",
+    "scope": "python"
+  },
+  "STS input audio en": {
+    "body": [
+      "input_audio = gr.Audio(label = \"English 🏴󠁧󠁢󠁥󠁮󠁧󠁿\", sources=[\"upload\", \"microphone\"], type=\"filepath\")",
       ""
     ],
     "description": "",
@@ -98,97 +125,88 @@
   "STS ouput": {
     "body": [
       "output_audio = gr.Audio(",
-      "  label=\"English version 🏴󠁧󠁢󠁥󠁮󠁧󠁿\", type=\"numpy\", show_download_button=False",
+      "  label=\"Spanish version 🇪🇸\", type=\"numpy\", show_download_button=False",
       ")",
       ""
     ],
     "description": "",
-    "prefix": "py-43",
+    "prefix": "py-45",
     "scope": "python"
   },
-  "STS response": {
+  "STS translate URL": {
     "body": [
-      "response = asr_service.offline_recognize(audio_to_analyse, asr_config)",
+      "url = \"https://llama-3-3-70b-instruct.endpoints.kepler.ai.cloud.ovh.net/api/openai_compat/v1/chat/completions\"",
+      "payload = {",
+      "    \"max_tokens\": 512,",
+      "    \"messages\": [",
+      "        {",
+      "            \"content\": \"Do not add any other words or explicative than the translation requested.\",",
+      "            \"name\": \"System\",",
+      "            \"role\": \"system\"",
+      "        },",
+      "        {",
+      "            \"content\": \"translate the phrase following sentence in Espagnol: \" + english_text,",
+      "            \"name\": \"User\",",
+      "            \"role\": \"user\"",
+      "        }",
+      "    ],",
+      "    \"model\": \"Meta-Llama-3_3-70B-Instruct\",",
+      "    \"temperature\": 0,",
+      "}",
       ""
     ],
     "description": "",
-    "prefix": "py-41",
+    "prefix": "py-34",
     "scope": "python"
   },
-  "STS return": {
+  "STS tts ES URL": {
     "body": [
-      "output = []",
-      "for res in range(len(response.results)):",
-      "    output.append(response.results[res].alternatives[0].transcript)",
-      "",
-      "frenchText = \" \".join(output)",
-      "englishText = translate_fr_to_en(frenchText)",
-      "",
-      "return [frenchText, englishText, text_to_speech(englishText)]",
-      ""
-    ],
-    "description": "",
-    "prefix": "py-42",
-    "scope": "python"
-  },
-  "STS riva client": {
-    "body": [
-      "asr_service = riva.client.ASRService(",
-      "    riva.client.Auth(",
-      "        uri=\"nvr-asr-fr-fr.endpoints-grpc.kepler.ai.cloud.ovh.net:443\",",
-      "        use_ssl=True,",
-      "        metadata_args=[",
-      "            [",
-      "                \"authorization\",",
-      "                f\"bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}\",",
-      "            ]",
-      "        ],",
-      "    )",
-      ")",
+      "url = \"https://nvr-tts-en-us.endpoints.kepler.ai.cloud.ovh.net/api/v1/tts/text_to_audio\"",
       ""
     ],
     "description": "",
     "prefix": "py-37",
     "scope": "python"
   },
-  "STS translate model": {
+  "STS tts ES bearer": {
     "body": [
-      "model_name = \"fr_en_24x6\"",
+      "headers = {",
+      "    \"Authorization\": f\"Bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}\",",
+      "}",
       ""
     ],
     "description": "",
-    "prefix": "py-31",
+    "prefix": "py-38",
     "scope": "python"
   },
-  "STS translate response": {
+  "STS tts ES call": {
     "body": [
-      "response = nmt_service.translate([textToTranslate], model_name, \"fr\", \"en\")",
+      "response = requests.post(url, json=payload, headers=headers)",
       "",
-      "return response.translations[0].text",
+      "# Return the audio",
+      "# see https://numpy.org/doc/stable/reference/generated/numpy.frombuffer.html",
+      "audio = (16000, np.frombuffer(response.content, dtype=np.int16))",
+      "",
+      "return audio",
       ""
     ],
     "description": "",
-    "prefix": "py-32",
+    "prefix": "py-40",
     "scope": "python"
   },
-  "STS translate riva client": {
+  "STS tts ES payload": {
     "body": [
-      "nmt_service = riva.client.NeuralMachineTranslationClient(",
-      "    riva.client.Auth(",
-      "        uri=\"nvr-nmt-en-fr.endpoints-grpc.kepler.ai.cloud.ovh.net:443\",",
-      "        use_ssl=True,",
-      "        metadata_args=[",
-      "            [",
-      "                \"authorization\",",
-      "                f\"bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}\",",
-      "            ]",
-      "        ],",
-      "    )",
-      ")",
+      "payload = {",
+      "    \"encoding\": 1,",
+      "    \"language_code\": \"es-ES\",",
+      "    \"sample_rate_hz\": 16000,",
+      "    \"text\": textToTransform,",
+      "    \"voice_name\": \"Spanish-ES-Female-1\",",
+      "}",
       ""
     ],
     "description": "",
-    "prefix": "py-30",
+    "prefix": "py-39",
     "scope": "python"
   },
   "STT HTTP audio tranform": {
@@ -259,42 +277,6 @@
     "prefix": "py-06",
     "scope": "python"
   },
-  "STT TTS  return": {
-    "body": [
-      "audio_samples = (44100, np.frombuffer(response.audio, dtype=np.int16))",
-      "",
-      "return audio_samples",
-      ""
-    ],
-    "description": "",
-    "prefix": "py-36",
-    "scope": "python"
-  },
-  "STT TTS config": {
-    "body": [
-      "tts_config = {",
-      "    \"voice_name\": \"English-US.Female-1\",",
-      "    \"language_code\": \"en-US\",  # languages: en-US / es-ES / de-DE / it-IT / zh-CN",
-      "    \"encoding\": riva.client.AudioEncoding.LINEAR_PCM,",
-      "    \"sample_rate_hz\": 44100,  # sample rate: 44.1KHz audio",
-      "    \"custom_dictionary\": {},",
-      "    \"text\": textToTransform,",
-      "}",
-      ""
-    ],
-    "description": "",
-    "prefix": "py-34",
-    "scope": "python"
-  },
-  "STT TTS response": {
-    "body": [
-      "response = tts_service.synthesize(**tts_config)",
-      ""
-    ],
-    "description": "",
-    "prefix": "py-35",
-    "scope": "python"
-  },
   "STT bearer": {
     "body": [
       "headers = {",
@@ -313,6 +295,44 @@
     ],
     "description": "",
     "prefix": "py-02",
+    "scope": "python"
+  },
+  "STT translate bearer": {
+    "body": [
+      "headers = {",
+      "    \"Content-Type\": \"application/json\",",
+      "    \"Authorization\": f\"Bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}\",",
+      "}",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-35",
+    "scope": "python"
+  },
+  "STT translate call": {
+    "body": [
+      "# Send the request to endpoint with text to transform",
+      "response = requests.post(url, json=payload, headers=headers)",
+      "",
+      "# Return the translation",
+      "text = \"❌ Noting to translate ❌\"",
+      "if response.status_code == 200:",
+      "    # Handle response",
+      "    response_data = response.json()",
+      "    # Parse JSON response",
+      "    choices = response_data[\"choices\"]",
+      "    for choice in choices:",
+      "        text = choice[\"message\"][\"content\"]",
+      "        # Process text and finish_reason",
+      "        print(text)",
+      "else:",
+      "    print(\"Error:\", response.status_code)",
+      "",
+      "return text",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-36",
     "scope": "python"
   },
   "TTS HTTP demo": {
