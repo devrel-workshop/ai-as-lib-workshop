@@ -31,9 +31,9 @@ public class SimpleChatbot {
     // Select the Mistral model to use
     MistralAiChatModel chatModel = MistralAiChatModel.builder()
         .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
-        .modelName("Mistral-7B-Instruct-v0.2")
+        .modelName("Mistral-7B-Instruct-v0.3")
         .baseUrl(
-            "https://mistral-7b-instruct-v02.endpoints.kepler.ai.cloud.ovh.net/api/openai_compat/v1")
+            "https://mistral-7b-instruct-v0-3.endpoints.kepler.ai.cloud.ovh.net/api/openai_compat/v1")
         .maxTokens(512)
         .temperature(0.0)
         .logRequests(true)
