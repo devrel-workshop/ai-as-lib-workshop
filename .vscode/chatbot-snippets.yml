@@ -45,9 +45,8 @@ snippet simple-model:
   body: |
     MistralAiChatModel chatModel = MistralAiChatModel.builder()
         .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
-        .modelName("Mistral-7B-Instruct-v0.3")
-        .baseUrl(
-            "https://mistral-7b-instruct-v0-3.endpoints.kepler.ai.cloud.ovh.net/api/openai_compat/v1")
+        .modelName(System.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"))
+        .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
         .maxTokens(512)
         .temperature(0.0)
         .logRequests(true)
@@ -88,9 +87,8 @@ snippet streaming-model:
   body: |
     MistralAiStreamingChatModel steamingModel = MistralAiStreamingChatModel.builder()
         .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
-        .modelName("Mistral-7B-Instruct-v0.3")
-        .baseUrl(
-            "https://mistral-7b-instruct-v0-3.endpoints.kepler.ai.cloud.ovh.net/api/openai_compat/v1")
+        .modelName(System.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"))
+        .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
         .maxTokens(512)
         .temperature(0.0)
         .logRequests(false)
@@ -135,9 +133,8 @@ snippet memory-model:
   body: |
     MistralAiStreamingChatModel steamingModel = MistralAiStreamingChatModel.builder()
         .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
-        .modelName("Mistral-7B-Instruct-v0.3")
-        .baseUrl(
-            "https://mistral-7b-instruct-v0-3.endpoints.kepler.ai.cloud.ovh.net/api/openai_compat/v1")
+        .modelName(System.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"))
+        .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
         .maxTokens(512)
         .temperature(0.0)
         .logRequests(false)
@@ -196,15 +193,14 @@ snippet rag-model:
   scope: "java"
   body: |
     MistralAiStreamingChatModel steamingModel = MistralAiStreamingChatModel.builder()
-        .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
-        .modelName("Mistral-7B-Instruct-v0.3")
-        .baseUrl(
-            "https://mistral-7b-instruct-v0-3.endpoints.kepler.ai.cloud.ovh.net/api/openai_compat/v1")
-        .maxTokens(512)
-        .temperature(0.0)
-        .logRequests(false)
-        .logResponses(false)
-        .build();
+            .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
+            .modelName(System.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"))
+            .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
+            .maxTokens(512)
+            .temperature(0.0)
+            .logRequests(false)
+            .logResponses(false)
+            .build();
 
 snippet rag-memory:
   name: "RAG memory"
@@ -222,7 +218,7 @@ snippet rag-chunk:
     Document document = loadDocument(
         RAGChatbot.class.getResource("/rag-files/content.txt").getFile(),
         documentParser);
-    DocumentSplitter splitter = DocumentSplitters.recursive(400, 0);
+    DocumentSplitter splitter = DocumentSplitters.recursive(8000, 50);
 
     List<TextSegment> segments = splitter.split(document);
 
@@ -233,6 +229,7 @@ snippet rag-embedding:
   body: |
     EmbeddingModel embeddingModel = OvhAiEmbeddingModel.builder()
                     .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
+                    .baseUrl(System.getenv("OVH_AI_ENDPOINTS_EMBEDDING_MODEL"))
                     .build();
     List<Embedding> embeddings = embeddingModel.embedAll(segments).content();
 
@@ -246,8 +243,8 @@ snippet rag-embedding-store:
     ContentRetriever contentRetriever = EmbeddingStoreContentRetriever.builder()
         .embeddingStore(embeddingStore)
         .embeddingModel(embeddingModel)
-        .maxResults(5)
-        .minScore(0.9)
+        .maxResults(3)
+        .minScore(0.1)
         .build();
 
 snippet rag-assistant:

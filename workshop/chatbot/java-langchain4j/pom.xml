@@ -16,14 +16,14 @@
     <maven.compiler.source>21</maven.compiler.source>
     <maven.compiler.target>21</maven.compiler.target>
     <maven.compiler.release>21</maven.compiler.release>
-    <langchain4j.version>0.35.0</langchain4j.version>
+    <langchain4j.version>0.36.2</langchain4j.version>
   </properties>
 
   <dependencies>
-    <!-- Here you have to put the rigth dependency to use mistral model and lanchain4J, see https://docs.langchain4j.dev/integrations/embedding-models/mistral-ai -->
+    <!-- Here you have to put the right dependency to use mistral model and LanChain4J, see https://docs.langchain4j.dev/integrations/embedding-models/mistral-ai -->
      <!-- java-01 -->
 
-    <!-- Here you have to put the right dependency to use OVHcloud embeded model, see
+    <!-- Here you have to put the right dependency to use OVHcloud embedded model, see
     https://docs.langchain4j.dev/integrations/embedding-models/ovh-ai -->
     <!-- java-15 -->
 

@@ -31,9 +31,8 @@ public class SimpleChatbot {
     // Select the Mistral model to use
     MistralAiChatModel chatModel = MistralAiChatModel.builder()
         .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
-        .modelName("Mistral-7B-Instruct-v0.3")
-        .baseUrl(
-            "https://mistral-7b-instruct-v0-3.endpoints.kepler.ai.cloud.ovh.net/api/openai_compat/v1")
+        .modelName(System.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"))
+        .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
         .maxTokens(512)
         .temperature(0.0)
         .logRequests(true)
@@ -47,7 +46,6 @@ public class SimpleChatbot {
 
     // Send a prompt
     _LOG.info("💬: Question: Tell me a joke about Java developers\n");
-    _LOG.info("🤖: {}", assistant.chat("Tell me a joke about Java developers"));
+    _LOG.info("🤖: {}", assistant.chat("What is the program at Sunny Tech?"));
   }
-
 }
