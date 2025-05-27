@@ -11,7 +11,7 @@ To use this workshop you just have to clone this repository.
 
 ### 🧑‍💻 Note on the use of [Coder](https://coder.com/) CDE ☁️
 
-To help people with their IDE configuration we use Coder during the workshop, this is not a mandatory step but it will help you to have a better experience.  
+To help people with their IDE configuration we use Coder during the workshop, this is not a mandatory step, but it will help you to have a better experience.  
 Ask to have the URL where you can start a Coder workspace giving the AI workshop template.  
 You can open your VSCode instance in your browser, choose _code-server_ button or with a ssh tunnel on your local VSCode, choose _VS Code Desktop_.
 
@@ -30,8 +30,10 @@ In a nutshell, you need to have:
 
 Execute the script [`setup_env.sh`](./setup_env.sh) to setup your environment: `source ./setup_env.sh`
 
+⚠️ Ask the speaker for the password ⚠️
+
 ## 🗃️ Folder organisation 🗃️
 
 **⚠️ Your location to create your own files to do the workshop is [workshop](./workshop/) ⚠️**
-> You can also, just, run the workshop solution in the dedicated folders in the [solutions](solutions/) folder.
+> You can also, just, run the workshop solution in the dedicated folders in the [solutions](./solutions/) folder.
 
