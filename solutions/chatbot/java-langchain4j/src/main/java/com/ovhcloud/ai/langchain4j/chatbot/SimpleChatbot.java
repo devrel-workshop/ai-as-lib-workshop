@@ -46,6 +46,6 @@ public class SimpleChatbot {
 
     // Send a prompt
     _LOG.info("💬: Question: Tell me a joke about Java developers\n");
-    _LOG.info("🤖: {}", assistant.chat("What is the program at Sunny Tech?"));
+    _LOG.info("🤖: {}", assistant.chat("Tell me a joke about Java developers"));
   }
 }

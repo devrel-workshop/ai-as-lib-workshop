@@ -1,8 +1,8 @@
 # Gradio to create the application, see https://pypi.org/project/gradio/
-gradio==5.5.0
+gradio==5.31.0
 # Pydub to manipulate audio files, see https://pypi.org/project/pydub/
 pydub==0.25.1
-# Numpy to do sientific computing with Python
+# Numpy to do scientific computing with Python
 numpy==2.1.3
 # Manage http requests, see https://pypi.org/project/requests/
 requests==2.32.3

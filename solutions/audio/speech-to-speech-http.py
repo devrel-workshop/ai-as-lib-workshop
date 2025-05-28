@@ -45,26 +45,26 @@ def speechToText(audio):
 # Translate text from English to Spanish using the Llama 3.3 model
 # english_text: The text to translate from English to Spanish
 def translate_en_to_spanish(english_text):
-    # Use Llama 3.3 model from AI Endpoints, see https://endpoints.ai.cloud.ovh.net/models/d20aa124-2f5c-4cfd-a92e-025fda67a6b6
-    url = "https://llama-3-3-70b-instruct.endpoints.kepler.ai.cloud.ovh.net/api/openai_compat/v1/chat/completions"
+    # Use Mistral 7B model from AI Endpoints, see https://endpoints.ai.cloud.ovh.net/models/8b5793fb-89a1-484f-b691-ae45793d6ade
+    url = f"{os.getenv('OVH_AI_ENDPOINTS_MODEL_URL')}/chat/completions"
     payload = {
         "max_tokens": 512,
         "messages": [
             {
-                "content": "Do not add any other words or explicative than the translation requested.",
-                "name": "System",
+                "content": "Do not add any other words or explanations than the translation requested.",
                 "role": "system"
             },
             {
-                "content": "translate the phrase following sentence in Espagnol: " + english_text,
-                "name": "User",
+                "content": "Translate the following sentence in Spanish: " + english_text,
                 "role": "user"
             }
         ],
-        "model": "Meta-Llama-3_3-70B-Instruct",
+        "model": f"{os.getenv('OVH_AI_ENDPOINTS_MODEL_NAME')}",
         "temperature": 0,
     }
 
+    print(url)
+    print(payload)
     # Configure header with bearer token
     headers = {
         "Content-Type": "application/json",
@@ -123,10 +123,10 @@ def text_to_speech(textToTransform):
 
     return audio
 
-# Function to translae text from english to spanish
+# Function to translate text from english to spanish
 def speechToSpeech(audio):
 
-    # Do the English speecto text
+    # Do the English speech to text
     englishText = speechToText(audio)
 
     # Do the translation

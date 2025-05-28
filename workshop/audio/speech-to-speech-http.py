@@ -28,7 +28,7 @@ def speechToText(audio):
 # Translate text from English to Spanish using the Llama 3.3 model
 # english_text: The text to translate from English to Spanish
 def translate_en_to_spanish(english_text):
-    # Use Llama 3.3 model from AI Endpoints, see https://endpoints.ai.cloud.ovh.net/models/d20aa124-2f5c-4cfd-a92e-025fda67a6b6
+    # Use Mistral 7B model from AI Endpoints, see https://endpoints.ai.cloud.ovh.net/models/8b5793fb-89a1-484f-b691-ae45793d6ade
     # py-34
 
     # Configure header with bearer token
@@ -63,7 +63,7 @@ def text_to_speech(textToTransform):
     
     return None
 
-# Function to translae text from english to spanish
+# Function to translate text from english to spanish
 def speechToSpeech(audio):
  
     # Do the English speech to text
