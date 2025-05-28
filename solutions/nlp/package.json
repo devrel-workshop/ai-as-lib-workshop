@@ -2,7 +2,7 @@
   "name": "nlp",
   "version": "1.0.0",
   "type": "module",
-  "description": "Natural Language Processing exercices",
+  "description": "Natural Language Processing exercises",
   "author": "OVHcloud",
   "license": "Apache-2.0",
   "dependencies": {
