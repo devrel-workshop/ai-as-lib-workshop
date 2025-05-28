@@ -12,7 +12,7 @@ In the other case you need :
 ### ❤️ Module 1: Emotion analysis with AI Endpoints 🤩
 
 The goal of this module is to develop a script to analyse emotions in a text.  
-The used model is [SamLowe/roberta-base-go_emotions](https://huggingface.co/SamLowe/roberta-base-go_emotions) and it does the following sentiments detection: admiration,amusement, anger, annoyance, ...
+The used model is [SamLowe/roberta-base-go_emotions](https://huggingface.co/SamLowe/roberta-base-go_emotions), and it does the following sentiments detection: admiration,amusement, anger, annoyance, ...
 
 All the exercise must be done in [emotion-analysis.js](./emotion-analysis.js).
 
@@ -29,7 +29,7 @@ Follow the comments in the [emotion-analysis.js](./emotion-analysis.js) file to 
 ### 📝 Module 2: Text classification 🗃️
 
 The goal of this module is to develop a script for Named Entity Recognition.
-The used model is [bert-base-NER](https://huggingface.co/dslim/bert-base-NER) and it does the following extractions:
+The used model is [bert-base-NER](https://huggingface.co/dslim/bert-base-NER), and it does the following extractions:
  - person's name
  - organization's name
  - location
@@ -49,7 +49,7 @@ Follow the comments in the [text-classification.js](./text-classification.js) fi
 ### ⭐️ Module 3: product reviews  ⭐️
 
 The goal of this module is to develop a script for sentiment analysis on product reviews.
-The used model is [nlptown/bert-base-multilingual-uncased-sentiment](https://huggingface.co/nlptown/bert-base-multilingual-uncased-sentiment) and it does the following reviews: it predicts the sentiment of the review as a number of stars (between 1 and 5).
+The used model is [nlptown/bert-base-multilingual-uncased-sentiment](https://huggingface.co/nlptown/bert-base-multilingual-uncased-sentiment), and it does the following reviews: it predicts the sentiment of the review as a number of stars (between 1 and 5).
 
 All the exercise must be done in [product-reviews.js](./product-reviews.js).
 

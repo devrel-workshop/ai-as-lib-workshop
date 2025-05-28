@@ -55,15 +55,14 @@ public class RAGChatbot {
   public static void main(String[] args) {
     // Select the Mistral model to use (the streaming one)
     MistralAiStreamingChatModel steamingModel = MistralAiStreamingChatModel.builder()
-        .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
-        .modelName("Mistral-7B-Instruct-v0.3")
-        .baseUrl(
-            "https://mistral-7b-instruct-v0-3.endpoints.kepler.ai.cloud.ovh.net/api/openai_compat/v1")
-        .maxTokens(512)
-        .temperature(0.0)
-        .logRequests(false)
-        .logResponses(false)
-        .build();
+            .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
+            .modelName(System.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"))
+            .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
+            .maxTokens(512)
+            .temperature(0.0)
+            .logRequests(false)
+            .logResponses(false)
+            .build();
 
     // Create the memory store "in memory"
     ChatMemory chatMemory = MessageWindowChatMemory.withMaxMessages(10);
@@ -71,17 +70,18 @@ public class RAGChatbot {
     // Load the document and split it into chunks
     DocumentParser documentParser = new TextDocumentParser();
     Document document = loadDocument(
-        RAGChatbot.class.getResource("/rag-files/content.txt").getFile(),
+        RAGChatbot.class.getResource("/rag-files/conference-information-talk-01.md").getFile(),
         documentParser);
-    DocumentSplitter splitter = DocumentSplitters.recursive(400, 0);
+    DocumentSplitter splitter = DocumentSplitters.recursive(8000, 50);
 
     List<TextSegment> segments = splitter.split(document);
 
     // Do the embeddings with AI Endpoint model
     // (https://docs.langchain4j.dev/integrations/embedding-models/ovh-ai) and store
-    // them in a in memory embedding store
+    // them in an in memory embedding store
     EmbeddingModel embeddingModel = OvhAiEmbeddingModel.builder()
                     .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
+                    .baseUrl(System.getenv("OVH_AI_ENDPOINTS_EMBEDDING_MODEL"))
                     .build();
     List<Embedding> embeddings = embeddingModel.embedAll(segments).content();
 
@@ -91,8 +91,8 @@ public class RAGChatbot {
     ContentRetriever contentRetriever = EmbeddingStoreContentRetriever.builder()
         .embeddingStore(embeddingStore)
         .embeddingModel(embeddingModel)
-        .maxResults(5)
-        .minScore(0.9)
+        .maxResults(3)
+        .minScore(0.1)
         .build();
 
     // Build the chatbot thanks to the AIService builder
@@ -104,8 +104,8 @@ public class RAGChatbot {
         .build();
 
     // Send a prompt
-    _LOG.info("💬: What is AI Endpoints?\n");
-    TokenStream tokenStream = assistant.chat("What is AI Endpoints?");
+    _LOG.info("💬: What is the program at Sunny Tech?\n");
+    TokenStream tokenStream = assistant.chat("What is the program at Sunny Tech?");
     _LOG.info("🤖: ");
     tokenStream
         .onNext(_LOG::info)

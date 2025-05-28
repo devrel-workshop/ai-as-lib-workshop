@@ -9,7 +9,7 @@ import jakarta.ws.rs.Path;
 
 /**
  * Main entry for the simple chatbot exercise.
- * The goal is to have a endpoint as following :
+ * The goal is to have an endpoint as following :
  * http://localhost:8080/chatbot/advanced.
  * The verb to use is POST.
  * The payload is the question to send to the LLM.
