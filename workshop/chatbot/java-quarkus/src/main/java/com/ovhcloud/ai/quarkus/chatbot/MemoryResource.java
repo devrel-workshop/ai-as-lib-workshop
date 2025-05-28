@@ -19,5 +19,5 @@ public class MemoryResource {
   // mode
   // Call the askAQuestion method of the AISimpleService service and stream the
   // answer, see https://quarkus.io/guides/getting-started-reactive
-  /// quarkus-16
+  // quarkus-16
 }

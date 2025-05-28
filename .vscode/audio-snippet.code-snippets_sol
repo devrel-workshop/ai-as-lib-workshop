@@ -22,7 +22,7 @@
       ""
     ],
     "description": "",
-    "prefix": "py-30",
+    "prefix": "py-16",
     "scope": "python"
   },
   "STS asr EN bearer": {
@@ -33,7 +33,7 @@
       ""
     ],
     "description": "",
-    "prefix": "py-31",
+    "prefix": "py-17",
     "scope": "python"
   },
   "STS asr EN call": {
@@ -57,7 +57,7 @@
       ""
     ],
     "description": "",
-    "prefix": "py-33",
+    "prefix": "py-19",
     "scope": "python"
   },
   "STS asr EN configure": {
@@ -69,7 +69,7 @@
       ""
     ],
     "description": "",
-    "prefix": "py-32",
+    "prefix": "py-18",
     "scope": "python"
   },
   "STS demo": {
@@ -83,7 +83,7 @@
       ""
     ],
     "description": "",
-    "prefix": "py-46",
+    "prefix": "py-32",
     "scope": "python"
   },
   "STS final asr en call": {
@@ -92,7 +92,7 @@
       ""
     ],
     "description": "",
-    "prefix": "py-41",
+    "prefix": "py-27",
     "scope": "python"
   },
   "STS final return": {
@@ -101,7 +101,7 @@
       ""
     ],
     "description": "",
-    "prefix": "py-43",
+    "prefix": "py-29",
     "scope": "python"
   },
   "STS final translate call": {
@@ -110,7 +110,7 @@
       ""
     ],
     "description": "",
-    "prefix": "py-42",
+    "prefix": "py-28",
     "scope": "python"
   },
   "STS input audio en": {
@@ -119,7 +119,7 @@
       ""
     ],
     "description": "",
-    "prefix": "py-44",
+    "prefix": "py-30",
     "scope": "python"
   },
   "STS ouput": {
@@ -130,7 +130,7 @@
       ""
     ],
     "description": "",
-    "prefix": "py-45",
+    "prefix": "py-31",
     "scope": "python"
   },
   "STS translate URL": {
@@ -154,7 +154,7 @@
       ""
     ],
     "description": "",
-    "prefix": "py-34",
+    "prefix": "py-20",
     "scope": "python"
   },
   "STS tts ES URL": {
@@ -163,7 +163,7 @@
       ""
     ],
     "description": "",
-    "prefix": "py-37",
+    "prefix": "py-23",
     "scope": "python"
   },
   "STS tts ES bearer": {
@@ -174,7 +174,7 @@
       ""
     ],
     "description": "",
-    "prefix": "py-38",
+    "prefix": "py-24",
     "scope": "python"
   },
   "STS tts ES call": {
@@ -189,7 +189,7 @@
       ""
     ],
     "description": "",
-    "prefix": "py-40",
+    "prefix": "py-26",
     "scope": "python"
   },
   "STS tts ES payload": {
@@ -204,7 +204,7 @@
       ""
     ],
     "description": "",
-    "prefix": "py-39",
+    "prefix": "py-25",
     "scope": "python"
   },
   "STT HTTP audio tranform": {
@@ -247,7 +247,7 @@
       "input_audio = gr.Audio(",
       "    sources=['upload', 'microphone'],",
       "    type='filepath',",
-      "    label=\"🇫🇷\"",
+      "    label=\"🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢󠁥󠁮󠁧\"",
       ")",
       ""
     ],
@@ -304,7 +304,7 @@
       ""
     ],
     "description": "",
-    "prefix": "py-35",
+    "prefix": "py-21",
     "scope": "python"
   },
   "STT translate call": {
@@ -330,7 +330,7 @@
       ""
     ],
     "description": "",
-    "prefix": "py-36",
+    "prefix": "py-22",
     "scope": "python"
   },
   "TTS HTTP demo": {
@@ -341,7 +341,7 @@
       ""
     ],
     "description": "",
-    "prefix": "py-14",
+    "prefix": "py-15",
     "scope": "python"
   },
   "TTS HTTP input": {
@@ -352,7 +352,7 @@
       ""
     ],
     "description": "",
-    "prefix": "py-12",
+    "prefix": "py-13",
     "scope": "python"
   },
   "TTS HTTP output": {
@@ -363,7 +363,7 @@
       ""
     ],
     "description": "",
-    "prefix": "py-13",
+    "prefix": "py-14",
     "scope": "python"
   },
   "TTS HTTP payload": {
@@ -378,7 +378,7 @@
       ""
     ],
     "description": "",
-    "prefix": "py-09",
+    "prefix": "py-10",
     "scope": "python"
   },
   "TTS HTTP response": {
@@ -387,7 +387,7 @@
       ""
     ],
     "description": "",
-    "prefix": "py-10",
+    "prefix": "py-11",
     "scope": "python"
   },
   "TTS HTTP return": {
@@ -398,7 +398,7 @@
       ""
     ],
     "description": "",
-    "prefix": "py-11",
+    "prefix": "py-12",
     "scope": "python"
   },
   "TTS bearer": {
@@ -409,7 +409,7 @@
       ""
     ],
     "description": "",
-    "prefix": "sol-tts-http-bearer",
+    "prefix": "py-10",
     "scope": "python"
   },
   "TTS model URL": {

@@ -186,7 +186,7 @@
     ],
     "description": "",
     "prefix": "java-13",
-    "scope": "jva"
+    "scope": "java"
   },
   "Memory memory call": {
     "body": [
@@ -292,8 +292,8 @@
   },
   "RAG call": {
     "body": [
-      "_LOG.info(\"💬: What is AI Endpoints?\\n\");",
-      "TokenStream tokenStream = assistant.chat(\"What is AI Endpoints?\");",
+      "_LOG.info(\"💬: What is the program at Sunny Tech?\\n\");",
+      "TokenStream tokenStream = assistant.chat(\"What is the program at Sunny Tech?\");",
       "_LOG.info(\"🤖: \");",
       "tokenStream",
       "    .onNext(_LOG::info)",
@@ -308,7 +308,7 @@
     "body": [
       "DocumentParser documentParser = new TextDocumentParser();",
       "Document document = loadDocument(",
-      "    RAGChatbot.class.getResource(\"/rag-files/content.txt\").getFile(),",
+      "    RAGChatbot.class.getResource(\"/rag-files/conference-information-talk-01.md\").getFile(),",
       "    documentParser);",
       "DocumentSplitter splitter = DocumentSplitters.recursive(8000, 50);",
       "",

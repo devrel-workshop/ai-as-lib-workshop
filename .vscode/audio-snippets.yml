@@ -26,7 +26,7 @@ snippet tts-http-model-url:
 
 snippet tts-http-bearer:
   name: "TTS bearer"
-  prefix: "sol-tts-http-bearer"
+  prefix: "py-10"
   scope: "python"
   body: | 
     headers = {
@@ -35,7 +35,7 @@ snippet tts-http-bearer:
 
 snippet tts-http-payload:
   name: "TTS HTTP payload"
-  prefix: "py-09"
+  prefix: "py-10"
   scope: "python"
   body: | 
     payload = {
@@ -48,14 +48,14 @@ snippet tts-http-payload:
 
 snippet tts-http-response:
   name: "TTS HTTP response"
-  prefix: "py-10"
+  prefix: "py-11"
   scope: "python"
   body: | 
     response = requests.post(url, json=payload, headers=headers)
 
 snippet tts-http-return:
   name: "TTS HTTP return"
-  prefix: "py-11"
+  prefix: "py-12"
   scope: "python"
   body: | 
     audio = (16000, np.frombuffer(response.content, dtype=np.int16))
@@ -64,7 +64,7 @@ snippet tts-http-return:
 
 snippet tts-http-input:
   name: "TTS HTTP input"
-  prefix: "py-12"
+  prefix: "py-13"
   scope: "python"
   body: | 
     input_text = gr.Textbox(
@@ -73,7 +73,7 @@ snippet tts-http-input:
 
 snippet tts-http-output:
   name: "TTS HTTP output"
-  prefix: "py-13"
+  prefix: "py-14"
   scope: "python"
   body: | 
     output_audio = gr.Audio(
@@ -82,7 +82,7 @@ snippet tts-http-output:
 
 snippet tts-http-demo:
   name: "TTS HTTP demo"
-  prefix: "py-14"
+  prefix: "py-15"
   scope: "python"
   body: | 
     demo = gr.Interface(
@@ -151,7 +151,7 @@ snippet stt-http-input:
     input_audio = gr.Audio(
         sources=['upload', 'microphone'],
         type='filepath',
-        label="🇫🇷"
+        label="🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢󠁥󠁮󠁧"
     )
 
 snippet stt-http-demo:
@@ -170,14 +170,14 @@ snippet stt-http-demo:
 
 snippet sts-asr-en-url:
   name: "STS asr EN URL"
-  prefix: "py-30"
+  prefix: "py-16"
   scope: "python"
   body: | 
     url = "https://nvr-asr-en-gb.endpoints.kepler.ai.cloud.ovh.net/api/v1/asr/recognize"
 
 snippet sts-asr-en-bearer:
   name: "STS asr EN bearer"
-  prefix: "py-31"
+  prefix: "py-17"
   scope: "python"
   body: | 
     headers = {
@@ -186,7 +186,7 @@ snippet sts-asr-en-bearer:
 
 snippet sts-asr-en-configure:
   name: "STS asr EN configure"
-  prefix: "py-32"
+  prefix: "py-18"
   scope: "python"
   body: | 
     audio_input = AudioSegment.from_file(audio, "wav")
@@ -196,7 +196,7 @@ snippet sts-asr-en-configure:
 
 snippet sts-asr-en-call:
   name: "STS asr EN call"
-  prefix: "py-33"
+  prefix: "py-19"
   scope: "python"
   body: | 
     # Prepare the file to send to the endpoint
@@ -218,7 +218,7 @@ snippet sts-asr-en-call:
 
 snippet sts-translate-url:
   name: "STS translate URL"
-  prefix: "py-34"
+  prefix: "py-20"
   scope: "python"
   body: | 
     url = f"{os.getenv('OVH_AI_ENDPOINTS_MODEL_URL')}/chat/completions"
@@ -240,7 +240,7 @@ snippet sts-translate-url:
 
 snippet sts-translate-bearer:
   name: "STT translate bearer"
-  prefix: "py-35"
+  prefix: "py-21"
   scope: "python"
   body: | 
     headers = {
@@ -250,7 +250,7 @@ snippet sts-translate-bearer:
 
 snippet sts-translate-call:
   name: "STT translate call"
-  prefix: "py-36"
+  prefix: "py-22"
   scope: "python"
   body: | 
     # Send the request to endpoint with text to transform
@@ -274,14 +274,14 @@ snippet sts-translate-call:
 
 snippet sts-tts-es-url:
   name: "STS tts ES URL"
-  prefix: "py-37"
+  prefix: "py-23"
   scope: "python"
   body: | 
     url = "https://nvr-tts-en-us.endpoints.kepler.ai.cloud.ovh.net/api/v1/tts/text_to_audio"
 
 snippet sts-tts-es-bearer:
   name: "STS tts ES bearer"
-  prefix: "py-38"
+  prefix: "py-24"
   scope: "python"
   body: | 
     headers = {
@@ -290,7 +290,7 @@ snippet sts-tts-es-bearer:
 
 snippet sts-tts-es-payload:
   name: "STS tts ES payload"
-  prefix: "py-39"
+  prefix: "py-25"
   scope: "python"
   body: | 
     payload = {
@@ -303,7 +303,7 @@ snippet sts-tts-es-payload:
 
 snippet sts-tts-es-call:
   name: "STS tts ES call"
-  prefix: "py-40"
+  prefix: "py-26"
   scope: "python"
   body: | 
     response = requests.post(url, json=payload, headers=headers)
@@ -316,7 +316,7 @@ snippet sts-tts-es-call:
 
 snippet sts-final-asr-en-call:
   name: "STS final asr en call"
-  prefix: "py-41"
+  prefix: "py-27"
   scope: "python"
   body: | 
     englishText = speechToText(audio)
@@ -324,28 +324,28 @@ snippet sts-final-asr-en-call:
 
 snippet sts-final-translate-call:
   name: "STS final translate call"
-  prefix: "py-42"
+  prefix: "py-28"
   scope: "python"
   body: | 
     spanishText = translate_en_to_spanish(englishText)
 
 snippet sts-final-return:
   name: "STS final return"
-  prefix: "py-43"
+  prefix: "py-29"
   scope: "python"
   body: | 
     return [englishText, spanishText, text_to_speech(spanishText)]
 
 snippet sts-input-audio-en:
   name: "STS input audio en"
-  prefix: "py-44"
+  prefix: "py-30"
   scope: "python"
   body: | 
     input_audio = gr.Audio(label = "English 🏴󠁧󠁢󠁥󠁮󠁧󠁿", sources=["upload", "microphone"], type="filepath")
 
 snippet sts-audio-text-es:
   name: "STS ouput"
-  prefix: "py-45"
+  prefix: "py-31"
   scope: "python"
   body: | 
     output_audio = gr.Audio(
@@ -354,7 +354,7 @@ snippet sts-audio-text-es:
 
 snippet sts-demo:
   name: "STS demo"
-  prefix: "py-46"
+  prefix: "py-32"
   scope: "python"
   body: | 
     demo = gr.Interface(
