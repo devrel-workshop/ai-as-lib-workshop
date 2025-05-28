@@ -24,7 +24,7 @@ public class RAGChatbot {
   private static final Logger _LOG = LoggerFactory.getLogger(RAGChatbot.class);
 
   // AI Service to create, see https://docs.langchain4j.dev/tutorials/ai-services
-  // // java-16
+  // java-16
 
   public static void main(String[] args) {
     // Select the Mistral model to use (the streaming one)
