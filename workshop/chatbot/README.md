@@ -56,8 +56,6 @@ The exercise is divided in 3 parts:
 1. Create a streaming chatbot: [AdvancedResource](./java-quarkus/src/main/java/com/ovhcloud/ai/quarkus/chatbot/AdvancedResource.java)
 1. Create a memory chatbot: [MemoryChatbot](./java-quarkus/src/main/java/com/ovhcloud/ai/quarkus/chatbot/MemoryResource.java)
 
-And at the end assembling all the parts to create a complete chatbot.
-
 #### 🔗 Useful resources:
  - [LangChain4j](https://docs.langchain4j.dev/get-started)
  - [MistralAI integration](https://docs.langchain4j.dev/integrations/language-models/mistral-ai) in LangChain4j
@@ -91,17 +89,17 @@ curl  -N http://localhost:8080/chatbot/memory \
 
 #### 👩‍💻 How to develop ? 🧑‍💻
 
->Note: after the first exercice to create a simple chatbot you can use the same class by adding new feature or create a new file for each exercice.
+>Note: after the first exercise to create a simple chatbot you can use the same class by adding new feature or create a new file for each exercise.
 >The solutions are in separate files to facilitate the reading.
 
   - create the application running the following command:
+> You don't need to run the command, as you have the project already created in the folder [java-quarkus](./java-quarkus)
 ```
 quarkus create app com.ovhcloud.ai.quarkus.chatbot:java-quarkus \
                   --extension='quarkus-langchain4j-mistral-ai,rest' \
                   --no-wrapper
 ```
-  - test the generated application: `quarkus dev` (and do note stop the [Quarkus developer mode](https://quarkus.io/guides/dev-mode-differences) after during your developments 😉)
->Note: you don't need to really run the command, the resulted created files and folder are in the [java-quarkus](./java-quarkus/) folder.
+  - test the generated application: `quarkus dev` (and do not stop the [Quarkus developer mode](https://quarkus.io/guides/dev-mode-differences) after during your developments 😉)
   - test the example application: `curl --header "Content-Type: application/json" --request GET http://localhost:8080/hello`
   - all needed files are pre-created in [java-quarkus](./java-quarkus/) folder
   - the main resources:
