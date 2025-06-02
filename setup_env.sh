@@ -1,7 +1,7 @@
 # Get the attendee configuration parameters
 if ! [ -f "./attendee-conf.json" ];then
-  curl -u attendee http://162.19.64.158/workshop-ai-endpoints -o attendee-conf.json
-  #curl -u attendee http://localhost:8080/workshop-ai-endpoints -o attendee-conf.json
+  curl -u attendee http://162.19.64.158/workshop-ai-endpoints/configurations -o attendee-conf.json
+  #curl -u attendee http://localhost:8080/workshop-ai-endpoints/configurations -o attendee-conf.json
 fi
 
 export OVH_AI_ENDPOINTS_MODEL_URL=https://mistral-7b-instruct-v0-3.endpoints.kepler.ai.cloud.ovh.net/api/openai_compat/v1
