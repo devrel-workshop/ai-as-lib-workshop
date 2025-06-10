@@ -22,3 +22,6 @@ echo "   - OVH_AI_ENDPOINTS_EMBEDDING_MODEL: " $OVH_AI_ENDPOINTS_EMBEDDING_MODEL
 # create and activate a python venv
 python3 -m venv .venv
 source .venv/bin/activate
+
+# copy VSCode snippets to activate them
+cp -r .vscode ../.vscode
