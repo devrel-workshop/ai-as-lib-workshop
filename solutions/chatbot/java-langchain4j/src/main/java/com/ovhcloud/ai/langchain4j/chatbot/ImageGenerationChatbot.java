@@ -63,7 +63,7 @@ public class ImageGenerationChatbot {
 
         // Build the chatbot thanks to LangChain4J AI Services mode (see https://docs.langchain4j.dev/tutorials/ai-services)
         ChatBot chatBot = AiServices.builder(ChatBot.class)
-                .chatLanguageModel(chatModel)
+                .chatModel(chatModel)
                 .tools(new ImageGenTools())
                 .chatMemory(chatMemory)
                 .build();

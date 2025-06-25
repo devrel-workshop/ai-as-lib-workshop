@@ -41,7 +41,7 @@ public class SimpleChatbot {
 
     // Build the chatbot thanks to the AIService builder
     Assistant assistant = AiServices.builder(Assistant.class)
-        .chatLanguageModel(chatModel)
+        .chatModel(chatModel)
         .build();
 
     // Send a prompt

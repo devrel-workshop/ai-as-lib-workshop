@@ -98,7 +98,7 @@ public class RAGChatbot {
     // Build the chatbot thanks to the AIService builder
     // The chatbot must be in streaming mode with memory and RAC activated with the previous contentRetriever
     Assistant assistant = AiServices.builder(Assistant.class)
-        .streamingChatLanguageModel(steamingModel)
+        .streamingChatModel(steamingModel)
         .chatMemory(chatMemory)
         .contentRetriever(contentRetriever)
         .build();
@@ -108,7 +108,7 @@ public class RAGChatbot {
     TokenStream tokenStream = assistant.chat("What is the program at Sunny Tech?");
     _LOG.info("🤖: ");
     tokenStream
-        .onNext(_LOG::info)
+        .onPartialResponse(_LOG::info)
         .onError(Throwable::printStackTrace).start();
   }
 }

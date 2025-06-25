@@ -126,7 +126,7 @@ The exercise is divided in two part:
  - [MistralAI integration](https://docs.langchain4j.dev/integrations/language-models/mistral-ai) in LangChain4j
 
 #### ⚗️ Test your code by running the following command: 
- - Simple chatbot: `mvn clean compile && mvn exec:java -Dexec.mainClass="com.ovhcloud.ai.langchain4j.chatbot.ImageGenerationChatbot"`
+ - `mvn clean compile && mvn exec:java -Dexec.mainClass="com.ovhcloud.ai.langchain4j.chatbot.ImageGenerationChatbot"`
 
 #### 👩‍💻 How to develop ? 🧑‍💻
 

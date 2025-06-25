@@ -40,7 +40,7 @@ public class ImageGenTools {
                             """.formatted(prompt, negativePrompt)))
                 .header("accept", "application/octet-stream")
                 .header("Content-Type", "application/json")
-                .header("Authorization", "Bearer " + System.getenv("OVH_AI_ENDPOINTS_SDXL_ACCESS_TOKEN"))
+                .header("Authorization", "Bearer " + System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
                 .build();
 
         // Create the image file from Stable Diffusion response
