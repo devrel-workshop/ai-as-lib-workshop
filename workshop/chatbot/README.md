@@ -111,3 +111,27 @@ quarkus create app com.ovhcloud.ai.quarkus.chatbot:java-quarkus \
     - the [AIAdvancedResource](./java-quarkus/src/main/java/com/ovhcloud/ai/quarkus/chatbot/AdvancedResource.java)
     - the [AIMemoryService](./java-quarkus/src/main/java/com/ovhcloud/ai/quarkus/chatbot/service/AIMemoryService.java)
     - the [MemoryResource](./java-quarkus/src/main/java/com/ovhcloud/ai/quarkus/chatbot/MemoryResource.java)    
+
+### 🤖 Module 3: Bonus !!! Function calling with LangChain4J 🦜
+
+The goal of this module is to develop a chatbot powering with new knowledge thanks to the function calling.
+The chatbot will help the user to generate a complete prompt for Stable Diffusion XL model to generate images.
+
+The exercise is divided in two part:
+ 1. Create a _tool_ to call stable diffusion [ImageGenTools](./java-langchain4j/src/main/java/com/ovhcloud/ai/langchain4j/chatbot/ImageGenTools.java)
+ 2. Create a chatbot using the tool [ImageGenerationChatbot](./java-langchain4j/src/main/java/com/ovhcloud/ai/langchain4j/chatbot/ImageGenerationChatbot.java)
+
+#### 🔗 Useful resources:
+ - [LangChain4j](https://docs.langchain4j.dev/get-started)
+ - [MistralAI integration](https://docs.langchain4j.dev/integrations/language-models/mistral-ai) in LangChain4j
+
+#### ⚗️ Test your code by running the following command: 
+ - Simple chatbot: `mvn clean compile && mvn exec:java -Dexec.mainClass="com.ovhcloud.ai.langchain4j.chatbot.ImageGenerationChatbot"`
+
+#### 👩‍💻 How to develop ? 🧑‍💻
+
+  - all needed files are pre-created in [java-langchain4j](./java-langchain4j/) folder
+  - the main resources:
+    - the [pom.xml](./java-langchain4j/pom.xml) file
+    - the [ImageGenTools](./java-langchain4j/src/main/java/com/ovhcloud/ai/langchain4j/chatbot/ImageGenTools.java) class
+    - the [ImageGenerationChatbot](./java-langchain4j/src/main/java/com/ovhcloud/ai/langchain4j/chatbot/ImageGenerationChatbot.java) class
