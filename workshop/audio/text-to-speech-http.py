@@ -9,7 +9,7 @@ def text_to_speech(textToTransform):
     # py-09
 
     # Configure header with bearer token
-    # sol-tts-http-bearer
+    # py-10
 
     # Set the recognition configuration:
     # - voice_name: see https://docs.nvidia.com/deeplearning/riva/user-guide/docs/tts/tts-overview.html#pretrained-tts-models
@@ -17,29 +17,29 @@ def text_to_speech(textToTransform):
     # - encoding: 1
     # - sample_rate_hz: 16000
     # - audio_channel_count: 1
-    # py-09
+    # py-11
 
     # Send the request to endpoint with text to transform
-    # py-10
+    # py-12
 
     # Return the audio
     # see https://numpy.org/doc/stable/reference/generated/numpy.frombuffer.html
-    # py-11
+    # py-13
 
     return None
 
 
 # Create a Gradio input component
-# py-12
+# py-14
 
 # Create an output audio Gradio component
-# py-13
+# py-15
 
 # Create a Gradio interface named demo
 # The function to call : reverse_audio
 # The inputs : input_audio
 # The outputs : "text"
-# py-14
+# py-16
 
 # Main entry
 if __name__ == "__main__":
