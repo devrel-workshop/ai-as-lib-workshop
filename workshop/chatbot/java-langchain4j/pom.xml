@@ -16,7 +16,8 @@
     <maven.compiler.source>21</maven.compiler.source>
     <maven.compiler.target>21</maven.compiler.target>
     <maven.compiler.release>21</maven.compiler.release>
-    <langchain4j.version>0.36.2</langchain4j.version>
+    <langchain4j.version>1.0.1</langchain4j.version>
+    <langchain4j.provider.version>1.0.1-beta6</langchain4j.provider.version>
   </properties>
 
   <dependencies>
@@ -26,6 +27,13 @@
     <!-- Here you have to put the right dependency to use OVHcloud embedded model, see
     https://docs.langchain4j.dev/integrations/embedding-models/ovh-ai -->
     <!-- java-15 -->
+
+    <!-- Here you have to put the right dependency to call an MCP server. see https://docs.langchain4j.dev/tutorials/mcp -->
+    <dependency>
+      <groupId>dev.langchain4j</groupId>
+      <artifactId>langchain4j-mcp</artifactId>
+      <version>${langchain4j.provider.version}</version>
+    </dependency>
 
     <dependency>
       <groupId>ch.qos.logback</groupId>
