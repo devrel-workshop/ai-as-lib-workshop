@@ -49,7 +49,7 @@ public class MemoryChatbot {
     // Build the chatbot thanks to the AIService builder
     // The chatbot must be in streaming mode with memory
     Assistant assistant = AiServices.builder(Assistant.class)
-        .streamingChatLanguageModel(steamingModel)
+        .streamingChatModel(steamingModel)
         .chatMemory(chatMemory)
         .build();
 
@@ -58,12 +58,12 @@ public class MemoryChatbot {
         TokenStream tokenStream = assistant.chat("My name is Stéphane.");
         _LOG.info("🤖: ");
         tokenStream
-                .onNext(_LOG::info)
-                .onComplete(token -> {
+                .onPartialResponse(_LOG::info)
+                .onCompleteResponse(token -> {
                     _LOG.info("\n💬: Do you remember what is my name?\n");
                     _LOG.info("🤖: ");
                     assistant.chat("Do you remember what is my name?")
-                            .onNext(_LOG::info)
+                            .onPartialResponse(_LOG::info)
                             .onError(Throwable::printStackTrace).start();
                 })
                 .onError(Throwable::printStackTrace).start();

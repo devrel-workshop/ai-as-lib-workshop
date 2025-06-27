@@ -111,3 +111,60 @@ quarkus create app com.ovhcloud.ai.quarkus.chatbot:java-quarkus \
     - the [AIAdvancedResource](./java-quarkus/src/main/java/com/ovhcloud/ai/quarkus/chatbot/AdvancedResource.java)
     - the [AIMemoryService](./java-quarkus/src/main/java/com/ovhcloud/ai/quarkus/chatbot/service/AIMemoryService.java)
     - the [MemoryResource](./java-quarkus/src/main/java/com/ovhcloud/ai/quarkus/chatbot/MemoryResource.java)    
+
+### 🤖 Module 3: Bonus !!! Function calling with LangChain4J 🦜
+
+The goal of this module is to develop a chatbot powering with new knowledge thanks to the function calling.
+The chatbot will help the user to generate a complete prompt for Stable Diffusion XL model to generate images.
+
+The exercise is divided in two part:
+ 1. Create a _tool_ to call stable diffusion [ImageGenTools](./java-langchain4j/src/main/java/com/ovhcloud/ai/langchain4j/chatbot/ImageGenTools.java)
+ 2. Create a chatbot using the tool [ImageGenerationChatbot](./java-langchain4j/src/main/java/com/ovhcloud/ai/langchain4j/chatbot/ImageGenerationChatbot.java)
+
+#### 🔗 Useful resources:
+ - [LangChain4j](https://docs.langchain4j.dev/get-started)
+ - [MistralAI integration](https://docs.langchain4j.dev/integrations/language-models/mistral-ai) in LangChain4j
+
+#### ⚗️ Test your code by running the following command: 
+ - `mvn clean compile && mvn exec:java -Dexec.mainClass="com.ovhcloud.ai.langchain4j.chatbot.ImageGenerationChatbot"`
+
+#### 👩‍💻 How to develop ? 🧑‍💻
+
+  - all needed files are pre-created in [java-langchain4j](./java-langchain4j/) folder
+  - the main resources:
+    - the [pom.xml](./java-langchain4j/pom.xml) file
+    - the [ImageGenTools](./java-langchain4j/src/main/java/com/ovhcloud/ai/langchain4j/chatbot/ImageGenTools.java) class
+    - the [ImageGenerationChatbot](./java-langchain4j/src/main/java/com/ovhcloud/ai/langchain4j/chatbot/ImageGenerationChatbot.java) class
+
+### 🤖 Module 4: Bonus !!! MCP with LangChain4J 🦜 and Quarkus ⚡️
+
+The goal of this module is to develop a chatbot powering with new knowledge thanks to MCP protocol.
+The chatbot will help the user to generate a complete prompt for Stable Diffusion XL model to generate images.
+This time it uses a remote tool thanks to the MCP protocol.
+
+The exercise is divided in two part:
+ 1. Create a _MCP Server_ to call stable diffusion [ImageGenTools](./java-langchain4j/src/main/java/com/ovhcloud/ai/langchain4j/chatbot/ImageGenTools.java)
+ 2. Create a chatbot using the tool giving by the MCP server [ImageGenerationChatbot](./java-langchain4j/src/main/java/com/ovhcloud/ai/langchain4j/chatbot/ImageGenerationChatbot.java)
+
+#### 🔗 Useful resources:
+ - [LangChain4j](https://docs.langchain4j.dev/get-started)
+ - [MistralAI integration](https://docs.langchain4j.dev/integrations/language-models/mistral-ai) in LangChain4j
+
+#### ⚗️ Test your code by running the following command: 
+ - run `quarkus dev` in [java-quarkus](./java-quarkus/) folder
+ - in a new terminal (⚠️ source again your `setup_env.sh` file ⚠️) run `mvn clean compile && mvn exec:java -Dexec.mainClass="com.ovhcloud.ai.langchain4j.chatbot.ImageGenerationMCPChatbot"` in the [java-langchain4j](./java-langchain4j/) folder
+
+#### 👩‍💻 How to develop ? 🧑‍💻
+
+  - all needed files are pre-created in: 
+    - [java-langchain4j](./java-langchain4j/) folder
+      - the [pom.xml](./java-langchain4j/pom.xml) file
+      - the [ImageGenerationMCPChatbot](./java-langchain4j/src/main/java/com/ovhcloud/ai/langchain4j/chatbot/ImageGenerationMCPChatbot.java) class
+    - [java-quarkus](./java-quarkus/) folder
+      - the [pom.xml](./java-quarkus/pom.xml)
+      - the [application.properties](./java-quarkus/src/main/resources/application.properties)
+      - the [SDPayload](./java-quarkus/src/main/java/com/ovhcloud/ai/quarkus/chatbot/repository/SDPayload.java)
+      - the [StableDiffusionService](./java-quarkus/src/main/java/com/ovhcloud/ai/quarkus/chatbot/service/StableDiffusionService.java)
+      - the [ImageGenToolsService](./java-quarkus/src/main/java/com/ovhcloud/ai/quarkus/chatbot/service/ImageGenToolsService.java)
+
+

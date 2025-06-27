@@ -14,7 +14,7 @@ snippet langchain4j-dep:
     <dependency>
       <groupId>dev.langchain4j</groupId>
       <artifactId>langchain4j-mistral-ai</artifactId>
-      <version>${langchain4j.version}</version>
+      <version>${langchain4j.provider.version}</version>
     </dependency>
 
 snippet langchain4j-ovhai:
@@ -25,7 +25,7 @@ snippet langchain4j-ovhai:
     <dependency>
       <groupId>dev.langchain4j</groupId>
       <artifactId>langchain4j-ovh-ai</artifactId>
-      <version>${langchain4j.version}</version>
+      <version>${langchain4j.provider.version}</version>
     </dependency>
 
 snippet simple-ai-services:
@@ -59,7 +59,7 @@ snippet simple-assistant:
   scope: "java"
   body: |
     Assistant assistant = AiServices.builder(Assistant.class)
-        .chatLanguageModel(chatModel)
+        .chatModel(chatModel)
         .build();
 
 snippet simple-call:
@@ -101,7 +101,7 @@ snippet streaming-assistant:
   scope: "java"
   body: |
     Assistant assistant = AiServices.builder(Assistant.class)
-        .streamingChatLanguageModel(steamingModel)
+        .streamingChatModel(steamingModel)
         .build();
 
 snippet streaming-call:
@@ -113,7 +113,7 @@ snippet streaming-call:
     TokenStream tokenStream = assistant.chat("Tell me a joke about Java developers");
     _LOG.info("🤖: ");
     tokenStream
-        .onNext(_LOG::info)
+        .onPartialResponse(_LOG::info)
         .onError(Throwable::printStackTrace).start();
 
 snippet memory-ai-services:
@@ -154,7 +154,7 @@ snippet memory-assistant:
   scope: "java"
   body: |
     Assistant assistant = AiServices.builder(Assistant.class)
-        .streamingChatLanguageModel(steamingModel)
+        .streamingChatModel(steamingModel)
         .chatMemory(chatMemory)
         .build();  
 
@@ -167,12 +167,12 @@ snippet memory-call:
         TokenStream tokenStream = assistant.chat("My name is Stéphane.");
         _LOG.info("🤖: ");
         tokenStream
-                .onNext(_LOG::info)
-                .onComplete(token -> {
+                .onPartialResponse(_LOG::info)
+                .onCompleteResponse(token -> {
                     _LOG.info("\n💬: Do you remember what is my name?\n");
                     _LOG.info("🤖: ");
                     assistant.chat("Do you remember what is my name?")
-                            .onNext(_LOG::info)
+                            .onPartialResponse(_LOG::info)
                             .onError(Throwable::printStackTrace).start();
                 })
                 .onError(Throwable::printStackTrace).start();
@@ -253,7 +253,7 @@ snippet rag-assistant:
   scope: "java"
   body: |
     Assistant assistant = AiServices.builder(Assistant.class)
-        .streamingChatLanguageModel(steamingModel)
+        .streamingChatModel(steamingModel)
         .chatMemory(chatMemory)
         .contentRetriever(contentRetriever)
         .build();
@@ -267,9 +267,234 @@ snippet rag-call:
     TokenStream tokenStream = assistant.chat("What is the program at Sunny Tech?");
     _LOG.info("🤖: ");
     tokenStream
-        .onNext(_LOG::info)
+        .onPartialResponse(_LOG::info)
         .onError(Throwable::printStackTrace).start();
 
+snippet java-24:
+  name: "java-24-Tool"
+  prefix: "java-24"
+  scope: "java"
+  body: |
+    // Define the tool using the @Tool annotation
+    @Tool("""
+                Tool to create an image with Stable Diffusion XL given a prompt and a negative prompt.
+                """)
+    void generateImage(@P("Prompt that explains the image") String prompt, @P("Negative prompt that explains what the image must not contains") String negativePrompt) throws IOException, InterruptedException {
+        _LOG.info("Prompt: {}", prompt);
+        _LOG.info("Negative prompt: {}", negativePrompt);
+
+        // java-25
+
+        // java-26
+    }
+
+snippet java-25:
+  name: "java-25-sdxl-call"
+  prefix: "java-25"
+  scope: "java"
+  body: |
+    // Call Stable diffusion model with the prompt and negative prompt
+    HttpRequest httpRequest = HttpRequest.newBuilder()
+            .uri(URI.create(System.getenv("OVH_AI_ENDPOINTS_SD_URL")))
+            .POST(HttpRequest.BodyPublishers.ofString("""
+                        {"prompt": "%s", 
+                          "negative_prompt": "%s"}
+                        """.formatted(prompt, negativePrompt)))
+            .header("accept", "application/octet-stream")
+            .header("Content-Type", "application/json")
+            .header("Authorization", "Bearer " + System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
+            .build();
+
+snippet java-26:
+  name: "java-26-write-img"
+  prefix: "java-26"
+  scope: "java"
+  body: |
+    // Create the image file from Stable Diffusion response
+    HttpResponse<byte[]> response = HttpClient.newHttpClient()
+            .send(httpRequest, HttpResponse.BodyHandlers.ofByteArray());
+
+    _LOG.debug("SDXL status code: {}", response.statusCode());
+    Files.write(Path.of("generated-image.jpeg"), response.body());
+
+snippet java-27:
+  name: "java-27-ai-services"
+  prefix: "java-27"
+  scope: "java"
+  body: |
+    // Create a detailed system prompt: the goal and what the model must generate and use
+    @SystemMessage("""
+            Your are an expert of using the Stable Diffusion XL model.
+            The user explains in natural language what kind of image he wants.
+            You must do the following steps:
+              - Understand the user's request.
+              - Generate the two kinds of prompts for stable diffusion: the prompt and the negative prompt
+              - the prompts must be in english and detailed and optimized for the Stable Diffusion XL model. 
+              - once and only once you have this two prompts call the tool with the two prompts.
+            If asked about to create an image, you MUST call the `generateImage` function.
+            """)
+    @UserMessage("Create an image with stable diffusion XL following this description: {{userMessage}}")
+    String chat(@V("userMessage") String userMessage);
+
+snippet java-28:
+  name: "java-28-model"
+  prefix: "java-28"
+  scope: "java"
+  body: |
+    // Main chatbot configuration, try to be more deterministic as possible ;)
+    MistralAiChatModel chatModel = MistralAiChatModel.builder()
+            .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
+            .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
+            .modelName(System.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"))
+            .logRequests(false)
+            .logResponses(false)
+            // To have more deterministic outputs, set temperature to 0.
+            .temperature(0.0)
+            .build();
+
+snippet java-29:
+  name: "java-29-model"
+  prefix: "java-29"
+  scope: "java"
+  body: |
+    // Add memory to fine tune the SDXL prompt.
+    ChatMemory chatMemory = MessageWindowChatMemory.withMaxMessages(10);
+
+snippet java-30:
+  name: "java-30-ai-services"
+  prefix: "java-30"
+  scope: "java"
+  body: |
+    // Build the chatbot thanks to LangChain4J AI Services mode (see https://docs.langchain4j.dev/tutorials/ai-services)
+    ChatBot chatBot = AiServices.builder(ChatBot.class)
+            .chatModel(chatModel)
+            .tools(new ImageGenTools())
+            .chatMemory(chatMemory)
+            .build();
+
+snippet java-31:
+  name: "java-31-prompt"
+  prefix: "java-31"
+  scope: "java"
+  body: |
+    // Start the conversation loop (enter "exit" to quit)
+    String userInput = "";
+    Scanner scanner = new Scanner(System.in);
+    while (true) {
+        _LOG.info("\nEnter your message: ");
+        userInput = scanner.nextLine();
+        if (userInput.equalsIgnoreCase("exit")) break;
+        _LOG.info("\nResponse: " + chatBot.chat(userInput));
+    }
+    scanner.close();
+
+snippet java-32:
+  name: "java-32-dep-mcp"
+  prefix: "java-32"
+  scope: "xml"
+  body: |
+    <dependency>
+      <groupId>dev.langchain4j</groupId>
+      <artifactId>langchain4j-mcp</artifactId>
+      <version>${langchain4j.provider.version}</version>
+    </dependency>
+
+snippet java-33:
+  name: "java-33-ai-services"
+  prefix: "java-33"
+  scope: "java"
+  body: |
+    @SystemMessage("""
+            Your are an expert of using the Stable Diffusion XL model.
+            The user explains in natural language what kind of image he wants.
+            You must do the following steps:
+              - Understand the user's request.
+              - Generate the two kinds of prompts for stable diffusion: the prompt and the negative prompt
+              - the prompts must be in english and detailed and optimized for the Stable Diffusion XL model. 
+              - once and only once you have this two prompts call the tool with the two prompts.
+            If asked about to create an image, you MUST call the `generateImage` function.
+            """)
+    @UserMessage("Create an image with stable diffusion XL following this description: {{userMessage}}")
+    String chat(@V("userMessage") String userMessage);
+
+snippet java-34:
+  name: "java-34-model"
+  prefix: "java-34"
+  scope: "java"
+  body: |
+    MistralAiChatModel chatModel = MistralAiChatModel.builder()
+            .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
+            .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
+            .modelName(System.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"))
+            .logRequests(false)
+            .logResponses(false)
+            // To have more deterministic outputs, set temperature to 0.
+            .temperature(0.0)
+            .build();
+
+snippet java-35:
+  name: "java-35-"
+  prefix: "java-35-mcp-transport"
+  scope: "java"
+  body: |
+    McpTransport transport = new HttpMcpTransport.Builder()
+            // https://xxxx/mcp/sse
+            .sseUrl(System.getenv("MCP_SERVER_URL"))
+            .logRequests(false)
+            .logResponses(false)
+            .build();
+
+snippet java-36:
+  name: "java-36"
+  prefix: "java-36-mcp-client"
+  scope: "java"
+  body: |
+    McpClient mcpClient = new DefaultMcpClient.Builder()
+            .transport(transport)
+            .build();
+
+snippet java-37:
+  name: "java-37"
+  prefix: "java-37-mcp-tool"
+  scope: "java"
+  body: |
+    McpToolProvider toolProvider = McpToolProvider.builder()
+            .mcpClients(mcpClient)
+            .build();
+
+snippet java-38:
+  name: "java-38"
+  prefix: "java-38-memory"
+  scope: "java"
+  body: |
+    ChatMemory chatMemory = MessageWindowChatMemory.withMaxMessages(10);
+
+snippet java-39:
+  name: "java-39"
+  prefix: "java-39-chatbot"
+  scope: "java"
+  body: |
+    ChatBot bot = AiServices.builder(ChatBot.class)
+            .chatModel(chatModel)
+            .toolProvider(toolProvider)
+            .chatMemory(chatMemory)
+            .build();
+
+snippet java-40:
+  name: "java-40"
+  prefix: "java-40-prompt"
+  scope: "java"
+  body: |
+    String userInput = "";
+    Scanner scanner = new Scanner(System.in);
+    while (true) {
+        _LOG.info("\nEnter your message: ");
+        userInput = scanner.nextLine();
+        if (userInput.equalsIgnoreCase("exit")) break;
+        _LOG.info("\nResponse: " + bot.chat(userInput));
+    }
+    scanner.close();
+    
 ## java-quarkus section
 snippet quarkus-props:
   name: "Quarkus properties"
@@ -414,3 +639,70 @@ snippet quarkus-memory-resource-ask:
       // answer, see https://quarkus.io/guides/getting-started-reactive
       return aiMemoryService.askAQuestion(question, "user-one");
     }
+
+snippet quarkus-17:
+  name: "quarkus-17-dep-mcp"
+  prefix: "quarkus-17"
+  scope: "xml"
+  body: |
+    <dependency>
+        <groupId>io.quarkiverse.mcp</groupId>
+        <artifactId>quarkus-mcp-server-sse</artifactId>
+        <version>1.2.1</version>
+    </dependency>
+
+snippet quarkus-18:
+  name: "quarkus-18-prop-mcp"
+  prefix: "quarkus-18"
+  body: |
+    # MCP configuration
+    quarkus.rest-client."com.ovhcloud.ai.quarkus.chatbot.service.StableDiffusionService".url=\${OVH_AI_ENDPOINTS_SD_URL}
+
+snippet quarkus-19:
+  name: "quarkus-19-svc-sdxl"
+  prefix: "quarkus-19"
+  scope: "java"
+  body: |
+    @RegisterRestClient
+    @ClientHeaderParam(name = "Content-Type", value = "application/json")
+
+snippet quarkus-20:
+  name: "quarkus-20-call-sdxl"
+  prefix: "quarkus-20"
+  scope: "java"
+  body: |
+    @POST
+    @ClientHeaderParam(name = "Authorization", value = "Bearer ${quarkus.langchain4j.mistralai.api-key}")
+    byte[] generateImage(SDPayload payload);
+
+snippet quarkus-21:
+  name: "quarkus-21-inject-sdxl"
+  prefix: "quarkus-21"
+  scope: "java"
+  body: |
+    @RestClient
+    StableDiffusionService stableDiffusionService;
+
+snippet quarkus-22:
+  name: "quarkus-22-tool"
+  prefix: "quarkus-22"
+  scope: "java"
+  body: |
+    // Define the tool using the @Tool annotation
+    @Tool(description = "Tool to create an image with Stable Diffusion XL given a prompt and a negative prompt.")
+    String generateImage(@P("Prompt that explains the image") String prompt, @P("Negative prompt that explains what the image must not contains") String negativePrompt) throws IOException, InterruptedException {
+        _LOG.info("Prompt: {}", prompt);
+        _LOG.info("Negative prompt: {}", negativePrompt);
+
+        // quarkus-23
+        return "Image generated";
+    }
+
+snippet quarkus-23:
+  name: "quarkus-23-gen-img"
+  prefix: "quarkus-23"
+  scope: "java"
+  body: |
+    byte[] image = stableDiffusionService.generateImage(new SDPayload(prompt, negativePrompt));
+
+    Files.write(Path.of("generated-image.jpeg"), image);

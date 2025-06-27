@@ -43,7 +43,7 @@ public class StreamingChatbot {
     // Build the chatbot thanks to the AIService builder
     // The chatbot must be in streaming mode
     Assistant assistant = AiServices.builder(Assistant.class)
-        .streamingChatLanguageModel(steamingModel)
+        .streamingChatModel(steamingModel)
         .build();
 
     // Send a prompt
@@ -51,7 +51,7 @@ public class StreamingChatbot {
     TokenStream tokenStream = assistant.chat("Tell me a joke about Java developers");
     _LOG.info("🤖: ");
     tokenStream
-        .onNext(_LOG::info)
+        .onPartialResponse(_LOG::info)
         .onError(Throwable::printStackTrace).start();
   }
 }
