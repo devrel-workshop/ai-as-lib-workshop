@@ -29,11 +29,7 @@
     <!-- java-15 -->
 
     <!-- Here you have to put the right dependency to call an MCP server. see https://docs.langchain4j.dev/tutorials/mcp -->
-    <dependency>
-      <groupId>dev.langchain4j</groupId>
-      <artifactId>langchain4j-mcp</artifactId>
-      <version>${langchain4j.provider.version}</version>
-    </dependency>
+    <!-- java-32 --> 
 
     <dependency>
       <groupId>ch.qos.logback</groupId>
