@@ -16,11 +16,4 @@ public class ImageGenToolsService {
     // quarkus-21
 
     // quarkus-22
-    String generateImage(@P("Prompt that explains the image") String prompt, @P("Negative prompt that explains what the image must not contains") String negativePrompt) throws IOException, InterruptedException {
-        _LOG.info("Prompt: {}", prompt);
-        _LOG.info("Negative prompt: {}", negativePrompt);
-
-        // quarkus-23
-        return "Image generated";
-    }
 }
