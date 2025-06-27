@@ -43,6 +43,14 @@
       <version>${langchain4j.provider.version}</version>
     </dependency>
 
+    <!-- To use MCP server -->
+    <dependency>
+      <groupId>dev.langchain4j</groupId>
+      <artifactId>langchain4j-mcp</artifactId>
+      <version>${langchain4j.provider.version}</version>
+    </dependency>
+
+
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>

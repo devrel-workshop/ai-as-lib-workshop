@@ -8,6 +8,7 @@ export OVH_AI_ENDPOINTS_MODEL_URL=https://mistral-7b-instruct-v0-3.endpoints.kep
 export OVH_AI_ENDPOINTS_MODEL_NAME=Mistral-7B-Instruct-v0.3
 export OVH_AI_ENDPOINTS_EMBEDDING_MODEL=https://bge-multilingual-gemma2.endpoints.kepler.ai.cloud.ovh.net
 export OVH_AI_ENDPOINTS_SD_URL=https://stable-diffusion-xl.endpoints.kepler.ai.cloud.ovh.net/api/text2image
+export MCP_SERVER_URL=http://localhost:8080/mcp/sse
 
 echo "Downloaded parameters:"
 cat attendee-conf.json|jq
@@ -20,6 +21,8 @@ echo "   - OVH_AI_ENDPOINTS_MODEL_URL: " $OVH_AI_ENDPOINTS_MODEL_URL
 echo "   - OVH_AI_ENDPOINTS_MODEL_NAME: " $OVH_AI_ENDPOINTS_MODEL_NAME
 echo "   - OVH_AI_ENDPOINTS_EMBEDDING_MODEL: " $OVH_AI_ENDPOINTS_EMBEDDING_MODEL
 echo "   - OVH_AI_ENDPOINTS_SD_URL: " $OVH_AI_ENDPOINTS_SD_URL
+echo "   - MCP_SERVER_URL: " $MCP_SERVER_URL
+
 
 # create and activate a python venv
 python3 -m venv .venv
