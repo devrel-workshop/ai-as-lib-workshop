@@ -17,8 +17,7 @@ In the other case you need :
 ### 🤖 Module 1: Speech to text with HTTP 💬
 
 The goal of this module is to develop an application in Python and [Gradio](https://www.gradio.app/) with AI Endpoints to do speech to text.
-The used model is nvr-asr-fr-fr from NVIDIA, and it does automatic speech recognition (ASR) allowing audio recognition and transcription, especially human speech, into text.  
-This model is specialized for French speaking.
+The used model is Whisper, and it does automatic speech recognition (ASR) allowing audio recognition and transcription, especially human speech, into text.  
 
 All the exercise must be done in [speech-to-text-http.py](./speech-to-text-http.py) file.
 
@@ -56,7 +55,7 @@ Follow the comments in the [text-to-speech.py](./text-to-speech-http.py) file to
 ### 🤖 Module 3: Bonus ! Speech to speech with translation with HTTP 💬 🏴󠁧󠁢󠁥󠁮󠁧󠁿 🇪🇸
 
 The goal of this module is to develop an application in Python and [Gradio](https://www.gradio.app/) with AI Endpoints to do english speech to spanish translation.
-The used models are nvr-tts-es-ES and nvr-asr-en-GB from NVIDIA and Llama 3.3 for translation.
+The used models are Whisper and nvr-asr-es-ES from NVIDIA and Llama 3.3 for translation.
 
 All the exercise must be done in [speech-to-speechhttp.py](./speech-to-speech-http.py) file.
 
