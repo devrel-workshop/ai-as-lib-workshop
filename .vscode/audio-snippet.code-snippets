@@ -10,69 +10,24 @@
       "numpy==2.1.3",
       "# Manage http requests, see https://pypi.org/project/requests/",
       "requests==2.32.3",
+      "# OpenAI client for Whisper",
+      "openai==1.97.0",
       ""
     ],
     "description": "",
     "prefix": "py-01",
     "scope": ""
   },
-  "STS asr EN URL": {
+  "STS English audio input": {
     "body": [
-      "url = \"https://nvr-asr-en-gb.endpoints.kepler.ai.cloud.ovh.net/api/v1/asr/recognize\"",
+      "input_audio = gr.Audio(label = \"English 🏴󠁧󠁢󠁥󠁮󠁧󠁿\", sources=[\"upload\", \"microphone\"], type=\"filepath\")",
       ""
     ],
     "description": "",
-    "prefix": "py-17",
+    "prefix": "py-30",
     "scope": "python"
   },
-  "STS asr EN bearer": {
-    "body": [
-      "headers = {",
-      "    \"Authorization\": f\"Bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}\",",
-      "}",
-      ""
-    ],
-    "description": "",
-    "prefix": "py-18",
-    "scope": "python"
-  },
-  "STS asr EN call": {
-    "body": [
-      "# Prepare the file to send to the endpoint",
-      "filetoSend = [(\"audio\", open(\"audio.wav\", \"rb\"))]",
-      "",
-      "# Do the POST request and display the transcription",
-      "response = requests.post(url, files=filetoSend, headers=headers)",
-      "responseToDisplay = \"\"",
-      "if response.status_code == 200:",
-      "    # Handle response",
-      "    response_data = response.json()",
-      "    for alternative in response_data:",
-      "        responseToDisplay += alternative[\"alternatives\"][0][\"transcript\"]",
-      "else:",
-      "    print(\"Error:\", response.status_code)",
-      "    responseToDisplay = \"Unable to do the transcription 😭\"",
-      "",
-      "return responseToDisplay",
-      ""
-    ],
-    "description": "",
-    "prefix": "py-20",
-    "scope": "python"
-  },
-  "STS asr EN configure": {
-    "body": [
-      "audio_input = AudioSegment.from_file(audio, \"wav\")",
-      "process_audio_to_wav = audio_input.set_channels(1)",
-      "process_audio_to_wav = process_audio_to_wav.set_frame_rate(16000)",
-      "process_audio_to_wav.export(\"audio.wav\", format=\"wav\")",
-      ""
-    ],
-    "description": "",
-    "prefix": "py-19",
-    "scope": "python"
-  },
-  "STS demo": {
+  "STS Gradio interface": {
     "body": [
       "demo = gr.Interface(",
       "fn=speechToSpeech,",
@@ -83,57 +38,10 @@
       ""
     ],
     "description": "",
-    "prefix": "py-33",
-    "scope": "python"
-  },
-  "STS final asr en call": {
-    "body": [
-      "englishText = speechToText(audio)",
-      ""
-    ],
-    "description": "",
-    "prefix": "py-28",
-    "scope": "python"
-  },
-  "STS final return": {
-    "body": [
-      "return [englishText, spanishText, text_to_speech(spanishText)]",
-      ""
-    ],
-    "description": "",
-    "prefix": "py-30",
-    "scope": "python"
-  },
-  "STS final translate call": {
-    "body": [
-      "spanishText = translate_en_to_spanish(englishText)",
-      ""
-    ],
-    "description": "",
-    "prefix": "py-29",
-    "scope": "python"
-  },
-  "STS input audio en": {
-    "body": [
-      "input_audio = gr.Audio(label = \"English 🏴󠁧󠁢󠁥󠁮󠁧󠁿\", sources=[\"upload\", \"microphone\"], type=\"filepath\")",
-      ""
-    ],
-    "description": "",
-    "prefix": "py-31",
-    "scope": "python"
-  },
-  "STS ouput": {
-    "body": [
-      "output_audio = gr.Audio(",
-      "  label=\"Spanish version 🇪🇸\", type=\"numpy\", show_download_button=False",
-      ")",
-      ""
-    ],
-    "description": "",
     "prefix": "py-32",
     "scope": "python"
   },
-  "STS translate URL": {
+  "STS LLM configuration": {
     "body": [
       "url = f\"{os.getenv('OVH_AI_ENDPOINTS_MODEL_URL')}/chat/completions\"",
       "payload = {",
@@ -154,19 +62,29 @@
       ""
     ],
     "description": "",
-    "prefix": "py-21",
+    "prefix": "py-19",
     "scope": "python"
   },
-  "STS tts ES URL": {
+  "STS OpenAI client configuration": {
     "body": [
-      "url = \"https://nvr-tts-en-us.endpoints.kepler.ai.cloud.ovh.net/api/v1/tts/text_to_audio\"",
+      "client = OpenAI(base_url=os.environ.get('OVH_AI_ENDPOINTS_WHISPER_URL'), ",
+      "        api_key=os.environ.get('OVH_AI_ENDPOINTS_ACCESS_TOKEN'))",
       ""
     ],
     "description": "",
-    "prefix": "py-24",
+    "prefix": "py-16",
     "scope": "python"
   },
-  "STS tts ES bearer": {
+  "STS RIVA Spanish model URL": {
+    "body": [
+      "url = os.environ.get('OVH_AI_ENDPOINTS_TTS_MODEL')",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-23",
+    "scope": "python"
+  },
+  "STS RIVA bearer": {
     "body": [
       "headers = {",
       "    \"Authorization\": f\"Bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}\",",
@@ -174,10 +92,10 @@
       ""
     ],
     "description": "",
-    "prefix": "py-25",
+    "prefix": "py-24",
     "scope": "python"
   },
-  "STS tts ES call": {
+  "STS RIVA call": {
     "body": [
       "response = requests.post(url, json=payload, headers=headers)",
       "",
@@ -189,10 +107,10 @@
       ""
     ],
     "description": "",
-    "prefix": "py-27",
+    "prefix": "py-26",
     "scope": "python"
   },
-  "STS tts ES payload": {
+  "STS RIVA payload": {
     "body": [
       "payload = {",
       "    \"encoding\": 1,",
@@ -204,22 +122,73 @@
       ""
     ],
     "description": "",
-    "prefix": "py-26",
+    "prefix": "py-25",
     "scope": "python"
   },
-  "STT HTTP audio tranform": {
+  "STS Spanish text output": {
     "body": [
-      "audio_input = AudioSegment.from_file(audio, \"wav\")",
-      "process_audio_to_wav = audio_input.set_channels(1)",
-      "process_audio_to_wav = process_audio_to_wav.set_frame_rate(16000)",
-      "process_audio_to_wav.export(\"audio.wav\", format=\"wav\")",
+      "output_audio = gr.Audio(",
+      "  label=\"Spanish version 🇪🇸\", type=\"numpy\", show_download_button=False",
+      ")",
       ""
     ],
     "description": "",
-    "prefix": "py-04",
+    "prefix": "py-31",
     "scope": "python"
   },
-  "STT HTTP demo": {
+  "STS call English STT": {
+    "body": [
+      "englishText = speechToText(audio)",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-27",
+    "scope": "python"
+  },
+  "STS call Spanish TTS": {
+    "body": [
+      "return [englishText, spanishText, text_to_speech(spanishText)]",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-29",
+    "scope": "python"
+  },
+  "STS call translation": {
+    "body": [
+      "spanishText = translate_en_to_spanish(englishText)",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-28",
+    "scope": "python"
+  },
+  "STS return transcript": {
+    "body": [
+      "return transcript",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-18",
+    "scope": "python"
+  },
+  "STS transcript with Whisper": {
+    "body": [
+      "with open(audio, \"rb\") as audio_file:",
+      "    # Call Whisper transcription API",
+      "    transcript = client.audio.transcriptions.create(",
+      "        model=os.environ.get('OVH_AI_ENDPOINTS_WHISPER_MODEL'),",
+      "        file=audio_file,",
+      "        temperature=0.0,",
+      "        response_format=\"text\"",
+      "    )",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-17",
+    "scope": "python"
+  },
+  "STT Gradio interface": {
     "body": [
       "demo = gr.Interface(",
       "    fn=speechToText,",
@@ -230,72 +199,10 @@
       ""
     ],
     "description": "",
-    "prefix": "py-08",
-    "scope": "python"
-  },
-  "STT HTTP file to send": {
-    "body": [
-      "filetoSend = [('audio', open(\"audio.wav\", 'rb'))]",
-      ""
-    ],
-    "description": "",
-    "prefix": "py-05",
-    "scope": "python"
-  },
-  "STT HTTP input": {
-    "body": [
-      "input_audio = gr.Audio(",
-      "    sources=['upload', 'microphone'],",
-      "    type='filepath',",
-      "    label=\"🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢󠁥󠁮󠁧\"",
-      ")",
-      ""
-    ],
-    "description": "",
-    "prefix": "py-07",
-    "scope": "python"
-  },
-  "STT HTTP response": {
-    "body": [
-      "response = requests.post(url, files=filetoSend, headers=headers)",
-      "responseToDisplay=''",
-      "if response.status_code == 200:",
-      "    # Handle response",
-      "    response_data = response.json()",
-      "    for alternative in response_data:",
-      "        responseToDisplay+=alternative['alternatives'][0]['transcript']",
-      "else:",
-      "    print(\"Error:\", response.status_code)",
-      "    responseToDisplay='Unable to do the transcription 😭'",
-      "",
-      "return responseToDisplay",
-      ""
-    ],
-    "description": "",
     "prefix": "py-06",
     "scope": "python"
   },
-  "STT bearer": {
-    "body": [
-      "headers = {",
-      "    \"Authorization\": f\"Bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}\",",
-      "}",
-      ""
-    ],
-    "description": "",
-    "prefix": "py-03",
-    "scope": "python"
-  },
-  "STT model URL": {
-    "body": [
-      "url = \"https://nvr-asr-en-gb.endpoints.kepler.ai.cloud.ovh.net/api/v1/asr/recognize\"",
-      ""
-    ],
-    "description": "",
-    "prefix": "py-02",
-    "scope": "python"
-  },
-  "STT translate bearer": {
+  "STT LLM bearer": {
     "body": [
       "headers = {",
       "    \"Content-Type\": \"application/json\",",
@@ -304,10 +211,68 @@
       ""
     ],
     "description": "",
-    "prefix": "py-22",
+    "prefix": "py-20",
     "scope": "python"
   },
-  "STT translate call": {
+  "STT LLM call": {
+    "body": [
+      "# Send the request to endpoint with text to transform",
+      "response = requests.post(url, json=payload, headers=headers)",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-21",
+    "scope": "python"
+  },
+  "STT Whisper call": {
+    "body": [
+      "with open(audio, \"rb\") as audio_file:",
+      "    # Call Whisper transcription API",
+      "    transcript = client.audio.transcriptions.create(",
+      "        model=os.environ.get('OVH_AI_ENDPOINTS_WHISPER_MODEL'),",
+      "        file=audio_file,",
+      "        temperature=0.0,",
+      "        response_format=\"text\"",
+      "    )",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-03",
+    "scope": "python"
+  },
+  "STT client initialization": {
+    "body": [
+      "client = OpenAI(base_url=os.environ.get('OVH_AI_ENDPOINTS_WHISPER_URL'), ",
+      "            api_key=os.environ.get('OVH_AI_ENDPOINTS_ACCESS_TOKEN'))",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-02",
+    "scope": "python"
+  },
+  "STT input-audio": {
+    "body": [
+      "input_audio = gr.Audio(",
+      "    sources=['upload', 'microphone'],",
+      "    type='filepath',",
+      "    label=\"🎙️\"",
+      ")",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-05",
+    "scope": "python"
+  },
+  "STT return transcript": {
+    "body": [
+      "return transcript",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-04",
+    "scope": "python"
+  },
+  "STT translation return": {
     "body": [
       "# Send the request to endpoint with text to transform",
       "response = requests.post(url, json=payload, headers=headers)",
@@ -330,7 +295,7 @@
       ""
     ],
     "description": "",
-    "prefix": "py-23",
+    "prefix": "py-22",
     "scope": "python"
   },
   "TTS HTTP demo": {
@@ -341,7 +306,7 @@
       ""
     ],
     "description": "",
-    "prefix": "py-16",
+    "prefix": "py-15",
     "scope": "python"
   },
   "TTS HTTP input": {
@@ -352,7 +317,7 @@
       ""
     ],
     "description": "",
-    "prefix": "py-14",
+    "prefix": "py-13",
     "scope": "python"
   },
   "TTS HTTP output": {
@@ -363,7 +328,7 @@
       ""
     ],
     "description": "",
-    "prefix": "py-15",
+    "prefix": "py-14",
     "scope": "python"
   },
   "TTS HTTP payload": {
@@ -378,7 +343,7 @@
       ""
     ],
     "description": "",
-    "prefix": "py-11",
+    "prefix": "py-10",
     "scope": "python"
   },
   "TTS HTTP response": {
@@ -387,7 +352,7 @@
       ""
     ],
     "description": "",
-    "prefix": "py-12",
+    "prefix": "py-11",
     "scope": "python"
   },
   "TTS HTTP return": {
@@ -398,7 +363,7 @@
       ""
     ],
     "description": "",
-    "prefix": "py-13",
+    "prefix": "py-12",
     "scope": "python"
   },
   "TTS bearer": {
@@ -409,7 +374,7 @@
       ""
     ],
     "description": "",
-    "prefix": "py-10",
+    "prefix": "py-09",
     "scope": "python"
   },
   "TTS model URL": {
@@ -418,7 +383,7 @@
       ""
     ],
     "description": "",
-    "prefix": "py-09",
+    "prefix": "py-08",
     "scope": "python"
   }
 }

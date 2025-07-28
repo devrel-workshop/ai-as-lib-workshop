@@ -1,49 +1,35 @@
-import requests
 import os
-from pydub import AudioSegment
 import gradio as gr
+from openai import OpenAI
 
 
-# Function to upload or record audio, see https://www.gradio.app/main/docs/gradio/audio
+# Function to convert text to audio thanks to Whisper.
 def speechToText(audio):
-    # Configure the URL, see https://endpoints.ai.cloud.ovh.net/ (nvr-asr-en-gb)
-    url = "https://nvr-asr-en-gb.endpoints.kepler.ai.cloud.ovh.net/api/v1/asr/recognize"
+    # py-02
+    # Configure OpenAI client
+    client = OpenAI(base_url=os.environ.get('OVH_AI_ENDPOINTS_WHISPER_URL'), 
+                api_key=os.environ.get('OVH_AI_ENDPOINTS_ACCESS_TOKEN'))
 
-    # Configure header with bearer token
-    headers = {
-        "Authorization": f"Bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}",
-    }
+    # py-03
+    # Transcription with Whisper
+    with open(audio, "rb") as audio_file:
+        # Call Whisper transcription API
+        transcript = client.audio.transcriptions.create(
+            model=os.environ.get('OVH_AI_ENDPOINTS_WHISPER_MODEL'),
+            file=audio_file,
+            temperature=0.0,
+            response_format="text"
+        )
 
-    # Load and process audio file to be in the right format, see https://github.com/jiaaro/pydub/tree/master
-    # Set the channel to 1
-    # set the framerate to 16000
-    # export the file in wav format named audio.wav
-    audio_input = AudioSegment.from_file(audio, "wav")
-    process_audio_to_wav = audio_input.set_channels(1)
-    process_audio_to_wav = process_audio_to_wav.set_frame_rate(16000)
-    process_audio_to_wav.export("audio.wav", format="wav")
-
-    # Prepare the file to send to the endpoint
-    filetoSend = [("audio", open("audio.wav", "rb"))]
-
-    # Do the POST request and display the transcription
-    response = requests.post(url, files=filetoSend, headers=headers)
-    responseToDisplay = ""
-    if response.status_code == 200:
-        # Handle response
-        response_data = response.json()
-        for alternative in response_data:
-            responseToDisplay += alternative["alternatives"][0]["transcript"]
-    else:
-        print("Error:", response.status_code)
-        responseToDisplay = "Unable to do the transcription 😭"
-
-    return responseToDisplay
+    # py-04
+    return transcript
 
 
+# py-05
 # Create a Gradio input component
-input_audio = gr.Audio(sources=["upload", "microphone"], type="filepath", label="🏴󠁧󠁢󠁥󠁮󠁧󠁿")
+input_audio = gr.Audio(sources=["upload", "microphone"], type="filepath", label="🎙️")
 
+# py-06
 # Create a Gradio interface named demo
 # The function to call : reverse_audio
 # The inputs : input_audio
