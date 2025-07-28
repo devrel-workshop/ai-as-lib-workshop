@@ -1,45 +1,26 @@
 import gradio as gr
-from pydub import AudioSegment
 import os
 import numpy as np
 import requests
+from openai import OpenAI
 
-
-# Function to upload or record audio, see https://www.gradio.app/main/docs/gradio/audio
+# Function to convert text to audio thanks to Whisper.
 def speechToText(audio):
-    # Configure the URL, see https://endpoints.ai.cloud.ovh.net/ (nvr-asr-en-gb)
-    url = "https://nvr-asr-en-gb.endpoints.kepler.ai.cloud.ovh.net/api/v1/asr/recognize"
+    # Configure OpenAI client
+    client = OpenAI(base_url=os.environ.get('OVH_AI_ENDPOINTS_WHISPER_URL'), 
+                api_key=os.environ.get('OVH_AI_ENDPOINTS_ACCESS_TOKEN'))
 
-    # Configure header with bearer token
-    headers = {
-        "Authorization": f"Bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}",
-    }
+    # Audio file loading
+    with open(audio, "rb") as audio_file:
+        # Call Whisper transcription API
+        transcript = client.audio.transcriptions.create(
+            model=os.environ.get('OVH_AI_ENDPOINTS_WHISPER_MODEL'),
+            file=audio_file,
+            temperature=0.0,
+            response_format="text"
+        )
 
-    # Load and process audio file to be in the right format, see https://github.com/jiaaro/pydub/tree/master
-    # Set the channel to 1
-    # set the framerate to 16000
-    # export the file in wav format named audio.wav
-    audio_input = AudioSegment.from_file(audio, "wav")
-    process_audio_to_wav = audio_input.set_channels(1)
-    process_audio_to_wav = process_audio_to_wav.set_frame_rate(16000)
-    process_audio_to_wav.export("audio.wav", format="wav")
-
-    # Prepare the file to send to the endpoint
-    filetoSend = [("audio", open("audio.wav", "rb"))]
-
-    # Do the POST request and display the transcription
-    response = requests.post(url, files=filetoSend, headers=headers)
-    responseToDisplay = ""
-    if response.status_code == 200:
-        # Handle response
-        response_data = response.json()
-        for alternative in response_data:
-            responseToDisplay += alternative["alternatives"][0]["transcript"]
-    else:
-        print("Error:", response.status_code)
-        responseToDisplay = "Unable to do the transcription 😭"
-
-    return responseToDisplay
+    return transcript
 
 
 # Translate text from English to Spanish using the Llama 3.3 model
@@ -90,10 +71,10 @@ def translate_en_to_spanish(english_text):
     
     return text
 
-# Function to upload or record audio, see https://www.gradio.app/main/docs/gradio/audio
+# Function to transform text to speech
 def text_to_speech(textToTransform):
-    # Configure the URL, see https://endpoints.ai.cloud.ovh.net/models/da728a25-bcb9-42ba-b8c0-1df3c4c42bd4
-    url = "https://nvr-tts-en-us.endpoints.kepler.ai.cloud.ovh.net/api/v1/tts/text_to_audio"
+    # Configure the URL, see https://endpoints.ai.cloud.ovh.net/models/nvr-tts-es-es
+    url = os.environ.get('OVH_AI_ENDPOINTS_TTS_MODEL')
 
     # Configure header with bearer token
     headers = {

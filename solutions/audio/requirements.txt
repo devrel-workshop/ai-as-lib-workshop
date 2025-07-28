@@ -6,3 +6,5 @@ pydub==0.25.1
 numpy==2.1.3
 # Manage http requests, see https://pypi.org/project/requests/
 requests==2.32.3
+# OpenAI client for Whisper
+openai==1.97.0
