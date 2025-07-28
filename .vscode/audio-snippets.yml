@@ -1,5 +1,4 @@
 # Audio section
-
 snippet audio-requirements:
   name: "Audio requirements"
   prefix: "py-01"
@@ -14,28 +13,82 @@ snippet audio-requirements:
     numpy==2.1.3
     # Manage http requests, see https://pypi.org/project/requests/
     requests==2.32.3
+    # OpenAI client for Whisper
+    openai==1.97.0
+
+# Speech to text HTTP section
+snippet py-02:
+  name: "STT client initialization"
+  prefix: "py-02"
+  scope: "python"
+  body: | 
+    client = OpenAI(base_url=os.environ.get('OVH_AI_ENDPOINTS_WHISPER_URL'), 
+                api_key=os.environ.get('OVH_AI_ENDPOINTS_ACCESS_TOKEN'))
+
+snippet py-03:
+  name: "STT Whisper call"
+  prefix: "py-03"
+  scope: "python"
+  body: | 
+    with open(audio, "rb") as audio_file:
+        # Call Whisper transcription API
+        transcript = client.audio.transcriptions.create(
+            model=os.environ.get('OVH_AI_ENDPOINTS_WHISPER_MODEL'),
+            file=audio_file,
+            temperature=0.0,
+            response_format="text"
+        )
+
+snippet py-04:
+  name: "STT return transcript"
+  prefix: "py-04"
+  scope: "python"
+  body: | 
+    return transcript
+
+snippet py-05:
+  name: "STT input-audio"
+  prefix: "py-05"
+  scope: "python"
+  body: | 
+    input_audio = gr.Audio(
+        sources=['upload', 'microphone'],
+        type='filepath',
+        label="🎙️"
+    )
+
+snippet py-06:
+  name: "STT Gradio interface"
+  prefix: "py-06"
+  scope: "python"
+  body: | 
+    demo = gr.Interface(
+        fn=speechToText,
+        inputs=input_audio,
+        outputs="text",
+        allow_flagging="never"
+    )
 
 # Text to speech HTTP section
-
-snippet tts-http-model-url:
+snippet py-08:
   name: "TTS model URL"
-  prefix: "py-09"
+  prefix: "py-08"
   scope: "python"
   body: | 
     url = "https://nvr-tts-en-us.endpoints.kepler.ai.cloud.ovh.net/api/v1/tts/text_to_audio"
 
-snippet tts-http-bearer:
+snippet py-09:
   name: "TTS bearer"
-  prefix: "py-10"
+  prefix: "py-09"
   scope: "python"
   body: | 
     headers = {
         "Authorization": f"Bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}",
     }
 
-snippet tts-http-payload:
+snippet py-10:
   name: "TTS HTTP payload"
-  prefix: "py-11"
+  prefix: "py-10"
   scope: "python"
   body: | 
     payload = {
@@ -46,179 +99,84 @@ snippet tts-http-payload:
         "voice_name": "English-US.Female-1",
     }
 
-snippet tts-http-response:
+snippet py-11:
   name: "TTS HTTP response"
-  prefix: "py-12"
+  prefix: "py-11"
   scope: "python"
   body: | 
     response = requests.post(url, json=payload, headers=headers)
 
-snippet tts-http-return:
+snippet py-12:
   name: "TTS HTTP return"
-  prefix: "py-13"
+  prefix: "py-12"
   scope: "python"
   body: | 
     audio = (16000, np.frombuffer(response.content, dtype=np.int16))
 
     return audio
 
-snippet tts-http-input:
+snippet py-13:
   name: "TTS HTTP input"
-  prefix: "py-14"
+  prefix: "py-13"
   scope: "python"
   body: | 
     input_text = gr.Textbox(
         label="🏴󠁧󠁢󠁥󠁮󠁧󠁿",
     )
 
-snippet tts-http-output:
+snippet py-14:
   name: "TTS HTTP output"
-  prefix: "py-15"
+  prefix: "py-14"
   scope: "python"
   body: | 
     output_audio = gr.Audio(
         label="Audio synthesis (.wav)", type="numpy", show_download_button=False
     )
 
-snippet tts-http-demo:
+snippet py-15:
   name: "TTS HTTP demo"
-  prefix: "py-16"
+  prefix: "py-15"
   scope: "python"
   body: | 
     demo = gr.Interface(
         fn=text_to_speech, inputs=input_text, outputs=output_audio, allow_flagging="never"
     )
 
-# Speech to text HTTP section
-
-snippet stt-http-model-url:
-  name: "STT model URL"
-  prefix: "py-02"
-  scope: "python"
-  body: | 
-    url = "https://nvr-asr-en-gb.endpoints.kepler.ai.cloud.ovh.net/api/v1/asr/recognize"
-
-snippet stt-http-bearer:
-  name: "STT bearer"
-  prefix: "py-03"
-  scope: "python"
-  body: | 
-    headers = {
-        "Authorization": f"Bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}",
-    }
-
-snippet stt-http-audio-transform:
-  name: "STT HTTP audio tranform"
-  prefix: "py-04"
-  scope: "python"
-  body: | 
-    audio_input = AudioSegment.from_file(audio, "wav")
-    process_audio_to_wav = audio_input.set_channels(1)
-    process_audio_to_wav = process_audio_to_wav.set_frame_rate(16000)
-    process_audio_to_wav.export("audio.wav", format="wav")
-
-snippet stt-http-file-to-send:
-  name: "STT HTTP file to send"
-  prefix: "py-05"
-  scope: "python"
-  body: | 
-    filetoSend = [('audio', open("audio.wav", 'rb'))]
-
-
-snippet stt-http-response:
-  name: "STT HTTP response"
-  prefix: "py-06"
-  scope: "python"
-  body: | 
-    response = requests.post(url, files=filetoSend, headers=headers)
-    responseToDisplay=''
-    if response.status_code == 200:
-        # Handle response
-        response_data = response.json()
-        for alternative in response_data:
-            responseToDisplay+=alternative['alternatives'][0]['transcript']
-    else:
-        print("Error:", response.status_code)
-        responseToDisplay='Unable to do the transcription 😭'
-    
-    return responseToDisplay
-
-snippet stt-http-input:
-  name: "STT HTTP input"
-  prefix: "py-07"
-  scope: "python"
-  body: | 
-    input_audio = gr.Audio(
-        sources=['upload', 'microphone'],
-        type='filepath',
-        label="🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢󠁥󠁮󠁧"
-    )
-
-snippet stt-http-demo:
-  name: "STT HTTP demo"
-  prefix: "py-08"
-  scope: "python"
-  body: | 
-    demo = gr.Interface(
-        fn=speechToText,
-        inputs=input_audio,
-        outputs="text",
-        allow_flagging="never"
-    )
 
 # Speech to speech
+snippet py-16:
+  name: "STS OpenAI client configuration"
+  prefix: "py-16"
+  scope: "python"
+  body: | 
+    client = OpenAI(base_url=os.environ.get('OVH_AI_ENDPOINTS_WHISPER_URL'), 
+            api_key=os.environ.get('OVH_AI_ENDPOINTS_ACCESS_TOKEN'))
 
-snippet sts-asr-en-url:
-  name: "STS asr EN URL"
+
+snippet py-17:
+  name: "STS transcript with Whisper"
   prefix: "py-17"
   scope: "python"
   body: | 
-    url = "https://nvr-asr-en-gb.endpoints.kepler.ai.cloud.ovh.net/api/v1/asr/recognize"
+    with open(audio, "rb") as audio_file:
+        # Call Whisper transcription API
+        transcript = client.audio.transcriptions.create(
+            model=os.environ.get('OVH_AI_ENDPOINTS_WHISPER_MODEL'),
+            file=audio_file,
+            temperature=0.0,
+            response_format="text"
+        )
 
-snippet sts-asr-en-bearer:
-  name: "STS asr EN bearer"
+snippet py-18:
+  name: "STS return transcript"
   prefix: "py-18"
   scope: "python"
   body: | 
-    headers = {
-        "Authorization": f"Bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}",
-    }
+    return transcript
 
-snippet sts-asr-en-configure:
-  name: "STS asr EN configure"
+snippet py-19:
+  name: "STS LLM configuration"
   prefix: "py-19"
-  scope: "python"
-  body: | 
-    audio_input = AudioSegment.from_file(audio, "wav")
-    process_audio_to_wav = audio_input.set_channels(1)
-    process_audio_to_wav = process_audio_to_wav.set_frame_rate(16000)
-    process_audio_to_wav.export("audio.wav", format="wav")
-
-snippet sts-asr-en-call:
-  name: "STS asr EN call"
-  prefix: "py-20"
-  scope: "python"
-  body: | 
-    # Prepare the file to send to the endpoint
-    filetoSend = [("audio", open("audio.wav", "rb"))]
-
-    # Do the POST request and display the transcription
-    response = requests.post(url, files=filetoSend, headers=headers)
-    responseToDisplay = ""
-    if response.status_code == 200:
-        # Handle response
-        response_data = response.json()
-        for alternative in response_data:
-            responseToDisplay += alternative["alternatives"][0]["transcript"]
-    else:
-        print("Error:", response.status_code)
-        responseToDisplay = "Unable to do the transcription 😭"
-
-    return responseToDisplay
-
-snippet sts-translate-url:
-  name: "STS translate URL"
-  prefix: "py-21"
   scope: "python"
   body: | 
     url = f"{os.getenv('OVH_AI_ENDPOINTS_MODEL_URL')}/chat/completions"
@@ -238,9 +196,9 @@ snippet sts-translate-url:
         "temperature": 0,
     }
 
-snippet sts-translate-bearer:
-  name: "STT translate bearer"
-  prefix: "py-22"
+snippet py-20:
+  name: "STT LLM bearer"
+  prefix: "py-20"
   scope: "python"
   body: | 
     headers = {
@@ -248,9 +206,17 @@ snippet sts-translate-bearer:
         "Authorization": f"Bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}",
     }
 
-snippet sts-translate-call:
-  name: "STT translate call"
-  prefix: "py-23"
+snippet py-21:
+  name: "STT LLM call"
+  prefix: "py-21"
+  scope: "python"
+  body: | 
+    # Send the request to endpoint with text to transform
+    response = requests.post(url, json=payload, headers=headers)
+
+snippet py-22:
+  name: "STT translation return"
+  prefix: "py-22"
   scope: "python"
   body: | 
     # Send the request to endpoint with text to transform
@@ -272,25 +238,25 @@ snippet sts-translate-call:
     
     return text
 
-snippet sts-tts-es-url:
-  name: "STS tts ES URL"
-  prefix: "py-24"
+snippet py-23:
+  name: "STS RIVA Spanish model URL"
+  prefix: "py-23"
   scope: "python"
   body: | 
-    url = "https://nvr-tts-en-us.endpoints.kepler.ai.cloud.ovh.net/api/v1/tts/text_to_audio"
+    url = os.environ.get('OVH_AI_ENDPOINTS_TTS_MODEL')
 
-snippet sts-tts-es-bearer:
-  name: "STS tts ES bearer"
-  prefix: "py-25"
+snippet py-24:
+  name: "STS RIVA bearer"
+  prefix: "py-24"
   scope: "python"
   body: | 
     headers = {
         "Authorization": f"Bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}",
     }
 
-snippet sts-tts-es-payload:
-  name: "STS tts ES payload"
-  prefix: "py-26"
+snippet py-25:
+  name: "STS RIVA payload"
+  prefix: "py-25"
   scope: "python"
   body: | 
     payload = {
@@ -301,9 +267,9 @@ snippet sts-tts-es-payload:
         "voice_name": "Spanish-ES-Female-1",
     }
 
-snippet sts-tts-es-call:
-  name: "STS tts ES call"
-  prefix: "py-27"
+snippet py-26:
+  name: "STS RIVA call"
+  prefix: "py-26"
   scope: "python"
   body: | 
     response = requests.post(url, json=payload, headers=headers)
@@ -314,47 +280,47 @@ snippet sts-tts-es-call:
 
     return audio
 
-snippet sts-final-asr-en-call:
-  name: "STS final asr en call"
-  prefix: "py-28"
+snippet py-27:
+  name: "STS call English STT"
+  prefix: "py-27"
   scope: "python"
   body: | 
     englishText = speechToText(audio)
 
 
-snippet sts-final-translate-call:
-  name: "STS final translate call"
-  prefix: "py-29"
+snippet py-28:
+  name: "STS call translation"
+  prefix: "py-28"
   scope: "python"
   body: | 
     spanishText = translate_en_to_spanish(englishText)
 
-snippet sts-final-return:
-  name: "STS final return"
-  prefix: "py-30"
+snippet py-29:
+  name: "STS call Spanish TTS"
+  prefix: "py-29"
   scope: "python"
   body: | 
     return [englishText, spanishText, text_to_speech(spanishText)]
 
-snippet sts-input-audio-en:
-  name: "STS input audio en"
-  prefix: "py-31"
+snippet py-30:
+  name: "STS English audio input"
+  prefix: "py-30"
   scope: "python"
   body: | 
     input_audio = gr.Audio(label = "English 🏴󠁧󠁢󠁥󠁮󠁧󠁿", sources=["upload", "microphone"], type="filepath")
 
-snippet sts-audio-text-es:
-  name: "STS ouput"
-  prefix: "py-32"
+snippet py-31:
+  name: "STS Spanish text output"
+  prefix: "py-31"
   scope: "python"
   body: | 
     output_audio = gr.Audio(
       label="Spanish version 🇪🇸", type="numpy", show_download_button=False
     )
 
-snippet sts-demo:
-  name: "STS demo"
-  prefix: "py-33"
+snippet py-32:
+  name: "STS Gradio interface"
+  prefix: "py-32"
   scope: "python"
   body: | 
     demo = gr.Interface(
