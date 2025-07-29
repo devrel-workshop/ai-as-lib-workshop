@@ -145,26 +145,132 @@
     "prefix": "java-15",
     "scope": "xml"
   },
-  "LangChain4j dependency": {
+  "MCP: AI Services": {
+    "body": [
+      "@SystemMessage(\"\"\"",
+      "        Your are an expert of using the Stable Diffusion XL model.",
+      "        The user explains in natural language what kind of image he wants.",
+      "        You must do the following steps:",
+      "          - Understand the user's request.",
+      "          - Generate the two kinds of prompts for stable diffusion: the prompt and the negative prompt",
+      "          - the prompts must be in english and detailed and optimized for the Stable Diffusion XL model. ",
+      "          - once and only once you have this two prompts call the tool with the two prompts.",
+      "        If asked about to create an image, you MUST call the `generateImage` function.",
+      "        \"\"\")",
+      "@UserMessage(\"Create an image with stable diffusion XL following this description: {{userMessage}}\")",
+      "String chat(@V(\"userMessage\") String userMessage);",
+      ""
+    ],
+    "description": "",
+    "prefix": "java-33",
+    "scope": "java"
+  },
+  "MCP: call LLM": {
+    "body": [
+      "String userInput = \"\";",
+      "Scanner scanner = new Scanner(System.in);",
+      "while (true) {",
+      "    _LOG.info(\"\\nEnter your message: \");",
+      "    userInput = scanner.nextLine();",
+      "    if (userInput.equalsIgnoreCase(\"exit\")) break;",
+      "    _LOG.info(\"\\nResponse: \" + bot.chat(userInput));",
+      "}",
+      "scanner.close();",
+      ""
+    ],
+    "description": "",
+    "prefix": "java-40-prompt",
+    "scope": "java"
+  },
+  "MCP: chatbot": {
+    "body": [
+      "ChatBot bot = AiServices.builder(ChatBot.class)",
+      "        .chatModel(chatModel)",
+      "        .toolProvider(toolProvider)",
+      "        .chatMemory(chatMemory)",
+      "        .build();",
+      ""
+    ],
+    "description": "",
+    "prefix": "java-39-chatbot",
+    "scope": "java"
+  },
+  "MCP: dependency": {
     "body": [
       "\u003cdependency\u003e",
       "  \u003cgroupId\u003edev.langchain4j\u003c/groupId\u003e",
-      "  \u003cartifactId\u003elangchain4j\u003c/artifactId\u003e",
-      "  \u003cversion\u003e${langchain4j.version}\u003c/version\u003e",
-      "\u003c/dependency\u003e",
-      "",
-      "\u003cdependency\u003e",
-      "  \u003cgroupId\u003edev.langchain4j\u003c/groupId\u003e",
-      "  \u003cartifactId\u003elangchain4j-mistral-ai\u003c/artifactId\u003e",
+      "  \u003cartifactId\u003elangchain4j-mcp\u003c/artifactId\u003e",
       "  \u003cversion\u003e${langchain4j.provider.version}\u003c/version\u003e",
       "\u003c/dependency\u003e",
       ""
     ],
     "description": "",
-    "prefix": "java-01",
+    "prefix": "java-32",
     "scope": "xml"
   },
-  "Memory call": {
+  "MCP: mcp client": {
+    "body": [
+      "McpClient mcpClient = new DefaultMcpClient.Builder()",
+      "        .transport(transport)",
+      "        .build();",
+      ""
+    ],
+    "description": "",
+    "prefix": "java-36-mcp-client",
+    "scope": "java"
+  },
+  "MCP: memory": {
+    "body": [
+      "ChatMemory chatMemory = MessageWindowChatMemory.withMaxMessages(10);",
+      ""
+    ],
+    "description": "",
+    "prefix": "java-38-memory",
+    "scope": "java"
+  },
+  "MCP: model selection": {
+    "body": [
+      "MistralAiChatModel chatModel = MistralAiChatModel.builder()",
+      "        .apiKey(System.getenv(\"OVH_AI_ENDPOINTS_ACCESS_TOKEN\"))",
+      "        .baseUrl(System.getenv(\"OVH_AI_ENDPOINTS_MODEL_URL\"))",
+      "        .modelName(System.getenv(\"OVH_AI_ENDPOINTS_MODEL_NAME\"))",
+      "        .logRequests(false)",
+      "        .logResponses(false)",
+      "        // To have more deterministic outputs, set temperature to 0.",
+      "        .temperature(0.0)",
+      "        .build();",
+      ""
+    ],
+    "description": "",
+    "prefix": "java-34",
+    "scope": "java"
+  },
+  "MCP: tool provider": {
+    "body": [
+      "McpToolProvider toolProvider = McpToolProvider.builder()",
+      "        .mcpClients(mcpClient)",
+      "        .build();",
+      ""
+    ],
+    "description": "",
+    "prefix": "java-37-mcp-tool",
+    "scope": "java"
+  },
+  "MCP: transport": {
+    "body": [
+      "McpTransport transport = new HttpMcpTransport.Builder()",
+      "        // https://xxxx/mcp/sse",
+      "        .sseUrl(System.getenv(\"MCP_SERVER_URL\"))",
+      "        .logRequests(false)",
+      "        .logResponses(false)",
+      "        .build();",
+      ""
+    ],
+    "description": "",
+    "prefix": "java-35-mcp-transport",
+    "scope": "java"
+  },
+  "Memory AI Services": {
     "body": [
       "interface Assistant {",
       "  @SystemMessage(\"You are Nestor, a virtual assistant. Answer to the question.\")",
@@ -176,7 +282,7 @@
     "prefix": "java-10",
     "scope": "java"
   },
-  "Memory memory assistant": {
+  "Memory assistant": {
     "body": [
       "Assistant assistant = AiServices.builder(Assistant.class)",
       "    .streamingChatModel(steamingModel)",
@@ -188,7 +294,7 @@
     "prefix": "java-13",
     "scope": "java"
   },
-  "Memory memory call": {
+  "Memory call": {
     "body": [
       "_LOG.info(\"💬: My name is Stéphane.\\n\");",
       "    TokenStream tokenStream = assistant.chat(\"My name is Stéphane.\");",
@@ -292,8 +398,8 @@
   },
   "RAG call": {
     "body": [
-      "_LOG.info(\"💬: What is the program at Sunny Tech?\\n\");",
-      "TokenStream tokenStream = assistant.chat(\"What is the program at Sunny Tech?\");",
+      "_LOG.info(\"💬: What is the program at AI Summit Barcelona?\\n\");",
+      "TokenStream tokenStream = assistant.chat(\"What is the program at AI Summit Barcelona?\");",
       "_LOG.info(\"🤖: \");",
       "tokenStream",
       "    .onPartialResponse(_LOG::info)",
@@ -492,7 +598,26 @@
     "prefix": "java-07",
     "scope": "java"
   },
-  "java-24-Tool": {
+  "Tool call SDXL": {
+    "body": [
+      "// Call Stable diffusion model with the prompt and negative prompt",
+      "HttpRequest httpRequest = HttpRequest.newBuilder()",
+      "        .uri(URI.create(System.getenv(\"OVH_AI_ENDPOINTS_SD_URL\")))",
+      "        .POST(HttpRequest.BodyPublishers.ofString(\"\"\"",
+      "                    {\"prompt\": \"%s\", ",
+      "                      \"negative_prompt\": \"%s\"}",
+      "                    \"\"\".formatted(prompt, negativePrompt)))",
+      "        .header(\"accept\", \"application/octet-stream\")",
+      "        .header(\"Content-Type\", \"application/json\")",
+      "        .header(\"Authorization\", \"Bearer \" + System.getenv(\"OVH_AI_ENDPOINTS_ACCESS_TOKEN\"))",
+      "        .build();",
+      ""
+    ],
+    "description": "",
+    "prefix": "java-25",
+    "scope": "java"
+  },
+  "Tool generateImage tool": {
     "body": [
       "// Define the tool using the @Tool annotation",
       "@Tool(\"\"\"",
@@ -512,40 +637,7 @@
     "prefix": "java-24",
     "scope": "java"
   },
-  "java-25-sdxl-call": {
-    "body": [
-      "// Call Stable diffusion model with the prompt and negative prompt",
-      "HttpRequest httpRequest = HttpRequest.newBuilder()",
-      "        .uri(URI.create(System.getenv(\"OVH_AI_ENDPOINTS_SD_URL\")))",
-      "        .POST(HttpRequest.BodyPublishers.ofString(\"\"\"",
-      "                    {\"prompt\": \"%s\", ",
-      "                      \"negative_prompt\": \"%s\"}",
-      "                    \"\"\".formatted(prompt, negativePrompt)))",
-      "        .header(\"accept\", \"application/octet-stream\")",
-      "        .header(\"Content-Type\", \"application/json\")",
-      "        .header(\"Authorization\", \"Bearer \" + System.getenv(\"OVH_AI_ENDPOINTS_ACCESS_TOKEN\"))",
-      "        .build();",
-      ""
-    ],
-    "description": "",
-    "prefix": "java-25",
-    "scope": "java"
-  },
-  "java-26-write-img": {
-    "body": [
-      "// Create the image file from Stable Diffusion response",
-      "HttpResponse\u003cbyte[]\u003e response = HttpClient.newHttpClient()",
-      "        .send(httpRequest, HttpResponse.BodyHandlers.ofByteArray());",
-      "",
-      "_LOG.debug(\"SDXL status code: {}\", response.statusCode());",
-      "Files.write(Path.of(\"generated-image.jpeg\"), response.body());",
-      ""
-    ],
-    "description": "",
-    "prefix": "java-26",
-    "scope": "java"
-  },
-  "java-27-ai-services": {
+  "Tool: AI Services": {
     "body": [
       "// Create a detailed system prompt: the goal and what the model must generate and use",
       "@SystemMessage(\"\"\"",
@@ -566,35 +658,7 @@
     "prefix": "java-27",
     "scope": "java"
   },
-  "java-28-model": {
-    "body": [
-      "// Main chatbot configuration, try to be more deterministic as possible ;)",
-      "MistralAiChatModel chatModel = MistralAiChatModel.builder()",
-      "        .apiKey(System.getenv(\"OVH_AI_ENDPOINTS_ACCESS_TOKEN\"))",
-      "        .baseUrl(System.getenv(\"OVH_AI_ENDPOINTS_MODEL_URL\"))",
-      "        .modelName(System.getenv(\"OVH_AI_ENDPOINTS_MODEL_NAME\"))",
-      "        .logRequests(false)",
-      "        .logResponses(false)",
-      "        // To have more deterministic outputs, set temperature to 0.",
-      "        .temperature(0.0)",
-      "        .build();",
-      ""
-    ],
-    "description": "",
-    "prefix": "java-28",
-    "scope": "java"
-  },
-  "java-29-model": {
-    "body": [
-      "// Add memory to fine tune the SDXL prompt.",
-      "ChatMemory chatMemory = MessageWindowChatMemory.withMaxMessages(10);",
-      ""
-    ],
-    "description": "",
-    "prefix": "java-29",
-    "scope": "java"
-  },
-  "java-30-ai-services": {
+  "Tool: build chatbot": {
     "body": [
       "// Build the chatbot thanks to LangChain4J AI Services mode (see https://docs.langchain4j.dev/tutorials/ai-services)",
       "ChatBot chatBot = AiServices.builder(ChatBot.class)",
@@ -608,7 +672,7 @@
     "prefix": "java-30",
     "scope": "java"
   },
-  "java-31-prompt": {
+  "Tool: call LLM": {
     "body": [
       "// Start the conversation loop (enter \"exit\" to quit)",
       "String userInput = \"\";",
@@ -626,41 +690,19 @@
     "prefix": "java-31",
     "scope": "java"
   },
-  "java-32-dep-mcp": {
+  "Tool: memory": {
     "body": [
-      "\u003cdependency\u003e",
-      "  \u003cgroupId\u003edev.langchain4j\u003c/groupId\u003e",
-      "  \u003cartifactId\u003elangchain4j-mcp\u003c/artifactId\u003e",
-      "  \u003cversion\u003e${langchain4j.provider.version}\u003c/version\u003e",
-      "\u003c/dependency\u003e",
+      "// Add memory to fine tune the SDXL prompt.",
+      "ChatMemory chatMemory = MessageWindowChatMemory.withMaxMessages(10);",
       ""
     ],
     "description": "",
-    "prefix": "java-32",
-    "scope": "xml"
-  },
-  "java-33-ai-services": {
-    "body": [
-      "@SystemMessage(\"\"\"",
-      "        Your are an expert of using the Stable Diffusion XL model.",
-      "        The user explains in natural language what kind of image he wants.",
-      "        You must do the following steps:",
-      "          - Understand the user's request.",
-      "          - Generate the two kinds of prompts for stable diffusion: the prompt and the negative prompt",
-      "          - the prompts must be in english and detailed and optimized for the Stable Diffusion XL model. ",
-      "          - once and only once you have this two prompts call the tool with the two prompts.",
-      "        If asked about to create an image, you MUST call the `generateImage` function.",
-      "        \"\"\")",
-      "@UserMessage(\"Create an image with stable diffusion XL following this description: {{userMessage}}\")",
-      "String chat(@V(\"userMessage\") String userMessage);",
-      ""
-    ],
-    "description": "",
-    "prefix": "java-33",
+    "prefix": "java-29",
     "scope": "java"
   },
-  "java-34-model": {
+  "Tool: model selection": {
     "body": [
+      "// Main chatbot configuration, try to be more deterministic as possible ;)",
       "MistralAiChatModel chatModel = MistralAiChatModel.builder()",
       "        .apiKey(System.getenv(\"OVH_AI_ENDPOINTS_ACCESS_TOKEN\"))",
       "        .baseUrl(System.getenv(\"OVH_AI_ENDPOINTS_MODEL_URL\"))",
@@ -673,83 +715,41 @@
       ""
     ],
     "description": "",
-    "prefix": "java-34",
+    "prefix": "java-28",
     "scope": "java"
   },
-  "java-35-": {
+  "Tool: save image": {
     "body": [
-      "McpTransport transport = new HttpMcpTransport.Builder()",
-      "        // https://xxxx/mcp/sse",
-      "        .sseUrl(System.getenv(\"MCP_SERVER_URL\"))",
-      "        .logRequests(false)",
-      "        .logResponses(false)",
-      "        .build();",
+      "// Create the image file from Stable Diffusion response",
+      "HttpResponse\u003cbyte[]\u003e response = HttpClient.newHttpClient()",
+      "        .send(httpRequest, HttpResponse.BodyHandlers.ofByteArray());",
+      "",
+      "_LOG.debug(\"SDXL status code: {}\", response.statusCode());",
+      "Files.write(Path.of(\"generated-image.jpeg\"), response.body());",
       ""
     ],
     "description": "",
-    "prefix": "java-35-mcp-transport",
+    "prefix": "java-26",
     "scope": "java"
   },
-  "java-36": {
+  "java LangChain4J dependencies": {
     "body": [
-      "McpClient mcpClient = new DefaultMcpClient.Builder()",
-      "        .transport(transport)",
-      "        .build();",
+      "\u003cdependency\u003e",
+      "  \u003cgroupId\u003edev.langchain4j\u003c/groupId\u003e",
+      "  \u003cartifactId\u003elangchain4j\u003c/artifactId\u003e",
+      "  \u003cversion\u003e${langchain4j.version}\u003c/version\u003e",
+      "\u003c/dependency\u003e",
+      "",
+      "\u003cdependency\u003e",
+      "  \u003cgroupId\u003edev.langchain4j\u003c/groupId\u003e",
+      "  \u003cartifactId\u003elangchain4j-mistral-ai\u003c/artifactId\u003e",
+      "  \u003cversion\u003e${langchain4j.provider.version}\u003c/version\u003e",
+      "\u003c/dependency\u003e",
       ""
     ],
     "description": "",
-    "prefix": "java-36-mcp-client",
-    "scope": "java"
-  },
-  "java-37": {
-    "body": [
-      "McpToolProvider toolProvider = McpToolProvider.builder()",
-      "        .mcpClients(mcpClient)",
-      "        .build();",
-      ""
-    ],
-    "description": "",
-    "prefix": "java-37-mcp-tool",
-    "scope": "java"
-  },
-  "java-38": {
-    "body": [
-      "ChatMemory chatMemory = MessageWindowChatMemory.withMaxMessages(10);",
-      ""
-    ],
-    "description": "",
-    "prefix": "java-38-memory",
-    "scope": "java"
-  },
-  "java-39": {
-    "body": [
-      "ChatBot bot = AiServices.builder(ChatBot.class)",
-      "        .chatModel(chatModel)",
-      "        .toolProvider(toolProvider)",
-      "        .chatMemory(chatMemory)",
-      "        .build();",
-      ""
-    ],
-    "description": "",
-    "prefix": "java-39-chatbot",
-    "scope": "java"
-  },
-  "java-40": {
-    "body": [
-      "String userInput = \"\";",
-      "Scanner scanner = new Scanner(System.in);",
-      "while (true) {",
-      "    _LOG.info(\"\\nEnter your message: \");",
-      "    userInput = scanner.nextLine();",
-      "    if (userInput.equalsIgnoreCase(\"exit\")) break;",
-      "    _LOG.info(\"\\nResponse: \" + bot.chat(userInput));",
-      "}",
-      "scanner.close();",
-      ""
-    ],
-    "description": "",
-    "prefix": "java-40-prompt",
-    "scope": "java"
+    "prefix": "java-01",
+    "scope": "xml"
   },
   "quarkus-17-dep-mcp": {
     "body": [

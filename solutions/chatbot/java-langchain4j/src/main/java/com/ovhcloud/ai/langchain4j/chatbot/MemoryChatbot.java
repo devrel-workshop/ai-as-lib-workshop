@@ -25,6 +25,7 @@ import dev.langchain4j.service.TokenStream;
 public class MemoryChatbot {
   private static final Logger _LOG = LoggerFactory.getLogger(MemoryChatbot.class);
 
+  // java-10
   // AI Service to create, see https://docs.langchain4j.dev/tutorials/ai-services
   interface Assistant {
     @SystemMessage("You are Nestor, a virtual assistant. Answer to the question.")
@@ -32,6 +33,7 @@ public class MemoryChatbot {
   }
 
   public static void main(String[] args) {
+    // java-11
     // Select the Mistral model to use (the streaming one)
     MistralAiStreamingChatModel steamingModel = MistralAiStreamingChatModel.builder()
             .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
@@ -43,9 +45,11 @@ public class MemoryChatbot {
             .logResponses(false)
             .build();
 
+    // java-12
     // Create the memory store "in memory"
     ChatMemory chatMemory = MessageWindowChatMemory.withMaxMessages(10);
 
+    // java-13
     // Build the chatbot thanks to the AIService builder
     // The chatbot must be in streaming mode with memory
     Assistant assistant = AiServices.builder(Assistant.class)
@@ -53,6 +57,7 @@ public class MemoryChatbot {
         .chatMemory(chatMemory)
         .build();
 
+    // java-14
     // Send a prompt
     _LOG.info("💬: My name is Stéphane.\n");
         TokenStream tokenStream = assistant.chat("My name is Stéphane.");

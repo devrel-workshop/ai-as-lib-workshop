@@ -10,9 +10,11 @@ import io.quarkiverse.langchain4j.RegisterAiService;
  * Set a system message to indicate that this a virtual assistant named Nestor
  * Set a user message to answer to questions. 
  */
+// quarkus-02
 // add class annotation here
 @RegisterAiService
 public interface AISimpleService {
+  // quarkus-03
   // Set the System and User message
   @SystemMessage("You are a virtual assistant and your name is Nestor.")
   @UserMessage("Answer as best possible to the following question: {question}. The answer must be in a style of a virtual assistant.")

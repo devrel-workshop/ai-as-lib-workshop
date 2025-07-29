@@ -17,13 +17,16 @@ import jakarta.ws.rs.Path;
  * The response is the answer given by the LLM.
  * see https://quarkus.io/guides/rest
  */
+// quarkus-14
 // Declare a base path for the resource. call it "chatbot"
 @Path("/chatbot")
 public class MemoryResource {
+  // quarkus-15
   // Inject the AIMemoryService service
   @Inject
   AIMemoryService aiMemoryService;
 
+  // quarkus-16
   // Declare a POST method with the "memory" path and activate the streaming
   // mode
   @Path("memory")

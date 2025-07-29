@@ -30,6 +30,7 @@ public class ImageGenerationChatbot {
     // Chatbot definition.
     // The goal of the chatbot is to build a powerful prompt for Stable diffusion XML.
     interface ChatBot {
+        // java-27
         // Create a detailed system prompt: the goal and what the model must generate and use
         @SystemMessage("""
                 Your are an expert of using the Stable Diffusion XL model.
@@ -47,20 +48,23 @@ public class ImageGenerationChatbot {
 
     public static void main(String[] args) throws Exception {
 
+        // java-28
         // Main chatbot configuration, try to be more deterministic as possible ;)
         MistralAiChatModel chatModel = MistralAiChatModel.builder()
                 .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
                 .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
                 .modelName(System.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"))
-                .logRequests(false)
+                .logRequests(true)
                 .logResponses(false)
                 // To have more deterministic outputs, set temperature to 0.
                 .temperature(0.0)
                 .build();
 
+        // java-29
         // Add memory to fine tune the SDXL prompt.
         ChatMemory chatMemory = MessageWindowChatMemory.withMaxMessages(10);
 
+        // java-30
         // Build the chatbot thanks to LangChain4J AI Services mode (see https://docs.langchain4j.dev/tutorials/ai-services)
         ChatBot chatBot = AiServices.builder(ChatBot.class)
                 .chatModel(chatModel)
@@ -68,6 +72,7 @@ public class ImageGenerationChatbot {
                 .chatMemory(chatMemory)
                 .build();
 
+        // java-31
         // Start the conversation loop (enter "exit" to quit)
         String userInput = "";
         Scanner scanner = new Scanner(System.in);

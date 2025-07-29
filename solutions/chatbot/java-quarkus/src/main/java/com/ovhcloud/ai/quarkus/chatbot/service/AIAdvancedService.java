@@ -14,8 +14,10 @@ import io.smallrye.mutiny.Multi;
  * The response must be in a streaming mode.
  */
 // add class annotation here
+// quarkus-07
 @RegisterAiService
 public interface AIAdvancedService {
+  // quarkus-08
   // Set the System and User message and activate the streaming mode
   @SystemMessage("You are a virtual assistant and your name is Nestor.")
   @UserMessage("Answer as best possible to the following question: {question}. The answer must be in a style of a virtual assistant.")

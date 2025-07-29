@@ -16,13 +16,16 @@ import jakarta.ws.rs.Path;
  * The response is the answer given by the LLM.
  * see https://quarkus.io/guides/rest
  */
+// quarkus-09
 // Declare a base path for the resource. call it "chatbot"
 @Path("/chatbot")
 public class AdvancedResource {
+  // quarkus-10
   // Inject the AIAdvancedService service
   @Inject
   AIAdvancedService advancedService;
 
+  // quarkus-11
   // Declare a POST method with the "advanced" path and activate the streaming
   // mode
   @Path("advanced")

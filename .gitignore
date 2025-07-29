@@ -40,6 +40,7 @@ attendee-conf.json
 
 # Java
 target/
+generated-image.jpeg
 
 # Audio module
 .gradio/
@@ -50,5 +51,6 @@ audio.wav
 
 # JavaScript
 node_modules/
+
 
 

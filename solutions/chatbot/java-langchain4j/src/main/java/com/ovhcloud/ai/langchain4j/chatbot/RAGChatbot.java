@@ -46,6 +46,7 @@ import static dev.langchain4j.data.document.loader.FileSystemDocumentLoader.load
 public class RAGChatbot {
   private static final Logger _LOG = LoggerFactory.getLogger(RAGChatbot.class);
 
+  // java-16
   // AI Service to create, see https://docs.langchain4j.dev/tutorials/ai-services
   interface Assistant {
     @SystemMessage("You are Nestor, a virtual assistant. Answer to the question.")
@@ -53,6 +54,7 @@ public class RAGChatbot {
   }
 
   public static void main(String[] args) {
+    // java-17
     // Select the Mistral model to use (the streaming one)
     MistralAiStreamingChatModel steamingModel = MistralAiStreamingChatModel.builder()
             .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
@@ -64,9 +66,11 @@ public class RAGChatbot {
             .logResponses(false)
             .build();
 
+    // java-18
     // Create the memory store "in memory"
     ChatMemory chatMemory = MessageWindowChatMemory.withMaxMessages(10);
 
+    // java-19
     // Load the document and split it into chunks
     DocumentParser documentParser = new TextDocumentParser();
     Document document = loadDocument(
@@ -76,6 +80,7 @@ public class RAGChatbot {
 
     List<TextSegment> segments = splitter.split(document);
 
+    // java-20
     // Do the embeddings with AI Endpoint model
     // (https://docs.langchain4j.dev/integrations/embedding-models/ovh-ai) and store
     // them in an in memory embedding store
@@ -85,6 +90,7 @@ public class RAGChatbot {
                     .build();
     List<Embedding> embeddings = embeddingModel.embedAll(segments).content();
 
+    // java-21
     // Store the vectors in the in memory store, see https://docs.langchain4j.dev/integrations/embedding-stores/in-memory
     EmbeddingStore<TextSegment> embeddingStore = new InMemoryEmbeddingStore<>();
     embeddingStore.addAll(embeddings, segments);
@@ -95,6 +101,7 @@ public class RAGChatbot {
         .minScore(0.1)
         .build();
 
+    // java-22
     // Build the chatbot thanks to the AIService builder
     // The chatbot must be in streaming mode with memory and RAC activated with the previous contentRetriever
     Assistant assistant = AiServices.builder(Assistant.class)
@@ -103,9 +110,10 @@ public class RAGChatbot {
         .contentRetriever(contentRetriever)
         .build();
 
+    // java-23
     // Send a prompt
-    _LOG.info("💬: What is the program at Sunny Tech?\n");
-    TokenStream tokenStream = assistant.chat("What is the program at Sunny Tech?");
+    _LOG.info("💬: What is the program at AI Summit Barcelona?\n");
+    TokenStream tokenStream = assistant.chat("What is the program at AI Summit Barcelona?");
     _LOG.info("🤖: ");
     tokenStream
         .onPartialResponse(_LOG::info)

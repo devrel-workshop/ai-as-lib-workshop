@@ -39,6 +39,7 @@
             <artifactId>quarkus-langchain4j-mistral-ai</artifactId>
             <version>0.26.2</version>
         </dependency>
+        <!-- quarkus-17 -->
         <dependency>
             <groupId>io.quarkiverse.mcp</groupId>
             <artifactId>quarkus-mcp-server-sse</artifactId>

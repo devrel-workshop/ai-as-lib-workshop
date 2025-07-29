@@ -23,6 +23,7 @@ import java.nio.file.Path;
 public class ImageGenTools {
     private static final Logger _LOG = LoggerFactory.getLogger(ImageGenTools.class);
 
+    // java-24
     // Define the tool using the @Tool annotation
     @Tool("""
                 Tool to create an image with Stable Diffusion XL given a prompt and a negative prompt.
@@ -31,6 +32,7 @@ public class ImageGenTools {
         _LOG.info("Prompt: {}", prompt);
         _LOG.info("Negative prompt: {}", negativePrompt);
 
+        // java-25
         // Call Stable diffusion model with the prompt and negative prompt
         HttpRequest httpRequest = HttpRequest.newBuilder()
                 .uri(URI.create(System.getenv("OVH_AI_ENDPOINTS_SD_URL")))
@@ -43,6 +45,7 @@ public class ImageGenTools {
                 .header("Authorization", "Bearer " + System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
                 .build();
 
+        // java-26
         // Create the image file from Stable Diffusion response
         HttpResponse<byte[]> response = HttpClient.newHttpClient()
                 .send(httpRequest, HttpResponse.BodyHandlers.ofByteArray());
