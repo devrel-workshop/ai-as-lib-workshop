@@ -7,9 +7,11 @@ import com.ovhcloud.ai.quarkus.chatbot.repository.SDPayload;
 
 import jakarta.ws.rs.POST;
 
+// quarkus-19
 @RegisterRestClient
 @ClientHeaderParam(name = "Content-Type", value = "application/json")
 public interface StableDiffusionService {
+    // quarkus-20
     @POST
     @ClientHeaderParam(name = "Authorization", value = "Bearer ${quarkus.langchain4j.mistralai.api-key}")
     byte[] generateImage(SDPayload payload);

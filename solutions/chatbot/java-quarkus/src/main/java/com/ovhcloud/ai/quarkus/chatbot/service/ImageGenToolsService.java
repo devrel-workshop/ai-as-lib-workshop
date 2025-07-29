@@ -23,15 +23,18 @@ import io.quarkiverse.mcp.server.Tool;
 public class ImageGenToolsService {
     private static final Logger _LOG = LoggerFactory.getLogger(ImageGenToolsService.class);
 
+    // quarkus-21
     @RestClient
     StableDiffusionService stableDiffusionService;
 
+    // quarkus-22
     // Define the tool using the @Tool annotation
     @Tool(description = "Tool to create an image with Stable Diffusion XL given a prompt and a negative prompt.")
     String generateImage(@P("Prompt that explains the image") String prompt, @P("Negative prompt that explains what the image must not contains") String negativePrompt) throws IOException, InterruptedException {
         _LOG.info("Prompt: {}", prompt);
         _LOG.info("Negative prompt: {}", negativePrompt);
 
+        // quarkus-23
         byte[] image = stableDiffusionService.generateImage(new SDPayload(prompt, negativePrompt));
 
         Files.write(Path.of("generated-image.jpeg"), image);

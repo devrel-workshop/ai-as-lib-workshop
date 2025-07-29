@@ -22,6 +22,7 @@ import dev.langchain4j.service.TokenStream;
 public class StreamingChatbot {
   private static final Logger _LOG = LoggerFactory.getLogger(StreamingChatbot.class);
 
+  // java-06
   // AI Service to create, see https://docs.langchain4j.dev/tutorials/ai-services
   interface Assistant {
     @SystemMessage("You are Nestor, a virtual assistant. Answer to the question.")
@@ -29,6 +30,7 @@ public class StreamingChatbot {
   }
 
   public static void main(String[] args) {
+    // java-07
     // Select the Mistral model to use (the streaming one)
     MistralAiStreamingChatModel steamingModel = MistralAiStreamingChatModel.builder()
             .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
@@ -40,12 +42,14 @@ public class StreamingChatbot {
             .logResponses(false)
             .build();
 
+    // java-08
     // Build the chatbot thanks to the AIService builder
     // The chatbot must be in streaming mode
     Assistant assistant = AiServices.builder(Assistant.class)
         .streamingChatModel(steamingModel)
         .build();
 
+    // java-09    
     // Send a prompt
     _LOG.info("💬: Tell me a joke about Java developers\n");
     TokenStream tokenStream = assistant.chat("Tell me a joke about Java developers");

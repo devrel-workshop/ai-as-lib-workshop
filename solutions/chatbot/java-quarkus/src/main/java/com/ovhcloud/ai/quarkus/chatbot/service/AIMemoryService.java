@@ -17,10 +17,12 @@ import jakarta.enterprise.context.ApplicationScoped;
  * The chatbot must remember previous messages.
  * The scope of the bean is application.
  */
+// quarkus-12
 // add class annotation here
 @ApplicationScoped
 @RegisterAiService
 public interface AIMemoryService {
+  // quarkus-13
   // Set the System and User message, activate the streaming mode and the memory. see https://docs.quarkiverse.io/quarkus-langchain4j/dev/ai-services.html#memory
   @SystemMessage("You are a virtual assistant and your name is Nestor.")
   @UserMessage("Answer as best possible to the following question: {question}. The answer must be in a style of a virtual assistant.")

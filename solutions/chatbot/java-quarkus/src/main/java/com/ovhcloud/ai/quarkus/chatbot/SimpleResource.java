@@ -15,13 +15,16 @@ import jakarta.ws.rs.Path;
  * see https://quarkus.io/guides/rest
  */
 // Declare a base path for the resource. call it "chatbot"
+// quarkus-04
 @Path("/chatbot")
 public class SimpleResource {
 
+  // quarkus-05
   // Inject the AISimpleService service
   @Inject
   AISimpleService aiEndpointService;
 
+  // quarkus-06
   // Declare a POST method with the "simple" path
   @Path("simple")
   @POST

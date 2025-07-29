@@ -35,6 +35,7 @@ public class ImageGenerationMCPChatbot {
         // Chatbot definition.
         // The goal of the chatbot is to build a powerful prompt for Stable diffusion XML.
     interface ChatBot {
+        // java-33
         // Create a detailed system prompt: the goal and what the model must generate and use
         @SystemMessage("""
                 Your are an expert of using the Stable Diffusion XL model.
@@ -51,6 +52,7 @@ public class ImageGenerationMCPChatbot {
     }
 
     public static void main(String[] args) {
+        // java-34
         // Main chatbot configuration, try to be more deterministic as possible ;)
         MistralAiChatModel chatModel = MistralAiChatModel.builder()
                 .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
@@ -62,6 +64,7 @@ public class ImageGenerationMCPChatbot {
                 .temperature(0.0)
                 .build();
 
+        // java-35
         // Configure the MCP server to use
         McpTransport transport = new HttpMcpTransport.Builder()
                 // https://xxxx/mcp/sse
@@ -70,19 +73,23 @@ public class ImageGenerationMCPChatbot {
                 .logResponses(false)
                 .build();
 
+        // java-36
         // Create the MCP client for the given MCP server
         McpClient mcpClient = new DefaultMcpClient.Builder()
                 .transport(transport)
                 .build();
 
+        // java-37
         // Configure the tools list for the LLM
         McpToolProvider toolProvider = McpToolProvider.builder()
                 .mcpClients(mcpClient)
                 .build();
 
+        // java-38
         // Add memory to fine tune the SDXL prompt.
         ChatMemory chatMemory = MessageWindowChatMemory.withMaxMessages(10);
 
+        // java-39
         // Create the chatbot with the given LLM and tools list
         ChatBot bot = AiServices.builder(ChatBot.class)
                 .chatModel(chatModel)
@@ -90,6 +97,7 @@ public class ImageGenerationMCPChatbot {
                 .chatMemory(chatMemory)
                 .build();
 
+        // java-40
         // Start the conversation loop (enter "exit" to quit)
         String userInput = "";
         Scanner scanner = new Scanner(System.in);

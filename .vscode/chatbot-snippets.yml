@@ -1,7 +1,7 @@
 # java-langchain4j section
 
-snippet langchain4j-dep:
-  name: "LangChain4j dependency"
+snippet java-01:
+  name: "java LangChain4J dependencies"
   prefix: "java-01"
   scope: "xml"
   body: |
@@ -17,18 +17,7 @@ snippet langchain4j-dep:
       <version>${langchain4j.provider.version}</version>
     </dependency>
 
-snippet langchain4j-ovhai:
-  name: "LangChain4j OVHai dependency"
-  prefix: "java-15"
-  scope: "xml"
-  body: |
-    <dependency>
-      <groupId>dev.langchain4j</groupId>
-      <artifactId>langchain4j-ovh-ai</artifactId>
-      <version>${langchain4j.provider.version}</version>
-    </dependency>
-
-snippet simple-ai-services:
+snippet java-02:
   name: "Simple chatbot AI Services"
   prefix: "java-02"
   scope: "java"
@@ -38,7 +27,7 @@ snippet simple-ai-services:
       String chat(String message);
     }
 
-snippet simple-model:
+snippet java-03:
   name: "Simple chatbot model"
   prefix: "java-03"
   scope: "java"
@@ -53,7 +42,7 @@ snippet simple-model:
         .logResponses(true)
         .build();
 
-snippet simple-assistant:
+snippet java-04:
   name: "Simple chatbot assistant"
   prefix: "java-04"
   scope: "java"
@@ -62,7 +51,7 @@ snippet simple-assistant:
         .chatModel(chatModel)
         .build();
 
-snippet simple-call:
+snippet java-05:
   name: "Simple chatbot call"
   prefix: "java-05"
   scope: "java"
@@ -70,7 +59,7 @@ snippet simple-call:
     _LOG.info("💬: Question: Tell me a joke about Java developers\n");
     _LOG.info("🤖: {}", assistant.chat("Tell me a joke about Java developers"));
 
-snippet streaming-ai-services:
+snippet java-06:
   name: "Streaming AI Services"
   prefix: "java-06"
   scope: "java"
@@ -80,7 +69,7 @@ snippet streaming-ai-services:
       TokenStream chat(String message);
     }
 
-snippet streaming-model:
+snippet java-07:
   name: "Streaming model"
   prefix: "java-07"
   scope: "java"
@@ -104,7 +93,7 @@ snippet streaming-assistant:
         .streamingChatModel(steamingModel)
         .build();
 
-snippet streaming-call:
+snippet java-09:
   name: "Streaming call"
   prefix: "java-09"
   scope: "java"
@@ -116,8 +105,8 @@ snippet streaming-call:
         .onPartialResponse(_LOG::info)
         .onError(Throwable::printStackTrace).start();
 
-snippet memory-ai-services:
-  name: "Memory call"
+snippet java-10:
+  name: "Memory AI Services"
   prefix: "java-10"
   scope: "java"
   body: |
@@ -126,7 +115,7 @@ snippet memory-ai-services:
       TokenStream chat(String message);
     }
 
-snippet memory-model:
+snippet java-11:
   name: "Memory model"
   prefix: "java-11"
   scope: "java"
@@ -141,15 +130,15 @@ snippet memory-model:
         .logResponses(false)
         .build();
 
-snippet memory-memory:
+snippet java-12:
   name: "Memory memory storage"
   prefix: "java-12"
   scope: "java"
   body: |
     ChatMemory chatMemory = MessageWindowChatMemory.withMaxMessages(10);
 
-snippet memory-assistant:
-  name: "Memory memory assistant"
+snippet java-13:
+  name: "Memory assistant"
   prefix: "java-13"
   scope: "java"
   body: |
@@ -158,8 +147,8 @@ snippet memory-assistant:
         .chatMemory(chatMemory)
         .build();  
 
-snippet memory-call:
-  name: "Memory memory call"
+snippet java-14:
+  name: "Memory call"
   prefix: "java-14"
   scope: "java"
   body: |
@@ -177,7 +166,18 @@ snippet memory-call:
                 })
                 .onError(Throwable::printStackTrace).start();
 
-snippet rag-ai-services:
+snippet java-15:
+  name: "LangChain4j OVHai dependency"
+  prefix: "java-15"
+  scope: "xml"
+  body: |
+    <dependency>
+      <groupId>dev.langchain4j</groupId>
+      <artifactId>langchain4j-ovh-ai</artifactId>
+      <version>${langchain4j.provider.version}</version>
+    </dependency>
+
+snippet java-16:
   name: "RAG AI Services"
   prefix: "java-16"
   scope: "java"
@@ -187,7 +187,7 @@ snippet rag-ai-services:
       TokenStream chat(String message);
     }
 
-snippet rag-model:
+snippet java-17:
   name: "RAG model"
   prefix: "java-17"
   scope: "java"
@@ -202,14 +202,14 @@ snippet rag-model:
             .logResponses(false)
             .build();
 
-snippet rag-memory:
+snippet java-18:
   name: "RAG memory"
   prefix: "java-18"
   scope: "java"
   body: |
     ChatMemory chatMemory = MessageWindowChatMemory.withMaxMessages(10);
 
-snippet rag-chunk:
+snippet java-19:
   name: "RAG chunk"
   prefix: "java-19"
   scope: "java"
@@ -222,7 +222,7 @@ snippet rag-chunk:
 
     List<TextSegment> segments = splitter.split(document);
 
-snippet rag-embedding:
+snippet java-20:
   name: "RAG embedding"
   prefix: "java-20"
   scope: "java"
@@ -233,7 +233,7 @@ snippet rag-embedding:
                     .build();
     List<Embedding> embeddings = embeddingModel.embedAll(segments).content();
 
-snippet rag-embedding-store:
+snippet java-21:
   name: "RAG embedding store"
   prefix: "java-21"
   scope: "java"
@@ -247,7 +247,7 @@ snippet rag-embedding-store:
         .minScore(0.1)
         .build();
 
-snippet rag-assistant:
+snippet java-22:
   name: "RAG assistant"
   prefix: "java-22"
   scope: "java"
@@ -258,20 +258,20 @@ snippet rag-assistant:
         .contentRetriever(contentRetriever)
         .build();
 
-snippet rag-call:
+snippet java-23:
   name: "RAG call"
   prefix: "java-23"
   scope: "java"
   body: |
-    _LOG.info("💬: What is the program at Sunny Tech?\n");
-    TokenStream tokenStream = assistant.chat("What is the program at Sunny Tech?");
+    _LOG.info("💬: What is the program at AI Summit Barcelona?\n");
+    TokenStream tokenStream = assistant.chat("What is the program at AI Summit Barcelona?");
     _LOG.info("🤖: ");
     tokenStream
         .onPartialResponse(_LOG::info)
         .onError(Throwable::printStackTrace).start();
 
 snippet java-24:
-  name: "java-24-Tool"
+  name: "Tool generateImage tool"
   prefix: "java-24"
   scope: "java"
   body: |
@@ -289,7 +289,7 @@ snippet java-24:
     }
 
 snippet java-25:
-  name: "java-25-sdxl-call"
+  name: "Tool call SDXL"
   prefix: "java-25"
   scope: "java"
   body: |
@@ -306,7 +306,7 @@ snippet java-25:
             .build();
 
 snippet java-26:
-  name: "java-26-write-img"
+  name: "Tool: save image"
   prefix: "java-26"
   scope: "java"
   body: |
@@ -318,7 +318,7 @@ snippet java-26:
     Files.write(Path.of("generated-image.jpeg"), response.body());
 
 snippet java-27:
-  name: "java-27-ai-services"
+  name: "Tool: AI Services"
   prefix: "java-27"
   scope: "java"
   body: |
@@ -337,7 +337,7 @@ snippet java-27:
     String chat(@V("userMessage") String userMessage);
 
 snippet java-28:
-  name: "java-28-model"
+  name: "Tool: model selection"
   prefix: "java-28"
   scope: "java"
   body: |
@@ -353,7 +353,7 @@ snippet java-28:
             .build();
 
 snippet java-29:
-  name: "java-29-model"
+  name: "Tool: memory"
   prefix: "java-29"
   scope: "java"
   body: |
@@ -361,7 +361,7 @@ snippet java-29:
     ChatMemory chatMemory = MessageWindowChatMemory.withMaxMessages(10);
 
 snippet java-30:
-  name: "java-30-ai-services"
+  name: "Tool: build chatbot"
   prefix: "java-30"
   scope: "java"
   body: |
@@ -373,7 +373,7 @@ snippet java-30:
             .build();
 
 snippet java-31:
-  name: "java-31-prompt"
+  name: "Tool: call LLM"
   prefix: "java-31"
   scope: "java"
   body: |
@@ -389,7 +389,7 @@ snippet java-31:
     scanner.close();
 
 snippet java-32:
-  name: "java-32-dep-mcp"
+  name: "MCP: dependency"
   prefix: "java-32"
   scope: "xml"
   body: |
@@ -400,7 +400,7 @@ snippet java-32:
     </dependency>
 
 snippet java-33:
-  name: "java-33-ai-services"
+  name: "MCP: AI Services"
   prefix: "java-33"
   scope: "java"
   body: |
@@ -418,7 +418,7 @@ snippet java-33:
     String chat(@V("userMessage") String userMessage);
 
 snippet java-34:
-  name: "java-34-model"
+  name: "MCP: model selection"
   prefix: "java-34"
   scope: "java"
   body: |
@@ -433,7 +433,7 @@ snippet java-34:
             .build();
 
 snippet java-35:
-  name: "java-35-"
+  name: "MCP: transport"
   prefix: "java-35-mcp-transport"
   scope: "java"
   body: |
@@ -445,7 +445,7 @@ snippet java-35:
             .build();
 
 snippet java-36:
-  name: "java-36"
+  name: "MCP: mcp client"
   prefix: "java-36-mcp-client"
   scope: "java"
   body: |
@@ -454,7 +454,7 @@ snippet java-36:
             .build();
 
 snippet java-37:
-  name: "java-37"
+  name: "MCP: tool provider"
   prefix: "java-37-mcp-tool"
   scope: "java"
   body: |
@@ -463,14 +463,14 @@ snippet java-37:
             .build();
 
 snippet java-38:
-  name: "java-38"
+  name: "MCP: memory"
   prefix: "java-38-memory"
   scope: "java"
   body: |
     ChatMemory chatMemory = MessageWindowChatMemory.withMaxMessages(10);
 
 snippet java-39:
-  name: "java-39"
+  name: "MCP: chatbot"
   prefix: "java-39-chatbot"
   scope: "java"
   body: |
@@ -481,7 +481,7 @@ snippet java-39:
             .build();
 
 snippet java-40:
-  name: "java-40"
+  name: "MCP: call LLM"
   prefix: "java-40-prompt"
   scope: "java"
   body: |
@@ -496,7 +496,7 @@ snippet java-40:
     scanner.close();
     
 ## java-quarkus section
-snippet quarkus-props:
+snippet quarkus-01:
   name: "Quarkus properties"
   prefix: "quarkus-01"
   body: |
@@ -508,14 +508,14 @@ snippet quarkus-props:
     quarkus.langchain4j.mistralai.log-responses=false
     quarkus.langchain4j.mistralai.chat-model.temperature=0.2
 
-snippet quarkus-svc-simple-class-annot:
+snippet quarkus-02:
   name: "Class annotation simple"
   prefix: "quarkus-02"
   scope: "java"
   body: |
     @RegisterAiService
 
-snippet quarkus-svc-simple-question:
+snippet quarkus-03:
   name: "Entry point to llm simple"
   prefix: "quarkus-03"
   scope: "java"
@@ -524,14 +524,14 @@ snippet quarkus-svc-simple-question:
     @UserMessage("Answer as best possible to the following question: {question}. The answer must be in a style of a virtual assistant.")
     String askAQuestion(String question);
 
-snippet quarkus-simple-resource-annot:
+snippet quarkus-04:
   name: "Class annotation simple resource"
   prefix: "quarkus-04"
   scope: "java"
   body: |
     @Path("/chatbot")
 
-snippet quarkus-simple-resource-inject:
+snippet quarkus-05:
   name: "Injection simple resource"
   prefix: "quarkus-05"
   scope: "java"
@@ -539,7 +539,7 @@ snippet quarkus-simple-resource-inject:
     @Inject
     AISimpleService aiEndpointService;
 
-snippet quarkus-simple-resource-ask:
+snippet quarkus-06:
   name: "Simple resource ask method"
   prefix: "quarkus-06"
   scope: "java"
@@ -551,14 +551,14 @@ snippet quarkus-simple-resource-ask:
       return aiEndpointService.askAQuestion(question);
     }
     
-snippet quarkus-svc-advanced-class-annot:
+snippet quarkus-07:
   name: "Class annotation advanced" 
   prefix: "quarkus-07"
   scope: "java"
   body: |
     @RegisterAiService
 
-snippet quarkus-svc-advanced-question:
+snippet quarkus-08:
   name: "Entry point to llm advanced"
   prefix: "quarkus-08"
   scope: "java"
@@ -567,14 +567,14 @@ snippet quarkus-svc-advanced-question:
     @UserMessage("Answer as best possible to the following question: {question}. The answer must be in a style of a virtual assistant.")
     Multi<String> askAQuestion(String question);
 
-snippet quarkus-advanced-resource-annot:
+snippet quarkus-09:
   name: "Class annotation advanced resource"
   prefix: "quarkus-09"
   scope: "java"
   body: |
     @Path("/chatbot")
 
-snippet quarkus-advanced-resource-inject:
+snippet quarkus-10:
   name: "Injection advanced resource"
   prefix: "quarkus-10"
   scope: "java"
@@ -582,7 +582,7 @@ snippet quarkus-advanced-resource-inject:
     @Inject
     AIAdvancedService advancedService;
 
-snippet quarkus-advanced-resource-ask:
+snippet quarkus-11:
   name: "Advanced resource ask method"
   prefix: "quarkus-11"
   scope: "java"
@@ -595,7 +595,7 @@ snippet quarkus-advanced-resource-ask:
       return advancedService.askAQuestion(question);
     }
 
-snippet quarkus-svc-memory-class-annot:
+snippet quarkus-12:
   name: "Class annotation memory"
   prefix: "quarkus-12"
   scope: "java"
@@ -603,7 +603,7 @@ snippet quarkus-svc-memory-class-annot:
     @ApplicationScoped
     @RegisterAiService
 
-snippet quarkus-svc-memory-question:
+snippet quarkus-13:
   name: "Entry point to llm memory"
   prefix: "quarkus-13"
   scope: "java"
@@ -612,14 +612,14 @@ snippet quarkus-svc-memory-question:
     @UserMessage("Answer as best possible to the following question: {question}. The answer must be in a style of a virtual assistant.")
     Multi<String> askAQuestion(String question, @MemoryId String memoryId);
 
-snippet quarkus-memory-resource-annot:
+snippet quarkus-14:
   name: "Class annotation memory resource"
   prefix: "quarkus-14"
   scope: "java"
   body: |
     @Path("/chatbot")
 
-snippet quarkus-memory-resource-inject:
+snippet quarkus-15:
   name: "Injection memory resource"
   prefix: "quarkus-15"
   scope: "java"
@@ -627,7 +627,7 @@ snippet quarkus-memory-resource-inject:
     @Inject
     AIMemoryService aiMemoryService;
 
-snippet quarkus-memory-resource-ask:
+snippet quarkus-16:
   name: "Memory resource ask method"
   prefix: "quarkus-16"
   scope: "java"

@@ -21,6 +21,7 @@ import dev.langchain4j.service.SystemMessage;
 public class SimpleChatbot {
   private static final Logger _LOG = LoggerFactory.getLogger(SimpleChatbot.class);
 
+  // java-02
   // AI Service to create, see https://docs.langchain4j.dev/tutorials/ai-services
   interface Assistant {
     @SystemMessage("You are Nestor, a virtual assistant. Answer to the question.")
@@ -28,6 +29,7 @@ public class SimpleChatbot {
   }
 
   public static void main(String[] args) {
+    // java-03
     // Select the Mistral model to use
     MistralAiChatModel chatModel = MistralAiChatModel.builder()
         .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
@@ -39,11 +41,13 @@ public class SimpleChatbot {
         .logResponses(true)
         .build();
 
+    // java-04
     // Build the chatbot thanks to the AIService builder
     Assistant assistant = AiServices.builder(Assistant.class)
         .chatModel(chatModel)
         .build();
 
+    // java-05
     // Send a prompt
     _LOG.info("💬: Question: Tell me a joke about Java developers\n");
     _LOG.info("🤖: {}", assistant.chat("Tell me a joke about Java developers"));
