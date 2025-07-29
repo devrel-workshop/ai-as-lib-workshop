@@ -1,22 +1,23 @@
-# Nom et information sur la conférence
-Sunny Tech est la 1ère conférence Tech organisée à Montpellier. Une conférence annuelle des technologies du numérique, créée par des passionnés, pour des passionnés avec l’ambition de rayonner nationalement, et même internationalement, à travers l’intervention de conférenciers étrangers de renom.
+# Name and information about the conference
+AI is no longer just a concept — it's everywhere. AI Summit Barcelona is designed to go beyond discussions and show artificial intelligence in action.
+We're bringing together the key players in the AI ecosystem: innovative startups building the future, strategic investors funding the next wave, forward-thinking companies implementing AI today, and technical experts solving the hardest problems.
 
-## Dates, lieux et contenus des événements
+## Agenda and venue
 
-### Atelier du 26 juin 2025 de 16h20 à 18h10
-L'atelier aura lieu dans la salle Romarin
+### AI workshop on 15th, October at 9h AM.
+The workshop will be in the discover room.
 
-#### Sujet
-Développer avec l'IA : et si c'était aussi simple qu'ajouter une librairie ?
+#### Subject
+Developing with AI: what if it's as simple as adding a library?
 
-#### Intervenant 
-Stéphane Philippart
+#### Speakers 
+Mathieu Busquet and Stéphane Philippart
 
-#### Détails de l'atelier
-L’intelligence artificielle et les LLM commencent à faire partie de nos vies personnelles mais aussi professionnelles.
-Si on est habitué•es à les utiliser régulièrement, il en est autrement pour ce qui concerne nos développements.
-Les intégrer peut nous paraître plus complexe que de les utiliser dans notre quotidien.
-Dois-je apprendre un nouveau langage ou une nouvelle stack ?
-Durant ce workshop nous vous proposons de vous donner tous les éléments pour débuter votre voyage au sein de l’IA sans quitter votre langage de prédilection : Java, JavaScript, Python ou Go (et qui sait peut être d’autres surprises (wink)).
-Vous apprendrez comment utiliser les Frameworks du moment (LangChain, LangChain4j, …) mais aussi les outils vous facilitant la vie pour que dès le retour à votre application préférée, intégrer de l’IA au sein de celle-ci ne soit plus une peur mais une action aussi simple que de rajouter une librairie tierce.
-Et, toujours pour vous simplifier la vie, venez juste avec votre ordinateur et un navigateur Internet, je me charge du reste pour vous construire un environnement de développement aux petits oignons grâce aux CDE.
+#### Abstract
+Artificial intelligence and LLM are beginning to be part of our personal and professional lives.
+We are used to using them regularly, but our developments are different.
+Integrating them can seem more complex than using them in our daily lives.
+Do I need to learn a new language or a new stack?
+During this workshop, we will give you everything you need to start your journey through AI without leaving your preferred language: Java, JavaScript or Python.
+You will learn how to use the Frameworks of the moment (LangChain, LangChain4j, ...) but also the tools that make your life easier so that as soon as you return to your favorite application, integrating AI within it is no longer a fear but an action as simple as adding a third library.
+And to make your life easier, just bring your computer and a web browser, and we'll take care of the rest to build you a small-scale development environment using CDE.
