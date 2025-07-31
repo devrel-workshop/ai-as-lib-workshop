@@ -167,4 +167,44 @@ The exercise is divided in two part:
       - the [StableDiffusionService](./java-quarkus/src/main/java/com/ovhcloud/ai/quarkus/chatbot/service/StableDiffusionService.java)
       - the [ImageGenToolsService](./java-quarkus/src/main/java/com/ovhcloud/ai/quarkus/chatbot/service/ImageGenToolsService.java)
 
+## 🐍 Python version 🐍
 
+**ℹ️ All solutions to this part are in the [solution/chatbot](../../solutions/chatbot/python/) folder. ℹ️**
+
+### ⚠️ Prerequisites ⚠️
+
+If you use [Coder CDE](https://coder.com/) to open this project, all prerequisites are managed for you.  
+In the other case you need : 
+ - Python 3.11 min
+
+> Note: most of the modules will use these the [LangChain](https://python.langchain.com/) Framework.
+
+### 🤖 Module 1: Chatbot with AI Endpoints and LangChain 🐍
+
+The goal of this module is to develop a simple chatbot with [AI Endpoints](https://endpoints.ai.cloud.ovh.net/) and Python.  
+The exercise is divided in 4 parts:
+1. Create a simple chatbot: [simple-chatbot](./python/simple-chatbot.py)
+1. Create a streaming chatbot: [streaming-chatbot](./python/streaming-chatbot.py)
+1. Create a memory chatbot: [memory-chatbot](./python/memory-chatbot.py)
+1. Create a chatbot with RAG: [rag-chatbot](./python/rag-chatbot.py)
+
+#### 🔗 Useful resources:
+ - [LangChain](https://python.langchain.com/)
+ - [MistralAI integration](https://python.langchain.com/docs/integrations/providers/mistralai/) in LangChain4j
+
+#### ⚗️ Test your code by running the following commands: 
+ - Simple chatbot: `python simple-chatbot`
+ - Advanced chatbot: `python streaming-chatbot`
+ - Memory chatbot: `python memory-chatbot`
+ - RAG chatbot: `python rag-chatbot`
+
+#### 👩‍💻 How to develop ? 🧑‍💻
+
+  - all needed files are pre-created in [python](./python/) folder
+  - the main resources:
+    - the [requirements.txt](./python/requirements.txt) file
+    - the [simple-chatbot](./python/simple-chatbot.py) file
+    - the [streaming-chatbot](./python/streaming-chatbot.py) file
+    - the [memory-chatbot](./python/memory-chatbot.py) file
+    - the [rag-chatbot](./python/rag-chatbot.py)
+    - the [content.txt](./python/rag-files/conference-information-talk-01) file for RAG part

@@ -706,3 +706,250 @@ snippet quarkus-23:
     byte[] image = stableDiffusionService.generateImage(new SDPayload(prompt, negativePrompt));
 
     Files.write(Path.of("generated-image.jpeg"), image);
+
+##### Python section
+snippet py-33:
+  name: "Chatbot requirements"
+  prefix: "py-33"
+  body: | 
+    # LangChain dependencies
+    langchain==0.3.27
+    langgraph==0.3.27
+    langchain-mistralai==0.2.11
+    langchain_chroma==0.2.5
+    langchain-community==0.3.27
+
+snippet py-34:
+  name: "Chatbot simple model"
+  prefix: "py-34"
+  scope: "python"
+  body: | 
+    model = ChatMistralAI(
+        base_url=os.getenv("OVH_AI_ENDPOINTS_MODEL_URL"),
+        api_key=os.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"),
+        model=os.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"),
+        max_tokens=512,
+        temperature=0
+    )
+
+snippet py-35:
+  name: "Chatbot simple messages"
+  prefix: "py-35"
+  scope: "python"
+  body: | 
+    messages = [
+        (
+            "system",
+            "You are Nestor, a virtual assistant. Answer to the question.",
+        ),
+        ("human", "Tell me a joke about Python developers,"),
+    ]
+
+snippet py-36:
+  name: "Chatbot simple model call"
+  prefix: "py-36"
+  scope: "python"
+  body: | 
+    ai_msg = model.invoke(messages)
+
+snippet py-37:
+  name: "Chatbot simple print response"
+  prefix: "py-37"
+  scope: "python"
+  body: | 
+    print("💬: Question: Tell me a joke about Python developers\n")
+    print(f"🤖: {ai_msg.content}")
+
+snippet py-38:
+  name: "Chatbot stream model"
+  prefix: "py-38"
+  scope: "python"
+  body: | 
+    model = ChatMistralAI(
+        base_url=os.getenv("OVH_AI_ENDPOINTS_MODEL_URL"),
+        api_key=os.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"),
+        model=os.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"),
+        max_tokens=512,
+        temperature=0
+    )
+
+snippet py-39:
+  name: "Chatbot stream messages"
+  prefix: "py-39"
+  scope: "python"
+  body: | 
+    messages = [
+        (
+            "system",
+            "You are Nestor, a virtual assistant. Answer to the question.",
+        ),
+        ("human", "Tell me a joke about Python developers"),
+    ]
+
+snippet py-40:
+  name: "Chatbot stream print"
+  prefix: "py-40"
+  scope: "python"
+  body: | 
+    print("💬: Question: Tell me a joke about Python developers\n")
+    print("🤖:")
+
+snippet py-41:
+  name: "Chatbot stream call model"
+  prefix: "py-41"
+  scope: "python"
+  body: | 
+    for chunk in model.stream(messages):
+      print(chunk.content, end="", flush=True)
+
+snippet py-42:
+  name: "Chatbot memory model"
+  prefix: "py-42"
+  scope: "python"
+  body: | 
+    model = ChatMistralAI(
+        base_url=os.getenv("OVH_AI_ENDPOINTS_MODEL_URL"),
+        api_key=os.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"),
+        model=os.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"),
+        max_tokens=512,
+        temperature=0
+    )
+
+snippet py-43:
+  name: "Chatbot memory LangGraph creation"
+  prefix: "py-43"
+  scope: "python"
+  body: | 
+    workflow = StateGraph(state_schema=MessagesState)
+
+snippet py-44:
+  name: "Chatbot memory function call"
+  prefix: "py-44"
+  scope: "python"
+  body: | 
+    def call_model(state: MessagesState):
+    response = model.invoke(
+        [SystemMessage("You are Nestor, a virtual assistant. Answer to the question.")] 
+        + state["messages"]
+    )
+
+    return {"messages": response.content}
+
+snippet py-45:
+  name: "Chatbot memory nodes"
+  prefix: "py-45"
+  scope: "python"
+  body: | 
+    workflow.add_edge(START, "model")
+    workflow.add_node("model", call_model)
+
+snippet py-46:
+  name: "Chatbot memory add memory"
+  prefix: "py-46"
+  scope: "python"
+  body: | 
+    memory = MemorySaver()
+
+snippet py-47:
+  name: "Chatbot memory graph compile"
+  prefix: "py-47"
+  scope: "python"
+  body: | 
+    app = workflow.compile(
+    checkpointer=memory
+    )
+
+snippet py-48:
+  name: "Chatbot memory thread ID"
+  prefix: "py-48"
+  scope: "python"
+  body: | 
+    thread_id = uuid.uuid4()
+    config = {"configurable": {"thread_id": thread_id}}
+
+snippet py-49:
+  name: "Chatbot memory model call"
+  prefix: "py-49"
+  scope: "python"
+  body: | 
+    question = "Hello, my name is Stéphane"
+    print(f"👤: {question}")
+    print("🤖: ")
+    for message_chunk, metadata in app.stream( 
+        {"messages": "Hello, my name is Stéphane"}, config,
+        stream_mode="messages",
+    ):
+        if message_chunk.content:
+            print(message_chunk.content, end="", flush=True)
+
+    question = "Do you remember my name?"
+    print(f"👤: {question}")
+    print("🤖: ")
+    for message_chunk, metadata in app.stream( 
+        {"messages": "Do you remember my name?"}, config,
+        stream_mode="messages",
+    ):
+        if message_chunk.content:
+            print(message_chunk.content, end="", flush=True)
+
+snippet py-50:
+  name: "Chatbot RAG model"
+  prefix: "py-50"
+  scope: "python"
+  body: | 
+    model = ChatMistralAI(
+    base_url=os.getenv("OVH_AI_ENDPOINTS_MODEL_URL"),
+    api_key=os.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"),
+    model=os.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"),
+    max_tokens=512,
+    temperature=0
+    )
+
+snippet py-51:
+  name: "Chatbot RAG doc loading"
+  prefix: "py-51"
+  scope: "python"
+  body: | 
+    loader = TextLoader("./rag-files/conference-information-talk-01.md")
+    docs = loader.load()
+
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+    splits = text_splitter.split_documents(docs)
+
+snippet py-52:
+  name: "Chatbot RAG vector DB"
+  prefix: "py-52"
+  scope: "python"
+  body: | 
+    vectorstore = Chroma.from_documents(documents=splits, 
+                   embedding=OVHCloudEmbeddings(model_name="bge-multilingual-gemma2", 
+                   access_token=os.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN")))
+
+snippet py-53:
+  name: "Chatbot RAG prompt"
+  prefix: "py-53"
+  scope: "python"
+  body: | 
+    prompt = hub.pull("rlm/rag-prompt")
+
+snippet py-54:
+  name: "Chatbot RAG prompt"
+  prefix: "py-54"
+  scope: "python"
+  body: | 
+    rag_chain = (
+      {"context": vectorstore.as_retriever(), "question": RunnablePassthrough()} |
+      prompt
+      | model
+    )
+
+snippet py-55:
+  name: "Chatbot RAG print"
+  prefix: "py-55"
+  scope: "python"
+  body: | 
+    print("👤: What is the program at AI Summit Barcelona?")
+    print("🤖:")
+    for r in rag_chain.stream({"question", "What is the program at AI Summit Barcelona?"}):
+      print(r.content, end="", flush=True)
+      time.sleep(0.150)

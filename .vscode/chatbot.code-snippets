@@ -14,6 +14,290 @@
     "prefix": "quarkus-11",
     "scope": "java"
   },
+  "Chatbot RAG doc loading": {
+    "body": [
+      "loader = TextLoader(\"./rag-files/conference-information-talk-01.md\")",
+      "docs = loader.load()",
+      "",
+      "text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)",
+      "splits = text_splitter.split_documents(docs)",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-51",
+    "scope": "python"
+  },
+  "Chatbot RAG model": {
+    "body": [
+      "model = ChatMistralAI(",
+      "base_url=os.getenv(\"OVH_AI_ENDPOINTS_MODEL_URL\"),",
+      "api_key=os.getenv(\"OVH_AI_ENDPOINTS_ACCESS_TOKEN\"),",
+      "model=os.getenv(\"OVH_AI_ENDPOINTS_MODEL_NAME\"),",
+      "max_tokens=512,",
+      "temperature=0",
+      ")",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-50",
+    "scope": "python"
+  },
+  "Chatbot RAG print": {
+    "body": [
+      "print(\"👤: What is the program at AI Summit Barcelona?\")",
+      "print(\"🤖:\")",
+      "for r in rag_chain.stream({\"question\", \"What is the program at AI Summit Barcelona?\"}):",
+      "  print(r.content, end=\"\", flush=True)",
+      "  time.sleep(0.150)",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-55",
+    "scope": "python"
+  },
+  "Chatbot RAG prompt": {
+    "body": [
+      "rag_chain = (",
+      "  {\"context\": vectorstore.as_retriever(), \"question\": RunnablePassthrough()} |",
+      "  prompt",
+      "  | model",
+      ")",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-54",
+    "scope": "python"
+  },
+  "Chatbot RAG vector DB": {
+    "body": [
+      "vectorstore = Chroma.from_documents(documents=splits, ",
+      "               embedding=OVHCloudEmbeddings(model_name=\"bge-multilingual-gemma2\", ",
+      "               access_token=os.getenv(\"OVH_AI_ENDPOINTS_ACCESS_TOKEN\")))",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-52",
+    "scope": "python"
+  },
+  "Chatbot memory LangGraph creation": {
+    "body": [
+      "workflow = StateGraph(state_schema=MessagesState)",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-43",
+    "scope": "python"
+  },
+  "Chatbot memory add memory": {
+    "body": [
+      "memory = MemorySaver()",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-46",
+    "scope": "python"
+  },
+  "Chatbot memory function call": {
+    "body": [
+      "def call_model(state: MessagesState):",
+      "response = model.invoke(",
+      "    [SystemMessage(\"You are Nestor, a virtual assistant. Answer to the question.\")] ",
+      "    + state[\"messages\"]",
+      ")",
+      "",
+      "return {\"messages\": response.content}",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-44",
+    "scope": "python"
+  },
+  "Chatbot memory graph compile": {
+    "body": [
+      "app = workflow.compile(",
+      "checkpointer=memory",
+      ")",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-47",
+    "scope": "python"
+  },
+  "Chatbot memory model": {
+    "body": [
+      "model = ChatMistralAI(",
+      "    base_url=os.getenv(\"OVH_AI_ENDPOINTS_MODEL_URL\"),",
+      "    api_key=os.getenv(\"OVH_AI_ENDPOINTS_ACCESS_TOKEN\"),",
+      "    model=os.getenv(\"OVH_AI_ENDPOINTS_MODEL_NAME\"),",
+      "    max_tokens=512,",
+      "    temperature=0",
+      ")",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-42",
+    "scope": "python"
+  },
+  "Chatbot memory model call": {
+    "body": [
+      "question = \"Hello, my name is Stéphane\"",
+      "print(f\"👤: {question}\")",
+      "print(\"🤖: \")",
+      "for message_chunk, metadata in app.stream( ",
+      "    {\"messages\": \"Hello, my name is Stéphane\"}, config,",
+      "    stream_mode=\"messages\",",
+      "):",
+      "    if message_chunk.content:",
+      "        print(message_chunk.content, end=\"\", flush=True)",
+      "",
+      "question = \"Do you remember my name?\"",
+      "print(f\"👤: {question}\")",
+      "print(\"🤖: \")",
+      "for message_chunk, metadata in app.stream( ",
+      "    {\"messages\": \"Do you remember my name?\"}, config,",
+      "    stream_mode=\"messages\",",
+      "):",
+      "    if message_chunk.content:",
+      "        print(message_chunk.content, end=\"\", flush=True)",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-49",
+    "scope": "python"
+  },
+  "Chatbot memory nodes": {
+    "body": [
+      "workflow.add_edge(START, \"model\")",
+      "workflow.add_node(\"model\", call_model)",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-45",
+    "scope": "python"
+  },
+  "Chatbot memory thread ID": {
+    "body": [
+      "thread_id = uuid.uuid4()",
+      "config = {\"configurable\": {\"thread_id\": thread_id}}",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-48",
+    "scope": "python"
+  },
+  "Chatbot requirements": {
+    "body": [
+      "# LangChain dependencies",
+      "langchain==0.3.27",
+      "langgraph==0.3.27",
+      "langchain-mistralai==0.2.11",
+      "langchain_chroma==0.2.5",
+      "langchain-community==0.3.27",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-33",
+    "scope": ""
+  },
+  "Chatbot simple messages": {
+    "body": [
+      "messages = [",
+      "    (",
+      "        \"system\",",
+      "        \"You are Nestor, a virtual assistant. Answer to the question.\",",
+      "    ),",
+      "    (\"human\", \"Tell me a joke about Python developers,\"),",
+      "]",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-35",
+    "scope": "python"
+  },
+  "Chatbot simple model": {
+    "body": [
+      "model = ChatMistralAI(",
+      "    base_url=os.getenv(\"OVH_AI_ENDPOINTS_MODEL_URL\"),",
+      "    api_key=os.getenv(\"OVH_AI_ENDPOINTS_ACCESS_TOKEN\"),",
+      "    model=os.getenv(\"OVH_AI_ENDPOINTS_MODEL_NAME\"),",
+      "    max_tokens=512,",
+      "    temperature=0",
+      ")",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-34",
+    "scope": "python"
+  },
+  "Chatbot simple model call": {
+    "body": [
+      "ai_msg = model.invoke(messages)",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-36",
+    "scope": "python"
+  },
+  "Chatbot simple print response": {
+    "body": [
+      "print(\"💬: Question: Tell me a joke about Python developers\\n\")",
+      "print(f\"🤖: {ai_msg.content}\")",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-37",
+    "scope": "python"
+  },
+  "Chatbot stream call model": {
+    "body": [
+      "for chunk in model.stream(messages):",
+      "  print(chunk.content, end=\"\", flush=True)",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-41",
+    "scope": "python"
+  },
+  "Chatbot stream messages": {
+    "body": [
+      "messages = [",
+      "    (",
+      "        \"system\",",
+      "        \"You are Nestor, a virtual assistant. Answer to the question.\",",
+      "    ),",
+      "    (\"human\", \"Tell me a joke about Python developers\"),",
+      "]",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-39",
+    "scope": "python"
+  },
+  "Chatbot stream model": {
+    "body": [
+      "model = ChatMistralAI(",
+      "    base_url=os.getenv(\"OVH_AI_ENDPOINTS_MODEL_URL\"),",
+      "    api_key=os.getenv(\"OVH_AI_ENDPOINTS_ACCESS_TOKEN\"),",
+      "    model=os.getenv(\"OVH_AI_ENDPOINTS_MODEL_NAME\"),",
+      "    max_tokens=512,",
+      "    temperature=0",
+      ")",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-38",
+    "scope": "python"
+  },
+  "Chatbot stream print": {
+    "body": [
+      "print(\"💬: Question: Tell me a joke about Python developers\\n\")",
+      "print(\"🤖:\")",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-40",
+    "scope": "python"
+  },
   "Class annotation advanced": {
     "body": [
       "@RegisterAiService",
