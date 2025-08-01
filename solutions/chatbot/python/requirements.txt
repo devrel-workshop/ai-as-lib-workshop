@@ -5,3 +5,4 @@ langgraph==0.3.27
 langchain-mistralai==0.2.11
 langchain_chroma==0.2.5
 langchain-community==0.3.27
+langchain-mcp-adapters==0.1.9

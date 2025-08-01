@@ -231,3 +231,31 @@ The exercise is divided in two part:
   - the main resources:
     - the [requirements.txt](./python/requirements.txt) file
     - the [image-generation-chatbot](./python/image-generation-chatbot.py) file
+
+### 🤖 Module 3: Bonus !!! MCP with LangChain 🔗
+
+The goal of this module is to develop a chatbot powering with new knowledge thanks to MCP protocol.
+The chatbot will help the user to generate a complete prompt for Stable Diffusion XL model to generate images.
+This time it uses a remote tool thanks to the MCP protocol.
+
+The exercise is divided in two part:
+ 1. Create a _MCP Server_ to call stable diffusion [mcp-server.py](./python/mcp-server.py)
+ 2. Create a chatbot using the tool giving by the MCP server [mcp-client.py](./python/mcp-client.py)
+
+#### 🔗 Useful resources:
+#### 🔗 Useful resources:
+ - [LangChain](https://python.langchain.com/)
+ - [MistralAI integration](https://python.langchain.com/docs/integrations/providers/mistralai/) in LangChain
+ - [LangChain MCP Adapters](https://github.com/langchain-ai/langchain-mcp-adapters/tree/main)
+
+#### ⚗️ Test your code by running the following command: 
+ - run the MCP server: `python mcp-server.py`
+ - in a new terminal (⚠️ source again your `setup_env.sh` file ⚠️) run `python mcp-client.py`
+
+#### 👩‍💻 How to develop ? 🧑‍💻
+
+  - all needed files are pre-created in [python](./python/) folder
+  - the main resources:
+    - the [requirements.txt](./python/requirements.txt) file
+    - the [mcp-server.py](./python/mcp-server.py) file
+    - the [mcp-client.py](./python/mcp-client.py) file
