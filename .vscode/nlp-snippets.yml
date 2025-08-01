@@ -124,3 +124,113 @@ snippet text-class-call:
       .catch((err) => {
         console.error(err);
       });
+
+# Python version
+snippet py-76:
+  name: "Emotion URL"
+  prefix: "py-76"
+  scope: "python"
+  body: |
+    url = "https://roberta-base-go-emotions.endpoints.kepler.ai.cloud.ovh.net/api/text2emotions"
+
+snippet py-77:
+  name: "Emotion bearer"
+  prefix: "py-77"
+  scope: "python"
+  body: |
+    headers = {
+    "Content-Type": "application/json",
+    "Authorization": f"Bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}",
+    }
+
+snippet py-78:
+  name: "Emotion model call"
+  prefix: "py-78"
+  scope: "python"
+  body: |
+    response = requests.post(url, data="I love Python", headers=headers)
+    if response.status_code == 200:
+        response_data = response.json()
+        max_key = max(response_data, key=response_data.get)
+        print(f"Emotion: {max_key}")
+    else:
+        print("❌ Error:", response.status_code)
+
+snippet py-79:
+  name: "Classification URL"
+  prefix: "py-79"
+  scope: "python"
+  body: |
+    url = "https://bert-base-ner.endpoints.kepler.ai.cloud.ovh.net/api/text2ner"
+
+snippet py-80:
+  name: "Classification header"
+  prefix: "py-80"
+  scope: "python"
+  body: |
+    headers = {
+    "Content-Type": "text/plain",
+    "Authorization": f"Bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}",
+    }
+
+snippet py-81:
+  name: "Classification model call"
+  prefix: "py-81"
+  scope: "python"
+  body: |
+    response = requests.post(url, data={"text": "My name is Clara and I live in Berkeley, California."}, headers=headers)
+    if response.status_code == 200:
+        response_data = response.json()
+        res_data = response.json()
+        
+        output = []
+        for entity in res_data:
+            description = ""
+            if entity['entity'] == "B-PER":
+                description = "is a person"
+            elif entity['entity'] == "B-LOC":
+                description = "a location"
+            elif entity['entity'] == "B-ORG":
+                description = "an organization"
+            elif entity['entity'] == "B-MISC":
+                description = "other"
+            else:
+                description = "undefined"
+            
+            output.append(f"{entity['word']} {description}")
+        
+        print(", ".join(output))
+    else:
+        print("Error:", response.status_code)
+
+snippet py-82:
+  name: "Review URL"
+  prefix: "py-82"
+  scope: "python"
+  body: |
+    url = "https://bert-base-multilingual-uncased-sentiment.endpoints.kepler.ai.cloud.ovh.net/api/text2sentiments"
+
+snippet py-83:
+  name: "Review header"
+  prefix: "py-83"
+  scope: "python"
+  body: |
+    headers = {
+    "Content-Type": "application/json",
+    "Authorization": f"Bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}",
+    }
+
+snippet py-84:
+  name: "Review model call"
+  prefix: "py-84"
+  scope: "python"
+  body: |
+    response = requests.post(url, data="Good product, delivered on time. Improved after-sales service.", headers=headers)
+    if response.status_code == 200:
+        response_data = response.json()
+        max_key = max(response_data, key=response_data.get)
+        num_stars = int(max_key.split()[0])
+        star_emoji = '⭐️' * num_stars
+        print(f"Review : {star_emoji}")
+    else:
+        print("❌ Error:", response.status_code)
