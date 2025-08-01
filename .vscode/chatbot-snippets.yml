@@ -953,3 +953,142 @@ snippet py-55:
     for r in rag_chain.stream({"question", "What is the program at AI Summit Barcelona?"}):
       print(r.content, end="", flush=True)
       time.sleep(0.150)
+
+snippet py-56:
+  name: "Image gen model"
+  prefix: "py-56"
+  scope: "python"
+  body: | 
+    model = ChatMistralAI(
+      base_url=os.getenv("OVH_AI_ENDPOINTS_MODEL_URL"),
+      api_key=os.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"),
+      model=os.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"),
+      max_tokens=512,
+      temperature=0
+    )
+
+snippet py-57:
+  name: "Image gen tool"
+  prefix: "py-57"
+  scope: "python"
+  body: | 
+    @tool
+    def generateImage(prompt: str, negative_prompt: str) -> str:
+        # Give a detailed description of the tool to "help" the model
+        # py-58
+
+        print("⚡️ Generate image with Stable Diffusion XL 🏞️")
+
+        # Payload and headers to send to SDXL API
+        # py-59        
+
+        # SDXL call and image save on the file system
+        file_path = "./generated-image.png"
+        
+        # py-60
+
+        return f"🖼️ Image generated: {file_path}"
+
+snippet py-58:
+  name: "Image gen tool description"
+  prefix: "py-58"
+  scope: "python"
+  body: | 
+    """Tool to create an image with Stable Diffusion XL given a prompt and a negative prompt.
+      - prompt: Prompt that explains the image
+      - negative_prompt: Negative prompt that explains what the image must not contains
+    """
+
+snippet py-59:
+  name: "Image gen tool payload"
+  prefix: "py-59"
+  scope: "python"
+  body: | 
+    data = {
+        "prompt": prompt,
+        "negative_prompt": negative_prompt
+    }
+
+    headers = {
+        "accept": "application/octet-stream",
+        "content-type": "application/json",
+        "Authorization": f"Bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}",
+    }
+
+snippet py-60:
+  name: "Image gen tool request"
+  prefix: "py-60"
+  scope: "python"
+  body: | 
+    response = requests.post(os.getenv("OVH_AI_ENDPOINTS_SD_URL"), headers=headers, data=json.dumps(data))
+    if response.status_code == 200:
+        # Handle response
+        response_data = response.content
+        with open(file_path, 'wb') as file:
+          file.write(response_data)
+    else:
+        print("Error:", response.status_code)
+        return f"❌ Unable to generate image ({file_path}): {response.status_code} ❌"
+
+snippet py-61:
+  name: "Image gen model tools"
+  prefix: "py-61"
+  scope: "python"
+  body: | 
+    tools = [generateImage]
+
+    model_with_tools = model.bind_tools(tools)
+
+snippet py-62:
+  name: "Image gen messages"
+  prefix: "py-62"
+  scope: "python"
+  body: | 
+    question = "A red cat on a couch"
+    messages = [HumanMessage(role="user", content=question), 
+            SystemMessage(role="system", content="""
+        Your are an expert of using the Stable Diffusion XL model.
+        The user explains in natural language what kind of image he wants.
+        You must do the following steps:
+          - Understand the user's request.
+          - Generate the two kinds of prompts for stable diffusion: the prompt and the negative prompt
+          - the prompts must be in english and detailed and optimized for the Stable Diffusion XL model. 
+          - once and only once you have this two prompts call the tool with the two prompts.
+        If asked about to create an image, you MUST call the `generateImage` function.
+        """)]
+
+snippet py-63:
+  name: "Image gen first model call"
+  prefix: "py-63"
+  scope: "python"
+  body: | 
+    print(f"💬: {question}")
+
+    ai_msg = model_with_tools.invoke(messages)
+    print(f"🤖: {ai_msg.content}")
+
+    messages.append(ai_msg)
+
+snippet py-64:
+  name: "Image gen tool call"
+  prefix: "py-64"
+  scope: "python"
+  body: | 
+    for tool_call in ai_msg.tool_calls:
+        selected_tool = {"generateImage": generateImage}[tool_call["name"]]
+        tool_msg = selected_tool.invoke(tool_call)
+        messages.append(tool_msg)
+
+snippet py-65:
+  name: "Image gen final model call"
+  prefix: "py-65"
+  scope: "python"
+  body: | 
+    ai_msg = model_with_tools.invoke(messages)
+
+snippet py-66:
+  name: "Image gen print final response"
+  prefix: "py-66"
+  scope: "python"
+  body: | 
+    print(f"🤖: {ai_msg.content}")
