@@ -259,4 +259,3 @@ The exercise is divided in two part:
     - the [requirements.txt](./python/requirements.txt) file
     - the [mcp-server.py](./python/mcp-server.py) file
     - the [mcp-client.py](./python/mcp-client.py) file
-
