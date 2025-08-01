@@ -1,17 +1,77 @@
 {
-  "Emotion bearer": {
+  "Classification URL": {
     "body": [
-      "const options = {",
-      "  headers: {",
-      "    'Content-Type': 'application/json',",
-      "    'Authorization' : 'Bearer ' + process.env.OVH_AI_ENDPOINTS_ACCESS_TOKEN",
-      "  }",
-      "};",
+      "url = \"https://bert-base-ner.endpoints.kepler.ai.cloud.ovh.net/api/text2ner\"",
       ""
     ],
     "description": "",
-    "prefix": "js-02",
-    "scope": "javascript"
+    "prefix": "py-79",
+    "scope": "python"
+  },
+  "Classification header": {
+    "body": [
+      "headers = {",
+      "\"Content-Type\": \"text/plain\",",
+      "\"Authorization\": f\"Bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}\",",
+      "}",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-80",
+    "scope": "python"
+  },
+  "Classification model call": {
+    "body": [
+      "response = requests.post(url, data={\"text\": \"My name is Clara and I live in Berkeley, California.\"}, headers=headers)",
+      "if response.status_code == 200:",
+      "    response_data = response.json()",
+      "    res_data = response.json()",
+      "    ",
+      "    output = []",
+      "    for entity in res_data:",
+      "        description = \"\"",
+      "        if entity['entity'] == \"B-PER\":",
+      "            description = \"is a person\"",
+      "        elif entity['entity'] == \"B-LOC\":",
+      "            description = \"a location\"",
+      "        elif entity['entity'] == \"B-ORG\":",
+      "            description = \"an organization\"",
+      "        elif entity['entity'] == \"B-MISC\":",
+      "            description = \"other\"",
+      "        else:",
+      "            description = \"undefined\"",
+      "        ",
+      "        output.append(f\"{entity['word']} {description}\")",
+      "    ",
+      "    print(\", \".join(output))",
+      "else:",
+      "    print(\"Error:\", response.status_code)",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-81",
+    "scope": "python"
+  },
+  "Emotion URL": {
+    "body": [
+      "url = \"https://roberta-base-go-emotions.endpoints.kepler.ai.cloud.ovh.net/api/text2emotions\"",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-76",
+    "scope": "python"
+  },
+  "Emotion bearer": {
+    "body": [
+      "headers = {",
+      "\"Content-Type\": \"application/json\",",
+      "\"Authorization\": f\"Bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}\",",
+      "}",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-77",
+    "scope": "python"
   },
   "Emotion call": {
     "body": [
@@ -29,6 +89,21 @@
     "description": "",
     "prefix": "js-03",
     "scope": "javascript"
+  },
+  "Emotion model call": {
+    "body": [
+      "response = requests.post(url, data=\"I love Python\", headers=headers)",
+      "if response.status_code == 200:",
+      "    response_data = response.json()",
+      "    max_key = max(response_data, key=response_data.get)",
+      "    print(f\"Emotion: {max_key}\")",
+      "else:",
+      "    print(\"❌ Error:\", response.status_code)",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-78",
+    "scope": "python"
   },
   "JavaScript dependency": {
     "body": [
@@ -78,6 +153,43 @@
     "description": "",
     "prefix": "js-07",
     "scope": "javascript"
+  },
+  "Review URL": {
+    "body": [
+      "url = \"https://bert-base-multilingual-uncased-sentiment.endpoints.kepler.ai.cloud.ovh.net/api/text2sentiments\"",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-82",
+    "scope": "python"
+  },
+  "Review header": {
+    "body": [
+      "headers = {",
+      "\"Content-Type\": \"application/json\",",
+      "\"Authorization\": f\"Bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}\",",
+      "}",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-83",
+    "scope": "python"
+  },
+  "Review model call": {
+    "body": [
+      "response = requests.post(url, data=\"Good product, delivered on time. Improved after-sales service.\", headers=headers)",
+      "if response.status_code == 200:",
+      "    response_data = response.json()",
+      "    max_key = max(response_data, key=response_data.get)",
+      "    num_stars = int(max_key.split()[0])",
+      "    star_emoji = '⭐️' * num_stars",
+      "    print(f\"Review : {star_emoji}\")",
+      "else:",
+      "    print(\"❌ Error:\", response.status_code)"
+    ],
+    "description": "",
+    "prefix": "py-84",
+    "scope": "python"
   },
   "Text classification bearer": {
     "body": [
