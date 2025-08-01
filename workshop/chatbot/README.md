@@ -190,7 +190,7 @@ The exercise is divided in 4 parts:
 
 #### 🔗 Useful resources:
  - [LangChain](https://python.langchain.com/)
- - [MistralAI integration](https://python.langchain.com/docs/integrations/providers/mistralai/) in LangChain4j
+ - [MistralAI integration](https://python.langchain.com/docs/integrations/providers/mistralai/) in LangChain
 
 #### ⚗️ Test your code by running the following commands: 
  - Simple chatbot: `python simple-chatbot`
@@ -208,3 +208,26 @@ The exercise is divided in 4 parts:
     - the [memory-chatbot](./python/memory-chatbot.py) file
     - the [rag-chatbot](./python/rag-chatbot.py)
     - the [content.txt](./python/rag-files/conference-information-talk-01) file for RAG part
+
+### 🤖 Module 2: Bonus !!! Function calling with LangChain 🔗
+
+The goal of this module is to develop a chatbot powering with new knowledge thanks to the function calling.
+The chatbot will help the user to generate a complete prompt for Stable Diffusion XL model to generate images.
+
+The exercise is divided in two part:
+ 1. Create a _tool_ to call stable diffusion [image-generation-chatbot](./python/image-generation-chatbot.py)
+ 2. Create a chatbot using the tool [image-generation-chatbot](./python/image-generation-chatbot.py)
+
+#### 🔗 Useful resources:
+ - [LangChain](https://python.langchain.com/)
+ - [MistralAI integration](https://python.langchain.com/docs/integrations/providers/mistralai/) in LangChain
+
+#### ⚗️ Test your code by running the following command: 
+ - `python image-generation-chatbot`
+
+#### 👩‍💻 How to develop ? 🧑‍💻
+
+  - all needed files are pre-created in [python](./python/) folder
+  - the main resources:
+    - the [requirements.txt](./python/requirements.txt) file
+    - the [image-generation-chatbot](./python/image-generation-chatbot.py) file
