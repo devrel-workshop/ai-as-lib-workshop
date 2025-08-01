@@ -718,6 +718,7 @@ snippet py-33:
     langchain-mistralai==0.2.11
     langchain_chroma==0.2.5
     langchain-community==0.3.27
+    langchain-mcp-adapters==0.1.9
 
 snippet py-34:
   name: "Chatbot simple model"
@@ -1092,3 +1093,128 @@ snippet py-66:
   scope: "python"
   body: | 
     print(f"🤖: {ai_msg.content}")
+
+snippet py-67:
+  name: "MCP server tool"
+  prefix: "py-67"
+  scope: "python"
+  body: | 
+    # Give a detailed description of the tool to "help" the model
+    """Tool to create an image with Stable Diffusion XL given a prompt and a negative prompt.
+      - prompt: Prompt that explains the image
+      - negative_prompt: Negative prompt that explains what the image must not contains
+    """
+    print("⚡️ Generate image with Stable Diffusion XL 🏞️")
+
+    # Payload and headers to send to SDXL API
+    data = {
+        "prompt": prompt,
+        "negative_prompt": negative_prompt
+    }
+
+    headers = {
+        "accept": "application/octet-stream",
+        "content-type": "application/json",
+        "Authorization": f"Bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}",
+    }
+
+    # SDXL call and image save on the file system
+    file_path = "./generated-image-mcp.png"
+
+    response = requests.post(os.getenv("OVH_AI_ENDPOINTS_SD_URL"), headers=headers, data=json.dumps(data))
+    if response.status_code == 200:
+        # Handle response
+        response_data = response.content
+        with open(file_path, 'wb') as file:
+          file.write(response_data)
+    else:
+        print("Error:", response.status_code)
+        return f"❌ Unable to generate image ({file_path}): {response.status_code} ❌"
+
+    return f"🖼️ Image generated: {file_path}"
+
+snippet py-68:
+  name: "MCP client client"
+  prefix: "py-68"
+  scope: "python"
+  body: | 
+    client = MultiServerMCPClient(
+        {
+            "gen_images": {
+                "transport": "streamable_http",
+                "url": "http://localhost:8000/mcp/"
+            },
+        }
+    )
+
+snippet py-69:
+  name: "MCP client model"
+  prefix: "py-69"
+  scope: "python"
+  body: | 
+    model = ChatMistralAI(
+        base_url=os.getenv("OVH_AI_ENDPOINTS_MODEL_URL"),
+        api_key=os.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"),
+        model=os.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"),
+        max_tokens=512,
+        temperature=0
+    )
+
+snippet py-70:
+  name: "MCP client configure tools"
+  prefix: "py-70"
+  scope: "python"
+  body: |
+    tools = await client.get_tools()
+    model_with_tools = model.bind_tools(tools)
+
+snippet py-71:
+  name: "MCP client messages"
+  prefix: "py-71"
+  scope: "python"
+  body: |
+    question = "A red cat with green eyes on a couch"
+    messages = [HumanMessage(role="user", content=question), 
+                SystemMessage(role="system", content="""
+            Your are an expert of using the Stable Diffusion XL model.
+            The user explains in natural language what kind of image he wants.
+            You must do the following steps:
+              - Understand the user's request.
+              - Generate the two kinds of prompts for stable diffusion: the prompt and the negative prompt
+              - the prompts must be in english and detailed and optimized for the Stable Diffusion XL model. 
+              - once and only once you have this two prompts call the tool with the two prompts.
+            If asked about to create an image, you MUST call the `generateImage` function.
+            """)]
+
+snippet py-72:
+  name: "MCP client first model call"
+  prefix: "py-72"
+  scope: "python"
+  body: |
+    print(f"💬: {question}")
+
+    ai_msg = await model_with_tools.ainvoke(messages)
+
+snippet py-73:
+  name: "MCP client tool calling"
+  prefix: "py-73"
+  scope: "python"
+  body: |
+    for tool_call in ai_msg.tool_calls:
+        selected_tool = {"generateImage": tools}[tool_call["name"]]
+        tool_msg = await selected_tool[0].ainvoke(tool_call)
+        messages.append(tool_msg)
+
+snippet py-74:
+  name: "MCP client last model call"
+  prefix: "py-74"
+  scope: "python"
+  body: |
+    ai_msg = model_with_tools.invoke(messages)
+
+snippet py-75:
+  name: "MCP client print response"
+  prefix: "py-75"
+  scope: "python"
+  body: |
+    print(f"🤖:{ai_msg.content}")
