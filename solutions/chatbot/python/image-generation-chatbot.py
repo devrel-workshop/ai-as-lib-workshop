@@ -11,7 +11,7 @@ from langchain_core.messages import HumanMessage, SystemMessage
 # Activate / deactivate debug messages
 set_debug(False)
 
-# py-55
+# py-56
 # Initialize the Mistral AI chat model with AI Endpoints, see https://python.langchain.com/docs/integrations/chat/mistralai/
 # Use the mistral-7b-instruct-v0-3 model, see https://endpoints.ai.cloud.ovh.net/models/mistral-7b-instruct-v0-3
 model = ChatMistralAI(
@@ -22,12 +22,12 @@ model = ChatMistralAI(
     temperature=0
 )
 
-# py-56
+# py-57
 # Define the tool for the model, see https://python.langchain.com/docs/how_to/function_calling/#passing-tools-to-llms
 # The goal of the tool is to create an image with Stable Diffusion XL given a prompt and a negative prompt, see https://endpoints.ai.cloud.ovh.net/models/stable-diffusion-xl
 @tool
 def generateImage(prompt: str, negative_prompt: str) -> str:
-    # py-57
+    # py-58
     # Give a detailed description of the tool to "help" the model
     """Tool to create an image with Stable Diffusion XL given a prompt and a negative prompt.
       - prompt: Prompt that explains the image
@@ -35,7 +35,7 @@ def generateImage(prompt: str, negative_prompt: str) -> str:
     """
     print("⚡️ Generate image with Stable Diffusion XL 🏞️")
 
-    # py-58
+    # py-59
     # Payload and headers to send to SDXL API
     data = {
         "prompt": prompt,
@@ -48,7 +48,7 @@ def generateImage(prompt: str, negative_prompt: str) -> str:
         "Authorization": f"Bearer {os.getenv('OVH_AI_ENDPOINTS_ACCESS_TOKEN')}",
     }
 
-    # py-59
+    # py-60
     # SDXL call and image save on the file system
     file_path = "./generated-image.png"
 
@@ -64,13 +64,13 @@ def generateImage(prompt: str, negative_prompt: str) -> str:
 
     return f"🖼️ Image generated: {file_path}"
 
-# py-60
-# Configure the model tools
+# py-61
+# Configure the model tools, see https://python.langchain.com/docs/how_to/function_calling/#passing-tools-to-llms
 tools = [generateImage]
 
 model_with_tools = model.bind_tools(tools)
 
-# py-61
+# py-62
 # Define the messages to send to the model.
 # You can set a system prompt and a user message.
 question = "A red cat on a couch"
@@ -86,7 +86,7 @@ messages = [HumanMessage(role="user", content=question),
         If asked about to create an image, you MUST call the `generateImage` function.
         """)]
 
-# py-62
+# py-63
 # Call the model with the messages, see https://python.langchain.com/docs/how_to/function_calling/#tool-calls
 print(f"💬: {question}")
 
@@ -95,17 +95,17 @@ print(f"🤖: {ai_msg.content}")
 
 messages.append(ai_msg)
 
-# py-63
+# py-64
 # Call the tool given the model response, https://python.langchain.com/docs/how_to/function_calling/#passing-tool-outputs-to-model
 for tool_call in ai_msg.tool_calls:
     selected_tool = {"generateImage": generateImage}[tool_call["name"]]
     tool_msg = selected_tool.invoke(tool_call)
     messages.append(tool_msg)
 
-# py-64
+# py-65
 # Call the model for the final response
 ai_msg = model_with_tools.invoke(messages)
 
-# py-65
+# py-66
 # Print the response from the model.
 print(f"🤖: {ai_msg.content}")

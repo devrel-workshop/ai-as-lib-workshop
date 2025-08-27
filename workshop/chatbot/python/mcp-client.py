@@ -26,16 +26,13 @@ async def func():
   # Define the messages to send to the model.
   # You can set a system prompt and a user message.
   # py-71
-
-  
+ 
   # Call the model with the messages, see https://python.langchain.com/docs/how_to/function_calling/#tool-calls
   # py-72
 
-  
   # Call the tool given the model response, https://python.langchain.com/docs/how_to/function_calling/#passing-tool-outputs-to-model
   # py-73
 
-  
   # Call the model for the final response
   # py-74
 
