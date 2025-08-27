@@ -65,7 +65,7 @@ def generateImage(prompt: str, negative_prompt: str) -> str:
     return f"🖼️ Image generated: {file_path}"
 
 # py-61
-# Configure the model tools
+# Configure the model tools, see https://python.langchain.com/docs/how_to/function_calling/#passing-tools-to-llms
 tools = [generateImage]
 
 model_with_tools = model.bind_tools(tools)
