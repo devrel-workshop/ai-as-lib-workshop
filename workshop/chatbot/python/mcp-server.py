@@ -11,8 +11,8 @@ mcp = FastMCP("Generate Image")
 @mcp.tool()
 async def generateImage(prompt: str, negative_prompt: str) -> str:
     # This is the same code as in image-generation-chatbot.py
-    # py-66
-
+    # py-67
+    
 
 if __name__ == "__main__":
     mcp.run(transport="streamable-http")

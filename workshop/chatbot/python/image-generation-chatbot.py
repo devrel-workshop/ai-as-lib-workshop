@@ -14,18 +14,10 @@ set_debug(False)
 # Initialize the Mistral AI chat model with AI Endpoints, see https://python.langchain.com/docs/integrations/chat/mistralai/
 # Use the mistral-7b-instruct-v0-3 model, see https://endpoints.ai.cloud.ovh.net/models/mistral-7b-instruct-v0-3
 # py-56
-model = ChatMistralAI(
-    base_url=os.getenv("OVH_AI_ENDPOINTS_MODEL_URL"),
-    api_key=os.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"),
-    model=os.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"),
-    max_tokens=512,
-    temperature=0
-)
 
 # Define the tool for the model, see https://python.langchain.com/docs/how_to/function_calling/#passing-tools-to-llms
 # The goal of the tool is to create an image with Stable Diffusion XL given a prompt and a negative prompt, see https://endpoints.ai.cloud.ovh.net/models/stable-diffusion-xl
 # py-57
-
 
 # Configure the model tools
 # py-61
