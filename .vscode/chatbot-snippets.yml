@@ -829,12 +829,12 @@ snippet py-44:
   scope: "python"
   body: | 
     def call_model(state: MessagesState):
-    response = model.invoke(
-        [SystemMessage("You are Nestor, a virtual assistant. Answer to the question.")] 
-        + state["messages"]
-    )
+      response = model.invoke(
+          [SystemMessage("You are Nestor, a virtual assistant. Answer to the question.")] 
+          + state["messages"]
+      )
 
-    return {"messages": response.content}
+      return {"messages": response.content}
 
 snippet py-45:
   name: "Chatbot memory nodes"
@@ -857,7 +857,7 @@ snippet py-47:
   scope: "python"
   body: | 
     app = workflow.compile(
-    checkpointer=memory
+      checkpointer=memory
     )
 
 snippet py-48:
@@ -934,7 +934,7 @@ snippet py-53:
     prompt = hub.pull("rlm/rag-prompt")
 
 snippet py-54:
-  name: "Chatbot RAG prompt"
+  name: "Chatbot RAG chain"
   prefix: "py-54"
   scope: "python"
   body: | 

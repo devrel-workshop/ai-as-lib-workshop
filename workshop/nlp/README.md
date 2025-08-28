@@ -117,9 +117,9 @@ Follow the comments in the [text-classification.py](./python/text-classification
 The goal of this module is to develop a script for sentiment analysis on product reviews.
 The used model is [nlptown/bert-base-multilingual-uncased-sentiment](https://huggingface.co/nlptown/bert-base-multilingual-uncased-sentiment), and it does the following reviews: it predicts the sentiment of the review as a number of stars (between 1 and 5).
 
-All the exercise must be done in [product-reviews.py](./python/product-reviews.py).
+All the exercise must be done in [product-review.py](./python/product-review.py).
 
-⚗️ Test your code by running the following commands: `python product-reviews.py`
+⚗️ Test your code by running the following commands: `python product-review.py`
 
 👩‍💻 How to develop ? 🧑‍💻
 

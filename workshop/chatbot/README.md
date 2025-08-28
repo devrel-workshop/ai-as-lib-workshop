@@ -193,10 +193,10 @@ The exercise is divided in 4 parts:
  - [MistralAI integration](https://python.langchain.com/docs/integrations/providers/mistralai/) in LangChain
 
 #### ⚗️ Test your code by running the following commands: 
- - Simple chatbot: `python simple-chatbot`
- - Advanced chatbot: `python streaming-chatbot`
- - Memory chatbot: `python memory-chatbot`
- - RAG chatbot: `python rag-chatbot`
+ - Simple chatbot: `python simple-chatbot.py`
+ - Advanced chatbot: `python streaming-chatbot.py`
+ - Memory chatbot: `python memory-chatbot.py`
+ - RAG chatbot: `python rag-chatbot.py`
 
 #### 👩‍💻 How to develop ? 🧑‍💻
 
@@ -223,7 +223,7 @@ The exercise is divided in two part:
  - [MistralAI integration](https://python.langchain.com/docs/integrations/providers/mistralai/) in LangChain
 
 #### ⚗️ Test your code by running the following command: 
- - `python image-generation-chatbot`
+ - `python image-generation-chatbot.py`
 
 #### 👩‍💻 How to develop ? 🧑‍💻
 
