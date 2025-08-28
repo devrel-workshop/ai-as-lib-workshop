@@ -2,6 +2,7 @@ import requests
 import os
 from pydub import AudioSegment
 import gradio as gr
+from openai import OpenAI
 
 # Function to convert text to audio thanks to Whisper.
 def speechToText(audio):

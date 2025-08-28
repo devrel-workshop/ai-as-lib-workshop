@@ -14,6 +14,19 @@
     "prefix": "quarkus-11",
     "scope": "java"
   },
+  "Chatbot RAG chain": {
+    "body": [
+      "rag_chain = (",
+      "  {\"context\": vectorstore.as_retriever(), \"question\": RunnablePassthrough()} |",
+      "  prompt",
+      "  | model",
+      ")",
+      ""
+    ],
+    "description": "",
+    "prefix": "py-54",
+    "scope": "python"
+  },
   "Chatbot RAG doc loading": {
     "body": [
       "loader = TextLoader(\"./rag-files/conference-information-talk-01.md\")",
@@ -57,15 +70,11 @@
   },
   "Chatbot RAG prompt": {
     "body": [
-      "rag_chain = (",
-      "  {\"context\": vectorstore.as_retriever(), \"question\": RunnablePassthrough()} |",
-      "  prompt",
-      "  | model",
-      ")",
+      "prompt = hub.pull(\"rlm/rag-prompt\")",
       ""
     ],
     "description": "",
-    "prefix": "py-54",
+    "prefix": "py-53",
     "scope": "python"
   },
   "Chatbot RAG vector DB": {
@@ -100,12 +109,12 @@
   "Chatbot memory function call": {
     "body": [
       "def call_model(state: MessagesState):",
-      "response = model.invoke(",
-      "    [SystemMessage(\"You are Nestor, a virtual assistant. Answer to the question.\")] ",
-      "    + state[\"messages\"]",
-      ")",
+      "  response = model.invoke(",
+      "      [SystemMessage(\"You are Nestor, a virtual assistant. Answer to the question.\")] ",
+      "      + state[\"messages\"]",
+      "  )",
       "",
-      "return {\"messages\": response.content}",
+      "  return {\"messages\": response.content}",
       ""
     ],
     "description": "",
@@ -115,7 +124,7 @@
   "Chatbot memory graph compile": {
     "body": [
       "app = workflow.compile(",
-      "checkpointer=memory",
+      "  checkpointer=memory",
       ")",
       ""
     ],

@@ -3,7 +3,7 @@ from pydub import AudioSegment
 import os
 import numpy as np
 import requests
-
+from openai import OpenAI
 
 # Function to convert text to audio thanks to Whisper.
 def speechToText(audio):
