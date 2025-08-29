@@ -73,6 +73,20 @@
     "prefix": "py-77",
     "scope": "python"
   },
+  "Emotion bearer JS": {
+    "body": [
+      "const options = {",
+      "  headers: {",
+      "    'Content-Type': 'application/json',",
+      "    'Authorization' : 'Bearer ' + process.env.OVH_AI_ENDPOINTS_ACCESS_TOKEN",
+      "  }",
+      "};",
+      ""
+    ],
+    "description": "",
+    "prefix": "js-02",
+    "scope": "javascript"
+  },
   "Emotion call": {
     "body": [
       "axios",

@@ -10,7 +10,7 @@ snippet nlp-js-dep:
 # Emotion analysis section
 
 snippet emotion-bearer:
-  name: "Emotion bearer"
+  name: "Emotion bearer JS"
   prefix: "js-02"
   scope: "javascript"
   body: |
