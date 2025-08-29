@@ -1,8 +1,11 @@
 package com.ovhcloud.ai.langchain4j.chatbot;
 
+import java.util.concurrent.CompletableFuture;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import dev.langchain4j.model.chat.response.ChatResponse;
 import dev.langchain4j.model.mistralai.MistralAiStreamingChatModel;
 import dev.langchain4j.service.AiServices;
 import dev.langchain4j.service.SystemMessage;
@@ -53,9 +56,13 @@ public class StreamingChatbot {
     // Send a prompt
     _LOG.info("💬: Tell me a joke about Java developers\n");
     TokenStream tokenStream = assistant.chat("Tell me a joke about Java developers");
+    CompletableFuture<ChatResponse> futureChatResponse = new CompletableFuture<>();
+
     _LOG.info("🤖: ");
     tokenStream
+        .onCompleteResponse(response -> futureChatResponse.complete(response))
         .onPartialResponse(_LOG::info)
         .onError(Throwable::printStackTrace).start();
+    futureChatResponse.join();
   }
 }

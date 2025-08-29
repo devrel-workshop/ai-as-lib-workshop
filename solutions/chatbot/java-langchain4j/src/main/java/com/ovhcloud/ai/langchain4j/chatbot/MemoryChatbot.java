@@ -1,10 +1,13 @@
 package com.ovhcloud.ai.langchain4j.chatbot;
 
+import java.util.concurrent.CompletableFuture;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import dev.langchain4j.memory.ChatMemory;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
+import dev.langchain4j.model.chat.response.ChatResponse;
 import dev.langchain4j.model.mistralai.MistralAiStreamingChatModel;
 import dev.langchain4j.service.AiServices;
 import dev.langchain4j.service.SystemMessage;
@@ -60,17 +63,20 @@ public class MemoryChatbot {
     // java-14
     // Send a prompt
     _LOG.info("💬: My name is Stéphane.\n");
-        TokenStream tokenStream = assistant.chat("My name is Stéphane.");
-        _LOG.info("🤖: ");
-        tokenStream
-                .onPartialResponse(_LOG::info)
-                .onCompleteResponse(token -> {
-                    _LOG.info("\n💬: Do you remember what is my name?\n");
-                    _LOG.info("🤖: ");
-                    assistant.chat("Do you remember what is my name?")
-                            .onPartialResponse(_LOG::info)
-                            .onError(Throwable::printStackTrace).start();
-                })
-                .onError(Throwable::printStackTrace).start();
+    TokenStream tokenStream = assistant.chat("My name is Stéphane.");
+    CompletableFuture<ChatResponse> futureChatResponse = new CompletableFuture<>();
+    _LOG.info("🤖: ");
+    tokenStream
+            .onPartialResponse(_LOG::info)
+            .onCompleteResponse(token -> {
+                _LOG.info("\n💬: Do you remember what is my name?\n");
+                _LOG.info("🤖: ");
+                assistant.chat("Do you remember what is my name?")
+                        .onPartialResponse(_LOG::info)
+                        .onCompleteResponse(response -> futureChatResponse.complete(response))
+                        .onError(Throwable::printStackTrace).start();
+            })
+            .onError(Throwable::printStackTrace).start();
+    futureChatResponse.join();
   }
 }
