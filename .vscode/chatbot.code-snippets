@@ -57,15 +57,11 @@
   },
   "Chatbot RAG prompt": {
     "body": [
-      "rag_chain = (",
-      "  {\"context\": vectorstore.as_retriever(), \"question\": RunnablePassthrough()} |",
-      "  prompt",
-      "  | model",
-      ")",
+      "prompt = hub.pull(\"rlm/rag-prompt\")",
       ""
     ],
     "description": "",
-    "prefix": "py-54",
+    "prefix": "py-53",
     "scope": "python"
   },
   "Chatbot RAG vector DB": {
@@ -583,7 +579,7 @@
       "\u003cdependency\u003e",
       "  \u003cgroupId\u003edev.langchain4j\u003c/groupId\u003e",
       "  \u003cartifactId\u003elangchain4j-ovh-ai\u003c/artifactId\u003e",
-      "  \u003cversion\u003e${langchain4j.provider.version}\u003c/version\u003e",
+      "  \u003cversion\u003e1.4.0-beta10\u003c/version\u003e",
       "\u003c/dependency\u003e",
       ""
     ],
@@ -788,7 +784,7 @@
       "\u003cdependency\u003e",
       "  \u003cgroupId\u003edev.langchain4j\u003c/groupId\u003e",
       "  \u003cartifactId\u003elangchain4j-mcp\u003c/artifactId\u003e",
-      "  \u003cversion\u003e${langchain4j.provider.version}\u003c/version\u003e",
+      "  \u003cversion\u003e1.4.0-beta10\u003c/version\u003e",
       "\u003c/dependency\u003e",
       ""
     ],
@@ -846,11 +842,11 @@
   },
   "MCP: transport": {
     "body": [
-      "McpTransport transport = new HttpMcpTransport.Builder()",
+      "McpTransport transport = new StreamableHttpMcpTransport.Builder()",
       "        // https://xxxx/mcp/sse",
-      "        .sseUrl(System.getenv(\"MCP_SERVER_URL\"))",
-      "        .logRequests(false)",
-      "        .logResponses(false)",
+      "        .url(System.getenv(\"MCP_SERVER_URL\"))",
+      "        .logRequests(true)",
+      "        .logResponses(true)",
       "        .build();",
       ""
     ],
