@@ -174,7 +174,7 @@ snippet java-15:
     <dependency>
       <groupId>dev.langchain4j</groupId>
       <artifactId>langchain4j-ovh-ai</artifactId>
-      <version>${langchain4j.provider.version}</version>
+      <version>1.4.0-beta10</version>
     </dependency>
 
 snippet java-16:
@@ -396,7 +396,7 @@ snippet java-32:
     <dependency>
       <groupId>dev.langchain4j</groupId>
       <artifactId>langchain4j-mcp</artifactId>
-      <version>${langchain4j.provider.version}</version>
+      <version>1.4.0-beta10</version>
     </dependency>
 
 snippet java-33:
@@ -437,11 +437,11 @@ snippet java-35:
   prefix: "java-35-mcp-transport"
   scope: "java"
   body: |
-    McpTransport transport = new HttpMcpTransport.Builder()
+    McpTransport transport = new StreamableHttpMcpTransport.Builder()
             // https://xxxx/mcp/sse
-            .sseUrl(System.getenv("MCP_SERVER_URL"))
-            .logRequests(false)
-            .logResponses(false)
+            .url(System.getenv("MCP_SERVER_URL"))
+            .logRequests(true)
+            .logResponses(true)
             .build();
 
 snippet java-36:

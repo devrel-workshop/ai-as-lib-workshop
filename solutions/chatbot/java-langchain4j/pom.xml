@@ -33,7 +33,7 @@
     <dependency>
       <groupId>dev.langchain4j</groupId>
       <artifactId>langchain4j-mistral-ai</artifactId>
-      <version>1.0.1-beta6</version>
+      <version>${langchain4j.provider.version}</version>
     </dependency>
 
     <!-- java-15 -->
@@ -42,7 +42,7 @@
     <dependency>
       <groupId>dev.langchain4j</groupId>
       <artifactId>langchain4j-ovh-ai</artifactId>
-      <version>${langchain4j.provider.version}</version>
+      <version>1.4.0-beta10</version>
     </dependency>
 
     <!-- java-32 -->
@@ -50,7 +50,7 @@
     <dependency>
       <groupId>dev.langchain4j</groupId>
       <artifactId>langchain4j-mcp</artifactId>
-      <version>${langchain4j.provider.version}</version>
+      <version>1.4.0-beta10</version>
     </dependency>
 
 

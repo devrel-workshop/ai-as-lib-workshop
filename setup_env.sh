@@ -11,7 +11,7 @@ export OVH_AI_ENDPOINTS_SD_URL=https://stable-diffusion-xl.endpoints.kepler.ai.c
 export OVH_AI_ENDPOINTS_WHISPER_URL=https://whisper-large-v3.endpoints.kepler.ai.cloud.ovh.net/api/openai_compat/v1
 export OVH_AI_ENDPOINTS_WHISPER_MODEL=whisper-large-v3
 export OVH_AI_ENDPOINTS_TTS_MODEL=https://nvr-tts-es-es.endpoints.kepler.ai.cloud.ovh.net/api/v1/tts/text_to_audio
-export MCP_SERVER_URL=http://localhost:8080/mcp/sse
+export MCP_SERVER_URL=http://localhost:8080/mcp/
 
 echo "Downloaded parameters:"
 cat attendee-conf.json|jq
