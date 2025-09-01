@@ -143,8 +143,10 @@ The chatbot will help the user to generate a complete prompt for Stable Diffusio
 This time it uses a remote tool thanks to the MCP protocol.
 
 The exercise is divided in two part:
+ 1. Create the tool (same as the example with LangChain4J): [ImageGenToolsService.java](./java-quarkus/src/main/java/com/ovhcloud/ai/quarkus/chatbot/service/ImageGenToolsService.java)
+ 1. Create a service to call SDXL: [StableDiffusionService.java](./java-quarkus/src/main/java/com/ovhcloud/ai/quarkus/chatbot/service/StableDiffusionService.java) 
  1. Create a _MCP Server_ to call stable diffusion [ImageGenTools](./java-langchain4j/src/main/java/com/ovhcloud/ai/langchain4j/chatbot/ImageGenTools.java)
- 2. Create a chatbot using the tool giving by the MCP server [ImageGenerationChatbot](./java-langchain4j/src/main/java/com/ovhcloud/ai/langchain4j/chatbot/ImageGenerationChatbot.java)
+ 1. Create a chatbot using the tool giving by the MCP server [ImageGenerationChatbot](./java-langchain4j/src/main/java/com/ovhcloud/ai/langchain4j/chatbot/ImageGenerationChatbot.java)
 
 #### 🔗 Useful resources:
  - [LangChain4j](https://docs.langchain4j.dev/get-started)

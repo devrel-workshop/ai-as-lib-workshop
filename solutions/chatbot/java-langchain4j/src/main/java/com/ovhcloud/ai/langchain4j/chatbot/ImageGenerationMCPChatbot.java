@@ -9,7 +9,6 @@ import dev.langchain4j.mcp.McpToolProvider;
 import dev.langchain4j.mcp.client.DefaultMcpClient;
 import dev.langchain4j.mcp.client.McpClient;
 import dev.langchain4j.mcp.client.transport.McpTransport;
-import dev.langchain4j.mcp.client.transport.http.HttpMcpTransport;
 import dev.langchain4j.memory.ChatMemory;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.mistralai.MistralAiChatModel;
@@ -66,11 +65,11 @@ public class ImageGenerationMCPChatbot {
 
         // java-35
         // Configure the MCP server to use
-        McpTransport transport = new HttpMcpTransport.Builder()
+        McpTransport transport = new StreamableHttpMcpTransport.Builder()
                 // https://xxxx/mcp/sse
-                .sseUrl(System.getenv("MCP_SERVER_URL"))
-                .logRequests(false)
-                .logResponses(false)
+                .url(System.getenv("MCP_SERVER_URL"))
+                .logRequests(true)
+                .logResponses(true)
                 .build();
 
         // java-36
