@@ -29,7 +29,6 @@ async def func():
       base_url=os.getenv("OVH_AI_ENDPOINTS_MODEL_URL"),
       api_key=os.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"),
       model=os.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"),
-      max_tokens=512,
       temperature=0
   )
 
@@ -42,7 +41,7 @@ async def func():
   # Define the messages to send to the model.
   # You can set a system prompt and a user message.
   question = "A red cat with green eyes on a couch"
-  messages = [HumanMessage(role="user", content=question), 
+  messages = [ 
               SystemMessage(role="system", content="""
           Your are an expert of using the Stable Diffusion XL model.
           The user explains in natural language what kind of image he wants.
@@ -52,7 +51,8 @@ async def func():
             - the prompts must be in english and detailed and optimized for the Stable Diffusion XL model. 
             - once and only once you have this two prompts call the tool with the two prompts.
           If asked about to create an image, you MUST call the `generateImage` function.
-          """)]
+          """),
+          HumanMessage(role="user", content=question)]
 
   # py-72
   # Call the model with the messages, see https://python.langchain.com/docs/how_to/function_calling/#tool-calls
@@ -60,12 +60,19 @@ async def func():
 
   ai_msg = await model_with_tools.ainvoke(messages)
 
+  messages.append({
+          "role": "assistant",
+          "type": "message",
+          "content": ai_msg.content
+      })
+
   # py-73
   # Call the tool given the model response, https://python.langchain.com/docs/how_to/function_calling/#passing-tool-outputs-to-model
   for tool_call in ai_msg.tool_calls:
       selected_tool = {"generateImage": tools}[tool_call["name"]]
-      tool_msg = await selected_tool[0].ainvoke(tool_call)
-      messages.append(tool_msg)
+      tool_result = await selected_tool[0].ainvoke(tool_call)      
+      messages.append(tool_result)
+      
 
   # py-74
   # Call the model for the final response

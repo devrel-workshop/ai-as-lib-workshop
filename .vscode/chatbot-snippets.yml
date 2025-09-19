@@ -964,7 +964,6 @@ snippet py-56:
       base_url=os.getenv("OVH_AI_ENDPOINTS_MODEL_URL"),
       api_key=os.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"),
       model=os.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"),
-      max_tokens=512,
       temperature=0
     )
 
@@ -1068,7 +1067,11 @@ snippet py-63:
     ai_msg = model_with_tools.invoke(messages)
     print(f"🤖: {ai_msg.content}")
 
-    messages.append(ai_msg)
+    messages.append({
+           "role": "assistant",
+           "type": "message",
+           "content": ai_msg.content
+       })
 
 snippet py-64:
   name: "Image gen tool call"
@@ -1077,8 +1080,8 @@ snippet py-64:
   body: | 
     for tool_call in ai_msg.tool_calls:
         selected_tool = {"generateImage": generateImage}[tool_call["name"]]
-        tool_msg = selected_tool.invoke(tool_call)
-        messages.append(tool_msg)
+        tool_result = selected_tool.invoke(tool_call)
+        messages.append(tool_result)
 
 snippet py-65:
   name: "Image gen final model call"
@@ -1156,7 +1159,6 @@ snippet py-69:
         base_url=os.getenv("OVH_AI_ENDPOINTS_MODEL_URL"),
         api_key=os.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"),
         model=os.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"),
-        max_tokens=512,
         temperature=0
     )
 
@@ -1194,6 +1196,11 @@ snippet py-72:
     print(f"💬: {question}")
 
     ai_msg = await model_with_tools.ainvoke(messages)
+    messages.append({
+          "role": "assistant",
+          "type": "message",
+          "content": ai_msg.content
+      })
 
 snippet py-73:
   name: "MCP client tool calling"
@@ -1202,8 +1209,8 @@ snippet py-73:
   body: |
     for tool_call in ai_msg.tool_calls:
         selected_tool = {"generateImage": tools}[tool_call["name"]]
-        tool_msg = await selected_tool[0].ainvoke(tool_call)
-        messages.append(tool_msg)
+        tool_result = await selected_tool[0].ainvoke(tool_call)
+        messages.append(tool_result)
 
 snippet py-74:
   name: "MCP client last model call"
