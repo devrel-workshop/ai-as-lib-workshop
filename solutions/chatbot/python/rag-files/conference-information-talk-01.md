@@ -4,7 +4,7 @@ We're bringing together the key players in the AI ecosystem: innovative startups
 
 ## Agenda and venue
 
-### AI workshop on 15th, October at 9h AM.
+### AI workshop on 15th, October at 10h AM.
 The workshop will be in the discover room.
 
 #### Subject
