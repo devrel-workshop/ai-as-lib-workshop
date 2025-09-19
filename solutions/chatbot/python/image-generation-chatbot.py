@@ -18,7 +18,6 @@ model = ChatMistralAI(
     base_url=os.getenv("OVH_AI_ENDPOINTS_MODEL_URL"),
     api_key=os.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"),
     model=os.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"),
-    max_tokens=512,
     temperature=0
 )
 
@@ -92,12 +91,11 @@ print(f"💬: {question}")
 
 ai_msg = model_with_tools.invoke(messages)
 print(f"🤖: {ai_msg.content}")
-
 messages.append({
-        "role": "assistant",
-        "type": "message",
-        "content": ai_msg.content
-    })
+           "role": "assistant",
+           "type": "message",
+           "content": ai_msg.content
+       })
 
 # py-64
 # Call the tool given the model response, https://python.langchain.com/docs/how_to/function_calling/#passing-tool-outputs-to-model
