@@ -100,10 +100,14 @@ snippet java-09:
   body: |
     _LOG.info("💬: Tell me a joke about Java developers\n");
     TokenStream tokenStream = assistant.chat("Tell me a joke about Java developers");
+    CompletableFuture<ChatResponse> futureChatResponse = new CompletableFuture<>();
+
     _LOG.info("🤖: ");
     tokenStream
+        .onCompleteResponse(response -> futureChatResponse.complete(response))
         .onPartialResponse(_LOG::info)
         .onError(Throwable::printStackTrace).start();
+    futureChatResponse.join();
 
 snippet java-10:
   name: "Memory AI Services"
@@ -153,18 +157,21 @@ snippet java-14:
   scope: "java"
   body: |
     _LOG.info("💬: My name is Stéphane.\n");
-        TokenStream tokenStream = assistant.chat("My name is Stéphane.");
-        _LOG.info("🤖: ");
-        tokenStream
-                .onPartialResponse(_LOG::info)
-                .onCompleteResponse(token -> {
-                    _LOG.info("\n💬: Do you remember what is my name?\n");
-                    _LOG.info("🤖: ");
-                    assistant.chat("Do you remember what is my name?")
-                            .onPartialResponse(_LOG::info)
-                            .onError(Throwable::printStackTrace).start();
-                })
-                .onError(Throwable::printStackTrace).start();
+    TokenStream tokenStream = assistant.chat("My name is Stéphane.");
+    CompletableFuture<ChatResponse> futureChatResponse = new CompletableFuture<>();
+    _LOG.info("🤖: ");
+    tokenStream
+            .onPartialResponse(_LOG::info)
+            .onCompleteResponse(token -> {
+                _LOG.info("\n💬: Do you remember what is my name?\n");
+                _LOG.info("🤖: ");
+                assistant.chat("Do you remember what is my name?")
+                        .onPartialResponse(_LOG::info)
+                        .onCompleteResponse(response -> futureChatResponse.complete(response))
+                        .onError(Throwable::printStackTrace).start();
+            })
+            .onError(Throwable::printStackTrace).start();
+    futureChatResponse.join();
 
 snippet java-15:
   name: "LangChain4j OVHai dependency"
