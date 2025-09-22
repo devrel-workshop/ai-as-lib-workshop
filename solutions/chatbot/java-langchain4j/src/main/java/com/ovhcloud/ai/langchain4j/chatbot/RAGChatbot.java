@@ -1,6 +1,7 @@
 package com.ovhcloud.ai.langchain4j.chatbot;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,7 @@ import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.memory.ChatMemory;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
+import dev.langchain4j.model.chat.response.ChatResponse;
 import dev.langchain4j.model.embedding.EmbeddingModel;
 import dev.langchain4j.model.mistralai.MistralAiStreamingChatModel;
 import dev.langchain4j.model.ovhai.OvhAiEmbeddingModel;
@@ -114,9 +116,14 @@ public class RAGChatbot {
     // Send a prompt
     _LOG.info("💬: What is the program at AI Summit Barcelona?\n");
     TokenStream tokenStream = assistant.chat("What is the program at AI Summit Barcelona?");
+    CompletableFuture<ChatResponse> futureChatResponse = new CompletableFuture<>();
+
     _LOG.info("🤖: ");
     tokenStream
+        .onCompleteResponse(response -> futureChatResponse.complete(response))
         .onPartialResponse(_LOG::info)
         .onError(Throwable::printStackTrace).start();
+    futureChatResponse.join();
+
   }
 }

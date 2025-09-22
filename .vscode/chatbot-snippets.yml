@@ -272,10 +272,14 @@ snippet java-23:
   body: |
     _LOG.info("💬: What is the program at AI Summit Barcelona?\n");
     TokenStream tokenStream = assistant.chat("What is the program at AI Summit Barcelona?");
+    CompletableFuture<ChatResponse> futureChatResponse = new CompletableFuture<>();
+
     _LOG.info("🤖: ");
     tokenStream
+        .onCompleteResponse(response -> futureChatResponse.complete(response))
         .onPartialResponse(_LOG::info)
         .onError(Throwable::printStackTrace).start();
+    futureChatResponse.join();
 
 snippet java-24:
   name: "Tool generateImage tool"

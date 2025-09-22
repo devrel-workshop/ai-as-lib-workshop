@@ -1007,10 +1007,14 @@
     "body": [
       "_LOG.info(\"💬: What is the program at AI Summit Barcelona?\\n\");",
       "TokenStream tokenStream = assistant.chat(\"What is the program at AI Summit Barcelona?\");",
+      "CompletableFuture\u003cChatResponse\u003e futureChatResponse = new CompletableFuture\u003c\u003e();",
+      "",
       "_LOG.info(\"🤖: \");",
       "tokenStream",
+      "    .onCompleteResponse(response -\u003e futureChatResponse.complete(response))",
       "    .onPartialResponse(_LOG::info)",
       "    .onError(Throwable::printStackTrace).start();",
+      "futureChatResponse.join();",
       ""
     ],
     "description": "",
