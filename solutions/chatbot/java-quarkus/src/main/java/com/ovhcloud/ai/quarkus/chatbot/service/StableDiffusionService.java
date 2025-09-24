@@ -7,6 +7,12 @@ import com.ovhcloud.ai.quarkus.chatbot.repository.SDPayload;
 
 import jakarta.ws.rs.POST;
 
+/**
+ * Service to call Stable Diffusion XL model for image generation.
+ * See https://endpoints.ai.cloud.ovh.net/models/stable-diffusion-xl for more details.
+ * Use RestClient Quarkus extension.
+ * Use the {@link com.ovhcloud.ai.quarkus.chatbot.repository.SDPayload} as return type.
+ */
 // quarkus-19
 @RegisterRestClient
 @ClientHeaderParam(name = "Content-Type", value = "application/json")
