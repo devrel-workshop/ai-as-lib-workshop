@@ -595,7 +595,7 @@
       "\u003cdependency\u003e",
       "  \u003cgroupId\u003edev.langchain4j\u003c/groupId\u003e",
       "  \u003cartifactId\u003elangchain4j-ovh-ai\u003c/artifactId\u003e",
-      "  \u003cversion\u003e1.4.0-beta10\u003c/version\u003e",
+      "  \u003cversion\u003e${langchain4j.beta.version}\u003c/version\u003e",
       "\u003c/dependency\u003e",
       ""
     ],
@@ -1358,7 +1358,7 @@
       "\u003cdependency\u003e",
       "  \u003cgroupId\u003edev.langchain4j\u003c/groupId\u003e",
       "  \u003cartifactId\u003elangchain4j-mistral-ai\u003c/artifactId\u003e",
-      "  \u003cversion\u003e${langchain4j.provider.version}\u003c/version\u003e",
+      "  \u003cversion\u003e${langchain4j.version}\u003c/version\u003e",
       "\u003c/dependency\u003e",
       ""
     ],
@@ -1371,7 +1371,7 @@
       "\u003cdependency\u003e",
       "    \u003cgroupId\u003eio.quarkiverse.mcp\u003c/groupId\u003e",
       "    \u003cartifactId\u003equarkus-mcp-server-sse\u003c/artifactId\u003e",
-      "    \u003cversion\u003e1.2.1\u003c/version\u003e",
+      "    \u003cversion\u003e1.5.3\u003c/version\u003e",
       "\u003c/dependency\u003e",
       ""
     ],
