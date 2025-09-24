@@ -14,7 +14,7 @@ snippet java-01:
     <dependency>
       <groupId>dev.langchain4j</groupId>
       <artifactId>langchain4j-mistral-ai</artifactId>
-      <version>${langchain4j.provider.version}</version>
+      <version>${langchain4j.version}</version>
     </dependency>
 
 snippet java-02:
@@ -181,7 +181,7 @@ snippet java-15:
     <dependency>
       <groupId>dev.langchain4j</groupId>
       <artifactId>langchain4j-ovh-ai</artifactId>
-      <version>1.4.0-beta10</version>
+      <version>${langchain4j.beta.version}</version>
     </dependency>
 
 snippet java-16:
@@ -659,7 +659,7 @@ snippet quarkus-17:
     <dependency>
         <groupId>io.quarkiverse.mcp</groupId>
         <artifactId>quarkus-mcp-server-sse</artifactId>
-        <version>1.2.1</version>
+        <version>1.5.3</version>
     </dependency>
 
 snippet quarkus-18:
