@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # 🛠️ Configurations 🛠️
-source ../../bin/set-env-variables.sh
-source ../../.venv/bin/activate
+source ../../../bin/set-env-variables.sh
+source ../../../.venv/bin/activate
 
 clear
 
