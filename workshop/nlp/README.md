@@ -16,7 +16,7 @@ The used model is [SamLowe/roberta-base-go_emotions](https://huggingface.co/SamL
 
 All the exercise must be done in [emotion-analysis.js](./javascript/emotion-analysis.js).
 
-⚗️ Test your code by running the following commands: `node emotion-analysis.js`
+⚗️ Test your code by running the following commands: `./run-javascript-script.sh emotion-analysis.js`
 
 👩‍💻 How to develop ? 🧑‍💻
 
@@ -36,7 +36,7 @@ The used model is [bert-base-NER](https://huggingface.co/dslim/bert-base-NER), a
 
 All the exercise must be done in [text-classification.js](./javascript/text-classification.js).
 
-⚗️ Test your code by running the following commands: `node text-classification.js`
+⚗️ Test your code by running the following commands: `./run-javascript-script.sh text-classification.js`
 
 👩‍💻 How to develop ? 🧑‍💻
 
@@ -53,7 +53,7 @@ The used model is [nlptown/bert-base-multilingual-uncased-sentiment](https://hug
 
 All the exercise must be done in [product-reviews.js](./javascript/product-reviews.js).
 
-⚗️ Test your code by running the following commands: `node product-reviews.js`
+⚗️ Test your code by running the following commands: `./run-javascript-script.sh product-reviews.js`
 
 👩‍💻 How to develop ? 🧑‍💻
 
@@ -82,7 +82,7 @@ The used model is [SamLowe/roberta-base-go_emotions](https://huggingface.co/SamL
 
 All the exercise must be done in [emotion-analysis.py](./python/emotion-analysis.py).
 
-⚗️ Test your code by running the following commands: `python emotion-analysis.py`
+⚗️ Test your code by running the following commands: `./run-python-script.sh emotion-analysis.py`
 
 👩‍💻 How to develop ? 🧑‍💻
 
@@ -102,7 +102,7 @@ The used model is [bert-base-NER](https://huggingface.co/dslim/bert-base-NER), a
 
 All the exercise must be done in [text-classification.py](./python/text-classification.py).
 
-⚗️ Test your code by running the following commands: `python text-classification.py`
+⚗️ Test your code by running the following commands: `./run-python-script.sh text-classification.py`
 
 👩‍💻 How to develop ? 🧑‍💻
 
@@ -119,7 +119,7 @@ The used model is [nlptown/bert-base-multilingual-uncased-sentiment](https://hug
 
 All the exercise must be done in [product-review.py](./python/product-review.py).
 
-⚗️ Test your code by running the following commands: `python product-review.py`
+⚗️ Test your code by running the following commands: `./run-python-script.sh product-review.py`
 
 👩‍💻 How to develop ? 🧑‍💻
 

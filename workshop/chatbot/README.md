@@ -29,10 +29,10 @@ The exercise is divided in 4 parts:
  - [MistralAI integration](https://docs.langchain4j.dev/integrations/language-models/mistral-ai) in LangChain4j
 
 #### ⚗️ Test your code by running the following commands: 
- - Simple chatbot: `mvn clean compile && mvn exec:java -Dexec.mainClass="com.ovhcloud.ai.langchain4j.chatbot.SimpleChatbot"`
- - Advanced chatbot: `mvn clean compile && mvn exec:java -Dexec.mainClass="com.ovhcloud.ai.langchain4j.chatbot.StreamingChatbot"`
- - Memory chatbot: `mvn clean compile && mvn exec:java -Dexec.mainClass="com.ovhcloud.ai.langchain4j.chatbot.MemoryChatbot"`
- - RAG chatbot: `mvn clean compile && mvn exec:java -Dexec.mainClass="com.ovhcloud.ai.langchain4j.chatbot.RAGChatbot"`
+ - Simple chatbot: `./run-java-main SimpleChatbot"`
+ - Advanced chatbot: `./run-java-main StreamingChatbot"`
+ - Memory chatbot: `./run-java-main MemoryChatbot"`
+ - RAG chatbot: `./run-java-main RAGChatbot"`
 
 #### 👩‍💻 How to develop ? 🧑‍💻
 
@@ -62,30 +62,10 @@ The exercise is divided in 3 parts:
  - [Quarkus](https://quarkus.io/)
 
 #### ⚗️ Test your code by running the following command:
-  - `quarkus dev` 
-  - Simple chatbot: 
-```
-curl  -N http://localhost:8080/chatbot/simple \
-      -X POST -d '{"question":"Can you tell me what OVHcloud is and what kind of products it offers?"}' \
-      -H 'Content-Type: application/json'
-```
-  - Advanced chatbot:
-```
-curl  -N http://localhost:8080/chatbot/advanced \
-      -X POST -d '{"question":"Can you tell me what OVHcloud is and what kind of products it offers?"}' \
-      -H 'Content-Type: application/json'
-```
-  - Memory chatbot:
-```
-curl  -N http://localhost:8080/chatbot/memory \
-      -X POST -d '{"question":"My name is Stéphane"}' \
-      -H 'Content-Type: application/json'
-```
-```
-curl  -N http://localhost:8080/chatbot/memory \
-      -X POST -d '{"question":"Do you remember my name?"}' \
-      -H 'Content-Type: application/json'
-```
+  - `./run-quarkus.sh` 
+  - Simple chatbot: `./curl-simple-chatbot.sh`
+  - Streaming chatbot: `./curl-streaming-chatbot`
+  - Memory chatbot: `./curl-memory-chatbot.sh`
 
 #### 👩‍💻 How to develop ? 🧑‍💻
 
@@ -126,7 +106,7 @@ The exercise is divided in two part:
  - [MistralAI integration](https://docs.langchain4j.dev/integrations/language-models/mistral-ai) in LangChain4j
 
 #### ⚗️ Test your code by running the following command: 
- - `mvn clean compile && mvn exec:java -Dexec.mainClass="com.ovhcloud.ai.langchain4j.chatbot.ImageGenerationChatbot"`
+ - `./run-java-main.sh ImageGenerationChatbot"`
 
 #### 👩‍💻 How to develop ? 🧑‍💻
 
@@ -153,8 +133,8 @@ The exercise is divided in two part:
  - [MistralAI integration](https://docs.langchain4j.dev/integrations/language-models/mistral-ai) in LangChain4j
 
 #### ⚗️ Test your code by running the following command: 
- - run `quarkus dev` in [java-quarkus](./java-quarkus/) folder
- - in a new terminal (⚠️ source again your `setup_env.sh` file ⚠️) run `mvn clean compile && mvn exec:java -Dexec.mainClass="com.ovhcloud.ai.langchain4j.chatbot.ImageGenerationMCPChatbot"` in the [java-langchain4j](./java-langchain4j/) folder
+ - run `./run-quarkus.sh` in [java-quarkus](./java-quarkus/) folder
+ - in a new terminal run `./run-java-main.sh ImageGenerationMCPChatbot"` in the [java-langchain4j](./java-langchain4j/) folder
 
 #### 👩‍💻 How to develop ? 🧑‍💻
 
@@ -195,10 +175,10 @@ The exercise is divided in 4 parts:
  - [MistralAI integration](https://python.langchain.com/docs/integrations/providers/mistralai/) in LangChain
 
 #### ⚗️ Test your code by running the following commands: 
- - Simple chatbot: `python simple-chatbot.py`
- - Advanced chatbot: `python streaming-chatbot.py`
- - Memory chatbot: `python memory-chatbot.py`
- - RAG chatbot: `python rag-chatbot.py`
+ - Simple chatbot: `./run-python-script.sh simple-chatbot.py`
+ - Advanced chatbot: `./run-python-script.sh streaming-chatbot.py`
+ - Memory chatbot: `./run-python-script.sh memory-chatbot.py`
+ - RAG chatbot: `./run-python-script.sh rag-chatbot.py`
 
 #### 👩‍💻 How to develop ? 🧑‍💻
 
@@ -225,7 +205,7 @@ The exercise is divided in two part:
  - [MistralAI integration](https://python.langchain.com/docs/integrations/providers/mistralai/) in LangChain
 
 #### ⚗️ Test your code by running the following command: 
- - `python image-generation-chatbot.py`
+ - `./run-python-script.sh image-generation-chatbot.py`
 
 #### 👩‍💻 How to develop ? 🧑‍💻
 
@@ -251,8 +231,8 @@ The exercise is divided in two part:
  - [LangChain MCP Adapters](https://github.com/langchain-ai/langchain-mcp-adapters/tree/main)
 
 #### ⚗️ Test your code by running the following command: 
- - run the MCP server: `python mcp-server.py`
- - in a new terminal (⚠️ source again your `setup_env.sh` file ⚠️) run `python mcp-client.py`
+ - run the MCP server: `./run-python-script.sh mcp-server.py`
+ - in a new terminal run `./run-python-script.sh mcp-client.py`
 
 #### 👩‍💻 How to develop ? 🧑‍💻
 
