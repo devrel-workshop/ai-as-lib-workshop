@@ -21,7 +21,7 @@ The used model is Whisper, and it does automatic speech recognition (ASR) allowi
 
 All the exercise must be done in [speech-to-text-http.py](./speech-to-text-http.py) file.
 
-⚗️ Test your code by running the following commands: `python speech-to-text-http.py`.
+⚗️ Test your code by running the following commands: `./run-python-script.sh speech-to-text-http.py`.
 
 👩‍💻 How to develop ? 🧑‍💻
 
@@ -41,7 +41,7 @@ This model is specialized for English speaking.
 
 All the exercise must be done in [text-to-speech-http.py](./text-to-speech-http.py) file.
 
-⚗️ Test your code by running the following commands: `python text-to-speech-http.py`.
+⚗️ Test your code by running the following commands: `./run-python-script.sh text-to-speech-http.py`.
 
 👩‍💻 How to develop ? 🧑‍💻
 
@@ -59,7 +59,7 @@ The used models are Whisper and nvr-asr-es-ES from NVIDIA and Llama 3.3 for tran
 
 All the exercise must be done in [speech-to-speechhttp.py](./speech-to-speech-http.py) file.
 
-⚗️ Test your code by running the following commands: `python speech-to-speech-http.py`.
+⚗️ Test your code by running the following commands: `./run-python-script.sh speech-to-speech-http.py`.
 
 👩‍💻 How to develop ? 🧑‍💻
 
