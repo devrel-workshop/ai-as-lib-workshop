@@ -26,7 +26,7 @@ void main() {
 
     // Get audio file path
     // java-42
-    Path path = Paths.get("../audio.wav");
+    Path path = Paths.get("../example.wav");
 
     // Configure the Whisper model
     // java-43
