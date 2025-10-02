@@ -234,3 +234,114 @@ snippet py-84:
         print(f"Review : {star_emoji}")
     else:
         print("❌ Error:", response.status_code)
+
+snippet java-60:
+  name: "OkHttp initialisation"
+  prefix: "java-60"
+  scope: "java"
+  body: |
+    OkHttpClient client = new OkHttpClient();
+
+snippet java-61:
+  name: "Prepare the request"
+  prefix: "java-61"
+  scope: "java"
+  body: |
+    RequestBody body = RequestBody.create("I love Java", MediaType.get("text/plain; charset=utf-8"));
+    Request request = new Request.Builder()
+            .url(System.getenv("OVH_AI_ENDPOINT_MODEL_EMOTION_URL"))
+            .addHeader("Authorization", String.format("Bearer %s", System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN")))
+            .post(body)
+            .build();
+
+snippet java-62:
+  name: "Endpoint call"
+  prefix: "java-62"
+  scope: "java"
+  body: |
+    System.out.println("⏳ Text analysis...");
+    Response response = client.newCall(request).execute();
+    Map<String, Double> map = new ObjectMapper().readValue(response.body().string(), Map.class);
+    Map.Entry<String, Double> max = map.entrySet().stream()
+    .max(Map.Entry.comparingByValue())
+    .orElseThrow();
+
+    System.out.println(String.format("💢 Main emotion is: %s", max.getKey()));
+
+snippet java-63:
+  name: "OKHttp initialisation"
+  prefix: "java-63"
+  scope: "java"
+  body: |
+    OkHttpClient client = new OkHttpClient();
+
+snippet java-64:
+  name: "Request preparation"
+  prefix: "java-64"
+  scope: "java"
+  body: |
+    RequestBody body = RequestBody.create("Bon produit, envoyé dans les temps. Service après vente perfectible.", MediaType.get("text/plain; charset=utf-8"));
+    Request request = new Request.Builder()
+            .url(System.getenv("OVH_AI_ENDPOINT_MODEL_SENTIMENT_URL"))
+            .addHeader("Authorization", String.format("Bearer %s", System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN")))
+            .post(body)
+            .build();
+
+snippet java-65:
+  name: "Endpoint call"
+  prefix: "java-65"
+  scope: "java"
+  body: |
+    System.out.println("⏳ Text analysis...");
+    Response response = client.newCall(request).execute();
+    Map<String, Double> map = new ObjectMapper().readValue(response.body().string(), Map.class);
+    Map.Entry<String, Double> max = map.entrySet().stream()
+            .max(Map.Entry.comparingByValue())
+            .orElseThrow();
+
+    System.out.println(String.format("⭐️ Product review: %s", max.getKey()));
+
+snippet java-66:
+  name: "OkHttp initialisation"
+  prefix: "java-66"
+  scope: "java"
+  body: |
+    OkHttpClient client = new OkHttpClient();
+
+snippet java-67:
+  name: "Request preparation"
+  prefix: "java-67"
+  scope: "java"
+  body: |
+    RequestBody body = RequestBody.create("My name is Clara and I live in Berkeley, California.", MediaType.get("text/plain; charset=utf-8"));
+    Request request = new Request.Builder()
+            .url(System.getenv("OVH_AI_ENDPOINT_MODEL_CLASSIFICATION_URL"))
+            .addHeader("Authorization", String.format("Bearer %s", System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN")))
+            .post(body)
+            .build();
+
+snippet java-68:
+  name: "Endpoint call"
+  prefix: "java-68"
+  scope: "java"
+  body: |
+    System.out.println("⏳ Text analysis...");
+    Response response = client.newCall(request).execute();
+    var mapper = new ObjectMapper();
+    List<Entity> entities = mapper.readValue(response.body().string(), new TypeReference<>() {});
+
+    var output = entities.stream()
+            .map(e -> "%s is %s".formatted(
+                    e.word(),
+                    switch (e.entity()) {
+                        case "B-PER" -> "a person";
+                        case "B-LOC" -> "a location";
+                        case "B-ORG" -> "an organization";
+                        case "B-MISC" -> "other";
+                        default -> "undefined";
+                    }
+            ))
+            .toList();
+
+    System.out.println("💬 Entities found:");
+    output.forEach(System.out::println);
