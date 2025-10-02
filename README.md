@@ -20,9 +20,10 @@ You can open your VSCode instance in your browser, choose _code-server_ button o
 To have an exhaustive list of the pre-requisites, please check the [Dockerfile](./Docker/Dockerfile) used by Coder.  
 In a nutshell, you need to have:
  - [Bat](https://github.com/sharkdp/bat) utility
- - Java 21 (LTS)
+ - Java 25
  - [Maven 3.9.x](https://maven.apache.org/download.cgi)
  - [Quarkus CLI](https://quarkus.io/guides/cli-tooling)
+ - [JBang](https://www.jbang.dev/)
  - Python 3.x
  - NodeJS 20.x
 

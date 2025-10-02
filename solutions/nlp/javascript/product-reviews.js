@@ -17,7 +17,7 @@ const options = {
 //  - send a review to the model nlptown/bert-base-multilingual-uncased-sentiment, see https://endpoints.ai.cloud.ovh.net/
 //  - display the result (number of stars from one to five)
 axios
-  .post("https://bert-base-multilingual-uncased-sentiment.endpoints.kepler.ai.cloud.ovh.net/api/text2sentiments", "Bon produit, envoyé dans les temps. Service après vente perfectible.", options)
+  .post(process.env.OVH_AI_ENDPOINT_MODEL_SENTIMENT_URL, "Bon produit, envoyé dans les temps. Service après vente perfectible.", options)
   .then((res) => {
     const maxRating = Math.max(...Object.values(res.data));
     const maxRatingKey = Object.keys(res.data).find(key => res.data[key] === maxRating);

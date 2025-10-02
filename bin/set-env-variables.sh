@@ -21,6 +21,9 @@ if [ -z "${OVH_AI_ENDPOINTS_MODEL_URL}" ]; then
       export OVH_AI_ENDPOINTS_WHISPER_MODEL=whisper-large-v3
       export OVH_AI_ENDPOINTS_TTS_MODEL=https://nvr-tts-es-es.endpoints.kepler.ai.cloud.ovh.net/api/v1/tts/text_to_audio
       export MCP_SERVER_URL=http://localhost:8080/mcp/
+      export OVH_AI_ENDPOINT_MODEL_EMOTION_URL=https://roberta-base-go-emotions.endpoints.kepler.ai.cloud.ovh.net/api/text2emotions
+      export OVH_AI_ENDPOINT_MODEL_SENTIMENT_URL=https://bert-base-multilingual-uncased-sentiment.endpoints.kepler.ai.cloud.ovh.net/api/text2sentiments
+      export OVH_AI_ENDPOINT_MODEL_CLASSIFICATION_URL=https://bert-base-ner.endpoints.kepler.ai.cloud.ovh.net/api/text2ner
       export OVH_AI_ENDPOINTS_ACCESS_TOKEN=$(jq -r '.aiEndpointsToken' "$ATTENDEE_CONF_PATH")
   fi
 fi

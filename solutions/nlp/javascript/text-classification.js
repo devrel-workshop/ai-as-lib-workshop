@@ -17,7 +17,7 @@ const options = {
 //  - send a phrase to the model bert-base-NER, see https://endpoints.ai.cloud.ovh.net/
 //  - display the result (which type of texts is in the text)
 axios
-  .post("https://bert-base-ner.endpoints.kepler.ai.cloud.ovh.net/api/text2ner", "My name is Clara and I live in Berkeley, California.", options)
+  .post(process.env.OVH_AI_ENDPOINT_MODEL_CLASSIFICATION_URL, "My name is Clara and I live in Berkeley, California.", options)
   .then((res) => {
     console.log(res.data);
     const output = res.data.map((entity) => {

@@ -17,7 +17,7 @@ const options = {
 //  - send a phrase to the model roberta-base-go_emotions, see https://endpoints.ai.cloud.ovh.net/
 //  - display the result (which type of emotion is in the text)
 axios
-  .post('https://roberta-base-go-emotions.endpoints.kepler.ai.cloud.ovh.net/api/text2emotions', 'I love JS', options)
+  .post(process.env.OVH_AI_ENDPOINT_MODEL_EMOTION_URL, 'I love JS', options)
   .then(res => {
     const sortedEmotions = Object.entries(res.data).sort((a, b) => b[1] - a[1]);
     console.log(sortedEmotions[0][0]);
