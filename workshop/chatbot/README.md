@@ -6,9 +6,10 @@
 
 If you use [Coder CDE](https://coder.com/) to open this project, all prerequisites are managed for you.  
 In the other case you need : 
- - Java 21 (LTS)
+ - Java 25+
  - [Maven 3.9.x](https://maven.apache.org/download.cgi)
  - [Quarkus CLI](https://quarkus.io/guides/cli-tooling)
+ - [JBang](https://www.jbang.dev/)
  - [Node 20.x](https://nodejs.org/en/download/)
 
 > Note: most of the modules will use these libraries make the development simpler: 
