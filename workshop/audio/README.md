@@ -59,8 +59,6 @@ The used models are Whisper and nvr-asr-es-ES from NVIDIA and Llama 3.3 for tran
 
 All the exercise must be done in [speech-to-speechhttp.py](./speech-to-speech-http.py) file.
 
-⚗️ Test your code by running the following commands: `./run-python-script.sh speech-to-speech-http.py`.
-
 👩‍💻 How to develop ? 🧑‍💻
 
 Follow the comments in the [speech-to-speech-http.py](./speech-to-speech-http.py) file to discover the steps to create the script.
@@ -70,3 +68,5 @@ Follow the comments in the [speech-to-speech-http.py](./speech-to-speech-http.py
     - [requirements.txt](./requirements.txt) file, `pip install -r requirements.txt`
     - [text-to-speech-http.py](./speech-to-speech-http.py) file
 
+⚗️ Test your code by running the following commands: `./run-python-script.sh speech-to-speech-http.py`.
+If you don't have a mic you can download the [example.wav](./example.wav) file.

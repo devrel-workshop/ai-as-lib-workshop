@@ -36,7 +36,8 @@ set_debug(False)
 # this particular conversation.
 # We'll just generate a random uuid here.
 # This enables a single application to manage conversations among multiple users.
+# Add the thread to the config dict
 # py-48
 
-# Call the model, see https://langchain-ai.lang.chat/langgraph/how-tos/streaming/#execution
+# Call the model, see https://langchain-ai.github.io/langgraph/how-tos/streaming/#messages
 # py-49

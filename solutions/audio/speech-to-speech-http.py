@@ -146,7 +146,7 @@ output_audio = gr.Audio(
 demo = gr.Interface(
     fn=speechToSpeech,
     inputs=input_audio,
-    outputs=[gr.Textbox(label="🏴󠁧󠁢󠁥󠁮󠁧󠁿"), gr.Textbox(label="🇪🇸"), output_audio],
+    outputs=[gr.Textbox(lines=10, label="🏴󠁧󠁢󠁥󠁮󠁧󠁿"), gr.Textbox(lines=10, label="🇪🇸"), output_audio],
     allow_flagging="never",
 )
 
