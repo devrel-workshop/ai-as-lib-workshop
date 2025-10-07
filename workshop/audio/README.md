@@ -6,7 +6,7 @@
 
 If you use [Coder CDE](https://coder.com/) to open this project, all prerequisites are managed for you.  
 In the other case you need : 
- - Python 3.9.x
+ - Python 3.11.x
 
 >Note : consider using virtual environments: 
 ```bash
