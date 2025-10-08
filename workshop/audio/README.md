@@ -4,7 +4,7 @@
 
 ### ⚠️ Prerequisites ⚠️
 
-If you use [Coder CDE](https://coder.com/) to open this project, all prerequisites are managed for you.
+If you use [Coder CDE](https://coder.com/) to open this project, all prerequisites are managed for you.  
 In the other case you need : 
  - Python 3.11.x
 
@@ -17,7 +17,7 @@ In the other case you need :
 ### 🤖 Module 1: Speech to text with HTTP 💬
 
 The goal of this module is to develop an application in Python and [Gradio](https://www.gradio.app/) with AI Endpoints to do speech to text.
-The used model is Whisper, and it does automatic speech recognition (ASR) allowing audio recognition and transcription, especially human speech, into text.
+The used model is Whisper, and it does automatic speech recognition (ASR) allowing audio recognition and transcription, especially human speech, into text.  
 
 All the exercise must be done in [speech-to-text-http.py](./speech-to-text-http.py) file.
 

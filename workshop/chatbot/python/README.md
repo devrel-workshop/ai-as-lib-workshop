@@ -4,7 +4,7 @@
 
 ### ⚠️ Prerequisites ⚠️
 
-If you use [Coder CDE](https://coder.com/) to open this project, all prerequisites are managed for you.
+If you use [Coder CDE](https://coder.com/) to open this project, all prerequisites are managed for you.  
 In the other case you need : 
  - Python 3.11.x min
 
@@ -18,7 +18,7 @@ In the other case you need :
 
 ### 🤖 Module 1: Chatbot with AI Endpoints and LangChain 🐍
 
-The goal of this module is to develop a simple chatbot with [AI Endpoints](https://endpoints.ai.cloud.ovh.net/) and Python.
+The goal of this module is to develop a simple chatbot with [AI Endpoints](https://endpoints.ai.cloud.ovh.net/) and Python.  
 The exercise is divided in 4 parts:
 1. Create a simple chatbot: [simple-chatbot](./simple-chatbot.py)
 1. Create a streaming chatbot: [streaming-chatbot](./streaming-chatbot.py)
@@ -93,7 +93,7 @@ The exercise is divided in two part:
     - the [requirements.txt](./requirements.txt) file
     - the [mcp-server.py](./mcp-server.py) file
     - the [mcp-client.py](./mcp-client.py) file
-
+    
 #### ⚗️ Test your code by running the following command: 
  - run the MCP server: `./run-python-script.sh mcp-server.py`
  - in a new terminal run `./run-python-script.sh mcp-client.py`
