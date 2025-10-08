@@ -4,15 +4,15 @@
 
 ### ⚠️ Prerequisites ⚠️
 
-If you use [Coder CDE](https://coder.com/) to open this project, all prerequisites are managed for you.  
+If you use [Coder CDE](https://coder.com/) to open this project, all prerequisites are managed for you.
 In the other case you need : 
  - NodeJS 20.x
  - run `npm i` to install dependencies
 
 ### ❤️ Module 1: Emotion analysis with AI Endpoints 🤩
 
-The goal of this module is to develop a script to analyse emotions in a text.  
-The used model is [SamLowe/roberta-base-go_emotions](https://huggingface.co/SamLowe/roberta-base-go_emotions), and it does the following sentiments detection: admiration,amusement, anger, annoyance, ...
+The goal of this module is to develop a script to analyse emotions in a text.
+The used model is [SamLowe/roberta-base-go_emotions](https://huggingface.co/SamLowe/roberta-base-go_emotions), and it does the following sentiments detection: admiration, amusement, anger, annoyance, ...
 
 All the exercise must be done in [emotion-analysis.js](./javascript/emotion-analysis.js).
 
@@ -78,7 +78,7 @@ In the other case you need :
 ### ❤️ Module 1: Emotion analysis with AI Endpoints 🤩
 
 The goal of this module is to develop a script to analyse emotions in a text.  
-The used model is [SamLowe/roberta-base-go_emotions](https://huggingface.co/SamLowe/roberta-base-go_emotions), and it does the following sentiments detection: admiration,amusement, anger, annoyance, ...
+The used model is [SamLowe/roberta-base-go_emotions](https://huggingface.co/SamLowe/roberta-base-go_emotions), and it does the following sentiments detection: admiration, amusement, anger, annoyance, ...
 
 All the exercise must be done in [emotion-analysis.py](./python/emotion-analysis.py).
 

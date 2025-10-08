@@ -4,7 +4,7 @@
 
 ### ⚠️ Prerequisites ⚠️
 
-If you use [Coder CDE](https://coder.com/) to open this project, all prerequisites are managed for you.  
+If you use [Coder CDE](https://coder.com/) to open this project, all prerequisites are managed for you.
 In the other case you need : 
  - Java 21 (LTS)
  - [Maven 3.9.x](https://maven.apache.org/download.cgi)
@@ -16,7 +16,7 @@ In the other case you need :
 
 ### 🤖 Module 1: Chatbot with AI Endpoints and Quarkus ⚡️
 
-The goal of this module is to develop a simple chatbot with AI Endpoints and Quarkus.  
+The goal of this module is to develop a simple chatbot with AI Endpoints and Quarkus.
 The exercise is divided in 3 parts:
 1. Create a simple chatbot: [SimpleChatbot](./src/main/java/com/ovhcloud/ai/quarkus/chatbot/SimpleResource.java)
 1. Create a streaming chatbot: [AdvancedResource](./src/main/java/com/ovhcloud/ai/quarkus/chatbot/AdvancedResource.java)
@@ -50,7 +50,7 @@ quarkus create app com.ovhcloud.ai.quarkus.chatbot:java-quarkus \
     - the [AIAdvancedService](./src/main/java/com/ovhcloud/ai/quarkus/chatbot/service/AIAdvancedService.java)
     - the [AIAdvancedResource](./src/main/java/com/ovhcloud/ai/quarkus/chatbot/AdvancedResource.java)
     - the [AIMemoryService](./src/main/java/com/ovhcloud/ai/quarkus/chatbot/service/AIMemoryService.java)
-    - the [MemoryResource](./src/main/java/com/ovhcloud/ai/quarkus/chatbot/MemoryResource.java)    
+    - the [MemoryResource](./src/main/java/com/ovhcloud/ai/quarkus/chatbot/MemoryResource.java)
 
 #### ⚗️ Test your code by running the following command:
   - `./run-quarkus.sh` 

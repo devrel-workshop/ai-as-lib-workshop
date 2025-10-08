@@ -11,13 +11,13 @@ To use this workshop you just have to clone this repository.
 
 ### 🧑‍💻 Note on the use of [Coder](https://coder.com/) CDE ☁️
 
-To help people with their IDE configuration we use Coder during the workshop, this is not a mandatory step, but it will help you to have a better experience.  
-Ask to have the URL where you can start a Coder workspace giving the AI workshop template.  
+To help people with their IDE configuration we use Coder during the workshop, this is not a mandatory step, but it will help you to have a better experience.
+Ask to have the URL where you can start a Coder workspace giving the AI workshop template.
 You can open your VSCode instance in your browser, choose _code-server_ button or with a ssh tunnel on your local VSCode, choose _VS Code Desktop_.
 
 ### 🧰 Pre-requisites 🧰
 
-To have an exhaustive list of the pre-requisites, please check the [Dockerfile](./Docker/Dockerfile) used by Coder.  
+To have an exhaustive list of the pre-requisites, please check the [Dockerfile](./Docker/Dockerfile) used by Coder.
 In a nutshell, you need to have:
  - [Bat](https://github.com/sharkdp/bat) utility
  - Java 21 (LTS)
