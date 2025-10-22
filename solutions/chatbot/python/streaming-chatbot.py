@@ -35,5 +35,6 @@ print("🤖:")
 
 # py-41
 # Call the model with the messages.
+# See https://python.langchain.com/docs/how_to/streaming/#llms-and-chat-models
 for chunk in model.stream(messages):
     print(chunk.content, end="", flush=True)

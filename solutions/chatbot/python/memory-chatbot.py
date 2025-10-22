@@ -58,11 +58,12 @@ app = workflow.compile(
 # this particular conversation.
 # We'll just generate a random uuid here.
 # This enables a single application to manage conversations among multiple users.
+# Add the thread to the config dict
 thread_id = uuid.uuid4()
 config = {"configurable": {"thread_id": thread_id}}
 
 # py-49
-# Call the model, see https://langchain-ai.lang.chat/langgraph/how-tos/streaming/#execution
+# Call the model, see https://langchain-ai.github.io/langgraph/how-tos/streaming/#messages
 question = "Hello, my name is Stéphane"
 print(f"👤: {question}")
 print("🤖: ")
@@ -72,6 +73,7 @@ for message_chunk, metadata in app.stream(
 ):
     if message_chunk.content:
         print(message_chunk.content, end="", flush=True)
+print()
 
 question = "Do you remember my name?"
 print(f"👤: {question}")
@@ -82,3 +84,4 @@ for message_chunk, metadata in app.stream(
 ):
     if message_chunk.content:
         print(message_chunk.content, end="", flush=True)
+print()

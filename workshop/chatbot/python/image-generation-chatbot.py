@@ -16,7 +16,7 @@ set_debug(False)
 # py-56
 
 # Define the tool for the model, see https://python.langchain.com/docs/how_to/function_calling/#passing-tools-to-llms
-# The goal of the tool is to create an image with Stable Diffusion XL given a prompt and a negative prompt, see https://endpoints.ai.cloud.ovh.net/models/stable-diffusion-xl
+# The goal of the tool is to create an image with Stable Diffusion XL given a prompt and a negative prompt, see documentation section of https://endpoints.ai.cloud.ovh.net/models/stable-diffusion-xl
 # py-57
 
 # Configure the model tools, see https://python.langchain.com/docs/how_to/function_calling/#passing-tools-to-llms

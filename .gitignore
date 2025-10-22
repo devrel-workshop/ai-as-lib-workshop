@@ -47,6 +47,8 @@ generated-image.jpeg
 flagged/
 my_audio.wav
 audio.wav
+speech.wav
+translation.wav
 
 
 # JavaScript
