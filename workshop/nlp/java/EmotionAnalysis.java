@@ -1,6 +1,5 @@
 ///usr/bin/env jbang "$0" "$@" ; exit $?
-//JAVA 21+
-//PREVIEW
+
 //DEPS com.squareup.okhttp3:okhttp-jvm:5.1.0
 //DEPS com.fasterxml.jackson.core:jackson-databind:2.17.2
 
