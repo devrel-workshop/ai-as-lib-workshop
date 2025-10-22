@@ -28,7 +28,9 @@ In a nutshell, you need to have:
 
 ### ⚡️ Workshop initialisation ⚡️
 
-Execute the script [`setup_env.sh`](./setup_env.sh) to setup your environment: `source ./setup_env.sh`
+**Go to the ai-as-lib-workshop folder**, `cd ai-as-lib-workshop`, and execute the script [`setup_env.sh`](./setup_env.sh) to setup your environment: `source ./setup_env.sh`.
+
+If you need to open a new terminal, source again, **at the root of the ai-as-lib-workshop folder**, the `setup_env.sh` script.
 
 ⚠️ Ask the speaker for the password ⚠️
 

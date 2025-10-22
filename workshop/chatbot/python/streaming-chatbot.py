@@ -18,4 +18,5 @@ set_debug(False)
 # py-40
 
 # Call the model with the messages.
+# See https://python.langchain.com/docs/how_to/streaming/#llms-and-chat-models
 # py-41

@@ -65,7 +65,7 @@ snippet py-06:
     demo = gr.Interface(
         fn=speechToText,
         inputs=input_audio,
-        outputs="text",
+        outputs=gr.Textbox(lines=10, label="Transcription"),
         allow_flagging="never"
     )
 
@@ -326,7 +326,7 @@ snippet py-32:
     demo = gr.Interface(
     fn=speechToSpeech,
     inputs=input_audio,
-    outputs=[gr.Textbox(label="🏴󠁧󠁢󠁥󠁮󠁧󠁿"), gr.Textbox(label="🇪🇸"), output_audio],
+    outputs=[gr.Textbox(lines=10, label="🏴󠁧󠁢󠁥󠁮󠁧󠁿"), gr.Textbox(lines=10, label="🇪🇸"), output_audio],
     allow_flagging="never",
     )
 
