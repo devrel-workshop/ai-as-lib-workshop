@@ -1,6 +1,4 @@
 /// usr/bin/env jbang "$0" "$@" ; exit $?
-//JAVA 21+
-//PREVIEW
 //DEPS com.openai:openai-java:3.6.1
 //DEPS dev.langchain4j:langchain4j:1.5.0
 //DEPS dev.langchain4j:langchain4j-open-ai:1.5.0
@@ -49,7 +47,7 @@ void main() throws IOException {
 
     // Get audio file path
     // java-50
-    Path path = Paths.get("../audio.wav");
+    Path path = Paths.get("../example.wav");
 
     // Configure the Whisper model
     // java-51

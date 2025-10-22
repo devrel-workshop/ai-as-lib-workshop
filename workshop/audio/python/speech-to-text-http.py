@@ -17,7 +17,7 @@ def speechToText(audio):
     
     return None
 
-# Create a Gradio input component
+# Create a Gradio audio input component
 # py-05
 
 # Create a Gradio interface named demo

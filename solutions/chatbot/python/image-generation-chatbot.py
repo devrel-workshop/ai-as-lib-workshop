@@ -23,7 +23,7 @@ model = ChatMistralAI(
 
 # py-57
 # Define the tool for the model, see https://python.langchain.com/docs/how_to/function_calling/#passing-tools-to-llms
-# The goal of the tool is to create an image with Stable Diffusion XL given a prompt and a negative prompt, see https://endpoints.ai.cloud.ovh.net/models/stable-diffusion-xl
+# The goal of the tool is to create an image with Stable Diffusion XL given a prompt and a negative prompt, see documentation section of https://endpoints.ai.cloud.ovh.net/models/stable-diffusion-xl
 @tool
 def generateImage(prompt: str, negative_prompt: str) -> str:
     # py-58

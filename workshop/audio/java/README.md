@@ -6,7 +6,7 @@
 
 If you use [Coder CDE](https://coder.com/) to open this project, all prerequisites are managed for you.  
 In the other case you need : 
- - A Java 25+ JDK
+ - A Java 21+ JDK with preview activated or Java 25+
  - [JBang](https://www.jbang.dev/) 
 
 ### 🤖 Module 1: Speech to text with HTTP 💬

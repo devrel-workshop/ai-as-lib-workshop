@@ -1,6 +1,4 @@
 /// usr/bin/env jbang "$0" "$@" ; exit $?
-//JAVA 21+
-//PREVIEW
 //DEPS com.squareup.okhttp3:okhttp-jvm:5.1.0
 
 import okhttp3.*;

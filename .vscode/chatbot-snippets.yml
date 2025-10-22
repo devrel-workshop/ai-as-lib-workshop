@@ -893,6 +893,7 @@ snippet py-49:
     ):
         if message_chunk.content:
             print(message_chunk.content, end="", flush=True)
+    print()
 
     question = "Do you remember my name?"
     print(f"👤: {question}")
@@ -903,7 +904,8 @@ snippet py-49:
     ):
         if message_chunk.content:
             print(message_chunk.content, end="", flush=True)
-
+    print()
+    
 snippet py-50:
   name: "Chatbot RAG model"
   prefix: "py-50"

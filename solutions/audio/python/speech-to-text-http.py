@@ -26,7 +26,7 @@ def speechToText(audio):
 
 
 # py-05
-# Create a Gradio input component
+# Create a Gradio audio input component
 input_audio = gr.Audio(sources=["upload", "microphone"], type="filepath", label="🎙️")
 
 # py-06
@@ -35,7 +35,7 @@ input_audio = gr.Audio(sources=["upload", "microphone"], type="filepath", label=
 # The inputs : input_audio
 # The outputs : "text"
 demo = gr.Interface(
-    fn=speechToText, inputs=input_audio, outputs="text", allow_flagging="never"
+    fn=speechToText, inputs=input_audio, outputs=gr.Textbox(lines=10, label="Transcription"), allow_flagging="never"
 )
 
 # Main entry

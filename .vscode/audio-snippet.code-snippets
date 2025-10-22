@@ -16,7 +16,7 @@
   },
   "Audio file input": {
     "body": [
-      "Path path = Paths.get(\"../audio.wav\");",
+      "Path path = Paths.get(\"../example.wav\");",
       ""
     ],
     "description": "",
@@ -135,7 +135,7 @@
       ""
     ],
     "description": "",
-    "prefix": "java-46",
+    "prefix": "java-57",
     "scope": "java"
   },
   "RIVA call": {
@@ -193,7 +193,7 @@
       "demo = gr.Interface(",
       "fn=speechToSpeech,",
       "inputs=input_audio,",
-      "outputs=[gr.Textbox(label=\"🏴󠁧󠁢󠁥󠁮󠁧󠁿\"), gr.Textbox(label=\"🇪🇸\"), output_audio],",
+      "outputs=[gr.Textbox(lines=10, label=\"🏴󠁧󠁢󠁥󠁮󠁧󠁿\"), gr.Textbox(lines=10, label=\"🇪🇸\"), output_audio],",
       "allow_flagging=\"never\",",
       ")",
       ""
@@ -354,7 +354,7 @@
       "demo = gr.Interface(",
       "    fn=speechToText,",
       "    inputs=input_audio,",
-      "    outputs=\"text\",",
+      "    outputs=gr.Textbox(lines=10, label=\"Transcription\"),",
       "    allow_flagging=\"never\"",
       ")",
       ""
@@ -551,13 +551,14 @@
     "body": [
       "System.out.println(\"⏳ Transcription started...\");",
       "Transcription transcription =",
-      "        client.audio().transcriptions().create(createParams).asTranscription();",
+      "client.audio().transcriptions().create(createParams).asTranscription();",
       "System.out.println(\"📝 Transcript generated! 📝\");",
-      "System.out.println(transcription.text());",
+      "String transcriptionText = transcription.text();",
+      "System.out.println(transcriptionText);",
       ""
     ],
     "description": "",
-    "prefix": "java-44",
+    "prefix": "java-52",
     "scope": "java"
   },
   "Whisper configuration": {
