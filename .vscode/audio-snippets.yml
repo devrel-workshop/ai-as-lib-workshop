@@ -430,7 +430,7 @@ snippet java-50:
   prefix: "java-50"
   scope: "java"
   body: |
-    Path path = Paths.get("../audio.wav");
+    Path path = Paths.get("../example.wav");
 
 snippet java-51:
   name: "Whisper configuration"

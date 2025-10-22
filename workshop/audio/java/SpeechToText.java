@@ -1,6 +1,4 @@
 ///usr/bin/env jbang "$0" "$@" ; exit $?
-//JAVA 21+
-//PREVIEW
 //DEPS com.openai:openai-java:3.6.1
 
 /**
