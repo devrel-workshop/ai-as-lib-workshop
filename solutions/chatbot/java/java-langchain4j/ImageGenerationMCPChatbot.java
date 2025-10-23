@@ -1,12 +1,15 @@
-/// usr/bin/env jbang "$0" "$@" ; exit $?
-
 //DEPS dev.langchain4j:langchain4j:1.7.1
 //DEPS dev.langchain4j:langchain4j-open-ai:1.7.1
+//DEPS dev.langchain4j:langchain4j-mcp:1.7.1-beta14
 //DEPS ch.qos.logback:logback-classic:1.5.6
+
 //FILES ./resources/logback.xml
 
-//SOURCES ImageGenTools.java
-
+import dev.langchain4j.mcp.McpToolProvider;
+import dev.langchain4j.mcp.client.DefaultMcpClient;
+import dev.langchain4j.mcp.client.McpClient;
+import dev.langchain4j.mcp.client.transport.McpTransport;
+import dev.langchain4j.mcp.client.transport.http.StreamableHttpMcpTransport;
 import dev.langchain4j.memory.ChatMemory;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.chat.ChatModel;
@@ -18,7 +21,6 @@ import dev.langchain4j.service.V;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.invoke.MethodHandles;
 import java.util.Scanner;
 
 /**
@@ -32,13 +34,11 @@ import java.util.Scanner;
  * - use the tool from ImageGenTools to generate the image based on the created prompts by the model (see https://docs.langchain4j.dev/tutorials/tools#specifying-tools-dynamically)
  * - ask to generate an image (you can use a loop to fine tune your question).
  */
-private static final Logger _LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-
 
 // Chatbot definition.
 // The goal of the chatbot is to build a powerful prompt for Stable diffusion XML.
 interface ChatBot {
-    // java-27
+    // java-33
     // Create a detailed system prompt: the goal and what the model must generate and use
     @SystemMessage("""
             Your are an expert of using the Stable Diffusion XL model.
@@ -49,9 +49,10 @@ interface ChatBot {
     String chat(@V("userMessage") String userMessage);
 }
 
-void main() throws Exception {
+void main() {
+    final Logger _LOG = LoggerFactory.getLogger(this.getClass().getName());
 
-    // java-28
+    // java-34
     // Main chatbot configuration, try to be more deterministic as possible ;)
     ChatModel chatModel = OpenAiChatModel.builder()
             .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
@@ -65,19 +66,40 @@ void main() throws Exception {
             .timeout(Duration.ofMinutes(5))
             .build();
 
-    // java-29
+    // java-35
+    // Configure the MCP server to use
+    McpTransport transport = new StreamableHttpMcpTransport.Builder()
+            // https://xxxx/mcp/sse
+            .url(System.getenv("MCP_SERVER_URL"))
+            .logRequests(true)
+            .logResponses(true)
+            .build();
+
+    // java-36
+    // Create the MCP client for the given MCP server
+    McpClient mcpClient = new DefaultMcpClient.Builder()
+            .transport(transport)
+            .build();
+
+    // java-37
+    // Configure the tools list for the LLM
+    McpToolProvider toolProvider = McpToolProvider.builder()
+            .mcpClients(mcpClient)
+            .build();
+
+    // java-38
     // Add memory to fine tune the SDXL prompt.
     ChatMemory chatMemory = MessageWindowChatMemory.withMaxMessages(10);
 
-    // java-30
-    // Build the chatbot thanks to LangChain4J AI Services mode (see https://docs.langchain4j.dev/tutorials/ai-services)
-    ChatBot chatBot = AiServices.builder(ChatBot.class)
+    // java-39
+    // Create the chatbot with the given LLM and tools list
+    ChatBot bot = AiServices.builder(ChatBot.class)
             .chatModel(chatModel)
-            .tools(new ImageGenTools())
+            .toolProvider(toolProvider)
             .chatMemory(chatMemory)
             .build();
 
-    // java-31
+    // java-40
     // Start the conversation loop (enter "exit" to quit)
     String userInput = "";
     Scanner scanner = new Scanner(System.in);
@@ -85,7 +107,7 @@ void main() throws Exception {
         _LOG.info("\nEnter your message: ");
         userInput = scanner.nextLine();
         if (userInput.equalsIgnoreCase("exit")) break;
-        _LOG.info("\nResponse: " + chatBot.chat(userInput));
+        _LOG.info("\nResponse: " + bot.chat(userInput));
     }
     scanner.close();
 }

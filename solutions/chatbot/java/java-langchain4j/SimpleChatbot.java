@@ -1,14 +1,13 @@
 ///usr/bin/env jbang "$0" "$@" ; exit $?
-//JAVA 25
 
-//DEPS dev.langchain4j:langchain4j:1.5.0
-//DEPS dev.langchain4j:langchain4j-open-ai:1.5.0
-//DEPS dev.langchain4j:langchain4j-ovh-ai:1.5.0-beta11
+//DEPS dev.langchain4j:langchain4j:1.7.1
+//DEPS dev.langchain4j:langchain4j-open-ai:1.7.1
 //DEPS ch.qos.logback:logback-classic:1.5.6
 //FILES ./resources/logback.xml
 
 import java.lang.invoke.MethodHandles;
 
+import dev.langchain4j.model.chat.ChatModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +15,8 @@ import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.service.AiServices;
 import dev.langchain4j.service.SystemMessage;
 
+// java-02
+// AI Service to create, see https://docs.langchain4j.dev/tutorials/ai-services
 interface Assistant {
   @SystemMessage("You are Nestor, a virtual assistant. Answer to the question.")
   String chat(String message);
@@ -25,15 +26,15 @@ private static final Logger _LOG = LoggerFactory.getLogger(MethodHandles.lookup(
 
 void main() {
   // java-03
-  // Select the Mistral model to use
-  OpenAiChatModel chatModel = OpenAiChatModel.builder()
+  // Create a chat model using OpenAI provider
+  ChatModel chatModel = OpenAiChatModel.builder()
       .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
       .modelName(System.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"))
       .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
       .maxTokens(512)
       .temperature(0.0)
-      .logRequests(true)
-      .logResponses(true)
+      .logRequests(false)
+      .logResponses(false)
       .build();
 
   // java-04

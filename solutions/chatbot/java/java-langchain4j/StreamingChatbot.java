@@ -1,12 +1,11 @@
 /// usr/bin/env jbang "$0" "$@" ; exit $?
-//JAVA 25
 
-//DEPS dev.langchain4j:langchain4j:1.5.0
-//DEPS dev.langchain4j:langchain4j-open-ai:1.5.0
-//DEPS dev.langchain4j:langchain4j-ovh-ai:1.5.0-beta11
+//DEPS dev.langchain4j:langchain4j:1.7.1
+//DEPS dev.langchain4j:langchain4j-open-ai:1.7.1
 //DEPS ch.qos.logback:logback-classic:1.5.6
 //FILES ./resources/logback.xml
 
+import dev.langchain4j.model.chat.StreamingChatModel;
 import dev.langchain4j.model.chat.response.ChatResponse;
 import dev.langchain4j.model.openai.OpenAiStreamingChatModel;
 import dev.langchain4j.service.AiServices;
@@ -37,8 +36,8 @@ interface Assistant {
 
 void main() {
     // java-07
-    // Select the Mistral model to use (the streaming one)
-    OpenAiStreamingChatModel steamingModel = OpenAiStreamingChatModel.builder()
+    // Create a streaming chat model using OpenAI provider
+    StreamingChatModel steamingModel = OpenAiStreamingChatModel.builder()
             .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
             .modelName(System.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"))
             .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))

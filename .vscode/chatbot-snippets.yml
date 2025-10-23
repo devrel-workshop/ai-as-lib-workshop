@@ -32,15 +32,15 @@ snippet java-03:
   prefix: "java-03"
   scope: "java"
   body: |
-    MistralAiChatModel chatModel = MistralAiChatModel.builder()
-        .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
-        .modelName(System.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"))
-        .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
-        .maxTokens(512)
-        .temperature(0.0)
-        .logRequests(true)
-        .logResponses(true)
-        .build();
+    ChatModel chatModel = OpenAiChatModel.builder()
+      .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
+      .modelName(System.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"))
+      .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
+      .maxTokens(512)
+      .temperature(0.0)
+      .logRequests(false)
+      .logResponses(false)
+    .build();
 
 snippet java-04:
   name: "Simple chatbot assistant"
@@ -74,15 +74,15 @@ snippet java-07:
   prefix: "java-07"
   scope: "java"
   body: |
-    MistralAiStreamingChatModel steamingModel = MistralAiStreamingChatModel.builder()
-        .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
-        .modelName(System.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"))
-        .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
-        .maxTokens(512)
-        .temperature(0.0)
-        .logRequests(false)
-        .logResponses(false)
-        .build();
+    StreamingChatModel steamingModel = OpenAiStreamingChatModel.builder()
+            .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
+            .modelName(System.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"))
+            .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
+            .maxTokens(512)
+            .temperature(0.0)
+            .logRequests(false)
+            .logResponses(false)
+            .build();
 
 snippet streaming-assistant:
   name: "Streaming assistant"
@@ -124,15 +124,15 @@ snippet java-11:
   prefix: "java-11"
   scope: "java"
   body: |
-    MistralAiStreamingChatModel steamingModel = MistralAiStreamingChatModel.builder()
-        .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
-        .modelName(System.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"))
-        .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
-        .maxTokens(512)
-        .temperature(0.0)
-        .logRequests(false)
-        .logResponses(false)
-        .build();
+    StreamingChatModel steamingModel = OpenAiStreamingChatModel.builder()
+            .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
+            .modelName(System.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"))
+            .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
+            .maxTokens(512)
+            .temperature(0.0)
+            .logRequests(false)
+            .logResponses(false)
+            .build();
 
 snippet java-12:
   name: "Memory memory storage"
@@ -199,15 +199,15 @@ snippet java-17:
   prefix: "java-17"
   scope: "java"
   body: |
-    MistralAiStreamingChatModel steamingModel = MistralAiStreamingChatModel.builder()
-            .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
-            .modelName(System.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"))
-            .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
-            .maxTokens(512)
-            .temperature(0.0)
-            .logRequests(false)
-            .logResponses(false)
-            .build();
+    StreamingChatModel steamingModel = OpenAiStreamingChatModel.builder()
+        .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
+        .modelName(System.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"))
+        .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
+        .maxTokens(512)
+        .temperature(0.0)
+        .logRequests(false)
+        .logResponses(false)
+        .build();
 
 snippet java-18:
   name: "RAG memory"
@@ -327,22 +327,17 @@ snippet java-26:
 
     _LOG.debug("SDXL status code: {}", response.statusCode());
     Files.write(Path.of("generated-image.jpeg"), response.body());
+    _LOG.info(String.format("\n🖼️ Image generated: %s", Path.of("generated-image.jpeg")));
 
 snippet java-27:
   name: "Tool: AI Services"
   prefix: "java-27"
   scope: "java"
   body: |
-    // Create a detailed system prompt: the goal and what the model must generate and use
     @SystemMessage("""
             Your are an expert of using the Stable Diffusion XL model.
-            The user explains in natural language what kind of image he wants.
-            You must do the following steps:
-              - Understand the user's request.
-              - Generate the two kinds of prompts for stable diffusion: the prompt and the negative prompt
-              - the prompts must be in english and detailed and optimized for the Stable Diffusion XL model. 
-              - once and only once you have this two prompts call the tool with the two prompts.
-            If asked about to create an image, you MUST call the `generateImage` function.
+            You can use the generateImage function that takes as parameter the prompt 
+            (you can optimize it) and the negative prompt (you need to create it from the optimized user prompt).
             """)
     @UserMessage("Create an image with stable diffusion XL following this description: {{userMessage}}")
     String chat(@V("userMessage") String userMessage);
@@ -352,8 +347,7 @@ snippet java-28:
   prefix: "java-28"
   scope: "java"
   body: |
-    // Main chatbot configuration, try to be more deterministic as possible ;)
-    MistralAiChatModel chatModel = MistralAiChatModel.builder()
+    ChatModel chatModel = OpenAiChatModel.builder()
             .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
             .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
             .modelName(System.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"))
@@ -361,7 +355,10 @@ snippet java-28:
             .logResponses(false)
             // To have more deterministic outputs, set temperature to 0.
             .temperature(0.0)
+            // Stable Diffusion could take a while to generate images
+            .timeout(Duration.ofMinutes(5))
             .build();
+
 
 snippet java-29:
   name: "Tool: memory"
@@ -417,13 +414,8 @@ snippet java-33:
   body: |
     @SystemMessage("""
             Your are an expert of using the Stable Diffusion XL model.
-            The user explains in natural language what kind of image he wants.
-            You must do the following steps:
-              - Understand the user's request.
-              - Generate the two kinds of prompts for stable diffusion: the prompt and the negative prompt
-              - the prompts must be in english and detailed and optimized for the Stable Diffusion XL model. 
-              - once and only once you have this two prompts call the tool with the two prompts.
-            If asked about to create an image, you MUST call the `generateImage` function.
+            You can use the generateImage function that takes as parameter the prompt 
+            (you can optimize it) and the negative prompt (you need to create it from the optimized user prompt).
             """)
     @UserMessage("Create an image with stable diffusion XL following this description: {{userMessage}}")
     String chat(@V("userMessage") String userMessage);
@@ -433,15 +425,18 @@ snippet java-34:
   prefix: "java-34"
   scope: "java"
   body: |
-    MistralAiChatModel chatModel = MistralAiChatModel.builder()
-            .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
-            .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
-            .modelName(System.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"))
-            .logRequests(false)
-            .logResponses(false)
-            // To have more deterministic outputs, set temperature to 0.
-            .temperature(0.0)
-            .build();
+    ChatModel chatModel = OpenAiChatModel.builder()
+        .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
+        .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
+        .modelName(System.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"))
+        .logRequests(false)
+        .logResponses(false)
+        // To have more deterministic outputs, set temperature to 0.
+        .temperature(0.0)
+        // Stable Diffusion could take a while to generate images
+        .timeout(Duration.ofMinutes(5))
+        .build();
+
 
 snippet java-35:
   name: "MCP: transport"
@@ -505,7 +500,7 @@ snippet java-40:
         _LOG.info("\nResponse: " + bot.chat(userInput));
     }
     scanner.close();
-    
+
 ## java-quarkus section
 snippet quarkus-01:
   name: "Quarkus properties"
@@ -561,9 +556,9 @@ snippet quarkus-06:
       // Call the askAQuestion method of the AISimpleService service
       return aiEndpointService.askAQuestion(question);
     }
-    
+
 snippet quarkus-07:
-  name: "Class annotation advanced" 
+  name: "Class annotation advanced"
   prefix: "quarkus-07"
   scope: "java"
   body: |
@@ -905,7 +900,7 @@ snippet py-49:
         if message_chunk.content:
             print(message_chunk.content, end="", flush=True)
     print()
-    
+
 snippet py-50:
   name: "Chatbot RAG model"
   prefix: "py-50"
