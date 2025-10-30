@@ -30,7 +30,7 @@ void main() throws IOException {
 
     // java-47
     // Create the request with bearer token
-    RequestBody body = RequestBody.create(String.format(payload, "Hello, Wolrd!!"), MediaType.get("application/json; charset=utf-8"));
+    RequestBody body = RequestBody.create(String.format(payload, "Hello, World!!"), MediaType.get("application/json; charset=utf-8"));
     Request request = new Request.Builder()
             .url("https://nvr-tts-en-us.endpoints.kepler.ai.cloud.ovh.net/api/v1/tts/text_to_audio")
             .addHeader("Authorization", String.format("Bearer %s", System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN")))
