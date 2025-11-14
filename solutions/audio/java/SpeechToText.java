@@ -1,11 +1,16 @@
 ///usr/bin/env jbang "$0" "$@" ; exit $?
 //DEPS com.openai:openai-java:3.6.1
+//DEPS io.javelit:javelit:0.69.0
+
+//JAVA 21+
+//PREVIEW
 
 import com.openai.client.OpenAIClient;
 import com.openai.client.okhttp.OpenAIOkHttpClient;
 import com.openai.models.audio.AudioResponseFormat;
 import com.openai.models.audio.transcriptions.Transcription;
 import com.openai.models.audio.transcriptions.TranscriptionCreateParams;
+import io.javelit.core.Jt;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -14,32 +19,47 @@ import java.nio.file.Paths;
  * Speech to Text using OpenAI's Whisper model.
  * See https://github.com/openai/openai-java and https://endpoints.ai.cloud.ovh.net/models/whisper-large-v3
  */
-void main() {
+public class SpeechToText {
+  static String speechToText(byte[] record) {
     // Initialise OpenAI client with AI Endpoints
     // java-41
     OpenAIClient client = OpenAIOkHttpClient.builder()
-            .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
-            .baseUrl(System.getenv("OVH_AI_ENDPOINTS_WHISPER_URL"))
-            .build();
+                                            .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
+                                            .baseUrl(System.getenv("OVH_AI_ENDPOINTS_WHISPER_URL"))
+                                            .build();
 
     // Get audio file path
     // java-42
-    Path path = Paths.get("../example.wav");
+    //Path path = Paths.get(filePath);
 
     // Configure the Whisper model
     // java-43
     TranscriptionCreateParams createParams = TranscriptionCreateParams.builder()
-            .model(System.getenv("OVH_AI_ENDPOINTS_WHISPER_MODEL"))
-            .responseFormat(AudioResponseFormat.TEXT)
-            .language("en")
-            .file(path)
-            .build();
+                                                                      .model(System.getenv("OVH_AI_ENDPOINTS_WHISPER_MODEL"))
+                                                                      .responseFormat(AudioResponseFormat.TEXT)
+                                                                      .language("en")
+                                                                      .file(record)
+                                                                      .build();
 
     // Start the transcription
     // java-44
-    System.out.println("⏳ Transcription started...");
+
     Transcription transcription =
-            client.audio().transcriptions().create(createParams).asTranscription();
+        client.audio().transcriptions().create(createParams).asTranscription();
     System.out.println("📝 Transcript generated! 📝");
-    System.out.println(transcription.text());
+    return transcription.text();
+  }
+
+  public static void main(String [] args) {
+    Jt.title("Speech to text exercise").use();
+
+    var recording = Jt.audioInput("🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English audio 🏴󠁧󠁢󠁥󠁮󠁧󠁿").use();
+
+    if (recording != null) {
+      var transcription = speechToText(recording.content());
+      Jt.textArea("󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English transcription 🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢")
+        .value(transcription)
+        .use();
+    }
+  }
 }
