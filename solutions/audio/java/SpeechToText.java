@@ -2,18 +2,12 @@
 //DEPS com.openai:openai-java:3.6.1
 //DEPS io.javelit:javelit:0.69.0
 
-//JAVA 21+
-//PREVIEW
-
 import com.openai.client.OpenAIClient;
 import com.openai.client.okhttp.OpenAIOkHttpClient;
 import com.openai.models.audio.AudioResponseFormat;
 import com.openai.models.audio.transcriptions.Transcription;
 import com.openai.models.audio.transcriptions.TranscriptionCreateParams;
 import io.javelit.core.Jt;
-
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /**
  * Speech to Text using OpenAI's Whisper model.
@@ -28,10 +22,6 @@ public class SpeechToText {
                                             .baseUrl(System.getenv("OVH_AI_ENDPOINTS_WHISPER_URL"))
                                             .build();
 
-    // Get audio file path
-    // java-42
-    //Path path = Paths.get(filePath);
-
     // Configure the Whisper model
     // java-43
     TranscriptionCreateParams createParams = TranscriptionCreateParams.builder()
@@ -43,7 +33,6 @@ public class SpeechToText {
 
     // Start the transcription
     // java-44
-
     Transcription transcription =
         client.audio().transcriptions().create(createParams).asTranscription();
     System.out.println("📝 Transcript generated! 📝");
