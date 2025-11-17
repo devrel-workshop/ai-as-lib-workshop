@@ -420,10 +420,28 @@ snippet java-48:
   body: |
     System.out.println("⏳ Speech creation...");
     Response response = client.newCall(request).execute();
-    Files.write(Path.of("speech.wav"), response.body().bytes());
+    byte[] audio = response.body().bytes();
     System.out.println("🎵 Speech created 🎵");
 
+    return audio;
+
 snippet java-49:
+  name: "Javelit Ux"
+  prefix: "java-49"
+  scope: "java"
+  body: |
+    Jt.title("Text to speech exercise").use();
+    String englishText = Jt.textArea("🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English text 🏴󠁧󠁢󠁥󠁮󠁧󠁿").use();
+
+    if (!englishText.isEmpty()) {
+      byte[] textToSpeech = textToSpeech(englishText);
+
+      Jt.audio(textToSpeech)
+          .format("audio/wav")
+        .use();
+    }
+
+snippet java-49b:
   name: "OpenAI client configuration"
   prefix: "java-49"
   scope: "java"

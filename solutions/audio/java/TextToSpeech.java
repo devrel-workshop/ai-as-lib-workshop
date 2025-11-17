@@ -1,13 +1,11 @@
 /// usr/bin/env jbang "$0" "$@" ; exit $?
 //DEPS com.squareup.okhttp3:okhttp-jvm:5.1.0
-//DEPS io.javelit:javelit:0.58.0
+//DEPS io.javelit:javelit:0.71.0
 
 import io.javelit.core.Jt;
 import okhttp3.*;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 /**
  * Text to Speech using NVIDIA RIVA.
@@ -57,6 +55,8 @@ public class TextToSpeech {
 
 
   public static void main(String[] args) throws IOException {
+    // Create Ux using Javelit, see https://javelit.io/
+    // java-49
     Jt.title("Text to speech exercise").use();
     String englishText = Jt.textArea("🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English text 🏴󠁧󠁢󠁥󠁮󠁧󠁿").use();
 

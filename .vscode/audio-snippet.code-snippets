@@ -46,8 +46,10 @@
     "body": [
       "System.out.println(\"⏳ Speech creation...\");",
       "Response response = client.newCall(request).execute();",
-      "Files.write(Path.of(\"speech.wav\"), response.body().bytes());",
+      "byte[] audio = response.body().bytes();",
       "System.out.println(\"🎵 Speech created 🎵\");",
+      "",
+      "return audio;",
       ""
     ],
     "description": "",
@@ -72,20 +74,20 @@
   },
   "Javelit Ux": {
     "body": [
-      "Jt.title(\"Speech to text exercise\").use();",
+      "Jt.title(\"Text to speech exercise\").use();",
+      "String englishText = Jt.textArea(\"🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English text 🏴󠁧󠁢󠁥󠁮󠁧󠁿\").use();",
       "",
-      "var recording = Jt.audioInput(\"🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English audio 🏴󠁧󠁢󠁥󠁮󠁧󠁿\").use();",
+      "if (!englishText.isEmpty()) {",
+      "  byte[] textToSpeech = textToSpeech(englishText);",
       "",
-      "if (recording != null) {",
-      "  var transcription = speechToText(recording.content());",
-      "  Jt.textArea(\"󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English transcription 🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢\")",
-      "    .value(transcription)",
+      "  Jt.audio(textToSpeech)",
+      "      .format(\"audio/wav\")",
       "    .use();",
       "}",
       ""
     ],
     "description": "",
-    "prefix": "java-44",
+    "prefix": "java-49",
     "scope": "java"
   },
   "OkHttp Client": {
