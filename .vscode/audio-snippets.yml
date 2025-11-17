@@ -441,9 +441,9 @@ snippet java-49:
         .use();
     }
 
-snippet java-49b:
+snippet java-50:
   name: "OpenAI client configuration"
-  prefix: "java-49"
+  prefix: "java-50"
   scope: "java"
   body: |
     OpenAIClient client = OpenAIOkHttpClient.builder()
@@ -451,40 +451,78 @@ snippet java-49b:
             .baseUrl(System.getenv("OVH_AI_ENDPOINTS_WHISPER_URL"))
             .build();
 
-snippet java-50:
-  name: "Audio file input"
-  prefix: "java-50"
-  scope: "java"
-  body: |
-    Path path = Paths.get("../example.wav");
-
 snippet java-51:
   name: "Whisper configuration"
   prefix: "java-51"
   scope: "java"
   body: |
     TranscriptionCreateParams createParams = TranscriptionCreateParams.builder()
-            .model(System.getenv("OVH_AI_ENDPOINTS_WHISPER_MODEL"))
-            .responseFormat(AudioResponseFormat.TEXT)
-            .language("en")
-            .file(path)
-            .build();
-
+                                                                      .model(System.getenv("OVH_AI_ENDPOINTS_WHISPER_MODEL"))
+                                                                      .responseFormat(AudioResponseFormat.TEXT)
+                                                                      .language("en")
+                                                                      .file(record)
+                                                                      .build();
 snippet java-52:
   name: "Transcription"
   prefix: "java-52"
   scope: "java"
   body: |
-    System.out.println("⏳ Transcription started...");
     Transcription transcription =
-    client.audio().transcriptions().create(createParams).asTranscription();
+        client.audio().transcriptions().create(createParams).asTranscription();
     System.out.println("📝 Transcript generated! 📝");
-    String transcriptionText = transcription.text();
-    System.out.println(transcriptionText);
+    return transcription.text();
+
 
 snippet java-53:
-  name: "AI Services configuration"
+  name: "OkHttp client"
   prefix: "java-53"
+  scope: "java"
+  body: |
+    OkHttpClient okHttpClient = new OkHttpClient();
+
+snippet java-54:
+  name: "Payload"
+  prefix: "java-54"
+  scope: "java"
+  body: |
+    String payload = """
+        {
+          "encoding": 1,
+          "language_code": "es-ES",
+          "sample_rate_hz": 16000,
+          "text": "%s",
+          "voice_name": "Spanish-ES-Female-1"
+        }
+        """;
+
+snippet java-55:
+  name: "RIVA configuration"
+  prefix: "java-55"
+  scope: "java"
+  body: |
+    RequestBody body = RequestBody.create(String.format(payload, translatedText), MediaType.get("application/json; charset=utf-8"));
+    Request request = new Request.Builder()
+        .url("https://nvr-tts-es-es.endpoints.kepler.ai.cloud.ovh.net/api/v1/tts/text_to_audio")
+        .addHeader("Authorization", String.format("Bearer %s", System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN")))
+        .header("accept", "application/octet-stream")
+        .post(body)
+        .build();
+
+snippet java-56:
+  name: "RIVA call"
+  prefix: "java-56"
+  scope: "java"
+  body: |
+    System.out.println("⏳ Speech creation...");
+    Response response = client.newCall(request).execute();
+    byte[] audio = response.body().bytes();
+    System.out.println("🎵 Speech created 🎵");
+
+    return audio;
+
+snippet java-57:
+  name: "AI Services configuration"
+  prefix: "java-57"
   scope: "java"
   body: |
     interface ChatBot {
@@ -495,23 +533,44 @@ snippet java-53:
         String chat(String userMessage);
     }
 
-snippet java-54:
-  name: "Configure LLM"
-  prefix: "java-54"
+snippet java-58:
+  name: "Javelit Speech to text"
+  prefix: "java-58"
   scope: "java"
   body: |
-    ChatModel model = OpenAiChatModel.builder()
-            .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
-            .modelName(System.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"))
-            .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
-            .temperature(0.0)
-            .logRequests(false)
-            .logResponses(false)
-            .build();
+    var recording = Jt.audioInput("🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English audio 🏴󠁧󠁢󠁥󠁮󠁧󠁿").use();
+    
+    var transcription = "";
+    if (recording != null) {
+      transcription = speechToText(recording.content());
+      Jt.textArea("🏴󠁧󠁢󠁥󠁮󠁧󠁿 󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English transcription 🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢")
+        .value(transcription)
+        .use();
+    }
 
-snippet java-55:
+snippet java-59:
+  name: "Configure LLM"
+  prefix: "java-59"
+  scope: "java"
+  body: |
+    String translatedText = "";
+    if (!transcription.isEmpty()) {
+      ChatModel model = OpenAiChatModel.builder()
+                                       .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
+                                       .modelName(System.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"))
+                                       .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
+                                       .temperature(0.0)
+                                       .logRequests(false)
+                                       .logResponses(false)
+                                       .build();
+
+      // Call the model to do the translation
+      // java-60
+    }
+
+snippet java-60:
   name: "translation"
-  prefix: "java-55"
+  prefix: "java-60"
   scope: "java"
   body: |
     System.out.println("🔄 Translating text to Spanish...🔄");
@@ -519,47 +578,15 @@ snippet java-55:
     String translatedText = chatbot.chat(transcriptionText);
     System.out.println(String.format("🇪🇸 Translated text: %s", translatedText));
 
-snippet java-56:
-  name: "OkHttp client"
-  prefix: "java-56"
+snippet java-61:
+  name: "Javelit text to Speech"
+  prefix: "java-61"
   scope: "java"
   body: |
-    OkHttpClient okHttpClient = new OkHttpClient();
+    if (!translatedText.isEmpty()) {
+      byte[] textToSpeech = textToSpeech(translatedText);
 
-snippet java-57:
-  name: "Payload"
-  prefix: "java-57"
-  scope: "java"
-  body: |
-    String payload = """
-            {
-              "encoding": 1,
-              "language_code": "en-US",
-              "sample_rate_hz": 16000,
-              "text": "%s",
-              "voice_name": "English-US.Female-1"
-            }
-            """;
-
-snippet java-58:
-  name: "RIVA configuration"
-  prefix: "java-58"
-  scope: "java"
-  body: |
-    RequestBody body = RequestBody.create(String.format(payload, translatedText), MediaType.get("application/json; charset=utf-8"));
-    Request request = new Request.Builder()
-            .url(System.getenv("OVH_AI_ENDPOINTS_TTS_MODEL"))
-            .addHeader("Authorization", String.format("Bearer %s", System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN")))
-            .header("accept", "application/octet-stream")
-            .post(body)
-            .build();
-
-snippet java-59:
-  name: "RIVA call"
-  prefix: "java-59"
-  scope: "java"
-  body: |
-    System.out.println("⏳ Translation creation...");
-    Response response = okHttpClient.newCall(request).execute();
-    Files.write(Path.of("translation.wav"), response.body().bytes());
-    System.out.println("🎵 Translation created 🎵");
+      Jt.audio(textToSpeech)
+        .format("audio/wav")
+        .use();
+    }

@@ -3,7 +3,7 @@
 //DEPS dev.langchain4j:langchain4j:1.5.0
 //DEPS dev.langchain4j:langchain4j-open-ai:1.5.0
 //DEPS com.squareup.okhttp3:okhttp-jvm:5.1.0
-//DEPS io.javelit:javelit:0.69.0
+//DEPS io.javelit:javelit:0.71.0
 
 import com.openai.client.OpenAIClient;
 import com.openai.client.okhttp.OpenAIOkHttpClient;
@@ -20,28 +20,26 @@ import okhttp3.*;
 
 import java.io.IOException;
 
+/**
+ * Speech to Speech using OpenAI's Whisper model, LLM and Nvidia RIVA model.
+ * See https://github.com/openai/openai-java and https://endpoints.ai.cloud.ovh.net/models/whisper-large-v3
+ * see https://endpoints.ai.cloud.ovh.net/models/nvr-tts-en-us and https://docs.nvidia.com/deeplearning/riva/user-guide/docs/tts/tts-overview.html#pretrained-tts-models
+ */
 public class SpeechToSpeech {
 
-  // Define the LangChain4J AI Service, see https://docs.langchain4j.dev/tutorials/ai-services
-  // java-53
-  interface ChatBot {
-    @SystemMessage("""
-        Do not add any other words or explanations than the translation requested.
-        """)
-    @UserMessage("Translate the following sentence in Spanish: {{userMessage}}")
-    String chat(String userMessage);
-  }
-
+  /// Speech to text thanks to Whisper model.
+  /// @param record The audio file.
+  /// @return The transcription
   static String speechToText(byte[] record) {
     // Initialise OpenAI client with AI Endpoints
-    // java-41
+    // java-50
     OpenAIClient client = OpenAIOkHttpClient.builder()
                                             .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
                                             .baseUrl(System.getenv("OVH_AI_ENDPOINTS_WHISPER_URL"))
                                             .build();
 
     // Configure the Whisper model
-    // java-43
+    // java-51
     TranscriptionCreateParams createParams = TranscriptionCreateParams.builder()
                                                                       .model(System.getenv("OVH_AI_ENDPOINTS_WHISPER_MODEL"))
                                                                       .responseFormat(AudioResponseFormat.TEXT)
@@ -50,19 +48,23 @@ public class SpeechToSpeech {
                                                                       .build();
 
     // Start the transcription
-    // java-44
+    // java-52
     Transcription transcription =
         client.audio().transcriptions().create(createParams).asTranscription();
     System.out.println("📝 Transcript generated! 📝");
     return transcription.text();
   }
 
-  static byte[] textToSpeech(String textToEncode) throws IOException {
-    // java-45
+  /// Text to audio encoding.
+  ///
+  /// @param translatedText Text to encode in audio
+  /// @return The audio encoding in a bytes array.
+  static byte[] textToSpeech(String translatedText) throws IOException {
+    // java-53
     // Initialise OkHttp client
     OkHttpClient client = new OkHttpClient();
 
-    // java-46
+    // java-54
     // Create JSON payload for RIVA request
     String payload = """
         {
@@ -74,9 +76,9 @@ public class SpeechToSpeech {
         }
         """;
 
-    // java-47
+    // java-55
     // Create the request with bearer token
-    RequestBody body = RequestBody.create(String.format(payload, textToEncode), MediaType.get("application/json; charset=utf-8"));
+    RequestBody body = RequestBody.create(String.format(payload, translatedText), MediaType.get("application/json; charset=utf-8"));
     Request request = new Request.Builder()
         .url("https://nvr-tts-es-es.endpoints.kepler.ai.cloud.ovh.net/api/v1/tts/text_to_audio")
         .addHeader("Authorization", String.format("Bearer %s", System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN")))
@@ -84,7 +86,7 @@ public class SpeechToSpeech {
         .post(body)
         .build();
 
-    // java-48
+    // java-56
     // Call the endpoint to create the audio file
     System.out.println("⏳ Speech creation...");
     Response response = client.newCall(request).execute();
@@ -94,16 +96,22 @@ public class SpeechToSpeech {
     return audio;
   }
 
+  // Define the LangChain4J AI Service, see https://docs.langchain4j.dev/tutorials/ai-services
+  // java-57
+  interface ChatBot {
+    @SystemMessage("""
+        Do not add any other words or explanations than the translation requested.
+        """)
+    @UserMessage("Translate the following sentence in Spanish: {{userMessage}}")
+    String chat(String userMessage);
+  }
 
-  /**
-   * Speech to Speech using OpenAI's Whisper model, LLM and Nvidia RIVA model.
-   * See https://github.com/openai/openai-java and https://endpoints.ai.cloud.ovh.net/models/whisper-large-v3
-   * see https://endpoints.ai.cloud.ovh.net/models/nvr-tts-en-us and https://docs.nvidia.com/deeplearning/riva/user-guide/docs/tts/tts-overview.html#pretrained-tts-models
-   */
+  /// Main function with Javelit Ux, see https://javelit.io/
   public static void main(String[] args) throws IOException {
     Jt.title("Speech to speech with translation exercise").use();
 
     // First step: 💬 Speech to Text conversion 📝
+    // java-58
     var recording = Jt.audioInput("🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English audio 🏴󠁧󠁢󠁥󠁮󠁧󠁿").use();
 
     var transcription = "";
@@ -116,7 +124,7 @@ public class SpeechToSpeech {
 
     // Second step: 🏴󠁧󠁢󠁥󠁮󠁧󠁿 Translation thanks to an LLM 🇪🇸
     // Configure the model to use
-    // java-54
+    // java-59
     String translatedText = "";
     if (!transcription.isEmpty()) {
       ChatModel model = OpenAiChatModel.builder()
@@ -124,12 +132,12 @@ public class SpeechToSpeech {
                                        .modelName(System.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"))
                                        .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
                                        .temperature(0.0)
-                                       .logRequests(true)
+                                       .logRequests(false)
                                        .logResponses(false)
                                        .build();
 
       // Call the model to do the translation
-      // java-55
+      // java-60
       Jt.text("🔄 Translating text to Spanish...🔄").use();
       ChatBot chatbot = AiServices.create(ChatBot.class, model);
       translatedText = chatbot.chat(transcription);
@@ -137,6 +145,7 @@ public class SpeechToSpeech {
     }
 
     // Third step: 📝️ Text to Speech 🗣️
+    // java-61
     if (!translatedText.isEmpty()) {
       byte[] textToSpeech = textToSpeech(translatedText);
 
