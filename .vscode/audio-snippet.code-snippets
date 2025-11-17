@@ -70,13 +70,22 @@
     "prefix": "java-54",
     "scope": "java"
   },
-  "Input audio file": {
+  "Javelit Ux": {
     "body": [
-      "Path path = Paths.get(\"../audio.wav\");",
+      "Jt.title(\"Speech to text exercise\").use();",
+      "",
+      "var recording = Jt.audioInput(\"🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English audio 🏴󠁧󠁢󠁥󠁮󠁧󠁿\").use();",
+      "",
+      "if (recording != null) {",
+      "  var transcription = speechToText(recording.content());",
+      "  Jt.textArea(\"󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English transcription 🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢\")",
+      "    .value(transcription)",
+      "    .use();",
+      "}",
       ""
     ],
     "description": "",
-    "prefix": "java-42",
+    "prefix": "java-44",
     "scope": "java"
   },
   "OkHttp Client": {
@@ -549,16 +558,14 @@
   },
   "Transcription": {
     "body": [
-      "System.out.println(\"⏳ Transcription started...\");",
       "Transcription transcription =",
-      "client.audio().transcriptions().create(createParams).asTranscription();",
+      "    client.audio().transcriptions().create(createParams).asTranscription();",
       "System.out.println(\"📝 Transcript generated! 📝\");",
-      "String transcriptionText = transcription.text();",
-      "System.out.println(transcriptionText);",
+      "return transcription.text();",
       ""
     ],
     "description": "",
-    "prefix": "java-52",
+    "prefix": "java-43",
     "scope": "java"
   },
   "Whisper configuration": {
@@ -572,7 +579,7 @@
       ""
     ],
     "description": "",
-    "prefix": "java-43",
+    "prefix": "java-51",
     "scope": "java"
   },
   "translation": {

@@ -19,9 +19,6 @@ import io.javelit.core.Jt;
 import okhttp3.*;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class SpeechToSpeech {
 
@@ -80,7 +77,6 @@ public class SpeechToSpeech {
     // java-47
     // Create the request with bearer token
     RequestBody body = RequestBody.create(String.format(payload, textToEncode), MediaType.get("application/json; charset=utf-8"));
-    System.out.println("text:"+textToEncode);
     Request request = new Request.Builder()
         .url("https://nvr-tts-es-es.endpoints.kepler.ai.cloud.ovh.net/api/v1/tts/text_to_audio")
         .addHeader("Authorization", String.format("Bearer %s", System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN")))
@@ -93,7 +89,6 @@ public class SpeechToSpeech {
     System.out.println("⏳ Speech creation...");
     Response response = client.newCall(request).execute();
     byte[] audio = response.body().bytes();
-    Files.write(Path.of("translation.wav"), audio);
     System.out.println("🎵 Speech created 🎵");
 
     return audio;

@@ -8,6 +8,7 @@ If you use [Coder CDE](https://coder.com/) to open this project, all prerequisit
 In the other case you need : 
  - A Java 21+ JDK with preview activated or Java 25+
  - [JBang](https://www.jbang.dev/) 
+ - [Javelit](https://javelit.io/)
 
 ### 🤖 Module 1: Speech to text with HTTP 💬
 
@@ -16,7 +17,7 @@ The used model is Whisper, and it does automatic speech recognition (ASR) allowi
 
 All the exercise must be done in [SpeechToText.java](SpeechToText.java) file.
 
-⚗️ Test your code by running the following commands: `./run-java-main.sh SpeechToText.java`.
+⚗️ Test your code by running the following commands: `./run-javelit-main.sh SpeechToText.java`.
 
 👩‍💻 How to develop ? 🧑‍💻
 
@@ -34,7 +35,7 @@ This model is specialized for English speaking.
 
 All the exercise must be done in [TextToSpeech.java](TextToSpeech.java) file.
 
-⚗️ Test your code by running the following commands: `./run-java-main.sh TextToSpeech.java`.
+⚗️ Test your code by running the following commands: `./run-javelit-main.sh TextToSpeech.java`.
 
 👩‍💻 How to develop ? 🧑‍💻
 
@@ -47,7 +48,7 @@ The used models are Whisper and nvr-asr-es-ES from NVIDIA and Llama 3.3 for tran
 
 All the exercise must be done in [SpeechToSpeech.java](SpeechToSpeech.java) file.
 
-⚗️ Test your code by running the following commands: `../run-java-main.sh SpeechToSpeech.java`.
+⚗️ Test your code by running the following commands: `../run-javelit-main.sh SpeechToSpeech.java`.
 
 👩‍💻 How to develop ? 🧑‍💻
 

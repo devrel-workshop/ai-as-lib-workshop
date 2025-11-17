@@ -341,34 +341,42 @@ snippet java-41:
             .build();
 
 snippet java-42:
-  name: "Input audio file"
-  prefix: "java-42"
-  scope: "java"
-  body: |
-    Path path = Paths.get("../audio.wav");
-
-snippet java-43:
   name: "Whisper configuration"
-  prefix: "java-43"
+  prefix: "java-42"
   scope: "java"
   body: |
     TranscriptionCreateParams createParams = TranscriptionCreateParams.builder()
             .model(System.getenv("OVH_AI_ENDPOINTS_WHISPER_MODEL"))
             .responseFormat(AudioResponseFormat.TEXT)
             .language("en")
-            .file(path)
+            .file(record)
             .build();
 
-snippet java-44:
+snippet java-43:
   name: "Transcription"
+  prefix: "java-43"
+  scope: "java"
+  body: |
+    Transcription transcription =
+        client.audio().transcriptions().create(createParams).asTranscription();
+    System.out.println("📝 Transcript generated! 📝");
+    return transcription.text();
+
+snippet java-44:
+  name: "Javelit Ux"
   prefix: "java-44"
   scope: "java"
   body: |
-    System.out.println("⏳ Transcription started...");
-    Transcription transcription =
-            client.audio().transcriptions().create(createParams).asTranscription();
-    System.out.println("📝 Transcript generated! 📝");
-    System.out.println(transcription.text());
+    Jt.title("Speech to text exercise").use();
+
+    var recording = Jt.audioInput("🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English audio 🏴󠁧󠁢󠁥󠁮󠁧󠁿").use();
+
+    if (recording != null) {
+      var transcription = speechToText(recording.content());
+      Jt.textArea("󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English transcription 🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢")
+        .value(transcription)
+        .use();
+    }
 
 snippet java-45:
   name: "OkHttp Client"

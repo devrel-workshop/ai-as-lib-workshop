@@ -1,6 +1,6 @@
 ///usr/bin/env jbang "$0" "$@" ; exit $?
 //DEPS com.openai:openai-java:3.6.1
-//DEPS io.javelit:javelit:0.69.0
+//DEPS io.javelit:javelit:0.71.0
 
 import com.openai.client.OpenAIClient;
 import com.openai.client.okhttp.OpenAIOkHttpClient;
@@ -14,6 +14,11 @@ import io.javelit.core.Jt;
  * See https://github.com/openai/openai-java and https://endpoints.ai.cloud.ovh.net/models/whisper-large-v3
  */
 public class SpeechToText {
+  /**
+   * Speech to text thanks to Whisper model.
+   * @param record The audio file.
+   * @return The transcription
+   */
   static String speechToText(byte[] record) {
     // Initialise OpenAI client with AI Endpoints
     // java-41
@@ -23,7 +28,7 @@ public class SpeechToText {
                                             .build();
 
     // Configure the Whisper model
-    // java-43
+    // java-42
     TranscriptionCreateParams createParams = TranscriptionCreateParams.builder()
                                                                       .model(System.getenv("OVH_AI_ENDPOINTS_WHISPER_MODEL"))
                                                                       .responseFormat(AudioResponseFormat.TEXT)
@@ -32,14 +37,17 @@ public class SpeechToText {
                                                                       .build();
 
     // Start the transcription
-    // java-44
+    // java-43
     Transcription transcription =
         client.audio().transcriptions().create(createParams).asTranscription();
     System.out.println("📝 Transcript generated! 📝");
     return transcription.text();
   }
 
+  /// Main method, using Javelit to create Ux (see https://javelit.io/)
   public static void main(String [] args) {
+    // Javelit recorder
+    // java-44
     Jt.title("Speech to text exercise").use();
 
     var recording = Jt.audioInput("🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English audio 🏴󠁧󠁢󠁥󠁮󠁧󠁿").use();
