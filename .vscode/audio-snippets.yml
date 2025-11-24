@@ -373,9 +373,11 @@ snippet java-44:
 
     if (recording != null) {
       var transcription = speechToText(recording.content());
-      Jt.textArea("󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English transcription 🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢")
-        .value(transcription)
-        .use();
+      Jt.text(String.format("""
+            🏴󠁧󠁢󠁥󠁮󠁧󠁿 󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English transcription 🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢
+            %s
+            """, transcription))
+        .use()
     }
 
 snippet java-45:
@@ -543,9 +545,11 @@ snippet java-58:
     var transcription = "";
     if (recording != null) {
       transcription = speechToText(recording.content());
-      Jt.textArea("🏴󠁧󠁢󠁥󠁮󠁧󠁿 󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English transcription 🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢")
-        .value(transcription)
-        .use();
+      Jt.text(String.format("""
+            🏴󠁧󠁢󠁥󠁮󠁧󠁿 󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English transcription 🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢
+            %s
+            """, transcription))
+        .use()
     }
 
 snippet java-59:

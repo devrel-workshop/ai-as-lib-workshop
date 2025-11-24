@@ -51,7 +51,7 @@ public class SpeechToSpeech {
     // java-52
     Transcription transcription =
         client.audio().transcriptions().create(createParams).asTranscription();
-    System.out.println("📝 Transcript generated! 📝");
+    System.out.println("📝 Transcript generated!t 📝");
     return transcription.text();
   }
 
@@ -117,8 +117,10 @@ public class SpeechToSpeech {
     var transcription = "";
     if (recording != null) {
       transcription = speechToText(recording.content());
-      Jt.textArea("🏴󠁧󠁢󠁥󠁮󠁧󠁿 󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English transcription 🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢")
-        .value(transcription)
+      Jt.text(String.format("""
+            🏴󠁧󠁢󠁥󠁮󠁧󠁿 󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English transcription 🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢
+            %s
+            """, transcription))
         .use();
     }
 

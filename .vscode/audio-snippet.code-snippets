@@ -76,9 +76,11 @@
       "var transcription = \"\";",
       "if (recording != null) {",
       "  transcription = speechToText(recording.content());",
-      "  Jt.textArea(\"🏴󠁧󠁢󠁥󠁮󠁧󠁿 󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English transcription 🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢\")",
-      "    .value(transcription)",
-      "    .use();",
+      "  Jt.text(String.format(\"\"\"",
+      "        🏴󠁧󠁢󠁥󠁮󠁧󠁿 󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English transcription 🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢",
+      "        %s",
+      "        \"\"\", transcription))",
+      "    .use()",
       "}",
       ""
     ],
@@ -164,18 +166,18 @@
   "Payload": {
     "body": [
       "String payload = \"\"\"",
-      "    {",
-      "      \"encoding\": 1,",
-      "      \"language_code\": \"es-ES\",",
-      "      \"sample_rate_hz\": 16000,",
-      "      \"text\": \"%s\",",
-      "      \"voice_name\": \"Spanish-ES-Female-1\"",
-      "    }",
-      "    \"\"\";",
+      "        {",
+      "          \"encoding\": 1,",
+      "          \"language_code\": \"en-US\",",
+      "          \"sample_rate_hz\": 16000,",
+      "          \"text\": \"%s\",",
+      "          \"voice_name\": \"English-US.Female-1\"",
+      "        }",
+      "        \"\"\";",
       ""
     ],
     "description": "",
-    "prefix": "java-54",
+    "prefix": "java-46",
     "scope": "java"
   },
   "RIVA call": {
@@ -605,15 +607,15 @@
   "Whisper configuration": {
     "body": [
       "TranscriptionCreateParams createParams = TranscriptionCreateParams.builder()",
-      "                                                                  .model(System.getenv(\"OVH_AI_ENDPOINTS_WHISPER_MODEL\"))",
-      "                                                                  .responseFormat(AudioResponseFormat.TEXT)",
-      "                                                                  .language(\"en\")",
-      "                                                                  .file(record)",
-      "                                                                  .build();",
+      "        .model(System.getenv(\"OVH_AI_ENDPOINTS_WHISPER_MODEL\"))",
+      "        .responseFormat(AudioResponseFormat.TEXT)",
+      "        .language(\"en\")",
+      "        .file(record)",
+      "        .build();",
       ""
     ],
     "description": "",
-    "prefix": "java-51",
+    "prefix": "java-42",
     "scope": "java"
   },
   "translation": {

@@ -50,12 +50,14 @@ public class SpeechToText {
     // java-44
     Jt.title("Speech to text exercise").use();
 
-    var recording = Jt.audioInput("🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English audio 🏴󠁧󠁢󠁥󠁮󠁧󠁿").use();
+    var recording = Jt.audioInput("🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢 English audio 🏴󠁧󠁢󠁥󠁮󠁧󠁿").use();
 
     if (recording != null) {
       var transcription = speechToText(recording.content());
-      Jt.textArea("󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English transcription 🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢")
-        .value(transcription)
+      Jt.text(String.format("""
+            🏴󠁧󠁢󠁥󠁮󠁧󠁿 󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English transcription 🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢
+            %s
+            """, transcription))
         .use();
     }
   }
