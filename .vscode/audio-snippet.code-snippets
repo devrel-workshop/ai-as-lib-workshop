@@ -11,16 +11,7 @@
       ""
     ],
     "description": "",
-    "prefix": "java-53",
-    "scope": "java"
-  },
-  "Audio file input": {
-    "body": [
-      "Path path = Paths.get(\"../example.wav\");",
-      ""
-    ],
-    "description": "",
-    "prefix": "java-50",
+    "prefix": "java-57",
     "scope": "java"
   },
   "Audio requirements": {
@@ -46,8 +37,10 @@
     "body": [
       "System.out.println(\"⏳ Speech creation...\");",
       "Response response = client.newCall(request).execute();",
-      "Files.write(Path.of(\"speech.wav\"), response.body().bytes());",
+      "byte[] audio = response.body().bytes();",
       "System.out.println(\"🎵 Speech created 🎵\");",
+      "",
+      "return audio;",
       ""
     ],
     "description": "",
@@ -56,27 +49,76 @@
   },
   "Configure LLM": {
     "body": [
-      "ChatModel model = OpenAiChatModel.builder()",
-      "        .apiKey(System.getenv(\"OVH_AI_ENDPOINTS_ACCESS_TOKEN\"))",
-      "        .modelName(System.getenv(\"OVH_AI_ENDPOINTS_MODEL_NAME\"))",
-      "        .baseUrl(System.getenv(\"OVH_AI_ENDPOINTS_MODEL_URL\"))",
-      "        .temperature(0.0)",
-      "        .logRequests(false)",
-      "        .logResponses(false)",
-      "        .build();",
+      "String translatedText = \"\";",
+      "if (!transcription.isEmpty()) {",
+      "  ChatModel model = OpenAiChatModel.builder()",
+      "                                   .apiKey(System.getenv(\"OVH_AI_ENDPOINTS_ACCESS_TOKEN\"))",
+      "                                   .modelName(System.getenv(\"OVH_AI_ENDPOINTS_MODEL_NAME\"))",
+      "                                   .baseUrl(System.getenv(\"OVH_AI_ENDPOINTS_MODEL_URL\"))",
+      "                                   .temperature(0.0)",
+      "                                   .logRequests(false)",
+      "                                   .logResponses(false)",
+      "                                   .build();",
+      "",
+      "  // Call the model to do the translation",
+      "  // java-60",
+      "}",
       ""
     ],
     "description": "",
-    "prefix": "java-54",
+    "prefix": "java-59",
     "scope": "java"
   },
-  "Input audio file": {
+  "Javelit Speech to text": {
     "body": [
-      "Path path = Paths.get(\"../audio.wav\");",
+      "var recording = Jt.audioInput(\"🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English audio 🏴󠁧󠁢󠁥󠁮󠁧󠁿\").use();",
+      "",
+      "var transcription = \"\";",
+      "if (recording != null) {",
+      "  transcription = speechToText(recording.content());",
+      "  Jt.text(String.format(\"\"\"",
+      "        🏴󠁧󠁢󠁥󠁮󠁧󠁿 󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English transcription 🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢",
+      "        %s",
+      "        \"\"\", transcription))",
+      "    .use()",
+      "}",
       ""
     ],
     "description": "",
-    "prefix": "java-42",
+    "prefix": "java-58",
+    "scope": "java"
+  },
+  "Javelit Ux": {
+    "body": [
+      "Jt.title(\"Text to speech exercise\").use();",
+      "String englishText = Jt.textArea(\"🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English text 🏴󠁧󠁢󠁥󠁮󠁧󠁿\").use();",
+      "",
+      "if (!englishText.isEmpty()) {",
+      "  byte[] textToSpeech = textToSpeech(englishText);",
+      "",
+      "  Jt.audio(textToSpeech)",
+      "      .format(\"audio/wav\")",
+      "    .use();",
+      "}",
+      ""
+    ],
+    "description": "",
+    "prefix": "java-49",
+    "scope": "java"
+  },
+  "Javelit text to Speech": {
+    "body": [
+      "if (!translatedText.isEmpty()) {",
+      "  byte[] textToSpeech = textToSpeech(translatedText);",
+      "",
+      "  Jt.audio(textToSpeech)",
+      "    .format(\"audio/wav\")",
+      "    .use();",
+      "}",
+      ""
+    ],
+    "description": "",
+    "prefix": "java-61",
     "scope": "java"
   },
   "OkHttp Client": {
@@ -94,7 +136,7 @@
       ""
     ],
     "description": "",
-    "prefix": "java-56",
+    "prefix": "java-53",
     "scope": "java"
   },
   "OpenAI client configuration": {
@@ -106,7 +148,7 @@
       ""
     ],
     "description": "",
-    "prefix": "java-49",
+    "prefix": "java-50",
     "scope": "java"
   },
   "OpenAI client initialisation": {
@@ -140,33 +182,36 @@
   },
   "RIVA call": {
     "body": [
-      "System.out.println(\"⏳ Translation creation...\");",
-      "Response response = okHttpClient.newCall(request).execute();",
-      "Files.write(Path.of(\"translation.wav\"), response.body().bytes());",
-      "System.out.println(\"🎵 Translation created 🎵\");"
+      "System.out.println(\"⏳ Speech creation...\");",
+      "Response response = client.newCall(request).execute();",
+      "byte[] audio = response.body().bytes();",
+      "System.out.println(\"🎵 Speech created 🎵\");",
+      "",
+      "return audio;",
+      ""
     ],
     "description": "",
-    "prefix": "java-59",
+    "prefix": "java-56",
     "scope": "java"
   },
   "RIVA configuration": {
     "body": [
       "RequestBody body = RequestBody.create(String.format(payload, translatedText), MediaType.get(\"application/json; charset=utf-8\"));",
       "Request request = new Request.Builder()",
-      "        .url(System.getenv(\"OVH_AI_ENDPOINTS_TTS_MODEL\"))",
-      "        .addHeader(\"Authorization\", String.format(\"Bearer %s\", System.getenv(\"OVH_AI_ENDPOINTS_ACCESS_TOKEN\")))",
-      "        .header(\"accept\", \"application/octet-stream\")",
-      "        .post(body)",
-      "        .build();",
+      "    .url(\"https://nvr-tts-es-es.endpoints.kepler.ai.cloud.ovh.net/api/v1/tts/text_to_audio\")",
+      "    .addHeader(\"Authorization\", String.format(\"Bearer %s\", System.getenv(\"OVH_AI_ENDPOINTS_ACCESS_TOKEN\")))",
+      "    .header(\"accept\", \"application/octet-stream\")",
+      "    .post(body)",
+      "    .build();",
       ""
     ],
     "description": "",
-    "prefix": "java-58",
+    "prefix": "java-55",
     "scope": "java"
   },
   "RIVA request": {
     "body": [
-      "RequestBody body = RequestBody.create(String.format(payload, \"Hello, World!!\"), MediaType.get(\"application/json; charset=utf-8\"));",
+      "RequestBody body = RequestBody.create(String.format(payload, \"Hello, Wolrd!!\"), MediaType.get(\"application/json; charset=utf-8\"));",
       "Request request = new Request.Builder()",
       "        .url(\"https://nvr-tts-en-us.endpoints.kepler.ai.cloud.ovh.net/api/v1/tts/text_to_audio\")",
       "        .addHeader(\"Authorization\", String.format(\"Bearer %s\", System.getenv(\"OVH_AI_ENDPOINTS_ACCESS_TOKEN\")))",
@@ -549,15 +594,14 @@
   },
   "Transcription": {
     "body": [
-      "System.out.println(\"⏳ Transcription started...\");",
       "Transcription transcription =",
-      "        client.audio().transcriptions().create(createParams).asTranscription();",
+      "    client.audio().transcriptions().create(createParams).asTranscription();",
       "System.out.println(\"📝 Transcript generated! 📝\");",
-      "System.out.println(transcription.text());",
+      "return transcription.text();",
       ""
     ],
     "description": "",
-    "prefix": "java-44",
+    "prefix": "java-43",
     "scope": "java"
   },
   "Whisper configuration": {
@@ -566,12 +610,12 @@
       "        .model(System.getenv(\"OVH_AI_ENDPOINTS_WHISPER_MODEL\"))",
       "        .responseFormat(AudioResponseFormat.TEXT)",
       "        .language(\"en\")",
-      "        .file(path)",
+      "        .file(record)",
       "        .build();",
       ""
     ],
     "description": "",
-    "prefix": "java-43",
+    "prefix": "java-42",
     "scope": "java"
   },
   "translation": {
@@ -583,7 +627,7 @@
       ""
     ],
     "description": "",
-    "prefix": "java-55",
+    "prefix": "java-60",
     "scope": "java"
   }
 }
