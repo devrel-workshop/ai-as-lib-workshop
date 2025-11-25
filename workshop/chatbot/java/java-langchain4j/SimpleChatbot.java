@@ -10,10 +10,6 @@ import java.lang.invoke.MethodHandles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import dev.langchain4j.model.openai.OpenAiChatModel;
-import dev.langchain4j.service.AiServices;
-import dev.langchain4j.service.SystemMessage;
-
 // java-02
 // AI Service to create, see https://docs.langchain4j.dev/tutorials/ai-services
 
