@@ -9,4 +9,14 @@ echo ""
 read -n 1 -p "Press any key to continue"
 echo ""
 
-javelit run $1
+if [ -z "$CODER_BASE_PATH" ]; then
+    # 🚀 Run Javelit application
+    javelit run $1
+else
+    # Get the VSCode local base path for when using Coder
+    CODER_BASE_PATH=${VSCODE_PROXY_URI#https://workshop.labdevrel.ovh}
+    CODER_BASE_PATH=${CODER_BASE_PATH%%proxy/*}proxy
+
+    # 🚀 Run Javelit application with a base path
+    javelit run $1 --base-path=$CODER_BASE_PATH/8080/
+fi
