@@ -353,7 +353,7 @@ snippet java-42:
             .build();
 
 snippet java-43:
-  name: "Transcription"
+  name: "STT Transcription"
   prefix: "java-43"
   scope: "java"
   body: |

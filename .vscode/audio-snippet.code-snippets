@@ -90,22 +90,20 @@
   },
   "Javelit Ux": {
     "body": [
-      "Jt.title(\"Speech to text exercise\").use();",
+      "Jt.title(\"Text to speech exercise\").use();",
+      "String englishText = Jt.textArea(\"🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English text 🏴󠁧󠁢󠁥󠁮󠁧󠁿\").use();",
       "",
-      "var recording = Jt.audioInput(\"🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English audio 🏴󠁧󠁢󠁥󠁮󠁧󠁿\").use();",
+      "if (!englishText.isEmpty()) {",
+      "  byte[] textToSpeech = textToSpeech(englishText);",
       "",
-      "if (recording != null) {",
-      "  var transcription = speechToText(recording.content());",
-      "  Jt.text(String.format(\"\"\"",
-      "        🏴󠁧󠁢󠁥󠁮󠁧󠁿 󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English transcription 🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢",
-      "        %s",
-      "        \"\"\", transcription))",
+      "  Jt.audio(textToSpeech)",
+      "      .format(\"audio/wav\")",
       "    .use();",
       "}",
       ""
     ],
     "description": "",
-    "prefix": "java-44",
+    "prefix": "java-49",
     "scope": "java"
   },
   "Javelit text to Speech": {
@@ -431,6 +429,18 @@
     "description": "",
     "prefix": "py-21",
     "scope": "python"
+  },
+  "STT Transcription": {
+    "body": [
+      "Transcription transcription =",
+      "    client.audio().transcriptions().create(createParams).asTranscription();",
+      "System.out.println(\"📝 Transcript generated! 📝\");",
+      "return transcription.text();",
+      ""
+    ],
+    "description": "",
+    "prefix": "java-43",
+    "scope": "java"
   },
   "STT Whisper call": {
     "body": [
