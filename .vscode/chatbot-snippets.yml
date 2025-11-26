@@ -509,7 +509,7 @@ snippet quarkus-01:
     quarkus.langchain4j.mistralai.api-key=\${OVH_AI_ENDPOINTS_ACCESS_TOKEN}
     quarkus.langchain4j.mistralai.chat-model.max-tokens=512
     quarkus.langchain4j.mistralai.chat-model.model-name=\${OVH_AI_ENDPOINTS_MODEL_NAME}
-    quarkus.langchain4j.mistralai.log-requests=true
+    quarkus.langchain4j.mistralai.log-requests=false
     quarkus.langchain4j.mistralai.log-responses=false
     quarkus.langchain4j.mistralai.chat-model.temperature=0.2
 
