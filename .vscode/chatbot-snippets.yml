@@ -222,9 +222,8 @@ snippet java-19:
   scope: "java"
   body: |
     DocumentParser documentParser = new TextDocumentParser();
-    Document document = loadDocument(
-        RAGChatbot.class.getResource("/rag-files/conference-information-talk-01.md").getFile(),
-        documentParser);
+    Document document = loadDocument("./resources/rag-files/conference-information-talk-01.md",
+            documentParser);
     DocumentSplitter splitter = DocumentSplitters.recursive(8000, 50);
 
     List<TextSegment> segments = splitter.split(document);
