@@ -1,4 +1,54 @@
 {
+  "Classification Endpoint call": {
+    "body": [
+      "System.out.println(\"⏳ Text analysis...\");",
+      "Response response = client.newCall(request).execute();",
+      "var mapper = new ObjectMapper();",
+      "List\u003cEntity\u003e entities = mapper.readValue(response.body().string(), new TypeReference\u003c\u003e() {});",
+      "",
+      "var output = entities.stream()",
+      "        .map(e -\u003e \"%s is %s\".formatted(",
+      "                e.word(),",
+      "                switch (e.entity()) {",
+      "                    case \"B-PER\" -\u003e \"a person\";",
+      "                    case \"B-LOC\" -\u003e \"a location\";",
+      "                    case \"B-ORG\" -\u003e \"an organization\";",
+      "                    case \"B-MISC\" -\u003e \"other\";",
+      "                    default -\u003e \"undefined\";",
+      "                }",
+      "        ))",
+      "        .toList();",
+      "",
+      "System.out.println(\"💬 Entities found:\");",
+      "output.forEach(System.out::println);"
+    ],
+    "description": "",
+    "prefix": "java-70",
+    "scope": "java"
+  },
+  "Classification OkHttp initialisation": {
+    "body": [
+      "OkHttpClient client = new OkHttpClient();",
+      ""
+    ],
+    "description": "",
+    "prefix": "java-68",
+    "scope": "java"
+  },
+  "Classification Request preparation": {
+    "body": [
+      "RequestBody body = RequestBody.create(\"My name is Clara and I live in Berkeley, California.\", MediaType.get(\"text/plain; charset=utf-8\"));",
+      "Request request = new Request.Builder()",
+      "        .url(System.getenv(\"OVH_AI_ENDPOINT_MODEL_CLASSIFICATION_URL\"))",
+      "        .addHeader(\"Authorization\", String.format(\"Bearer %s\", System.getenv(\"OVH_AI_ENDPOINTS_ACCESS_TOKEN\")))",
+      "        .post(body)",
+      "        .build();",
+      ""
+    ],
+    "description": "",
+    "prefix": "java-69",
+    "scope": "java"
+  },
   "Classification URL": {
     "body": [
       "url = \"https://bert-base-ner.endpoints.kepler.ai.cloud.ovh.net/api/text2ner\"",
@@ -51,6 +101,45 @@
     "description": "",
     "prefix": "py-81",
     "scope": "python"
+  },
+  "Emotion Endpoint call": {
+    "body": [
+      "System.out.println(\"⏳ Text analysis...\");",
+      "Response response = client.newCall(request).execute();",
+      "Map\u003cString, Double\u003e map = new ObjectMapper().readValue(response.body().string(), Map.class);",
+      "Map.Entry\u003cString, Double\u003e max = map.entrySet().stream()",
+      ".max(Map.Entry.comparingByValue())",
+      ".orElseThrow();",
+      "",
+      "System.out.println(String.format(\"💢 Main emotion is: %s\", max.getKey()));",
+      ""
+    ],
+    "description": "",
+    "prefix": "java-64",
+    "scope": "java"
+  },
+  "Emotion OkHttp initialisation": {
+    "body": [
+      "OkHttpClient client = new OkHttpClient();",
+      ""
+    ],
+    "description": "",
+    "prefix": "java-62",
+    "scope": "java"
+  },
+  "Emotion Prepare the request": {
+    "body": [
+      "RequestBody body = RequestBody.create(\"I love Java\", MediaType.get(\"text/plain; charset=utf-8\"));",
+      "Request request = new Request.Builder()",
+      "        .url(System.getenv(\"OVH_AI_ENDPOINT_MODEL_EMOTION_URL\"))",
+      "        .addHeader(\"Authorization\", String.format(\"Bearer %s\", System.getenv(\"OVH_AI_ENDPOINTS_ACCESS_TOKEN\")))",
+      "        .post(body)",
+      "        .build();",
+      ""
+    ],
+    "description": "",
+    "prefix": "java-63",
+    "scope": "java"
   },
   "Emotion URL": {
     "body": [
@@ -119,22 +208,6 @@
     "prefix": "py-78",
     "scope": "python"
   },
-  "Endpoint call": {
-    "body": [
-      "System.out.println(\"⏳ Text analysis...\");",
-      "Response response = client.newCall(request).execute();",
-      "Map\u003cString, Double\u003e map = new ObjectMapper().readValue(response.body().string(), Map.class);",
-      "Map.Entry\u003cString, Double\u003e max = map.entrySet().stream()",
-      ".max(Map.Entry.comparingByValue())",
-      ".orElseThrow();",
-      "",
-      "System.out.println(String.format(\"💢 Main emotion is: %s\", max.getKey()));",
-      ""
-    ],
-    "description": "",
-    "prefix": "java-62",
-    "scope": "java"
-  },
   "JavaScript dependency": {
     "body": [
       "\"axios\" :\"1.7.7\"",
@@ -143,38 +216,6 @@
     "description": "",
     "prefix": "js-01",
     "scope": "json"
-  },
-  "OKHttp initialisation": {
-    "body": [
-      "OkHttpClient client = new OkHttpClient();",
-      ""
-    ],
-    "description": "",
-    "prefix": "java-63",
-    "scope": "java"
-  },
-  "OkHttp initialisation": {
-    "body": [
-      "OkHttpClient client = new OkHttpClient();",
-      ""
-    ],
-    "description": "",
-    "prefix": "java-60",
-    "scope": "java"
-  },
-  "Prepare the request": {
-    "body": [
-      "RequestBody body = RequestBody.create(\"I love Java\", MediaType.get(\"text/plain; charset=utf-8\"));",
-      "Request request = new Request.Builder()",
-      "        .url(System.getenv(\"OVH_AI_ENDPOINT_MODEL_EMOTION_URL\"))",
-      "        .addHeader(\"Authorization\", String.format(\"Bearer %s\", System.getenv(\"OVH_AI_ENDPOINTS_ACCESS_TOKEN\")))",
-      "        .post(body)",
-      "        .build();",
-      ""
-    ],
-    "description": "",
-    "prefix": "java-61",
-    "scope": "java"
   },
   "Product bearer": {
     "body": [
@@ -216,7 +257,32 @@
     "prefix": "js-07",
     "scope": "javascript"
   },
-  "Request preparation": {
+  "Review Endpoint call": {
+    "body": [
+      "System.out.println(\"⏳ Text analysis...\");",
+      "Response response = client.newCall(request).execute();",
+      "Map\u003cString, Double\u003e map = new ObjectMapper().readValue(response.body().string(), Map.class);",
+      "Map.Entry\u003cString, Double\u003e max = map.entrySet().stream()",
+      "        .max(Map.Entry.comparingByValue())",
+      "        .orElseThrow();",
+      "",
+      "System.out.println(String.format(\"⭐️ Product review: %s\", max.getKey()));",
+      ""
+    ],
+    "description": "",
+    "prefix": "java-67",
+    "scope": "java"
+  },
+  "Review OKHttp initialisation": {
+    "body": [
+      "OkHttpClient client = new OkHttpClient();",
+      ""
+    ],
+    "description": "",
+    "prefix": "java-65",
+    "scope": "java"
+  },
+  "Review Request preparation": {
     "body": [
       "RequestBody body = RequestBody.create(\"Bon produit, envoyé dans les temps. Service après vente perfectible.\", MediaType.get(\"text/plain; charset=utf-8\"));",
       "Request request = new Request.Builder()",
@@ -227,7 +293,7 @@
       ""
     ],
     "description": "",
-    "prefix": "java-64",
+    "prefix": "java-66",
     "scope": "java"
   },
   "Review URL": {

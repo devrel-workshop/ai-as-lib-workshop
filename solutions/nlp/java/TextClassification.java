@@ -15,11 +15,11 @@ record Entity(String entity, double score, int index, String word) {};
 
 void main() throws IOException {
     // Initialise OkHttp client
-    // java-66
+    // java-68
     OkHttpClient client = new OkHttpClient();
 
     // Create the request with bearer token
-    // java-67
+    // java-69
     RequestBody body = RequestBody.create("My name is Clara and I live in Berkeley, California.", MediaType.get("text/plain; charset=utf-8"));
     Request request = new Request.Builder()
             .url(System.getenv("OVH_AI_ENDPOINT_MODEL_CLASSIFICATION_URL"))
@@ -28,6 +28,7 @@ void main() throws IOException {
             .build();
 
     // Call the endpoint
+    // java-70
     System.out.println("⏳ Text analysis...");
     Response response = client.newCall(request).execute();
     var mapper = new ObjectMapper();

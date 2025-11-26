@@ -8,10 +8,12 @@ record Entity(String entity, double score, int index, String word) {};
 
 void main() throws IOException {
     // Initialise OkHttp client
-    // java-66
-
+    // java-68
+    
     // Create the request with bearer token
-    // java-67
-
+    // java-69
+    
     // Call the endpoint
+    // java-70
+
 }
