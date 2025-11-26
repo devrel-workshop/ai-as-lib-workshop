@@ -80,7 +80,7 @@
       "        🏴󠁧󠁢󠁥󠁮󠁧󠁿 󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English transcription 🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢",
       "        %s",
       "        \"\"\", transcription))",
-      "    .use()",
+      "    .use();",
       "}",
       ""
     ],
@@ -100,7 +100,7 @@
       "        🏴󠁧󠁢󠁥󠁮󠁧󠁿 󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English transcription 🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢",
       "        %s",
       "        \"\"\", transcription))",
-      "    .use()",
+      "    .use();",
       "}",
       ""
     ],
@@ -134,7 +134,7 @@
   },
   "OkHttp client": {
     "body": [
-      "OkHttpClient okHttpClient = new OkHttpClient();",
+      "OkHttpClient client = new OkHttpClient();",
       ""
     ],
     "description": "",
@@ -168,18 +168,18 @@
   "Payload": {
     "body": [
       "String payload = \"\"\"",
-      "        {",
-      "          \"encoding\": 1,",
-      "          \"language_code\": \"en-US\",",
-      "          \"sample_rate_hz\": 16000,",
-      "          \"text\": \"%s\",",
-      "          \"voice_name\": \"English-US.Female-1\"",
-      "        }",
-      "        \"\"\";",
+      "    {",
+      "      \"encoding\": 1,",
+      "      \"language_code\": \"es-ES\",",
+      "      \"sample_rate_hz\": 16000,",
+      "      \"text\": \"%s\",",
+      "      \"voice_name\": \"Spanish-ES-Female-1\"",
+      "    }",
+      "    \"\"\";",
       ""
     ],
     "description": "",
-    "prefix": "java-46",
+    "prefix": "java-54",
     "scope": "java"
   },
   "RIVA call": {
@@ -448,6 +448,20 @@
     "prefix": "py-03",
     "scope": "python"
   },
+  "STT Whisper configuration": {
+    "body": [
+      "TranscriptionCreateParams createParams = TranscriptionCreateParams.builder()",
+      "        .model(System.getenv(\"OVH_AI_ENDPOINTS_WHISPER_MODEL\"))",
+      "        .responseFormat(AudioResponseFormat.TEXT)",
+      "        .language(\"en\")",
+      "        .file(record)",
+      "        .build();",
+      ""
+    ],
+    "description": "",
+    "prefix": "java-42",
+    "scope": "java"
+  },
   "STT client initialization": {
     "body": [
       "client = OpenAI(base_url=os.environ.get('OVH_AI_ENDPOINTS_WHISPER_URL'), ",
@@ -622,10 +636,10 @@
   },
   "translation": {
     "body": [
-      "System.out.println(\"🔄 Translating text to Spanish...🔄\");",
+      "Jt.text(\"🔄 Translating text to Spanish...🔄\").use();",
       "ChatBot chatbot = AiServices.create(ChatBot.class, model);",
-      "String translatedText = chatbot.chat(transcriptionText);",
-      "System.out.println(String.format(\"🇪🇸 Translated text: %s\", translatedText));",
+      "translatedText = chatbot.chat(transcription);",
+      "Jt.text(String.format(\"🇪🇸 Translated text: %s\", translatedText)).use();",
       ""
     ],
     "description": "",
