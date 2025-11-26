@@ -9,7 +9,7 @@ echo ""
 read -n 1 -p "Press any key to continue"
 echo ""
 
-if [ -z "$CODER_BASE_PATH" ]; then
+if [ -z "$VSCODE_PROXY_URI" ]; then
     # 🚀 Run Javelit application
     javelit run $1
 else
