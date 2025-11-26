@@ -88,24 +88,6 @@
     "prefix": "java-58",
     "scope": "java"
   },
-  "Javelit Ux": {
-    "body": [
-      "Jt.title(\"Text to speech exercise\").use();",
-      "String englishText = Jt.textArea(\"🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English text 🏴󠁧󠁢󠁥󠁮󠁧󠁿\").use();",
-      "",
-      "if (!englishText.isEmpty()) {",
-      "  byte[] textToSpeech = textToSpeech(englishText);",
-      "",
-      "  Jt.audio(textToSpeech)",
-      "      .format(\"audio/wav\")",
-      "    .use();",
-      "}",
-      ""
-    ],
-    "description": "",
-    "prefix": "java-49",
-    "scope": "java"
-  },
   "Javelit text to Speech": {
     "body": [
       "if (!translatedText.isEmpty()) {",
@@ -161,23 +143,6 @@
     ],
     "description": "",
     "prefix": "java-41",
-    "scope": "java"
-  },
-  "Payload": {
-    "body": [
-      "String payload = \"\"\"",
-      "    {",
-      "      \"encoding\": 1,",
-      "      \"language_code\": \"es-ES\",",
-      "      \"sample_rate_hz\": 16000,",
-      "      \"text\": \"%s\",",
-      "      \"voice_name\": \"Spanish-ES-Female-1\"",
-      "    }",
-      "    \"\"\";",
-      ""
-    ],
-    "description": "",
-    "prefix": "java-54",
     "scope": "java"
   },
   "RIVA call": {
@@ -280,6 +245,23 @@
     "description": "",
     "prefix": "py-16",
     "scope": "python"
+  },
+  "STS Payload": {
+    "body": [
+      "String payload = \"\"\"",
+      "    {",
+      "      \"encoding\": 1,",
+      "      \"language_code\": \"es-ES\",",
+      "      \"sample_rate_hz\": 16000,",
+      "      \"text\": \"%s\",",
+      "      \"voice_name\": \"Spanish-ES-Female-1\"",
+      "    }",
+      "    \"\"\";",
+      ""
+    ],
+    "description": "",
+    "prefix": "java-54",
+    "scope": "java"
   },
   "STS RIVA Spanish model URL": {
     "body": [
@@ -407,6 +389,26 @@
     "description": "",
     "prefix": "py-06",
     "scope": "python"
+  },
+  "STT Javelit Ux": {
+    "body": [
+      "Jt.title(\"Speech to text exercise\").use();",
+      "",
+      "var recording = Jt.audioInput(\"🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English audio 🏴󠁧󠁢󠁥󠁮󠁧󠁿\").use();",
+      "",
+      "if (recording != null) {",
+      "  var transcription = speechToText(recording.content());",
+      "  Jt.text(String.format(\"\"\"",
+      "        🏴󠁧󠁢󠁥󠁮󠁧󠁿 󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English transcription 🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢",
+      "        %s",
+      "        \"\"\", transcription))",
+      "    .use();",
+      "}",
+      ""
+    ],
+    "description": "",
+    "prefix": "java-44",
+    "scope": "java"
   },
   "STT LLM bearer": {
     "body": [
@@ -597,6 +599,41 @@
     "description": "",
     "prefix": "py-12",
     "scope": "python"
+  },
+  "TTS Javelit Ux": {
+    "body": [
+      "Jt.title(\"Text to speech exercise\").use();",
+      "String englishText = Jt.textArea(\"🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English text 🏴󠁧󠁢󠁥󠁮󠁧󠁿\").use();",
+      "",
+      "if (!englishText.isEmpty()) {",
+      "  byte[] textToSpeech = textToSpeech(englishText);",
+      "",
+      "  Jt.audio(textToSpeech)",
+      "      .format(\"audio/wav\")",
+      "    .use();",
+      "}",
+      ""
+    ],
+    "description": "",
+    "prefix": "java-49",
+    "scope": "java"
+  },
+  "TTS Payload": {
+    "body": [
+      "String payload = \"\"\"",
+      "        {",
+      "          \"encoding\": 1,",
+      "          \"language_code\": \"en-US\",",
+      "          \"sample_rate_hz\": 16000,",
+      "          \"text\": \"%s\",",
+      "          \"voice_name\": \"English-US.Female-1\"",
+      "        }",
+      "        \"\"\";",
+      ""
+    ],
+    "description": "",
+    "prefix": "java-46",
+    "scope": "java"
   },
   "TTS bearer": {
     "body": [
