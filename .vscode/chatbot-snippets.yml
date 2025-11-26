@@ -269,8 +269,8 @@ snippet java-23:
   prefix: "java-23"
   scope: "java"
   body: |
-    _LOG.info("💬: What is the program at AI Summit Barcelona?\n");
-    TokenStream tokenStream = assistant.chat("What is the program at AI Summit Barcelona?");
+    _LOG.info("💬: What is the program at Sopra tech lab?\n");
+    TokenStream tokenStream = assistant.chat("What is the program at Sopra tech lab?");
     CompletableFuture<ChatResponse> futureChatResponse = new CompletableFuture<>();
 
     _LOG.info("🤖: ");
