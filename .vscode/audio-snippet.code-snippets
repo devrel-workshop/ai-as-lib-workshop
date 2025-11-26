@@ -80,7 +80,7 @@
       "        🏴󠁧󠁢󠁥󠁮󠁧󠁿 󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English transcription 🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢",
       "        %s",
       "        \"\"\", transcription))",
-      "    .use()",
+      "    .use();",
       "}",
       ""
     ],
@@ -132,7 +132,7 @@
   },
   "OkHttp client": {
     "body": [
-      "OkHttpClient okHttpClient = new OkHttpClient();",
+      "OkHttpClient client = new OkHttpClient();",
       ""
     ],
     "description": "",
@@ -166,18 +166,18 @@
   "Payload": {
     "body": [
       "String payload = \"\"\"",
-      "        {",
-      "          \"encoding\": 1,",
-      "          \"language_code\": \"en-US\",",
-      "          \"sample_rate_hz\": 16000,",
-      "          \"text\": \"%s\",",
-      "          \"voice_name\": \"English-US.Female-1\"",
-      "        }",
-      "        \"\"\";",
+      "    {",
+      "      \"encoding\": 1,",
+      "      \"language_code\": \"es-ES\",",
+      "      \"sample_rate_hz\": 16000,",
+      "      \"text\": \"%s\",",
+      "      \"voice_name\": \"Spanish-ES-Female-1\"",
+      "    }",
+      "    \"\"\";",
       ""
     ],
     "description": "",
-    "prefix": "java-46",
+    "prefix": "java-54",
     "scope": "java"
   },
   "RIVA call": {
@@ -211,7 +211,7 @@
   },
   "RIVA request": {
     "body": [
-      "RequestBody body = RequestBody.create(String.format(payload, \"Hello, Wolrd!!\"), MediaType.get(\"application/json; charset=utf-8\"));",
+      "RequestBody body = RequestBody.create(String.format(payload, \"Hello, World!!\"), MediaType.get(\"application/json; charset=utf-8\"));",
       "Request request = new Request.Builder()",
       "        .url(\"https://nvr-tts-en-us.endpoints.kepler.ai.cloud.ovh.net/api/v1/tts/text_to_audio\")",
       "        .addHeader(\"Authorization\", String.format(\"Bearer %s\", System.getenv(\"OVH_AI_ENDPOINTS_ACCESS_TOKEN\")))",
@@ -430,6 +430,18 @@
     "prefix": "py-21",
     "scope": "python"
   },
+  "STT Transcription": {
+    "body": [
+      "Transcription transcription =",
+      "    client.audio().transcriptions().create(createParams).asTranscription();",
+      "System.out.println(\"📝 Transcript generated! 📝\");",
+      "return transcription.text();",
+      ""
+    ],
+    "description": "",
+    "prefix": "java-43",
+    "scope": "java"
+  },
   "STT Whisper call": {
     "body": [
       "with open(audio, \"rb\") as audio_file:",
@@ -445,6 +457,20 @@
     "description": "",
     "prefix": "py-03",
     "scope": "python"
+  },
+  "STT Whisper configuration": {
+    "body": [
+      "TranscriptionCreateParams createParams = TranscriptionCreateParams.builder()",
+      "        .model(System.getenv(\"OVH_AI_ENDPOINTS_WHISPER_MODEL\"))",
+      "        .responseFormat(AudioResponseFormat.TEXT)",
+      "        .language(\"en\")",
+      "        .file(record)",
+      "        .build();",
+      ""
+    ],
+    "description": "",
+    "prefix": "java-42",
+    "scope": "java"
   },
   "STT client initialization": {
     "body": [
@@ -601,29 +627,29 @@
       ""
     ],
     "description": "",
-    "prefix": "java-43",
+    "prefix": "java-52",
     "scope": "java"
   },
   "Whisper configuration": {
     "body": [
       "TranscriptionCreateParams createParams = TranscriptionCreateParams.builder()",
-      "        .model(System.getenv(\"OVH_AI_ENDPOINTS_WHISPER_MODEL\"))",
-      "        .responseFormat(AudioResponseFormat.TEXT)",
-      "        .language(\"en\")",
-      "        .file(record)",
-      "        .build();",
+      "                                                                  .model(System.getenv(\"OVH_AI_ENDPOINTS_WHISPER_MODEL\"))",
+      "                                                                  .responseFormat(AudioResponseFormat.TEXT)",
+      "                                                                  .language(\"en\")",
+      "                                                                  .file(record)",
+      "                                                                  .build();",
       ""
     ],
     "description": "",
-    "prefix": "java-42",
+    "prefix": "java-51",
     "scope": "java"
   },
   "translation": {
     "body": [
-      "System.out.println(\"🔄 Translating text to Spanish...🔄\");",
+      "Jt.text(\"🔄 Translating text to Spanish...🔄\").use();",
       "ChatBot chatbot = AiServices.create(ChatBot.class, model);",
-      "String translatedText = chatbot.chat(transcriptionText);",
-      "System.out.println(String.format(\"🇪🇸 Translated text: %s\", translatedText));",
+      "translatedText = chatbot.chat(transcription);",
+      "Jt.text(String.format(\"🇪🇸 Translated text: %s\", translatedText)).use();",
       ""
     ],
     "description": "",

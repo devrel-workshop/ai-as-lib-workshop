@@ -11,11 +11,11 @@ import java.util.Map;
 
 void main() throws IOException {
     // Initialise OkHttp client
-    // java-63
+    // java-65
     OkHttpClient client = new OkHttpClient();
 
     // Create the request with bearer token
-    // java-64
+    // java-66
     RequestBody body = RequestBody.create("Bon produit, envoyé dans les temps. Service après vente perfectible.", MediaType.get("text/plain; charset=utf-8"));
     Request request = new Request.Builder()
             .url(System.getenv("OVH_AI_ENDPOINT_MODEL_SENTIMENT_URL"))
@@ -24,7 +24,7 @@ void main() throws IOException {
             .build();
 
     // Call the endpoint
-    // java-65
+    // java-67
     System.out.println("⏳ Text analysis...");
     Response response = client.newCall(request).execute();
     Map<String, Double> map = new ObjectMapper().readValue(response.body().string(), Map.class);

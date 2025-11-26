@@ -968,7 +968,7 @@
       "quarkus.langchain4j.mistralai.api-key=\\${OVH_AI_ENDPOINTS_ACCESS_TOKEN}",
       "quarkus.langchain4j.mistralai.chat-model.max-tokens=512",
       "quarkus.langchain4j.mistralai.chat-model.model-name=\\${OVH_AI_ENDPOINTS_MODEL_NAME}",
-      "quarkus.langchain4j.mistralai.log-requests=true",
+      "quarkus.langchain4j.mistralai.log-requests=false",
       "quarkus.langchain4j.mistralai.log-responses=false",
       "quarkus.langchain4j.mistralai.chat-model.temperature=0.2",
       ""
@@ -1004,8 +1004,8 @@
   },
   "RAG call": {
     "body": [
-      "_LOG.info(\"💬: What is the program at AI Summit Barcelona?\\n\");",
-      "TokenStream tokenStream = assistant.chat(\"What is the program at AI Summit Barcelona?\");",
+      "_LOG.info(\"💬: What is the program at Sopra tech lab?\\n\");",
+      "TokenStream tokenStream = assistant.chat(\"What is the program at Sopra tech lab?\");",
       "CompletableFuture\u003cChatResponse\u003e futureChatResponse = new CompletableFuture\u003c\u003e();",
       "",
       "_LOG.info(\"🤖: \");",
@@ -1023,9 +1023,8 @@
   "RAG chunk": {
     "body": [
       "DocumentParser documentParser = new TextDocumentParser();",
-      "Document document = loadDocument(",
-      "    RAGChatbot.class.getResource(\"/rag-files/conference-information-talk-01.md\").getFile(),",
-      "    documentParser);",
+      "Document document = loadDocument(\"./resources/rag-files/conference-information-talk-01.md\",",
+      "        documentParser);",
       "DocumentSplitter splitter = DocumentSplitters.recursive(8000, 50);",
       "",
       "List\u003cTextSegment\u003e segments = splitter.split(document);",

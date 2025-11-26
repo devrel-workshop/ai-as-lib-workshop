@@ -40,4 +40,4 @@ python3 -m venv .venv
 source .venv/bin/activate
 
 # copy VSCode snippets to activate them
-cp -r .vscode ../.vscode
+cp -r .vscode/* ../.vscode

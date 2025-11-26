@@ -235,16 +235,16 @@ snippet py-84:
     else:
         print("❌ Error:", response.status_code)
 
-snippet java-60:
-  name: "OkHttp initialisation"
-  prefix: "java-60"
+snippet java-62:
+  name: "Emotion OkHttp initialisation"
+  prefix: "java-62"
   scope: "java"
   body: |
     OkHttpClient client = new OkHttpClient();
 
-snippet java-61:
-  name: "Prepare the request"
-  prefix: "java-61"
+snippet java-63:
+  name: "Emotion Prepare the request"
+  prefix: "java-63"
   scope: "java"
   body: |
     RequestBody body = RequestBody.create("I love Java", MediaType.get("text/plain; charset=utf-8"));
@@ -254,9 +254,9 @@ snippet java-61:
             .post(body)
             .build();
 
-snippet java-62:
-  name: "Endpoint call"
-  prefix: "java-62"
+snippet java-64:
+  name: "Emotion Endpoint call"
+  prefix: "java-64"
   scope: "java"
   body: |
     System.out.println("⏳ Text analysis...");
@@ -268,16 +268,16 @@ snippet java-62:
 
     System.out.println(String.format("💢 Main emotion is: %s", max.getKey()));
 
-snippet java-63:
-  name: "OKHttp initialisation"
-  prefix: "java-63"
+snippet java-65:
+  name: "Review OKHttp initialisation"
+  prefix: "java-65"
   scope: "java"
   body: |
     OkHttpClient client = new OkHttpClient();
 
-snippet java-64:
-  name: "Request preparation"
-  prefix: "java-64"
+snippet java-66:
+  name: "Review Request preparation"
+  prefix: "java-66"
   scope: "java"
   body: |
     RequestBody body = RequestBody.create("Bon produit, envoyé dans les temps. Service après vente perfectible.", MediaType.get("text/plain; charset=utf-8"));
@@ -287,9 +287,9 @@ snippet java-64:
             .post(body)
             .build();
 
-snippet java-65:
-  name: "Endpoint call"
-  prefix: "java-65"
+snippet java-67:
+  name: "Review Endpoint call"
+  prefix: "java-67"
   scope: "java"
   body: |
     System.out.println("⏳ Text analysis...");
@@ -301,16 +301,16 @@ snippet java-65:
 
     System.out.println(String.format("⭐️ Product review: %s", max.getKey()));
 
-snippet java-66:
-  name: "OkHttp initialisation"
-  prefix: "java-66"
+snippet java-68:
+  name: "Classification OkHttp initialisation"
+  prefix: "java-68"
   scope: "java"
   body: |
     OkHttpClient client = new OkHttpClient();
 
-snippet java-67:
-  name: "Request preparation"
-  prefix: "java-67"
+snippet java-69:
+  name: "Classification Request preparation"
+  prefix: "java-69"
   scope: "java"
   body: |
     RequestBody body = RequestBody.create("My name is Clara and I live in Berkeley, California.", MediaType.get("text/plain; charset=utf-8"));
@@ -320,9 +320,9 @@ snippet java-67:
             .post(body)
             .build();
 
-snippet java-68:
-  name: "Endpoint call"
-  prefix: "java-68"
+snippet java-70:
+  name: "Classification Endpoint call"
+  prefix: "java-70"
   scope: "java"
   body: |
     System.out.println("⏳ Text analysis...");

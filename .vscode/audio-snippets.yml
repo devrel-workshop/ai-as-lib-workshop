@@ -341,7 +341,7 @@ snippet java-41:
             .build();
 
 snippet java-42:
-  name: "Whisper configuration"
+  name: "STT Whisper configuration"
   prefix: "java-42"
   scope: "java"
   body: |
@@ -353,7 +353,7 @@ snippet java-42:
             .build();
 
 snippet java-43:
-  name: "Transcription"
+  name: "STT Transcription"
   prefix: "java-43"
   scope: "java"
   body: |
@@ -377,7 +377,7 @@ snippet java-44:
             🏴󠁧󠁢󠁥󠁮󠁧󠁿 󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English transcription 🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢
             %s
             """, transcription))
-        .use()
+        .use();
     }
 
 snippet java-45:
@@ -480,7 +480,7 @@ snippet java-53:
   prefix: "java-53"
   scope: "java"
   body: |
-    OkHttpClient okHttpClient = new OkHttpClient();
+    OkHttpClient client = new OkHttpClient();
 
 snippet java-54:
   name: "Payload"
@@ -549,7 +549,7 @@ snippet java-58:
             🏴󠁧󠁢󠁥󠁮󠁧󠁿 󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English transcription 🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢
             %s
             """, transcription))
-        .use()
+        .use();
     }
 
 snippet java-59:
@@ -577,11 +577,11 @@ snippet java-60:
   prefix: "java-60"
   scope: "java"
   body: |
-    System.out.println("🔄 Translating text to Spanish...🔄");
+    Jt.text("🔄 Translating text to Spanish...🔄").use();
     ChatBot chatbot = AiServices.create(ChatBot.class, model);
-    String translatedText = chatbot.chat(transcriptionText);
-    System.out.println(String.format("🇪🇸 Translated text: %s", translatedText));
-
+    translatedText = chatbot.chat(transcription);
+    Jt.text(String.format("🇪🇸 Translated text: %s", translatedText)).use();
+    
 snippet java-61:
   name: "Javelit text to Speech"
   prefix: "java-61"
