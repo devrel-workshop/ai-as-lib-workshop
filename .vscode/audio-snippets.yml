@@ -363,7 +363,7 @@ snippet java-43:
     return transcription.text();
 
 snippet java-44:
-  name: "Javelit Ux"
+  name: "STT Javelit Ux"
   prefix: "java-44"
   scope: "java"
   body: |
@@ -388,7 +388,7 @@ snippet java-45:
     OkHttpClient client = new OkHttpClient();
 
 snippet java-46:
-  name: "Payload"
+  name: "TTS Payload"
   prefix: "java-46"
   scope: "java"
   body: |
@@ -428,7 +428,7 @@ snippet java-48:
     return audio;
 
 snippet java-49:
-  name: "Javelit Ux"
+  name: "TTS Javelit Ux"
   prefix: "java-49"
   scope: "java"
   body: |
@@ -483,7 +483,7 @@ snippet java-53:
     OkHttpClient client = new OkHttpClient();
 
 snippet java-54:
-  name: "Payload"
+  name: "STS Payload"
   prefix: "java-54"
   scope: "java"
   body: |

@@ -39,5 +39,9 @@ fi
 python3 -m venv .venv
 source .venv/bin/activate
 
+# Install Javelit
+jbang app install javelit@javelit
+source ~/.bashrc
+
 # copy VSCode snippets to activate them
-cp -r .vscode/* ../.vscode
+cp -r .vscode/ ../.vscode
