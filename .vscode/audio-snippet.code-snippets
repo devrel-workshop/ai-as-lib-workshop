@@ -90,20 +90,22 @@
   },
   "Javelit Ux": {
     "body": [
-      "Jt.title(\"Text to speech exercise\").use();",
-      "String englishText = Jt.textArea(\"🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English text 🏴󠁧󠁢󠁥󠁮󠁧󠁿\").use();",
+      "Jt.title(\"Speech to text exercise\").use();",
       "",
-      "if (!englishText.isEmpty()) {",
-      "  byte[] textToSpeech = textToSpeech(englishText);",
+      "var recording = Jt.audioInput(\"🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English audio 🏴󠁧󠁢󠁥󠁮󠁧󠁿\").use();",
       "",
-      "  Jt.audio(textToSpeech)",
-      "      .format(\"audio/wav\")",
-      "    .use();",
+      "if (recording != null) {",
+      "  var transcription = speechToText(recording.content());",
+      "  Jt.text(String.format(\"\"\"",
+      "        🏴󠁧󠁢󠁥󠁮󠁧󠁿 󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢English transcription 🏴󠁧󠁢󠁥󠁮󠁧󠁿󠁧󠁢",
+      "        %s",
+      "        \"\"\", transcription))",
+      "    .use()",
       "}",
       ""
     ],
     "description": "",
-    "prefix": "java-49",
+    "prefix": "java-44",
     "scope": "java"
   },
   "Javelit text to Speech": {
@@ -211,7 +213,7 @@
   },
   "RIVA request": {
     "body": [
-      "RequestBody body = RequestBody.create(String.format(payload, \"Hello, Wolrd!!\"), MediaType.get(\"application/json; charset=utf-8\"));",
+      "RequestBody body = RequestBody.create(String.format(payload, \"Hello, World!!\"), MediaType.get(\"application/json; charset=utf-8\"));",
       "Request request = new Request.Builder()",
       "        .url(\"https://nvr-tts-en-us.endpoints.kepler.ai.cloud.ovh.net/api/v1/tts/text_to_audio\")",
       "        .addHeader(\"Authorization\", String.format(\"Bearer %s\", System.getenv(\"OVH_AI_ENDPOINTS_ACCESS_TOKEN\")))",
@@ -601,21 +603,21 @@
       ""
     ],
     "description": "",
-    "prefix": "java-43",
+    "prefix": "java-52",
     "scope": "java"
   },
   "Whisper configuration": {
     "body": [
       "TranscriptionCreateParams createParams = TranscriptionCreateParams.builder()",
-      "        .model(System.getenv(\"OVH_AI_ENDPOINTS_WHISPER_MODEL\"))",
-      "        .responseFormat(AudioResponseFormat.TEXT)",
-      "        .language(\"en\")",
-      "        .file(record)",
-      "        .build();",
+      "                                                                  .model(System.getenv(\"OVH_AI_ENDPOINTS_WHISPER_MODEL\"))",
+      "                                                                  .responseFormat(AudioResponseFormat.TEXT)",
+      "                                                                  .language(\"en\")",
+      "                                                                  .file(record)",
+      "                                                                  .build();",
       ""
     ],
     "description": "",
-    "prefix": "java-42",
+    "prefix": "java-51",
     "scope": "java"
   },
   "translation": {
