@@ -41,6 +41,7 @@ attendee-conf.json
 # Java
 target/
 generated-image.jpeg
+.quarkus/
 
 # Audio module
 .gradio/
