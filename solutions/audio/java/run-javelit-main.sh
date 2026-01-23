@@ -11,12 +11,16 @@ echo ""
 
 if [ -z "$VSCODE_PROXY_URI" ]; then
     # 🚀 Run Javelit application
+    echo "🚀 Run Javelit application from local computer"
     javelit run $1
 else
+    echo "🚀 Run Javelit application from CDE"
     # Get the VSCode local base path for when using Coder
-    CODER_BASE_PATH=${VSCODE_PROXY_URI#https://workshop.labdevrel.ovh}
-    CODER_BASE_PATH=${CODER_BASE_PATH%%proxy/*}proxy
 
     # 🚀 Run Javelit application with a base path
-    javelit run $1 --base-path=$CODER_BASE_PATH/8080/
+    #echo "javelit run $1 --base-path=/@$CODER_WORKSPACE_OWNER_NAME/$CODER_WORKSPACE_NAME.main/apps/code-server/proxy/8080"
+    echo "###########################################################"
+    echo "### 🔗 External URL: $CODER_AGENT_URL/@$CODER_WORKSPACE_OWNER_NAME/$CODER_WORKSPACE_NAME.main/apps/code-server/proxy/8080"
+    echo "###########################################################"
+    javelit run $1 --base-path=/@$CODER_WORKSPACE_OWNER_NAME/$CODER_WORKSPACE_NAME.main/apps/code-server/proxy/8080
 fi

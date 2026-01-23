@@ -11,11 +11,8 @@ fi
 # Always read from the JSON when the file exists
 if [ -f "$ATTENDEE_CONF_PATH" ]; then
   echo "🛠️ Set environment variables 🛠️"
-      export OVH_AI_ENDPOINTS_MODEL_URL=https://mistral-7b-instruct-v0-3.endpoints.kepler.ai.cloud.ovh.net/api/openai_compat/v1
-      export OVH_AI_ENDPOINTS_MODEL_NAME=Mistral-7B-Instruct-v0.3
-
-#      export OVH_AI_ENDPOINTS_MODEL_URL=https://llama-3-3-70b-instruct.endpoints.kepler.ai.cloud.ovh.net/api/openai_compat/v1
-#      export OVH_AI_ENDPOINTS_MODEL_NAME=Meta-Llama-3_3-70B-Instruct
+      export OVH_AI_ENDPOINTS_MODEL_URL=https://oai.endpoints.kepler.ai.cloud.ovh.net/v1
+      export OVH_AI_ENDPOINTS_MODEL_NAME=gpt-oss-120b
       
       export OVH_AI_ENDPOINTS_EMBEDDING_MODEL=https://bge-multilingual-gemma2.endpoints.kepler.ai.cloud.ovh.net
       export OVH_AI_ENDPOINTS_SD_URL=https://stable-diffusion-xl.endpoints.kepler.ai.cloud.ovh.net/api/text2image
