@@ -1363,9 +1363,9 @@
   "quarkus-17-dep-mcp": {
     "body": [
       "\u003cdependency\u003e",
-      "    \u003cgroupId\u003eio.quarkiverse.mcp\u003c/groupId\u003e",
-      "    \u003cartifactId\u003equarkus-mcp-server-sse\u003c/artifactId\u003e",
-      "    \u003cversion\u003e1.5.3\u003c/version\u003e",
+      "  \u003cgroupId\u003eio.quarkiverse.mcp\u003c/groupId\u003e",
+      "  \u003cartifactId\u003equarkus-mcp-server-http\u003c/artifactId\u003e",
+      "  \u003cversion\u003e1.8.0\u003c/version\u003e",
       "\u003c/dependency\u003e",
       ""
     ],
