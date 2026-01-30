@@ -1,70 +1,1058 @@
-## ☕️ Java module for AI Endpoints workshop ☕️
+## ☕️ Java LangChain4j module for AI Endpoints workshop ☕️
 
-**ℹ️ All solutions to this part are in the [solution/chatbot/java/java-langchain4j](../../../../solutions/chatbot/java/java-langchain4j) folder. ℹ️**
+**ℹ️ All solutions to this part are in the [solutions/chatbot/java/java-langchain4j](../../../../solutions/chatbot/java/java-langchain4j) folder. ℹ️**
 
 ### ⚠️ Prerequisites ⚠️
 
 If you use [Coder CDE](https://coder.com/) to open this project, all prerequisites are managed for you.  
-In the other case you need : 
+In the other case you need: 
  - Java 25
- - [Maven 3.9.x](https://maven.apache.org/download.cgi)
- - [Quarkus CLI](https://quarkus.io/guides/cli-tooling)
+ - [JBang](https://www.jbang.dev/) - Java scripting tool
 
-> Note: most of the modules will use these libraries make the development simpler: 
->  - [LangChain4j](https://docs.langchain4j.dev/intro/)
->  - [Quarkus](https://quarkus.io/)
+> Note: This module uses [LangChain4j](https://docs.langchain4j.dev/intro/) - the library that makes development with LLMs simpler!
 
-### 🤖 Module 1: Chatbot with AI Endpoints and LangChain4J ☕️
+### 📚 What you'll learn 📚
 
-The goal of this module is to develop a simple chatbot with [AI Endpoints](https://endpoints.ai.cloud.ovh.net/) and Java.  
-The exercise is divided in 4 parts:
-1. Create a simple chatbot: [SimpleChatbot](./SimpleChatbot.java)
-1. Create a streaming chatbot: [StreamingChatbot](./StreamingChatbot.java)
-1. Create a memory chatbot: [MemoryChatbot](./MemoryChatbot.java)
-1. Create a chatbot with RAG: [RAGChatbot](./RAGChatbot.java)
+In this workshop, you'll build complete chatbot applications using **LangChain4j** with **OVHcloud AI Endpoints**.  
+The workshop is divided into progressive modules:
 
-#### 🔗 Useful resources:
- - [LangChain4j](https://docs.langchain4j.dev/get-started)
- - [OpenAI integration](https://docs.langchain4j.dev/integrations/language-models/open-ai) in LangChain4j
+1. 🤖 **Simple Chatbot** - Basic synchronous chatbot
+2. 🌊 **Streaming Chatbot** - Real-time streaming responses
+3. 🧠 **Memory Chatbot** - Conversational memory across requests
+4. 📚 **RAG Chatbot** - Retrieval Augmented Generation with document embeddings
+5. 🎨 **Function Calling** - Create and use tools for image generation
+6. 🔌 **MCP Client** - Consume the MCP server created with Quarkus
 
-#### 👩‍💻 How to develop ? 🧑‍💻
+---
 
->Note: after the first exercise to create a simple chatbot you can use the same class by adding new feature or create a new file for each exercise.
->The solutions are in separate files to facilitate the reading.
+## 🚀 Getting Started 🚀
 
-  - all needed files are pre-created in [java-langchain4j](./) folder
-  - the main resources:
-    - the [SimpleChatbot](./SimpleChatbot.java) class
-    - the [StreamingChatbot](./StreamingChatbot.java) class
-    - the [MemoryChatbot](./MemoryChatbot.java) class
-    - the [RAGChatbot](./RAGChatbot.java) class
-    - the [content.txt](./resources/rag-files/content.txt) file for RAG part
+### 🔧 Step 0: Project Setup
 
-#### ⚗️ Test your code by running the following commands: 
- - Simple chatbot: `./run-jbang SimpleChatbot"`
- - Advanced chatbot: `./run-jbang StreamingChatbot"`
- - Memory chatbot: `./run-jbang MemoryChatbot"`
- - RAG chatbot: `./run-jbang RAGChatbot"`
+All files are already created for you in [workshop/chatbot/java/java-langchain4j](./)!
 
-### 🤖 Module 2: Bonus !!! Function calling with LangChain4J 🦜
+The project uses **JBang** - a Java scripting tool that allows running Java code without complex project setup.
 
-The goal of this module is to develop a chatbot powering with new knowledge thanks to the function calling.
-The chatbot will help the user to generate a complete prompt for Stable Diffusion XL model to generate images.
+📖 **Learn more**: [JBang Documentation](https://www.jbang.dev/)
 
-The exercise is divided in two part:
- 1. Create a _tool_ to call stable diffusion [ImageGenTools](./ImageGenTools.java)
- 2. Create a chatbot using the tool [ImageGenerationChatbot](./ImageGenerationChatbot.java)
+### ▶️ Running Your Code
 
-#### 🔗 Useful resources:
- - [LangChain4j](https://docs.langchain4j.dev/get-started)
- - [OpenAI integration](https://docs.langchain4j.dev/integrations/language-models/open-ai) in LangChain4j
+All chatbots can be run using the helper script:
 
-#### 👩‍💻 How to develop ? 🧑‍💻
+```bash
+./run-jbang.sh <ClassName>
+```
 
-  - all needed files are pre-created in [java-langchain4j](./) folder
-  - the main resources:
-    - the [ImageGenTools](./ImageGenTools.java) class
-    - the [ImageGenerationChatbot](./ImageGenerationChatbot.java) class
+For example:
+```bash
+./run-jbang.sh SimpleChatbot
+```
 
-#### ⚗️ Test your code by running the following command: 
- - `./run-jbang.sh ImageGenerationChatbot"`
+🎯 **Tip**: JBang automatically handles dependencies defined in the Java file headers!
+
+---
+
+## 🤖 Module 1: Simple Chatbot 🤖
+
+**Goal**: Create a basic synchronous chatbot that answers questions using AI Endpoints.
+
+### 🎯 Architecture Overview
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant SimpleChatbot
+    participant Assistant
+    participant AIChatModel
+    participant AI Endpoints
+    
+    User->>SimpleChatbot: Ask question
+    SimpleChatbot->>Assistant: chat(question)
+    Assistant->>AIChatModel: Send request
+    AIChatModel->>AI Endpoints: HTTP POST 
+    AI Endpoints-->>AIChatModel: Complete response
+    AIChatModel-->>Assistant: String response
+    Assistant-->>SimpleChatbot: Answer
+    SimpleChatbot-->>User: Display answer
+```
+
+### 📝 Step 1.1: Create the AI Service Interface
+
+**File to edit**: [SimpleChatbot.java](SimpleChatbot.java)
+
+Define an interface that represents your AI assistant.
+
+💡 **Key Concepts**:
+- The interface defines the contract for your chatbot
+- `@SystemMessage`: Sets the AI's role and personality
+- LangChain4j will automatically implement this interface
+
+📖 **Documentation**: 
+- [LangChain4j AI Services](https://docs.langchain4j.dev/tutorials/ai-services)
+- [System Messages](https://docs.langchain4j.dev/tutorials/ai-services#systemmessage)
+
+🫶 **Solutions**:
+- You can use the `java-02` snippet to fill the interface if you don't know what to do 😉
+
+---
+
+### 📝 Step 1.2: Create the Chat Model
+
+**File to edit**: [SimpleChatbot.java](SimpleChatbot.java)
+
+Configure the OpenAI-compatible chat model to connect to OVHcloud AI Endpoints.
+
+💡 **Configuration Tips**:
+- Use `AIChatModel.builder()` for configuration
+- The `baseUrl` should point to OVHcloud AI Endpoints
+- Set `temperature` to 0.0 for deterministic responses
+- Use `maxTokens` to limit response length (512 is good for testing)
+
+📖 **Documentation**: 
+- [OpenAI Chat Model Configuration](https://docs.langchain4j.dev/integrations/language-models/open-ai#chat-models)
+- [LangChain4j Chat Model Interface](https://docs.langchain4j.dev/tutorials/chat-and-language-models)
+
+🫶 **Solutions**:
+- You can use the `java-03` snippet to create the chat model if you don't know what to do 😉
+
+---
+
+### 📝 Step 1.3: Build the AI Service
+
+**File to edit**: [SimpleChatbot.java](SimpleChatbot.java)
+
+Use LangChain4j's `AiServices` builder to create your chatbot.
+
+💡 **Builder Pattern**:
+- Specify the interface class (`.class`)
+- Connect your chat model
+- The builder creates a proxy that implements your interface
+
+📖 **Documentation**: 
+- [AI Services Builder](https://docs.langchain4j.dev/tutorials/ai-services)
+
+🫶 **Solutions**:
+- You can use the `java-04` snippet to build the AI service if you don't know what to do 😉
+
+---
+
+### 📝 Step 1.4: Send a Prompt
+
+**File to edit**: [SimpleChatbot.java](SimpleChatbot.java)
+
+Call your assistant to test the chatbot.
+
+💡 **Usage**:
+- Simply call the `chat()` method on your assistant instance
+- The prompt is automatically wrapped in the correct format
+
+🫶 **Solutions**:
+- You can use the `java-05` snippet to send a prompt if you don't know what to do 😉
+
+---
+
+### 🧪 Step 1.5: Test Your Simple Chatbot
+
+Run the chatbot:
+
+```bash
+./run-jbang.sh SimpleChatbot.java
+```
+
+You should see:
+```bash
+💬: Question: Tell me a joke about Java developers
+
+🤖: Why do Java developers wear glasses?
+Because they don't C#!
+```
+
+✅ **Expected**: You should receive a complete answer from the AI assistant named Nestor.
+
+---
+
+## 🌊 Module 2: Streaming Chatbot 🌊
+
+**Goal**: Create a chatbot that streams responses in real-time, word by word.
+
+### 🎯 Architecture Overview
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant StreamingChatbot
+    participant AI Service
+    participant StreamingChatModel
+    participant AI Endpoints
+    
+    User->>StreamingChatbot: Ask question
+    StreamingChatbot->>AI Service: chat(question) → TokenStream
+    AI Service->>StreamingChatModel: Send request
+    StreamingChatModel->>AI Endpoints: Stream request
+    AI Endpoints-->>StreamingChatModel: Token 1
+    StreamingChatModel-->>AI Service: Token 1
+    AI Service-->>User: onNext(Token 1)
+    AI Endpoints-->>StreamingChatModel: Token 2
+    StreamingChatModel-->>AI Service: Token 2
+    AI Service-->>User: onNext(Token 2)
+    AI Endpoints-->>StreamingChatModel: Token N
+    StreamingChatModel-->>AI Service: Token N
+    AI Service-->>User: onNext(Token N)
+    AI Service-->>User: onComplete()
+```
+
+### 🎯 Why Streaming?
+
+Streaming responses provide:
+- ⚡️ Better user experience (responses appear progressively)
+- 🚀 Lower perceived latency
+- 📱 Perfect for long-form content
+
+### 📝 Step 2.1: Create the Streaming AI Service Interface
+
+**File to edit**: [StreamingChatbot.java](StreamingChatbot.java)
+
+Define an interface that returns a `TokenStream`.
+
+💡 **Key Change**: 
+- Return type is `TokenStream` instead of `String`
+- This enables token-by-token streaming
+
+📖 **Documentation**: 
+- [Response Streaming](https://docs.langchain4j.dev/tutorials/response-streaming)
+- [TokenStream API](https://docs.langchain4j.dev/apidocs/dev/langchain4j/service/TokenStream.html)
+
+🫶 **Solutions**:
+- You can use the `java-06` snippet to create the streaming interface if you don't know what to do 😉
+
+---
+
+### 📝 Step 2.2: Create the Streaming Chat Model
+
+**File to edit**: [StreamingChatbot.java](StreamingChatbot.java)
+
+Use `StreamingChatModel` instead of `AIChatModel`.
+
+💡 **Streaming Model**:
+- `StreamingChatModel` supports token streaming
+- Configuration is similar to the non-streaming version
+- All other settings remain the same
+
+📖 **Documentation**: 
+- [Streaming Chat Models](https://docs.langchain4j.dev/tutorials/response-streaming#streaming-chat-models)
+
+🫶 **Solutions**:
+- You can use the `java-07` snippet to create the streaming model if you don't know what to do 😉
+
+---
+
+### 📝 Step 2.3: Build and Use the Streaming Service
+
+**File to edit**: [StreamingChatbot.java](StreamingChatbot.java)
+
+Build the service and handle the token stream.
+
+💡 **Stream Handling**:
+- Use `.onNext()` to process each token
+- Use `.onComplete()` to handle stream completion
+- Use `.onError()` to handle errors
+- Call `.start()` to begin streaming
+
+📖 **Documentation**: 
+- [Handling Streaming Responses](https://docs.langchain4j.dev/tutorials/response-streaming#handling-streaming-responses)
+
+🫶 **Solutions**:
+- You can use the `java-08` and `java-09` snippets to build and use streaming if you don't know what to do 😉
+
+---
+
+### 🧪 Step 2.4: Test Your Streaming Chatbot
+
+Run the streaming chatbot:
+
+```bash
+./run-jbang.sh StreamingChatbot.java
+```
+
+You should see:
+```bash
+💬: Question: Tell me a story about a cat
+
+🤖: Once upon a time, in a cozy little village...
+```
+
+✅ **Expected**: You should see the response appear progressively, word by word!
+
+---
+
+## 🧠 Module 3: Memory Chatbot 🧠
+
+**Goal**: Create a chatbot that remembers previous messages in the conversation.
+
+### 🎯 Architecture Overview
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant MemoryChatbot
+    participant AI Service
+    participant Memory
+    participant StreamingChatModel
+    participant AI Endpoints
+    
+    User->>MemoryChatbot: Question 1: "My name is Alice"
+    MemoryChatbot->>AI Service: chat(question1)
+    AI Service->>Memory: Store user message
+    AI Service->>StreamingChatModel: Send with empty context
+    StreamingChatModel->>AI Endpoints: Request
+    AI Endpoints-->>StreamingChatModel: Response 1
+    StreamingChatModel-->>AI Service: Stream tokens
+    AI Service->>Memory: Store assistant response
+    AI Service-->>User: "Nice to meet you, Alice!"
+    
+    User->>MemoryChatbot: Question 2: "What is my name?"
+    MemoryChatbot->>AI Service: chat(question2)
+    AI Service->>Memory: Retrieve previous messages
+    Memory-->>AI Service: [Q1, A1, Q2]
+    AI Service->>StreamingChatModel: Send with context
+    StreamingChatModel->>AI Endpoints: Request with history
+    AI Endpoints-->>StreamingChatModel: Response 2
+    StreamingChatModel-->>AI Service: Stream tokens
+    AI Service->>Memory: Store new exchange
+    AI Service-->>User: "Your name is Alice!"
+    
+    Note over Memory: MessageWindowChatMemory<br/>keeps last N messages
+```
+
+### 🎯 Why Memory?
+
+Memory allows:
+- 💬 Multi-turn conversations
+- 🔄 Context retention across requests
+- 🎯 More coherent and relevant responses
+
+### 📝 Step 3.1: Create the Memory AI Service Interface
+
+**File to edit**: [MemoryChatbot.java](MemoryChatbot.java)
+
+Define the interface (same as streaming version).
+
+💡 **Same Interface**: 
+- Memory works with both streaming and non-streaming
+- The interface doesn't change
+
+🫶 **Solutions**:
+- You can use the `java-10` snippet to create the interface if you don't know what to do 😉
+
+---
+
+### 📝 Step 3.2: Create the Chat Model
+
+**File to edit**: [MemoryChatbot.java](MemoryChatbot.java)
+
+Create the streaming model (same as Module 2).
+
+🫶 **Solutions**:
+- You can use the `java-11` snippet to create the model if you don't know what to do 😉
+
+---
+
+### 📝 Step 3.3: Create Chat Memory
+
+**File to edit**: [MemoryChatbot.java](MemoryChatbot.java)
+
+Create a memory store to save conversation history.
+
+💡 **Memory Types**:
+- `MessageWindowChatMemory`: Keeps last N messages
+- Good for managing context window size
+- Prevents token limit overflow
+
+📖 **Documentation**: 
+- [Chat Memory](https://docs.langchain4j.dev/tutorials/chat-memory)
+- [Memory Types](https://docs.langchain4j.dev/tutorials/chat-memory#memory-types)
+
+🫶 **Solutions**:
+- You can use the `java-12` snippet to create chat memory if you don't know what to do 😉
+
+---
+
+### 📝 Step 3.4: Build Service with Memory
+
+**File to edit**: [MemoryChatbot.java](MemoryChatbot.java)
+
+Add memory to the AI service builder.
+
+💡 **Adding Memory**:
+- Use `.chatMemory()` in the builder
+- Memory is automatically managed by LangChain4j
+- Previous messages are included in each request
+
+🫶 **Solutions**:
+- You can use the `java-13` snippet to add memory to the service if you don't know what to do 😉
+
+---
+
+### 📝 Step 3.5: Test Multiple Turns
+
+**File to edit**: [MemoryChatbot.java](MemoryChatbot.java)
+
+Ask multiple questions to test memory.
+
+💡 **Testing Memory**:
+- First question: Introduce yourself
+- Second question: Ask if the assistant remembers
+- The AI should recall information from the first question
+
+🫶 **Solutions**:
+- You can use the `java-14` snippet to test the memory if you don't know what to do 😉
+
+---
+
+### 🧪 Step 3.6: Test Your Memory Chatbot
+
+Run the memory chatbot:
+
+```bash
+./run-jbang.sh MemoryChatbot.java
+```
+
+You should see:
+```bash
+💬: Question 1: My name is Stéphane.
+
+🤖: Nice to meet you, Stéphane!
+
+💬: Question 2: What is my name?
+
+🤖: Your name is Stéphane, as you mentioned earlier!
+```
+
+✅ **Expected**: The AI remembers information from previous messages!
+
+---
+
+## 📚 Module 4: RAG Chatbot 📚
+
+**Goal**: Create a chatbot that can answer questions based on your documents using Retrieval Augmented Generation.
+
+### 🎯 Architecture Overview
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant RAGChatbot
+    participant AI Service
+    participant Content Retriever
+    participant Embedding Store
+    participant StreamingChatModel
+    participant AI Endpoints
+    
+    Note over RAGChatbot,Embedding Store: 📥 Ingestion Phase (Setup)
+    RAGChatbot->>RAGChatbot: Load document
+    RAGChatbot->>RAGChatbot: Split into segments
+    RAGChatbot->>Embedding Store: Index segments with embeddings
+    
+    Note over User,AI Endpoints: 🔍 Retrieval & Generation Phase (Runtime)
+    User->>RAGChatbot: "What is the conference about?"
+    RAGChatbot->>AI Service: chat(question)
+    AI Service->>Content Retriever: Find relevant context
+    Content Retriever->>Embedding Store: Semantic search
+    Embedding Store-->>Content Retriever: Top 3 relevant segments
+    Content Retriever-->>AI Service: Relevant context
+    AI Service->>StreamingChatModel: question + context
+    StreamingChatModel->>AI Endpoints: Request
+    AI Endpoints-->>StreamingChatModel: Response tokens
+    StreamingChatModel-->>AI Service: Stream
+    AI Service-->>User: Answer based on documents
+    
+    Note over AI Service,AI Endpoints: Context from documents<br/>reduces hallucinations
+```
+
+### 🎯 What is RAG?
+
+RAG (Retrieval Augmented Generation) allows:
+- 📄 Answer questions from your documents
+- 🎯 Provide accurate, source-based answers
+- 🔍 Reduce hallucinations
+
+### 📝 Step 4.1: Create the RAG AI Service Interface
+
+**File to edit**: [RAGChatbot.java](RAGChatbot.java)
+
+Define the interface (same as memory version).
+
+🫶 **Solutions**:
+- You can use the `java-16` snippet to create the interface if you don't know what to do 😉
+
+---
+
+### 📝 Step 4.2: Create the Chat Model
+
+**File to edit**: [RAGChatbot.java](RAGChatbot.java)
+
+Create the streaming model.
+
+🫶 **Solutions**:
+- You can use the `java-17` snippet to create the model if you don't know what to do 😉
+
+---
+
+### 📝 Step 4.3: Create Chat Memory
+
+**File to edit**: [RAGChatbot.java](RAGChatbot.java)
+
+Create memory (RAG works great with memory!).
+
+🫶 **Solutions**:
+- You can use the `java-18` snippet to create memory if you don't know what to do 😉
+
+---
+
+### 📝 Step 4.4: Load and Split Documents
+
+**File to edit**: [RAGChatbot.java](RAGChatbot.java)
+
+Load your document and split it into chunks.
+
+💡 **Document Processing**:
+- Load document from file
+- Split into smaller chunks (segments)
+- Chunks should be semantically meaningful
+- Overlap helps maintain context
+
+📖 **Documentation**: 
+- [RAG Tutorial](https://docs.langchain4j.dev/tutorials/rag)
+- [Document Splitters](https://docs.langchain4j.dev/tutorials/rag/#document-splitter)
+
+🫶 **Solutions**:
+- You can use the `java-19` snippet to load and split documents if you don't know what to do 😉
+
+---
+
+### 📝 Step 4.5: Create Embedding Model
+
+**File to edit**: [RAGChatbot.java](RAGChatbot.java)
+
+Create a model to convert text into vectors (embeddings).
+
+💡 **Embeddings**:
+- Embeddings are vector representations of text
+- Similar texts have similar vectors
+- Used for semantic search
+- OVHcloud provides embedding models via AI Endpoints
+
+📖 **Documentation**: 
+- [Embedding Models](https://docs.langchain4j.dev/category/embedding-models)
+- [OVH AI Embedding Model](https://www.ovhcloud.com/en/public-cloud/ai-endpoints/catalog/bge-m3/)
+
+🫶 **Solutions**:
+- You can use the `java-20` snippet to create the embedding model if you don't know what to do 😉
+
+---
+
+### 📝 Step 4.6: Create Embedding Store and Index Documents
+
+**File to edit**: [RAGChatbot.java](RAGChatbot.java)
+
+Store embeddings in memory and index your document segments.
+
+💡 **Embedding Store**:
+- Stores vectors for semantic search
+- `InMemoryEmbeddingStore` is simple for testing
+
+💡 **Content Retriever**:
+- Finds relevant documents based on query
+- Uses semantic similarity
+- Returns top N most relevant chunks
+
+📖 **Documentation**: 
+- [Embedding Stores](https://docs.langchain4j.dev/integrations/embedding-stores)
+- [Ingestion Process](https://docs.langchain4j.dev/tutorials/rag/#embedding)
+- [Content Retrievers](https://docs.langchain4j.dev/tutorials/rag#retrieval)
+
+🫶 **Solutions**:
+- You can use the `java-21` snippet to create and populate the store if you don't know what to do 😉
+
+---
+
+### 📝 Step 4.8: Build Service with RAG
+
+**File to edit**: [RAGChatbot.java](RAGChatbot.java)
+
+Add the content retriever to your AI service.
+
+💡 **RAG Integration**:
+- Use `.contentRetriever()` in the builder
+- LangChain4j automatically retrieves relevant context
+- Context is added to each prompt
+
+🫶 **Solutions**:
+- You can use the `java-22` snippet to build the service with RAG if you don't know what to do 😉
+
+---
+
+### 📝 Step 4.9: Ask Questions About Your Documents
+
+**File to edit**: [RAGChatbot.java](RAGChatbot.java)
+
+Ask questions that can only be answered using your documents.
+
+💡 **Testing RAG**:
+- Ask specific questions about document content
+- The AI should cite information from your documents
+- Without RAG, the AI wouldn't know these details
+
+🫶 **Solutions**:
+- You can use the `java-23` snippet to test RAG if you don't know what to do 😉
+
+---
+
+### 🧪 Step 4.10: Test Your RAG Chatbot
+
+Run the RAG chatbot:
+
+```bash
+./run-jbang.sh RAGChatbot.java
+```
+
+The document in [resources/rag-files/conference-information-talk-01.md](resources/rag-files/conference-information-talk-01.md) contains specific information about a conference.
+
+You should see answers based on the document content!
+
+✅ **Expected**: The AI answers questions using information from your document!
+
+---
+
+## 🎨 Module 5: Function Calling with Image Generation 🎨
+
+**Goal**: Create tools that the AI can call to perform actions - in this case, generating images with Stable Diffusion XL.
+
+### 🎯 Architecture Overview
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Assistant
+    participant AI Service
+    participant Chat Model
+    participant ImageGenTools
+    participant SDXL API
+    
+    User->>Assistant: "Generate a cat wizard"
+    Assistant->>AI Service: chat(request)
+    AI Service->>Chat Model: Process with tools metadata
+    Chat Model-->>AI Service: Tool call decision
+    AI Service->>ImageGenTools: generateImage(prompt, negativePrompt)
+    ImageGenTools->>SDXL API: HTTP POST with prompts
+    SDXL API-->>ImageGenTools: Image bytes
+    ImageGenTools-->>AI Service: File path
+    AI Service-->>Assistant: "Image generated: path"
+    Assistant-->>User: Display result
+    
+    Note over Chat Model,ImageGenTools: AI decides autonomously<br/>when to call the tool
+```
+
+### 🎯 What is Function Calling?
+
+Function calling (Tools) allows AI to:
+- 🔧 Execute real-world actions
+- 🌐 Access external APIs
+- 🤖 Decide when and how to use tools
+
+### 📝 Step 5.1: Create the Image Generation Tool
+
+**File to edit**: [ImageGenTools.java](ImageGenTools.java)
+
+Create a class with a method annotated with `@Tool`.
+
+💡 **Tool Creation**:
+- Use `@Tool` annotation with description
+- Use `@P` to describe parameters
+- The AI decides when to call this tool
+- The tool performs the actual action
+
+📖 **Documentation**: 
+- [Tools (Function Calling)](https://docs.langchain4j.dev/tutorials/tools)
+- [Tool Annotation](https://docs.langchain4j.dev/tutorials/tools#tool)
+
+🫶 **Solutions**:
+- You can use the `java-24` snippet to create the tool annotation if you don't know what to do 😉
+
+---
+
+### 📝 Step 5.2: Implement the Tool Logic
+
+**File to edit**: [ImageGenTools.java](ImageGenTools.java)
+
+Call the Stable Diffusion XL API and save the image.
+
+💡 **API Call**:
+- Use Java's HttpClient
+- Send prompt and negative prompt as JSON
+- Receive image bytes
+- Save to file
+
+📖 **Documentation**: 
+- [OVH AI Endpoints - Stable Diffusion XL](https://www.ovhcloud.com/en/public-cloud/ai-endpoints/catalog/stable-diffusion-xl/)
+- [Java HttpClient](https://docs.oracle.com/en/java/javase/17/docs/api/java.net.http/java/net/http/HttpClient.html)
+
+🫶 **Solutions**:
+- You can use the `java-25` and `java-26` snippets to implement the API call if you don't know what to do 😉
+
+---
+
+### 📝 Step 5.3: Create the Chatbot Interface
+
+**File to edit**: [ImageGenerationChatbot.java](ImageGenerationChatbot.java)
+
+Create an interface with detailed system message.
+
+💡 **System Prompt**:
+- Explain to the AI what tools are available
+- Describe when and how to use the tool
+- Guide the AI on parameter format
+
+📖 **Documentation**: 
+- [Tools with AI Services](https://docs.langchain4j.dev/tutorials/ai-services#tools-function-calling)
+
+🫶 **Solutions**:
+- You can use the `java-27` snippet to create the chatbot interface if you don't know what to do 😉
+
+---
+
+### 📝 Step 5.4: Configure the Chat Model
+
+**File to edit**: [ImageGenerationChatbot.java](ImageGenerationChatbot.java)
+
+Create a deterministic chat model with longer timeout.
+
+💡 **Configuration**:
+- Use `temperature(0.0)` for deterministic behavior
+- Increase `timeout` - image generation takes time
+- The model needs to reliably call the tool
+
+🫶 **Solutions**:
+- You can use the `java-28` snippet to configure the model if you don't know what to do 😉
+
+---
+
+### 📝 Step 5.5: Add Memory
+
+**File to edit**: [ImageGenerationChatbot.java](ImageGenerationChatbot.java)
+
+Add memory for conversation refinement.
+
+💡 **Why Memory?**:
+- Users can refine their image requests
+- "Make it more colorful", "Add a sunset", etc.
+- Memory helps maintain context
+
+🫶 **Solutions**:
+- You can use the `java-29` snippet to add memory if you don't know what to do 😉
+
+---
+
+### 📝 Step 5.6: Build Service with Tools
+
+**File to edit**: [ImageGenerationChatbot.java](ImageGenerationChatbot.java)
+
+Add your tool to the AI service.
+
+💡 **Adding Tools**:
+- Use `.tools()` method
+- Pass instance(s) of your tool class(es)
+- AI automatically detects and uses tools
+
+📖 **Documentation**: 
+- [Specifying Tools](https://docs.langchain4j.dev/tutorials/tools#specifying-tools)
+
+🫶 **Solutions**:
+- You can use the `java-30` snippet to add tools to the service if you don't know what to do 😉
+
+---
+
+### 📝 Step 5.7: Create Interaction Loop
+
+**File to edit**: [ImageGenerationChatbot.java](ImageGenerationChatbot.java)
+
+Create a loop to refine image generation.
+
+💡 **Interactive Loop**:
+- User describes desired image
+- AI calls tool with optimized prompts
+- User can refine request
+- Loop continues until satisfied
+
+🫶 **Solutions**:
+- You can use the `java-31` snippet to create the interaction loop if you don't know what to do 😉
+
+---
+
+### 🧪 Step 5.8: Test Your Image Generation Chatbot
+
+Run the chatbot:
+
+```bash
+./run-jbang.sh ImageGenerationChatbot.java
+```
+
+Try:
+```
+Enter your message: a cat on a bicycle
+Prompt: A cute cat riding a vintage bicycle, detailed realistic style, sunny park background, vibrant colors, high detail, sharp focus, cinematic lighting, 4k resolutionNegative prompt: low resolution, blurry, text, watermark, extra limbs, distorted anatomy, unrealistic proportions, cartoonish, oversaturated, grainySDXL status code: 200
+🖼️ Image generated: generated-image.jpeg
+Response: Here is the generated image of a cat riding a bicycle:
+
+![Cat on a bicycle](sandbox:/tmp/generated_image.png)
+```
+
+✅ **Expected**: 
+- The AI analyzes your request
+- Generates optimized prompts for Stable Diffusion
+- Calls the tool to create the image
+- Image file is created
+
+---
+
+## 🔌 Module 6: MCP Client (Bonus!) 🔌
+
+**Goal**: Consume the MCP (Model Context Protocol) server created with Quarkus to use remote tools.
+
+### 🎯 Architecture Overview
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant ImageGenerationMCPChatbot
+    participant AI Service
+    participant MCP Client
+    participant Chat Model
+    participant Quarkus MCP Server
+    participant ImageGen Tool
+    participant SDXL API
+    
+    Note over MCP Client,Quarkus MCP Server: Initialization
+    ImageGenerationMCPChatbot->>MCP Client: initialize()
+    MCP Client->>Quarkus MCP Server: Connect via HTTP/SSE
+    Quarkus MCP Server-->>MCP Client: Available tools list
+    
+    Note over User,SDXL API: Tool Execution
+    User->>ImageGenerationMCPChatbot: "Generate a futuristic city"
+    ImageGenerationMCPChatbot->>AI Service: chat(request)
+    AI Service->>Chat Model: Process with MCP tools metadata
+    Chat Model-->>AI Service: Tool call decision
+    AI Service->>MCP Client: Execute remote tool
+    MCP Client->>Quarkus MCP Server: MCP tool call (generateImage)
+    Quarkus MCP Server->>ImageGen Tool: generateImage(prompts)
+    ImageGen Tool->>SDXL API: HTTP POST
+    SDXL API-->>ImageGen Tool: Image bytes
+    ImageGen Tool-->>Quarkus MCP Server: Result
+    Quarkus MCP Server-->>MCP Client: Tool response
+    MCP Client-->>AI Service: Execution result
+    AI Service-->>User: "Image generated on server!"
+    
+    Note over MCP Client,ImageGen Tool: Remote execution:<br/>centralized logic & security
+```
+
+### 🎯 What is MCP Client?
+
+An MCP client allows:
+- 🌐 Connect to remote MCP servers
+- 🔧 Use tools exposed by the server
+- 🤝 Standardized tool integration
+
+### ⚠️ Prerequisites
+
+Before starting this module:
+1. Complete the [Quarkus workshop Module 4](../java-langchain4j/README.md)
+2. Have the Quarkus MCP server running
+3. Note the MCP server URL (usually `http://localhost:8080/mcp/sse`)
+
+---
+
+### 📝 Step 6.1: Create the Chatbot Interface
+
+**File to edit**: [ImageGenerationMCPChatbot.java](ImageGenerationMCPChatbot.java)
+
+Create the same interface as Module 5.
+
+🫶 **Solutions**:
+- You can use the `java-33` snippet to create the interface if you don't know what to do 😉
+
+---
+
+### 📝 Step 6.2: Configure the Chat Model
+
+**File to edit**: [ImageGenerationMCPChatbot.java](ImageGenerationMCPChatbot.java)
+
+Create the same chat model configuration.
+
+🫶 **Solutions**:
+- You can use the `java-34` snippet to configure the model if you don't know what to do 😉
+
+---
+
+### 📝 Step 6.3: Configure MCP Transport
+
+**File to edit**: [ImageGenerationMCPChatbot.java](ImageGenerationMCPChatbot.java)
+
+Create an HTTP transport to connect to the MCP server.
+
+💡 **MCP Transport**:
+- `StreamableHttpMcpTransport` for HTTP/SSE connection
+- Point to your Quarkus MCP server
+- Enable logging to see MCP communication
+
+📖 **Documentation**: 
+- [LangChain4j MCP Integration](https://docs.langchain4j.dev/tutorials/mcp)
+- [Model Context Protocol](https://modelcontextprotocol.io/)
+
+🫶 **Solutions**:
+- You can use the `java-35` snippet to configure the transport if you don't know what to do 😉
+
+---
+
+### 📝 Step 6.4: Create MCP Client
+
+**File to edit**: [ImageGenerationMCPChatbot.java](ImageGenerationMCPChatbot.java)
+
+Create the MCP client.
+
+💡 **MCP Client**:
+- Manages connection to MCP server
+- Discovers available tools
+- Handles tool execution
+
+🫶 **Solutions**:
+- You can use the `java-36` snippet to create the MCP client if you don't know what to do 😉
+
+---
+
+### 📝 Step 6.5: Create MCP Tool Provider
+
+**File to edit**: [ImageGenerationMCPChatbot.java](ImageGenerationMCPChatbot.java)
+
+Create a tool provider from the MCP client.
+
+💡 **Tool Provider**:
+- Wraps MCP tools for LangChain4j
+- Makes remote tools available to AI Services
+- Handles tool execution via MCP protocol
+
+📖 **Documentation**: 
+- [MCP Tool Provider](https://docs.langchain4j.dev/tutorials/mcp#mcp-tool-provider)
+
+🫶 **Solutions**:
+- You can use the `java-37` snippet to create the tool provider if you don't know what to do 😉
+
+---
+
+### 📝 Step 6.6: Add Memory
+
+**File to edit**: [ImageGenerationChatbot.java](ImageGenerationChatbot.java)
+
+Add memory for conversation refinement.
+
+💡 **Why Memory?**:
+- Users can refine their image requests
+- "Make it more colorful", "Add a sunset", etc.
+- Memory helps maintain context
+
+🫶 **Solutions**:
+- You can use the `java-38` snippet to add memory if you don't know what to do 😉
+
+---
+
+### 📝 Step 6.7: Build Service with MCP Tools
+
+**File to edit**: [ImageGenerationMCPChatbot.java](ImageGenerationMCPChatbot.java)
+
+Add the MCP tool provider to the AI service.
+
+💡 **Remote Tools**:
+- Use `.toolProvider()` instead of `.tools()`
+- Tools are executed on the remote server
+- Same experience as local tools!
+
+🫶 **Solutions**:
+- You can use the `java-39` snippet to add the tool provider if you don't know what to do 😉
+
+---
+
+### 📝 Step 6.8: Create Interaction Loop
+
+**File to edit**: [ImageGenerationMCPChatbot.java](ImageGenerationMCPChatbot.java)
+
+Create the interaction loop (same as Module 5).
+
+🫶 **Solutions**:
+- You can use the `java-40` snippet to create the loop if you don't know what to do 😉
+
+---
+
+### 🧪 Step 6.9: Test Your MCP Client
+
+1. **Start the Quarkus MCP server** (in another terminal):
+   ```bash
+   cd ../java-quarkus
+   ./run-quarkus.sh
+   ```
+
+2. **Run the MCP client**:
+   ```bash
+   ./run-jbang.sh ImageGenerationMCPChatbot.java
+   ```
+
+Try:
+```
+User: Generate an image of a futuristic city
+AI: [Calls remote generateImage tool via MCP]
+🖼️ Image generated on the server!
+```
+
+✅ **Expected**: 
+- Client connects to MCP server
+- Discovers the image generation tool
+- AI uses the remote tool
+- Image is generated on the server
+
+---
+
+## 🎓 Workshop Complete! 🎓
+
+Congratulations! You've built complete AI-powered applications with LangChain4j:
+- ✅ Simple synchronous chatbot
+- ✅ Streaming real-time responses
+- ✅ Conversational memory
+- ✅ RAG with document embeddings
+- ✅ Function calling with image generation
+- ✅ MCP client consuming remote tools
+
+### 🚀 Next Steps
+
+Want to go further? Try:
+- 📊 Add more RAG sources (PDFs, web pages, databases)
+- 🎨 Create additional tools (weather API, search, calculations)
+- 🗄️ Use persistent embedding stores (Qdrant, Pinecone)
+- 🔐 Add authentication and user-specific contexts
+- 🌐 Build a web UI for your chatbots
+
+### 📚 Additional Resources
+
+- [LangChain4j Documentation](https://docs.langchain4j.dev/)
+- [LangChain4j GitHub](https://github.com/langchain4j/langchain4j)
+- [OVHcloud AI Endpoints](https://endpoints.ai.cloud.ovh.net/)
+- [JBang Documentation](https://www.jbang.dev/)
+- [Model Context Protocol](https://modelcontextprotocol.io/)
+- [LangChain4j Examples](https://github.com/langchain4j/langchain4j-examples)
+
+### 💬 Need Help?
+
+- Check the solutions in [solutions/chatbot/java/java-langchain4j](../../../../solutions/chatbot/java/java-langchain4j)
+- Ask the workshop facilitator
+- Consult the documentation links provided throughout
+
+---
+
+**Happy coding! ☕️🤖**
