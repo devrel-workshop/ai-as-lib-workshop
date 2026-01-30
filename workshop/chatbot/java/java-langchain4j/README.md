@@ -167,6 +167,32 @@ Because they don't C#!
 
 **Goal**: Create a chatbot that streams responses in real-time, word by word.
 
+### 🎯 Architecture Overview
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant StreamingChatbot
+    participant AI Service
+    participant OpenAiStreamingChatModel
+    participant AI Endpoints
+    
+    User->>StreamingChatbot: Ask question
+    StreamingChatbot->>AI Service: chat(question) → TokenStream
+    AI Service->>OpenAiStreamingChatModel: Send request
+    OpenAiStreamingChatModel->>AI Endpoints: Stream request
+    AI Endpoints-->>OpenAiStreamingChatModel: Token 1
+    OpenAiStreamingChatModel-->>AI Service: Token 1
+    AI Service-->>User: onNext(Token 1)
+    AI Endpoints-->>OpenAiStreamingChatModel: Token 2
+    OpenAiStreamingChatModel-->>AI Service: Token 2
+    AI Service-->>User: onNext(Token 2)
+    AI Endpoints-->>OpenAiStreamingChatModel: Token N
+    OpenAiStreamingChatModel-->>AI Service: Token N
+    AI Service-->>User: onNext(Token N)
+    AI Service-->>User: onComplete()
+```
+
 ### 🎯 Why Streaming?
 
 Streaming responses provide:
@@ -254,6 +280,24 @@ You should see:
 ## 🧠 Module 3: Memory Chatbot 🧠
 
 **Goal**: Create a chatbot that remembers previous messages in the conversation.
+
+### 🎯 Architecture Overview
+
+```mermaid
+flowchart LR
+    User[User] -->|Question 1| Service[AI Service]
+    Service --> Memory[MessageWindowChatMemory]
+    Memory -->|Context| Model[OpenAiStreamingChatModel]
+    Model -->|Response 1| User
+    User -->|Question 2| Service
+    Service --> Memory
+    Memory -->|Previous messages + Question 2| Model
+    Model -->|Response 2 with context| User
+    
+    style Memory fill:#f9f,stroke:#333,stroke-width:2px
+```
+
+**Key Feature**: `MessageWindowChatMemory` stores the last N messages, ensuring the AI remembers the conversation context.
 
 ### 🎯 Why Memory?
 
@@ -366,6 +410,37 @@ You should see:
 ## 📚 Module 4: RAG Chatbot 📚
 
 **Goal**: Create a chatbot that can answer questions based on your documents using Retrieval Augmented Generation.
+
+### 🎯 Architecture Overview
+
+```mermaid
+flowchart TB
+    subgraph Ingestion["📥 Ingestion Phase"]
+        Doc[Document] --> Loader[Document Loader]
+        Loader --> Splitter[Document Splitter]
+        Splitter --> Segments[Text Segments]
+        Segments --> EmbedModel[Embedding Model]
+        EmbedModel --> Vectors[Vectors]
+        Vectors --> Store[(Embedding Store)]
+    end
+    
+    subgraph Retrieval["🔍 Retrieval Phase"]
+        Query[User Query] --> Retriever[Content Retriever]
+        Store -.->|Semantic Search| Retriever
+        Retriever --> Relevant[Relevant Segments]
+    end
+    
+    subgraph Generation["🤖 Generation Phase"]
+        Relevant --> AIService[AI Service]
+        Query2[User Query] --> AIService
+        AIService --> ChatModel[Chat Model]
+        ChatModel --> Response[Contextualized Response]
+    end
+    
+    style Store fill:#bbf,stroke:#333,stroke-width:2px
+    style Retriever fill:#bfb,stroke:#333,stroke-width:2px
+    style AIService fill:#fbb,stroke:#333,stroke-width:2px
+```
 
 ### 🎯 What is RAG?
 
@@ -540,6 +615,31 @@ You should see answers based on the document content!
 
 **Goal**: Create tools that the AI can call to perform actions - in this case, generating images with Stable Diffusion XL.
 
+### 🎯 Architecture Overview
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Assistant
+    participant AI Service
+    participant Chat Model
+    participant ImageGenTools
+    participant SDXL API
+    
+    User->>Assistant: "Generate a cat wizard"
+    Assistant->>AI Service: chat(request)
+    AI Service->>Chat Model: Process with tools metadata
+    Chat Model-->>AI Service: Tool call decision
+    AI Service->>ImageGenTools: generateImage(prompt, negativePrompt)
+    ImageGenTools->>SDXL API: HTTP POST with prompts
+    SDXL API-->>ImageGenTools: Image bytes
+    ImageGenTools-->>AI Service: File path
+    AI Service-->>Assistant: "Image generated: path"
+    Assistant-->>User: Display result
+    
+    Note over Chat Model,ImageGenTools: AI decides autonomously<br/>when to call the tool
+```
+
 ### 🎯 What is Function Calling?
 
 Function calling (Tools) allows AI to:
@@ -706,6 +806,35 @@ AI: [Calls generateImage again with refined prompts]
 ## 🔌 Module 6: MCP Client (Bonus!) 🔌
 
 **Goal**: Consume the MCP (Model Context Protocol) server created with Quarkus to use remote tools.
+
+### 🎯 Architecture Overview
+
+```mermaid
+flowchart LR
+    subgraph Client["LangChain4j Client"]
+        User[User] --> Assistant[AI Assistant]
+        Assistant --> AIService[AI Service]
+        AIService --> MCPClient[MCP Client]
+        MCPClient --> Transport[HTTP/SSE Transport]
+    end
+    
+    subgraph Protocol["MCP Protocol"]
+        Transport <-->|SSE Stream| ServerTransport[Server Transport]
+    end
+    
+    subgraph Server["Quarkus MCP Server"]
+        ServerTransport --> MCPServer[MCP Server]
+        MCPServer --> Tools[Tool Registry]
+        Tools --> ImageTool[ImageGen Tool]
+        ImageTool --> SDXL[SDXL API]
+    end
+    
+    style MCPClient fill:#bbf,stroke:#333,stroke-width:2px
+    style Protocol fill:#ffa,stroke:#333,stroke-width:2px
+    style MCPServer fill:#bfb,stroke:#333,stroke-width:2px
+```
+
+**Key Benefit**: Tools are executed remotely on the server, enabling centralized logic, security, and resource management.
 
 ### 🎯 What is MCP Client?
 
