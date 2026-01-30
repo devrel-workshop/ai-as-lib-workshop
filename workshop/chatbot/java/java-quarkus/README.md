@@ -116,7 +116,7 @@ Configure the connection to OVHcloud AI Endpoints with Mistral model.
 - [LangChain4j Mistral AI Integration](https://docs.langchain4j.dev/integrations/language-models/mistral-ai)
 
 🫶 **Solutions**:
-- you use the `quarkus-01` snippet to fill the file if you don't know what to do 😉
+- You can use the `quarkus-01` snippet to fill the file if you don't know what to do 😉
 
 ---
 
@@ -136,7 +136,7 @@ Create an AI Service that will handle the communication with the LLM:
 - [LangChain4j AI Services](https://docs.langchain4j.dev/tutorials/ai-services)
 
 🫶 **Solutions**:
-- you use the `quarkus-02` and `quarkus-03` snippets to fill the file if you don't know what to do 😉
+- You can use the `quarkus-02` and `quarkus-03` snippets to fill the file if you don't know what to do 😉
 
 ---
 
@@ -146,23 +146,6 @@ Create an AI Service that will handle the communication with the LLM:
 
 Create a REST endpoint that exposes the chatbot:
 
-```java
-// TODO: quarkus-04
-// Add @Path("/chatbot") annotation to define the base path
-
-public class SimpleResource {
-
-  // TODO: quarkus-05
-  // Inject AISimpleService using @Inject annotation
-  
-  // TODO: quarkus-06
-  // Create a POST method with @Path("simple") that:
-  // - Takes a String question as parameter
-  // - Calls aiEndpointService.askAQuestion(question)
-  // - Returns the String response
-}
-```
-
 💡 **REST Endpoint**: `POST http://localhost:8080/chatbot/simple`
 
 📖 **Documentation**: 
@@ -170,7 +153,7 @@ public class SimpleResource {
 - [Jakarta REST Annotations](https://jakarta.ee/specifications/restful-ws/3.1/jakarta-restful-ws-spec-3.1.html)
 
 🫶 **Solutions**:
-- you use the `quarkus-04`, `quarkus-05` and `quarkus-06` snippets to fill the file if you don't know what to do 😉
+- You can use the `quarkus-04`, `quarkus-05` and `quarkus-06` snippets to fill the file if you don't know what to do 😉
 
 ---
 
@@ -180,6 +163,19 @@ Run the test script:
 
 ```bash
 ./curl-simple-chatbot.sh
+```
+You should see:
+```bash
+💬: Can you tell me what OVHcloud is and what kind of products it offers?
+🤖: 
+**Hello! I’m Nestor, your virtual assistant.**  
+Below is a concise overview of **OVHcloud** and the range of products and services it provides.
+
+---
+
+## What is OVHcloud?
+
+OVHcloud is a **global cloud computing provider** founded in France in 1999. It operates one of the world’s largest networks of data centers, with facilities across Europe, North America, Asia‑Pacific, and Africa. The company focuses on delivering **high‑performance, secure, and cost‑effective infrastructure** for businesses of all sizes—from startups to large enterprises.
 ```
 
 Or manually:
@@ -209,27 +205,16 @@ Streaming responses provide:
 
 **File to edit**: [src/main/java/com/ovhcloud/ai/quarkus/chatbot/service/AIAdvancedService.java](src/main/java/com/ovhcloud/ai/quarkus/chatbot/service/AIAdvancedService.java)
 
-Create a service similar to `AISimpleService`, but with streaming support:
-
-```java
-// TODO: quarkus-07
-// Add @RegisterAiService annotation
-
-public interface AIAdvancedService {
-  
-  // TODO: quarkus-08
-  // Add same @SystemMessage and @UserMessage as before
-  // BUT: Change return type from String to Multi<String> for streaming!
-  
-  Multi<String> askAQuestion(String question);
-}
-```
+Create a service similar to `AISimpleService`, but with streaming support.
 
 💡 **Key Change**: `Multi<String>` instead of `String` enables reactive streaming!
 
 📖 **Documentation**: 
 - [Quarkus Reactive Programming](https://quarkus.io/guides/getting-started-reactive)
-- [SmallRye Mutiny - Multi](https://smallrye.io/smallrye-mutiny/latest/reference/multi/)
+- [SmallRye Mutiny - Multi](https://smallrye.io/smallrye-mutiny/latest/)
+
+🫶 **Solutions**:
+- You can use the `quarkus-07` and `quarkus-08` snippets to fill the file if you don't know what to do 😉
 
 ---
 
@@ -237,29 +222,15 @@ public interface AIAdvancedService {
 
 **File to edit**: [src/main/java/com/ovhcloud/ai/quarkus/chatbot/AdvancedResource.java](src/main/java/com/ovhcloud/ai/quarkus/chatbot/AdvancedResource.java)
 
-Create a streaming endpoint:
-
-```java
-// TODO: quarkus-09
-// Add @Path("/chatbot") annotation
-
-public class AdvancedResource {
-  
-  // TODO: quarkus-10
-  // Inject AIAdvancedService
-  
-  // TODO: quarkus-11
-  // Create a POST method with @Path("advanced") that:
-  // - Takes a String question
-  // - Returns Multi<String> (streaming response)
-  // - Calls advancedService.askAQuestion(question)
-}
-```
+Create a streaming endpoint
 
 💡 **Magic**: Quarkus automatically handles the streaming when you return `Multi<String>`!
 
 📖 **Documentation**: 
-- [Quarkus REST Streaming](https://quarkus.io/guides/rest#streaming)
+- [Quarkus REST Streaming](https://quarkus.io/guides/rest#streaming-support)
+
+🫶 **Solutions**:
+- You can use the `quarkus-09`, `quarkus-10` and `quarkus-11` snippets to fill the file if you don't know what to do 😉
 
 ---
 
@@ -269,6 +240,18 @@ Run the test script:
 
 ```bash
 ./curl-streaming-chatbot.sh
+```
+You should see:
+```bash
+: Can you tell me what OVHcloud is and what kind of products it offers?
+🤖: 
+Absolutely! I’d be happy to give you a quick rundown of OVHcloud and the range of products it offers.
+
+---
+
+## What is OVHcloud?
+
+OVHcloud is a global cloud computing provider headquartered in France. Founded in 1999, it has grown into one of the largest European hosting and cloud companies, operating more than 30 data centers across 7 continents. OVHcloud’s mission is to make the cloud accessible, secure, and affordable for businesses of all sizes—from startups to large enterprises.
 ```
 
 Or manually:
@@ -298,32 +281,18 @@ Memory allows:
 
 **File to edit**: [src/main/java/com/ovhcloud/ai/quarkus/chatbot/service/AIMemoryService.java](src/main/java/com/ovhcloud/ai/quarkus/chatbot/service/AIMemoryService.java)
 
-Create a service with memory support:
-
-```java
-// TODO: quarkus-12
-// Add @ApplicationScoped annotation (memory needs to persist across requests!)
-// Add @RegisterAiService annotation
-
-public interface AIMemoryService {
-  
-  // TODO: quarkus-13
-  // Add @SystemMessage and @UserMessage annotations (same as before)
-  // Return type: Multi<String> (streaming + memory!)
-  // Add a second parameter: @MemoryId String memoryId
-  // This identifies which conversation/user to remember
-  
-  Multi<String> askAQuestion(String question, @MemoryId String memoryId);
-}
-```
+Create a service with memory support.
 
 💡 **Key Concepts**:
 - `@ApplicationScoped`: Bean lives for the application lifetime
 - `@MemoryId`: Associates conversations with specific users/sessions
 
 📖 **Documentation**: 
-- [Quarkus LangChain4j Memory](https://docs.quarkiverse.io/quarkus-langchain4j/dev/ai-services.html#memory)
-- [LangChain4j Chat Memory](https://docs.langchain4j.dev/tutorials/chat-memory)
+- [Quarkus LangChain4j Memory](https://docs.quarkiverse.io/quarkus-langchain4j/dev/messages-and-memory.html)
+- [LangChain4j Chat Memory](https://docs.langchain4j.dev/tutorials/chat-memory/)
+
+🫶 **Solutions**:
+- You can use the `quarkus-12` and `quarkus-13` snippets to fill the file if you don't know what to do 😉
 
 ---
 
@@ -331,27 +300,12 @@ public interface AIMemoryService {
 
 **File to edit**: [src/main/java/com/ovhcloud/ai/quarkus/chatbot/MemoryResource.java](src/main/java/com/ovhcloud/ai/quarkus/chatbot/MemoryResource.java)
 
-Create an endpoint with memory:
-
-```java
-// TODO: quarkus-14
-// Add @Path("/chatbot") annotation
-
-public class MemoryResource {
-  
-  // TODO: quarkus-15
-  // Inject AIMemoryService
-  
-  // TODO: quarkus-16
-  // Create a POST method with @Path("memory") that:
-  // - Takes a String question
-  // - Returns Multi<String>
-  // - Calls aiMemoryService.askAQuestion(question, "user-one")
-  // Note: "user-one" is the memory ID - in production, use actual user IDs!
-}
-```
+Create an endpoint with memory.
 
 💡 **Production Tip**: Replace `"user-one"` with actual user identifiers from authentication!
+
+🫶 **Solutions**:
+- You can use the `quarkus-14`, `quarkus-15` and `quarkus-16` snippets to fill the file if you don't know what to do 😉
 
 ---
 
@@ -360,15 +314,21 @@ public class MemoryResource {
 Run the test script multiple times to see memory in action:
 
 ```bash
-# First message
 ./curl-memory-chatbot.sh
-# Input: "My name is Alice"
-# Expected: "Nice to meet you, Alice!"
+```
+You should see:
+```bash
+💬: My name is Stéphane
+🤖: 
+Hello Stéphane! 👋  
+It’s great to meet you. How can I assist you today?
 
-# Second message (run again with different input)
-./curl-memory-chatbot.sh
-# Input: "What is my name?"
-# Expected: "Your name is Alice"
+Press any key to continue
+
+💬: Do you remember my name?
+🤖: 
+Hello Stéphane! 👋  
+Yes, I remember your name—nice to see you again. How can I assist you today?
 ```
 
 Or manually:
@@ -389,7 +349,7 @@ curl -X POST http://localhost:8080/chatbot/memory \
 
 ---
 
-## 🎨 Module 4: MCP Server with Image Generation 🎨
+## 🎉 Bonus!!! Module 4: MCP Server with Image Generation 🎨
 
 **Goal**: Create a Model Context Protocol (MCP) server that exposes image generation tools using Stable Diffusion XL.
 
@@ -400,24 +360,26 @@ The Model Context Protocol allows AI models to:
 - 🌐 Access real-time data
 - 🤝 Interact with services
 
+<a href="../../../../assets/mcp-explained.png">
+  <img src="../../../../assets/mcp-explained.png" width="50%">
+</a>
+
 In this module, you'll expose an image generation tool via MCP that can be called by AI agents!
 
 ### 📝 Step 4.1: Add MCP Extension
 
 **File to edit**: [pom.xml](pom.xml)
 
-```xml
-<!-- TODO: quarkus-17 -->
-<!-- Add the Quarkus MCP Server HTTP extension -->
-<!-- Dependency: io.quarkiverse.mcp:quarkus-mcp-server-http -->
-<!-- Version: 1.8.0 -->
-```
-
-💡 **Hint**: Add this in the `<dependencies>` section.
+💡 **Hint**: 
+- Add this in the `<dependencies>` section.
+- You can use also the `quarkus` CLI `quarkus ext add io.quarkiverse.mcp:quarkus-mcp-server-http`
 
 📖 **Documentation**: 
 - [Quarkus MCP Server Guide](https://docs.quarkiverse.io/quarkus-mcp-server/dev/)
 - [Model Context Protocol Specification](https://modelcontextprotocol.io/)
+
+🫶 **Solutions**:
+- You can use the `quarkus-17` snippet to fill the file if you don't know what to do 😉
 
 ---
 
@@ -425,16 +387,12 @@ In this module, you'll expose an image generation tool via MCP that can be calle
 
 **File to edit**: [src/main/resources/application.properties](src/main/resources/application.properties)
 
-```properties
-# TODO: quarkus-18
-# Add REST client configuration for Stable Diffusion service
-# Property: quarkus.rest-client."com.ovhcloud.ai.quarkus.chatbot.service.StableDiffusionService".url
-# Value: ${OVH_AI_ENDPOINTS_SD_URL}
-```
-
 📖 **Documentation**: 
 - [Quarkus REST Client](https://quarkus.io/guides/rest-client)
-- [OVH AI Endpoints - Stable Diffusion XL](https://endpoints.ai.cloud.ovh.net/models/stable-diffusion-xl)
+- [OVH AI Endpoints - Stable Diffusion XL](https://www.ovhcloud.com/en/public-cloud/ai-endpoints/catalog/stable-diffusion-xl/)
+
+🫶 **Solutions**:
+- You can use the `quarkus-18` snippet to fill the file if you don't know what to do 😉
 
 ---
 
@@ -442,23 +400,7 @@ In this module, you'll expose an image generation tool via MCP that can be calle
 
 **File to edit**: [src/main/java/com/ovhcloud/ai/quarkus/chatbot/service/StableDiffusionService.java](src/main/java/com/ovhcloud/ai/quarkus/chatbot/service/StableDiffusionService.java)
 
-Create a REST client to call the Stable Diffusion XL API:
-
-```java
-// TODO: quarkus-19
-// Add @RegisterRestClient annotation
-// Add @ClientHeaderParam for Content-Type: application/json
-
-public interface StableDiffusionService {
-    
-    // TODO: quarkus-20
-    // Create a @POST method that:
-    // - Takes SDPayload as parameter
-    // - Returns byte[] (the image data)
-    // - Add @ClientHeaderParam for Authorization with Bearer token
-    //   (use: value = "Bearer ${quarkus.langchain4j.mistralai.api-key}")
-}
-```
+Create a REST client to call the Stable Diffusion XL API.
 
 💡 **Note**: The payload structure is already defined in [SDPayload.java](src/main/java/com/ovhcloud/ai/quarkus/chatbot/repository/SDPayload.java)
 
@@ -466,35 +408,16 @@ public interface StableDiffusionService {
 - [Quarkus REST Client](https://quarkus.io/guides/rest-client)
 - [MicroProfile REST Client](https://download.eclipse.org/microprofile/microprofile-rest-client-3.0/microprofile-rest-client-spec-3.0.html)
 
+🫶 **Solutions**:
+- You can use the `quarkus-19` and `quarkus-20` snippets to fill the file if you don't know what to do 😉
+
 ---
 
 ### 📝 Step 4.4: Create the Image Generation Tool
 
 **File to edit**: [src/main/java/com/ovhcloud/ai/quarkus/chatbot/service/ImageGenToolsService.java](src/main/java/com/ovhcloud/ai/quarkus/chatbot/service/ImageGenToolsService.java)
 
-Create a tool that can be called by AI agents:
-
-```java
-public class ImageGenToolsService {
-    
-    // TODO: quarkus-21
-    // Inject StableDiffusionService using @RestClient annotation
-    
-    // TODO: quarkus-22
-    // Create a method generateImage with:
-    // - @Tool annotation with description: "Tool to create an image with Stable Diffusion XL given a prompt and a negative prompt."
-    // - Parameters:
-    //   - @P("Prompt that explains the image") String prompt
-    //   - @P("Negative prompt that explains what the image must not contains") String negativePrompt
-    // - Return type: String
-    
-    // TODO: quarkus-23
-    // Inside the method:
-    // 1. Call stableDiffusionService.generateImage(new SDPayload(prompt, negativePrompt))
-    // 2. Save the byte[] result to a file: Files.write(Path.of("generated-image.jpeg"), image)
-    // 3. Return "Image generated"
-}
-```
+Create a tool that can be called by AI agents.
 
 💡 **Key Concepts**:
 - `@Tool`: Exposes this method as a callable tool via MCP
@@ -502,8 +425,11 @@ public class ImageGenToolsService {
 - The tool will be automatically discovered by MCP clients!
 
 📖 **Documentation**: 
-- [Quarkus MCP Server Tools](https://docs.quarkiverse.io/quarkus-mcp-server/dev/tools.html)
+- [Quarkus LangChain4J Tools](https://docs.quarkiverse.io/quarkus-langchain4j/dev/quickstart-function-calling.html)
 - [LangChain4j Tools](https://docs.langchain4j.dev/tutorials/tools)
+
+🫶 **Solutions**:
+- You can use the `quarkus-21`, `quarkus-22` and `quarkus-23` snippets to fill the file if you don't know what to do 😉
 
 ---
 
@@ -514,15 +440,16 @@ public class ImageGenToolsService {
    ./run-quarkus.sh
    ```
 
-2. **Test the MCP endpoint** (the MCP server is automatically exposed):
-   ```bash
-   curl http://localhost:8080/mcp
-   ```
-
+2. **Test the MCP** (the MCP server is automatically exposed):
+    - go to the [Dev UI](https://quarkus.io/guides/dev-ui) in the section `Extensions` and check the available tools in the `MCP Server - HTTP/SSE section`   
+    **⚠️ Dev UI is not available if your are using Coder 😢 ⚠️**
 3. **Connect an MCP client** to use the tool:
    
    In the [java-langchain4j](../java-langchain4j) folder, there's an `ImageGenerationMCPChatbot.java` that can connect to your MCP server!
-   
+
+   See Module 6 in the [Java LangChain4J module](../java-langchain4j/README.md).
+
+
    ```bash
    cd ../java-langchain4j
    ./run-jbang.sh ImageGenerationMCPChatbot
