@@ -446,7 +446,10 @@ Create a tool that can be called by AI agents.
 3. **Connect an MCP client** to use the tool:
    
    In the [java-langchain4j](../java-langchain4j) folder, there's an `ImageGenerationMCPChatbot.java` that can connect to your MCP server!
-   
+
+   See Module 6 in the [Java LangChain4J module](../java-langchain4j/README.md).
+
+
    ```bash
    cd ../java-langchain4j
    ./run-jbang.sh ImageGenerationMCPChatbot

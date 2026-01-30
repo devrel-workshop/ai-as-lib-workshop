@@ -58,14 +58,22 @@ For example:
 
 ### 🎯 Architecture Overview
 
-```
-SimpleChatbot.java
-    ↓
-AI Service Interface (Assistant)
-    ↓
-OpenAiChatModel (LangChain4j)
-    ↓
-OVHcloud AI Endpoints (Mistral Model)
+```mermaid
+sequenceDiagram
+    participant User
+    participant SimpleChatbot
+    participant Assistant
+    participant AIChatModel
+    participant AI Endpoints
+    
+    User->>SimpleChatbot: Ask question
+    SimpleChatbot->>Assistant: chat(question)
+    Assistant->>AIChatModel: Send request
+    AIChatModel->>AI Endpoints: HTTP POST 
+    AI Endpoints-->>AIChatModel: Complete response
+    AIChatModel-->>Assistant: String response
+    Assistant-->>SimpleChatbot: Answer
+    SimpleChatbot-->>User: Display answer
 ```
 
 ### 📝 Step 1.1: Create the AI Service Interface
@@ -81,7 +89,7 @@ Define an interface that represents your AI assistant.
 
 📖 **Documentation**: 
 - [LangChain4j AI Services](https://docs.langchain4j.dev/tutorials/ai-services)
-- [System Messages](https://docs.langchain4j.dev/tutorials/messages#system-message)
+- [System Messages](https://docs.langchain4j.dev/tutorials/ai-services#systemmessage)
 
 🫶 **Solutions**:
 - You can use the `java-02` snippet to fill the interface if you don't know what to do 😉
@@ -95,7 +103,7 @@ Define an interface that represents your AI assistant.
 Configure the OpenAI-compatible chat model to connect to OVHcloud AI Endpoints.
 
 💡 **Configuration Tips**:
-- Use `OpenAiChatModel.builder()` for configuration
+- Use `AIChatModel.builder()` for configuration
 - The `baseUrl` should point to OVHcloud AI Endpoints
 - Set `temperature` to 0.0 for deterministic responses
 - Use `maxTokens` to limit response length (512 is good for testing)
@@ -148,7 +156,7 @@ Call your assistant to test the chatbot.
 Run the chatbot:
 
 ```bash
-./run-jbang.sh SimpleChatbot
+./run-jbang.sh SimpleChatbot.java
 ```
 
 You should see:
@@ -174,21 +182,21 @@ sequenceDiagram
     participant User
     participant StreamingChatbot
     participant AI Service
-    participant OpenAiStreamingChatModel
+    participant StreamingChatModel
     participant AI Endpoints
     
     User->>StreamingChatbot: Ask question
     StreamingChatbot->>AI Service: chat(question) → TokenStream
-    AI Service->>OpenAiStreamingChatModel: Send request
-    OpenAiStreamingChatModel->>AI Endpoints: Stream request
-    AI Endpoints-->>OpenAiStreamingChatModel: Token 1
-    OpenAiStreamingChatModel-->>AI Service: Token 1
+    AI Service->>StreamingChatModel: Send request
+    StreamingChatModel->>AI Endpoints: Stream request
+    AI Endpoints-->>StreamingChatModel: Token 1
+    StreamingChatModel-->>AI Service: Token 1
     AI Service-->>User: onNext(Token 1)
-    AI Endpoints-->>OpenAiStreamingChatModel: Token 2
-    OpenAiStreamingChatModel-->>AI Service: Token 2
+    AI Endpoints-->>StreamingChatModel: Token 2
+    StreamingChatModel-->>AI Service: Token 2
     AI Service-->>User: onNext(Token 2)
-    AI Endpoints-->>OpenAiStreamingChatModel: Token N
-    OpenAiStreamingChatModel-->>AI Service: Token N
+    AI Endpoints-->>StreamingChatModel: Token N
+    StreamingChatModel-->>AI Service: Token N
     AI Service-->>User: onNext(Token N)
     AI Service-->>User: onComplete()
 ```
@@ -223,10 +231,10 @@ Define an interface that returns a `TokenStream`.
 
 **File to edit**: [StreamingChatbot.java](StreamingChatbot.java)
 
-Use `OpenAiStreamingChatModel` instead of `OpenAiChatModel`.
+Use `StreamingChatModel` instead of `AIChatModel`.
 
 💡 **Streaming Model**:
-- `OpenAiStreamingChatModel` supports token streaming
+- `StreamingChatModel` supports token streaming
 - Configuration is similar to the non-streaming version
 - All other settings remain the same
 
@@ -263,7 +271,7 @@ Build the service and handle the token stream.
 Run the streaming chatbot:
 
 ```bash
-./run-jbang.sh StreamingChatbot
+./run-jbang.sh StreamingChatbot.java
 ```
 
 You should see:
@@ -284,20 +292,37 @@ You should see:
 ### 🎯 Architecture Overview
 
 ```mermaid
-flowchart LR
-    User[User] -->|Question 1| Service[AI Service]
-    Service --> Memory[MessageWindowChatMemory]
-    Memory -->|Context| Model[OpenAiStreamingChatModel]
-    Model -->|Response 1| User
-    User -->|Question 2| Service
-    Service --> Memory
-    Memory -->|Previous messages + Question 2| Model
-    Model -->|Response 2 with context| User
+sequenceDiagram
+    participant User
+    participant MemoryChatbot
+    participant AI Service
+    participant Memory
+    participant StreamingChatModel
+    participant AI Endpoints
     
-    style Memory fill:#f9f,stroke:#333,stroke-width:2px
+    User->>MemoryChatbot: Question 1: "My name is Alice"
+    MemoryChatbot->>AI Service: chat(question1)
+    AI Service->>Memory: Store user message
+    AI Service->>StreamingChatModel: Send with empty context
+    StreamingChatModel->>AI Endpoints: Request
+    AI Endpoints-->>StreamingChatModel: Response 1
+    StreamingChatModel-->>AI Service: Stream tokens
+    AI Service->>Memory: Store assistant response
+    AI Service-->>User: "Nice to meet you, Alice!"
+    
+    User->>MemoryChatbot: Question 2: "What is my name?"
+    MemoryChatbot->>AI Service: chat(question2)
+    AI Service->>Memory: Retrieve previous messages
+    Memory-->>AI Service: [Q1, A1, Q2]
+    AI Service->>StreamingChatModel: Send with context
+    StreamingChatModel->>AI Endpoints: Request with history
+    AI Endpoints-->>StreamingChatModel: Response 2
+    StreamingChatModel-->>AI Service: Stream tokens
+    AI Service->>Memory: Store new exchange
+    AI Service-->>User: "Your name is Alice!"
+    
+    Note over Memory: MessageWindowChatMemory<br/>keeps last N messages
 ```
-
-**Key Feature**: `MessageWindowChatMemory` stores the last N messages, ensuring the AI remembers the conversation context.
 
 ### 🎯 Why Memory?
 
@@ -380,7 +405,7 @@ Ask multiple questions to test memory.
 - The AI should recall information from the first question
 
 🫶 **Solutions**:
-- You can use the `java-14` and `java-15` snippets to test the memory if you don't know what to do 😉
+- You can use the `java-14` snippet to test the memory if you don't know what to do 😉
 
 ---
 
@@ -389,18 +414,18 @@ Ask multiple questions to test memory.
 Run the memory chatbot:
 
 ```bash
-./run-jbang.sh MemoryChatbot
+./run-jbang.sh MemoryChatbot.java
 ```
 
 You should see:
 ```bash
-💬: Question 1: My name is Alice
+💬: Question 1: My name is Stéphane.
 
-🤖: Nice to meet you, Alice!
+🤖: Nice to meet you, Stéphane!
 
 💬: Question 2: What is my name?
 
-🤖: Your name is Alice, as you mentioned earlier!
+🤖: Your name is Stéphane, as you mentioned earlier!
 ```
 
 ✅ **Expected**: The AI remembers information from previous messages!
@@ -414,32 +439,34 @@ You should see:
 ### 🎯 Architecture Overview
 
 ```mermaid
-flowchart TB
-    subgraph Ingestion["📥 Ingestion Phase"]
-        Doc[Document] --> Loader[Document Loader]
-        Loader --> Splitter[Document Splitter]
-        Splitter --> Segments[Text Segments]
-        Segments --> EmbedModel[Embedding Model]
-        EmbedModel --> Vectors[Vectors]
-        Vectors --> Store[(Embedding Store)]
-    end
+sequenceDiagram
+    participant User
+    participant RAGChatbot
+    participant AI Service
+    participant Content Retriever
+    participant Embedding Store
+    participant StreamingChatModel
+    participant AI Endpoints
     
-    subgraph Retrieval["🔍 Retrieval Phase"]
-        Query[User Query] --> Retriever[Content Retriever]
-        Store -.->|Semantic Search| Retriever
-        Retriever --> Relevant[Relevant Segments]
-    end
+    Note over RAGChatbot,Embedding Store: 📥 Ingestion Phase (Setup)
+    RAGChatbot->>RAGChatbot: Load document
+    RAGChatbot->>RAGChatbot: Split into segments
+    RAGChatbot->>Embedding Store: Index segments with embeddings
     
-    subgraph Generation["🤖 Generation Phase"]
-        Relevant --> AIService[AI Service]
-        Query2[User Query] --> AIService
-        AIService --> ChatModel[Chat Model]
-        ChatModel --> Response[Contextualized Response]
-    end
+    Note over User,AI Endpoints: 🔍 Retrieval & Generation Phase (Runtime)
+    User->>RAGChatbot: "What is the conference about?"
+    RAGChatbot->>AI Service: chat(question)
+    AI Service->>Content Retriever: Find relevant context
+    Content Retriever->>Embedding Store: Semantic search
+    Embedding Store-->>Content Retriever: Top 3 relevant segments
+    Content Retriever-->>AI Service: Relevant context
+    AI Service->>StreamingChatModel: question + context
+    StreamingChatModel->>AI Endpoints: Request
+    AI Endpoints-->>StreamingChatModel: Response tokens
+    StreamingChatModel-->>AI Service: Stream
+    AI Service-->>User: Answer based on documents
     
-    style Store fill:#bbf,stroke:#333,stroke-width:2px
-    style Retriever fill:#bfb,stroke:#333,stroke-width:2px
-    style AIService fill:#fbb,stroke:#333,stroke-width:2px
+    Note over AI Service,AI Endpoints: Context from documents<br/>reduces hallucinations
 ```
 
 ### 🎯 What is RAG?
@@ -496,7 +523,7 @@ Load your document and split it into chunks.
 
 📖 **Documentation**: 
 - [RAG Tutorial](https://docs.langchain4j.dev/tutorials/rag)
-- [Document Splitters](https://docs.langchain4j.dev/tutorials/rag#document-splitters)
+- [Document Splitters](https://docs.langchain4j.dev/tutorials/rag/#document-splitter)
 
 🫶 **Solutions**:
 - You can use the `java-19` snippet to load and split documents if you don't know what to do 😉
@@ -516,8 +543,8 @@ Create a model to convert text into vectors (embeddings).
 - OVHcloud provides embedding models via AI Endpoints
 
 📖 **Documentation**: 
-- [Embedding Models](https://docs.langchain4j.dev/integrations/embedding-models)
-- [OVH AI Embedding Model](https://docs.langchain4j.dev/integrations/embedding-models/ovh-ai)
+- [Embedding Models](https://docs.langchain4j.dev/category/embedding-models)
+- [OVH AI Embedding Model](https://www.ovhcloud.com/en/public-cloud/ai-endpoints/catalog/bge-m3/)
 
 🫶 **Solutions**:
 - You can use the `java-20` snippet to create the embedding model if you don't know what to do 😉
@@ -533,22 +560,6 @@ Store embeddings in memory and index your document segments.
 💡 **Embedding Store**:
 - Stores vectors for semantic search
 - `InMemoryEmbeddingStore` is simple for testing
-- Production apps use persistent stores (Qdrant, Pinecone, etc.)
-
-📖 **Documentation**: 
-- [Embedding Stores](https://docs.langchain4j.dev/integrations/embedding-stores)
-- [Ingestion Process](https://docs.langchain4j.dev/tutorials/rag#ingestion)
-
-🫶 **Solutions**:
-- You can use the `java-21` and `java-22` snippets to create and populate the store if you don't know what to do 😉
-
----
-
-### 📝 Step 4.7: Create Content Retriever
-
-**File to edit**: [RAGChatbot.java](RAGChatbot.java)
-
-Create a retriever that finds relevant document chunks.
 
 💡 **Content Retriever**:
 - Finds relevant documents based on query
@@ -556,10 +567,12 @@ Create a retriever that finds relevant document chunks.
 - Returns top N most relevant chunks
 
 📖 **Documentation**: 
+- [Embedding Stores](https://docs.langchain4j.dev/integrations/embedding-stores)
+- [Ingestion Process](https://docs.langchain4j.dev/tutorials/rag/#embedding)
 - [Content Retrievers](https://docs.langchain4j.dev/tutorials/rag#retrieval)
 
 🫶 **Solutions**:
-- You can use the `java-23` snippet to create the content retriever if you don't know what to do 😉
+- You can use the `java-21` snippet to create and populate the store if you don't know what to do 😉
 
 ---
 
@@ -575,7 +588,7 @@ Add the content retriever to your AI service.
 - Context is added to each prompt
 
 🫶 **Solutions**:
-- You can use the `java-24` snippet to build the service with RAG if you don't know what to do 😉
+- You can use the `java-22` snippet to build the service with RAG if you don't know what to do 😉
 
 ---
 
@@ -591,7 +604,7 @@ Ask questions that can only be answered using your documents.
 - Without RAG, the AI wouldn't know these details
 
 🫶 **Solutions**:
-- You can use the `java-25` and `java-26` snippets to test RAG if you don't know what to do 😉
+- You can use the `java-23` snippet to test RAG if you don't know what to do 😉
 
 ---
 
@@ -600,7 +613,7 @@ Ask questions that can only be answered using your documents.
 Run the RAG chatbot:
 
 ```bash
-./run-jbang.sh RAGChatbot
+./run-jbang.sh RAGChatbot.java
 ```
 
 The document in [resources/rag-files/conference-information-talk-01.md](resources/rag-files/conference-information-talk-01.md) contains specific information about a conference.
@@ -701,7 +714,7 @@ Create an interface with detailed system message.
 - Guide the AI on parameter format
 
 📖 **Documentation**: 
-- [Tools with AI Services](https://docs.langchain4j.dev/tutorials/tools#using-tools-with-ai-services)
+- [Tools with AI Services](https://docs.langchain4j.dev/tutorials/ai-services#tools-function-calling)
 
 🫶 **Solutions**:
 - You can use the `java-27` snippet to create the chatbot interface if you don't know what to do 😉
@@ -772,7 +785,7 @@ Create a loop to refine image generation.
 - Loop continues until satisfied
 
 🫶 **Solutions**:
-- You can use the `java-31` and `java-32` snippets to create the interaction loop if you don't know what to do 😉
+- You can use the `java-31` snippet to create the interaction loop if you don't know what to do 😉
 
 ---
 
@@ -781,18 +794,17 @@ Create a loop to refine image generation.
 Run the chatbot:
 
 ```bash
-./run-jbang.sh ImageGenerationChatbot
+./run-jbang.sh ImageGenerationChatbot.java
 ```
 
 Try:
 ```
-User: Generate an image of a cat wearing a wizard hat
-AI: [Calls generateImage tool with optimized prompts]
+Enter your message: a cat on a bicycle
+Prompt: A cute cat riding a vintage bicycle, detailed realistic style, sunny park background, vibrant colors, high detail, sharp focus, cinematic lighting, 4k resolutionNegative prompt: low resolution, blurry, text, watermark, extra limbs, distorted anatomy, unrealistic proportions, cartoonish, oversaturated, grainySDXL status code: 200
 🖼️ Image generated: generated-image.jpeg
+Response: Here is the generated image of a cat riding a bicycle:
 
-User: Make it more magical
-AI: [Calls generateImage again with refined prompts]
-🖼️ Image generated: generated-image.jpeg
+![Cat on a bicycle](sandbox:/tmp/generated_image.png)
 ```
 
 ✅ **Expected**: 
@@ -810,31 +822,38 @@ AI: [Calls generateImage again with refined prompts]
 ### 🎯 Architecture Overview
 
 ```mermaid
-flowchart LR
-    subgraph Client["LangChain4j Client"]
-        User[User] --> Assistant[AI Assistant]
-        Assistant --> AIService[AI Service]
-        AIService --> MCPClient[MCP Client]
-        MCPClient --> Transport[HTTP/SSE Transport]
-    end
+sequenceDiagram
+    participant User
+    participant ImageGenerationMCPChatbot
+    participant AI Service
+    participant MCP Client
+    participant Chat Model
+    participant Quarkus MCP Server
+    participant ImageGen Tool
+    participant SDXL API
     
-    subgraph Protocol["MCP Protocol"]
-        Transport <-->|SSE Stream| ServerTransport[Server Transport]
-    end
+    Note over MCP Client,Quarkus MCP Server: Initialization
+    ImageGenerationMCPChatbot->>MCP Client: initialize()
+    MCP Client->>Quarkus MCP Server: Connect via HTTP/SSE
+    Quarkus MCP Server-->>MCP Client: Available tools list
     
-    subgraph Server["Quarkus MCP Server"]
-        ServerTransport --> MCPServer[MCP Server]
-        MCPServer --> Tools[Tool Registry]
-        Tools --> ImageTool[ImageGen Tool]
-        ImageTool --> SDXL[SDXL API]
-    end
+    Note over User,SDXL API: Tool Execution
+    User->>ImageGenerationMCPChatbot: "Generate a futuristic city"
+    ImageGenerationMCPChatbot->>AI Service: chat(request)
+    AI Service->>Chat Model: Process with MCP tools metadata
+    Chat Model-->>AI Service: Tool call decision
+    AI Service->>MCP Client: Execute remote tool
+    MCP Client->>Quarkus MCP Server: MCP tool call (generateImage)
+    Quarkus MCP Server->>ImageGen Tool: generateImage(prompts)
+    ImageGen Tool->>SDXL API: HTTP POST
+    SDXL API-->>ImageGen Tool: Image bytes
+    ImageGen Tool-->>Quarkus MCP Server: Result
+    Quarkus MCP Server-->>MCP Client: Tool response
+    MCP Client-->>AI Service: Execution result
+    AI Service-->>User: "Image generated on server!"
     
-    style MCPClient fill:#bbf,stroke:#333,stroke-width:2px
-    style Protocol fill:#ffa,stroke:#333,stroke-width:2px
-    style MCPServer fill:#bfb,stroke:#333,stroke-width:2px
+    Note over MCP Client,ImageGen Tool: Remote execution:<br/>centralized logic & security
 ```
-
-**Key Benefit**: Tools are executed remotely on the server, enabling centralized logic, security, and resource management.
 
 ### 🎯 What is MCP Client?
 
@@ -846,7 +865,7 @@ An MCP client allows:
 ### ⚠️ Prerequisites
 
 Before starting this module:
-1. Complete the Quarkus workshop Module 4
+1. Complete the [Quarkus workshop Module 4](../java-langchain4j/README.md)
 2. Have the Quarkus MCP server running
 3. Note the MCP server URL (usually `http://localhost:8080/mcp/sse`)
 
@@ -886,7 +905,7 @@ Create an HTTP transport to connect to the MCP server.
 - Enable logging to see MCP communication
 
 📖 **Documentation**: 
-- [LangChain4j MCP Integration](https://docs.langchain4j.dev/integrations/mcp)
+- [LangChain4j MCP Integration](https://docs.langchain4j.dev/tutorials/mcp)
 - [Model Context Protocol](https://modelcontextprotocol.io/)
 
 🫶 **Solutions**:
@@ -910,23 +929,7 @@ Create the MCP client.
 
 ---
 
-### 📝 Step 6.5: Initialize MCP Client
-
-**File to edit**: [ImageGenerationMCPChatbot.java](ImageGenerationMCPChatbot.java)
-
-Initialize the client to discover tools.
-
-💡 **Initialization**:
-- Call `.initialize()` to connect
-- Client discovers available tools from server
-- Tools are ready to use
-
-🫶 **Solutions**:
-- You can use the `java-37` snippet to initialize the client if you don't know what to do 😉
-
----
-
-### 📝 Step 6.6: Create MCP Tool Provider
+### 📝 Step 6.5: Create MCP Tool Provider
 
 **File to edit**: [ImageGenerationMCPChatbot.java](ImageGenerationMCPChatbot.java)
 
@@ -938,10 +941,26 @@ Create a tool provider from the MCP client.
 - Handles tool execution via MCP protocol
 
 📖 **Documentation**: 
-- [MCP Tool Provider](https://docs.langchain4j.dev/integrations/mcp#using-mcp-tools)
+- [MCP Tool Provider](https://docs.langchain4j.dev/tutorials/mcp#mcp-tool-provider)
 
 🫶 **Solutions**:
-- You can use the `java-38` snippet to create the tool provider if you don't know what to do 😉
+- You can use the `java-37` snippet to create the tool provider if you don't know what to do 😉
+
+---
+
+### 📝 Step 6.6: Add Memory
+
+**File to edit**: [ImageGenerationChatbot.java](ImageGenerationChatbot.java)
+
+Add memory for conversation refinement.
+
+💡 **Why Memory?**:
+- Users can refine their image requests
+- "Make it more colorful", "Add a sunset", etc.
+- Memory helps maintain context
+
+🫶 **Solutions**:
+- You can use the `java-38` snippet to add memory if you don't know what to do 😉
 
 ---
 
@@ -968,7 +987,7 @@ Add the MCP tool provider to the AI service.
 Create the interaction loop (same as Module 5).
 
 🫶 **Solutions**:
-- You can use the `java-40` and `java-41` snippets to create the loop if you don't know what to do 😉
+- You can use the `java-40` snippet to create the loop if you don't know what to do 😉
 
 ---
 
@@ -976,18 +995,13 @@ Create the interaction loop (same as Module 5).
 
 1. **Start the Quarkus MCP server** (in another terminal):
    ```bash
-   cd ../../java-quarkus
+   cd ../java-quarkus
    ./run-quarkus.sh
    ```
 
-2. **Set the MCP server URL**:
+2. **Run the MCP client**:
    ```bash
-   export MCP_SERVER_URL=http://localhost:8080/mcp/sse
-   ```
-
-3. **Run the MCP client**:
-   ```bash
-   ./run-jbang.sh ImageGenerationMCPChatbot
+   ./run-jbang.sh ImageGenerationMCPChatbot.java
    ```
 
 Try:
@@ -1038,7 +1052,6 @@ Want to go further? Try:
 - Check the solutions in [solutions/chatbot/java/java-langchain4j](../../../../solutions/chatbot/java/java-langchain4j)
 - Ask the workshop facilitator
 - Consult the documentation links provided throughout
-- Join the [LangChain4j Discord](https://discord.gg/JJWRRchj)
 
 ---
 
