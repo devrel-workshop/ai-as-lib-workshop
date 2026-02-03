@@ -5,24 +5,24 @@
 //DEPS ch.qos.logback:logback-classic:1.5.6
 //FILES ./resources/logback.xml
 
-import java.lang.invoke.MethodHandles;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// java-02
-// AI Service to create, see https://docs.langchain4j.dev/tutorials/ai-services
+public class SimpleChatbot {
+  private static final Logger _LOG = LoggerFactory.getLogger(SimpleChatbot.class);
+
+  // java-02
+  // AI Service to create, see https://docs.langchain4j.dev/tutorials/ai-services
 
 
-private static final Logger _LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+  void main() {
+    // java-03
+    // Create a chat model using OpenAI provider
 
-void main() {
-  // java-03
-  // Create a  chat model using OpenAI provider
+    // java-04
+    // Build the chatbot thanks to the AIService builder
 
-  // java-04
-  // Build the chatbot thanks to the AIService builder
-
-  // java-05
-  // Send a prompt
+    // java-05
+    // Send a prompt
+  }
 }
