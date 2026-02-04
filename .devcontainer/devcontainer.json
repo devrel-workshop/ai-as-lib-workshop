@@ -1,0 +1,59 @@
+{
+  "name": "AI as Lib Workshop",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "redhat.java",
+        "vscjava.vscode-java-pack",
+        "vscjava.vscode-maven",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "redhat.vscode-quarkus",
+        "streetsidesoftware.code-spell-checker",
+        "GitHub.copilot"
+      ],
+      "settings": {
+        "java.jdt.ls.java.home": "/home/vscode/.sdkman/candidates/java/current",
+        "maven.executable.path": "/home/vscode/.sdkman/candidates/maven/current/bin/mvn",
+        "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+        "python.terminal.activateEnvironment": true,
+        "editor.formatOnSave": true,
+        "files.trimTrailingWhitespace": true,
+        "terminal.integrated.defaultProfile.linux": "zsh"
+      }
+    }
+  },
+  "remoteUser": "vscode",
+  "containerEnv": {
+    "OVH_AI_ENDPOINTS_ACCESS_TOKEN": "${localEnv:OVH_AI_ENDPOINTS_ACCESS_TOKEN}",
+    "OVH_AI_ENDPOINTS_MODEL_URL": "${localEnv:OVH_AI_ENDPOINTS_MODEL_URL}",
+    "OVH_AI_ENDPOINTS_MODEL_NAME": "${localEnv:OVH_AI_ENDPOINTS_MODEL_NAME}",
+    "OVH_AI_ENDPOINTS_EMBEDDING_MODEL": "${localEnv:OVH_AI_ENDPOINTS_EMBEDDING_MODEL}",
+    "OVH_AI_ENDPOINTS_SD_URL": "${localEnv:OVH_AI_ENDPOINTS_SD_URL}",
+    "MCP_SERVER_URL": "${localEnv:MCP_SERVER_URL}"
+  },
+  "mounts": [
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+  ],
+  "forwardPorts": [8080, 5005, 7860],
+  "portsAttributes": {
+    "8080": {
+      "label": "Quarkus Application",
+      "onAutoForward": "notify"
+    },
+    "5005": {
+      "label": "Java Debug",
+      "onAutoForward": "silent"
+    },
+    "7860": {
+      "label": "Gradio UI",
+      "onAutoForward": "notify"
+    }
+  }
+}
