@@ -13,8 +13,7 @@ ARG NODE_VERSION=20
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    # Basic utilities
+RUN apt-get update && apt-get install -yq \
     build-essential \
     curl \
     wget \
@@ -29,16 +28,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     gnupg \
     openssh-client \
-    # Python dependencies
     python${PYTHON_VERSION} \
     python${PYTHON_VERSION}-venv \
     python3-pip \
-    # Audio/Video processing
     ffmpeg \
-    # Graphics libraries (for Python packages)
     libgl1 \
     libglib2.0-0 \
-    # Shell
     zsh \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
@@ -59,16 +54,6 @@ RUN groupadd --gid $USER_GID $USERNAME \
     && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME -s /bin/zsh \
     && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
     && chmod 0440 /etc/sudoers.d/$USERNAME
-
-# Install Docker CLI
-RUN install -m 0755 -d /etc/apt/keyrings \
-    && curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg \
-    && chmod a+r /etc/apt/keyrings/docker.gpg \
-    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" > /etc/apt/sources.list.d/docker.list \
-    && apt-get update \
-    && apt-get install -y docker-ce-cli docker-compose-plugin \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
 
 # Install Node.js
 RUN curl -fsSL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - \
@@ -116,4 +101,4 @@ RUN bash -c "source $SDKMAN_DIR/bin/sdkman-init.sh && jbang app install javelit@
 WORKDIR /workspaces
 
 # Default command
-CMD ["sleep", "infinity"]
+#CMD ["sleep", "infinity"]

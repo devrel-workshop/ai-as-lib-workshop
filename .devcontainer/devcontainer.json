@@ -7,16 +7,11 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        "redhat.java",
-        "vscjava.vscode-java-pack",
-        "vscjava.vscode-maven",
         "ms-python.python",
-        "ms-python.vscode-pylance",
-        "dbaeumer.vscode-eslint",
-        "esbenp.prettier-vscode",
-        "redhat.vscode-quarkus",
-        "streetsidesoftware.code-spell-checker",
-        "GitHub.copilot"
+        "vscjava.vscode-java-pack@0.30.5",
+        "redhat.java@1.51.0",
+        "jbangdev.jbang-vscode@0.12.0",
+        "-GitHub.copilot"
       ],
       "settings": {
         "java.jdt.ls.java.home": "/home/vscode/.sdkman/candidates/java/current",
@@ -30,17 +25,7 @@
     }
   },
   "remoteUser": "vscode",
-  "containerEnv": {
-    "OVH_AI_ENDPOINTS_ACCESS_TOKEN": "${localEnv:OVH_AI_ENDPOINTS_ACCESS_TOKEN}",
-    "OVH_AI_ENDPOINTS_MODEL_URL": "${localEnv:OVH_AI_ENDPOINTS_MODEL_URL}",
-    "OVH_AI_ENDPOINTS_MODEL_NAME": "${localEnv:OVH_AI_ENDPOINTS_MODEL_NAME}",
-    "OVH_AI_ENDPOINTS_EMBEDDING_MODEL": "${localEnv:OVH_AI_ENDPOINTS_EMBEDDING_MODEL}",
-    "OVH_AI_ENDPOINTS_SD_URL": "${localEnv:OVH_AI_ENDPOINTS_SD_URL}",
-    "MCP_SERVER_URL": "${localEnv:MCP_SERVER_URL}"
-  },
-  "mounts": [
-    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
-  ],
+  "postAttachCommand": "echo '' && echo '==================================================' && echo '   Welcome to the AI as Lib Workshop!' && echo '==================================================' && echo '' && echo 'To complete the setup, run:' && echo '   source ./setup_env.sh' && echo '' && echo 'You will be prompted for a password (ask the speaker).' && echo '' && exec zsh",
   "forwardPorts": [8080, 5005, 7860],
   "portsAttributes": {
     "8080": {
