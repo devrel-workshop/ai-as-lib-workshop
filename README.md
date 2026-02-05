@@ -15,10 +15,15 @@ To help people with their IDE configuration we use Coder during the workshop, th
 Ask to have the URL where you can start a Coder workspace giving the AI workshop template.  
 You can open your VSCode instance in your browser, choose _code-server_ button or with a ssh tunnel on your local VSCode, choose _VS Code Desktop_.
 
+### 🐳 Dev Containers usage 🐳 ###
+
+If you don't want or can't use Coder, you can use the Dev Container configuration file in [.devcontainer](./.devcontainer/).  
+You can ind more information about Dev Container in the V[SCode documentation](https://code.visualstudio.com/docs/devcontainers/containers).
+
 ### 🧰 Pre-requisites 🧰
 
-To have an exhaustive list of the pre-requisites, please check the [Dockerfile](./Docker/Dockerfile) used by Coder.  
-In a nutshell, you need to have:
+Here are all the needed stuff to use it on your device witout Coder or Dev Containers.
+
  - [Bat](https://github.com/sharkdp/bat) utility
  - Java 25
  - [Maven 3.9.x](https://maven.apache.org/download.cgi)
