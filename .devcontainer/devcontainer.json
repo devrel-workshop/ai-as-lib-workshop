@@ -1,0 +1,60 @@
+{
+  "name": "AI as Lib Workshop",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+		"ghcr.io/jsburckhardt/devcontainer-features/bat:1": {},
+    "ghcr.io/devcontainers/features/java:1": {
+      "installMaven": true,
+			"mavenVersion": "3.9.12",
+      "version": "25",
+      "jdkDistro": "tem"
+    },
+		"ghcr.io/devcontainers-extra/features/jbang-sdkman:2": {
+			"jdkDistro": "tem",
+			"jdkVersion": "25-tem"
+		},
+		"ghcr.io/devcontainers-extra/features/quarkus-sdkman:2": {
+			"jdkDistro": "tem",
+			"jdkVersion": "25-tem"
+		}
+	},
+  "customizations": {
+    "vscode": {
+      "java.configuration.runtimes": [
+					{
+						"name": "JavaSE-25",
+						"path": "/usr/local/sdkman/candidates/java/current/"
+					}
+				],
+      "extensions": [
+        "ms-python.python",
+        "vscjava.vscode-java-pack@0.30.5",
+        "redhat.java@1.51.0",
+        "jbangdev.jbang-vscode@0.12.0",
+        "-GitHub.copilot"
+      ],
+      "settings": {
+				// disable github copilot chat panel
+				"github.copilot.chat.enable": false,
+				// disable chat panel
+				"github.copilot.chat.showChatOnStartup": false
+      }
+    }
+  },
+  "remoteUser": "vscode",
+  "forwardPorts": [8080, 5005, 7860],
+  "portsAttributes": {
+    "8080": {
+      "label": "Quarkus Application",
+      "onAutoForward": "notify"
+    },
+    "5005": {
+      "label": "Java Debug",
+      "onAutoForward": "silent"
+    },
+    "7860": {
+      "label": "Gradio UI",
+      "onAutoForward": "notify"
+    }
+  }
+}
