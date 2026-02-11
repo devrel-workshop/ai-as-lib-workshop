@@ -233,10 +233,11 @@ snippet java-20:
   prefix: "java-20"
   scope: "java"
   body: |
-    EmbeddingModel embeddingModel = OvhAiEmbeddingModel.builder()
-                    .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
-                    .baseUrl(System.getenv("OVH_AI_ENDPOINTS_EMBEDDING_MODEL"))
-                    .build();
+    EmbeddingModel embeddingModel = OpenAiEmbeddingModel.builder()
+                                .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
+                                .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
+                                .modelName(System.getenv("OVH_AI_ENDPOINTS_EMBEDDING_MODEL_NAME"))
+                                .build();
     List<Embedding> embeddings = embeddingModel.embedAll(segments).content();
 
 snippet java-21:

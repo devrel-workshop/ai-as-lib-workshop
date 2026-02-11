@@ -14,7 +14,8 @@ if [ -f "$ATTENDEE_CONF_PATH" ]; then
       export OVH_AI_ENDPOINTS_MODEL_URL=https://oai.endpoints.kepler.ai.cloud.ovh.net/v1
       export OVH_AI_ENDPOINTS_MODEL_NAME=gpt-oss-120b
       
-      export OVH_AI_ENDPOINTS_EMBEDDING_MODEL=https://bge-multilingual-gemma2.endpoints.kepler.ai.cloud.ovh.net
+      export OVH_AI_ENDPOINTS_EMBEDDING_MODEL_NAME=bge-multilingual-gemma2
+            
       export OVH_AI_ENDPOINTS_SD_URL=https://stable-diffusion-xl.endpoints.kepler.ai.cloud.ovh.net/api/text2image
       export OVH_AI_ENDPOINTS_WHISPER_URL=https://whisper-large-v3.endpoints.kepler.ai.cloud.ovh.net/api/openai_compat/v1
       export OVH_AI_ENDPOINTS_WHISPER_MODEL=whisper-large-v3

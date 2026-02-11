@@ -3,7 +3,6 @@
 //DEPS dev.langchain4j:langchain4j:1.7.1
 //DEPS dev.langchain4j:langchain4j-open-ai:1.7.1
 //DEPS ch.qos.logback:logback-classic:1.5.6
-//DEPS dev.langchain4j:langchain4j-ovh-ai:1.7.1-beta14
 //FILES ./resources/logback.xml
 
 import org.slf4j.Logger;
@@ -44,8 +43,7 @@ public class RAGChatbot {
         // Load the document and split it into chunks
 
         // java-20
-        // Do the embeddings with AI Endpoint model
-        // (https://docs.langchain4j.dev/integrations/embedding-models/ovh-ai) and store
+        // Do the embeddings with AI Endpoint model using OpenAI compatibility and store
         // them in an in memory embedding store
 
         // java-21

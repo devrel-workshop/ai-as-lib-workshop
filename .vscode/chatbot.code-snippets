@@ -1036,10 +1036,11 @@
   },
   "RAG embedding": {
     "body": [
-      "EmbeddingModel embeddingModel = OvhAiEmbeddingModel.builder()",
-      "                .apiKey(System.getenv(\"OVH_AI_ENDPOINTS_ACCESS_TOKEN\"))",
-      "                .baseUrl(System.getenv(\"OVH_AI_ENDPOINTS_EMBEDDING_MODEL\"))",
-      "                .build();",
+      "EmbeddingModel embeddingModel = OpenAiEmbeddingModel.builder()",
+      "                            .apiKey(System.getenv(\"OVH_AI_ENDPOINTS_ACCESS_TOKEN\"))",
+      "                            .baseUrl(System.getenv(\"OVH_AI_ENDPOINTS_MODEL_URL\"))",
+      "                            .modelName(System.getenv(\"OVH_AI_ENDPOINTS_EMBEDDING_MODEL_NAME\"))",
+      "                            .build();",
       "List\u003cEmbedding\u003e embeddings = embeddingModel.embedAll(segments).content();",
       ""
     ],

@@ -541,6 +541,7 @@ Create a model to convert text into vectors (embeddings).
 - Similar texts have similar vectors
 - Used for semantic search
 - OVHcloud provides embedding models via AI Endpoints
+- OVHCloud embedding models are compatible with OpenAI embedding models 
 
 📖 **Documentation**: 
 - [Embedding Models](https://docs.langchain4j.dev/category/embedding-models)

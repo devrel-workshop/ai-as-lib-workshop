@@ -3,7 +3,6 @@
 //DEPS dev.langchain4j:langchain4j:1.7.1
 //DEPS dev.langchain4j:langchain4j-open-ai:1.7.1
 //DEPS ch.qos.logback:logback-classic:1.5.6
-//DEPS dev.langchain4j:langchain4j-ovh-ai:1.7.1-beta14
 //FILES ./resources/logback.xml
 
 import java.util.concurrent.CompletableFuture;
