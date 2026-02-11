@@ -506,13 +506,14 @@ snippet quarkus-01:
   name: "Quarkus properties"
   prefix: "quarkus-01"
   body: |
-    quarkus.langchain4j.mistralai.base-url=\${OVH_AI_ENDPOINTS_MODEL_URL}
-    quarkus.langchain4j.mistralai.api-key=\${OVH_AI_ENDPOINTS_ACCESS_TOKEN}
-    quarkus.langchain4j.mistralai.chat-model.max-tokens=512
-    quarkus.langchain4j.mistralai.chat-model.model-name=\${OVH_AI_ENDPOINTS_MODEL_NAME}
-    quarkus.langchain4j.mistralai.log-requests=false
-    quarkus.langchain4j.mistralai.log-responses=false
-    quarkus.langchain4j.mistralai.chat-model.temperature=0.2
+    quarkus.langchain4j.openai.base-url=\${OVH_AI_ENDPOINTS_MODEL_URL}
+    quarkus.langchain4j.openai.api-key=\${OVH_AI_ENDPOINTS_ACCESS_TOKEN}
+    quarkus.langchain4j.openai.timeout=3600
+    quarkus.langchain4j.openai.chat-model.max-tokens=512
+    quarkus.langchain4j.openai.chat-model.model-name=\${OVH_AI_ENDPOINTS_MODEL_NAME}
+    quarkus.langchain4j.openai.log-requests=false
+    quarkus.langchain4j.openai.log-responses=false
+    quarkus.langchain4j.openai.chat-model.temperature=0.2
 
 snippet quarkus-02:
   name: "Class annotation simple"
@@ -678,7 +679,7 @@ snippet quarkus-20:
   scope: "java"
   body: |
     @POST
-    @ClientHeaderParam(name = "Authorization", value = "Bearer ${quarkus.langchain4j.mistralai.api-key}")
+    @ClientHeaderParam(name = "Authorization", value = "Bearer ${quarkus.langchain4j.openai.api-key}")
     byte[] generateImage(SDPayload payload);
 
 snippet quarkus-21:

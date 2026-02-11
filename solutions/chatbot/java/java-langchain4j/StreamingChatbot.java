@@ -21,9 +21,9 @@ import dev.langchain4j.service.TokenStream;
  * Here is the place where you will add the code to create an advanced chatbot.
  * The steps to create your chatbot are :
  * - choose the right model on AI Endpoints
- * (https://endpoints.ai.cloud.ovh.net), we want to use Mistral 7B Instruct
+ * (https://endpoints.ai.cloud.ovh.net)
  * - use the LangChain4J wrapper / lib to do the call to the model (use the AI
- * Service style), ⚠️ don't forget your pom.xml ⚠️
+ * Service style)
  * - Use the streaming option, see
  * https://docs.langchain4j.dev/tutorials/response-streaming
  * - add parameters to create a virtual assistant named Nestor

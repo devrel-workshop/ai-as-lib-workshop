@@ -27,10 +27,10 @@ import dev.langchain4j.service.V;
  * generate images.
  * The steps to create your chatbot are :
  * - choose the right model on AI Endpoints
- * (https://endpoints.ai.cloud.ovh.net), we want to use Mistral 7B Instruct
+ * (https://endpoints.ai.cloud.ovh.net)
  * - use the LangChain4J wrapper / lib to do the call to the model (use the AI
  * Service style),
- * - create a detailed prompt to help the model to knox that it must create a
+ * - create a detailed prompt to help the model to know that it must create a
  * prompt and a negative prompt for Stable Diffusion
  * - use the tool from ImageGenTools to generate the image based on the created
  * prompts by the model (see

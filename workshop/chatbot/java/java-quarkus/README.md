@@ -33,7 +33,7 @@ The project is already created for you! However, if you're curious about how it 
 
 ```bash
 quarkus create app com.ovhcloud.ai.quarkus.chatbot:java-quarkus \
-                  --extension='quarkus-langchain4j-mistral-ai,rest' \
+                  --extension='quarkus-langchain4j-openai,rest' \
                   --no-wrapper
 ```
 
@@ -60,7 +60,7 @@ __  ____  __  _____   ___  __ ____  ______
 2026-01-30 09:49:22,865 INFO  [io.quarkus] (Quarkus Main Thread) java-quarkus-workshop 1.0.0-SNAPSHOT on JVM (powered by Quarkus 3.30.6) started in 2.007s. Listening on: http://localhost:8080
 
 2026-01-30 09:49:22,867 INFO  [io.quarkus] (Quarkus Main Thread) Profile dev activated. Live Coding activated.
-2026-01-30 09:49:22,867 INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [cdi, langchain4j, langchain4j-mistralai, qute, rest, rest-client, rest-client-jackson, smallrye-context-propagation, vertx]
+2026-01-30 09:49:22,867 INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [cdi, langchain4j, langchain4j-openai, qute, rest, rest-client, rest-client-jackson, smallrye-context-propagation, vertx]
 
 --
 Tests paused
@@ -96,14 +96,14 @@ SimpleResource (REST Controller)
     ↓
 AISimpleService (AI Service)
     ↓
-OVHcloud AI Endpoints (Mistral Model)
+OVHcloud AI Endpoints (OpenAI compatible Model)
 ```
 
 ### 📝 Step 1.1: Configure AI Endpoints Connection
 
 **File to edit**: [src/main/resources/application.properties](src/main/resources/application.properties)
 
-Configure the connection to OVHcloud AI Endpoints with Mistral model.
+Configure the connection to OVHcloud AI Endpoints with OpenAI compatible model.
 
 
 💡 **Hints**:
@@ -112,8 +112,8 @@ Configure the connection to OVHcloud AI Endpoints with Mistral model.
 - Set `temperature` to 0.2 for more deterministic responses
 
 📖 **Documentation**: 
-- [Quarkus LangChain4j Mistral AI Configuration](https://docs.quarkiverse.io/quarkus-langchain4j/dev/mistral.html)
-- [LangChain4j Mistral AI Integration](https://docs.langchain4j.dev/integrations/language-models/mistral-ai)
+- [Quarkus LangChain4j OpenAI Configuration](https://docs.quarkiverse.io/quarkus-langchain4j/dev/openai-chat-model.html)
+- [LangChain4j OpenAI Integration](https://docs.langchain4j.dev/integrations/language-models/open-ai)
 
 🫶 **Solutions**:
 - You can use the `quarkus-01` snippet to fill the file if you don't know what to do 😉

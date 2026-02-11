@@ -43,7 +43,7 @@
         </dependency>
         <dependency>
             <groupId>io.quarkiverse.langchain4j</groupId>
-            <artifactId>quarkus-langchain4j-mistral-ai</artifactId>
+            <artifactId>quarkus-langchain4j-openai</artifactId>
         </dependency>
         <!-- Add quarkus MCP extension, see: https://docs.quarkiverse.io/quarkus-mcp-server/dev/
              Use the SSE version. -->

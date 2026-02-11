@@ -19,6 +19,6 @@ import jakarta.ws.rs.POST;
 public interface StableDiffusionService {
     // quarkus-20
     @POST
-    @ClientHeaderParam(name = "Authorization", value = "Bearer ${quarkus.langchain4j.mistralai.api-key}")
+    @ClientHeaderParam(name = "Authorization", value = "Bearer ${quarkus.langchain4j.openai.api-key}")
     byte[] generateImage(SDPayload payload);
 }
