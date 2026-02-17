@@ -14,6 +14,10 @@ In the other case you need:
 >  - [LangChain4j](https://docs.langchain4j.dev/intro/)
 >  - [Quarkus LangChain4j](https://docs.quarkiverse.io/quarkus-langchain4j/dev/index.html)
 
+### 🤖 Models to use 🤖
+ - the script [set-env-variables.sh](../../../../bin/set-env-variables.sh) se the default model name in the `OVH_AI_ENDPOINTS_MODEL_NAME` environment variable
+ - you can try another model from the [OVHcloud AI Endpoints catalog](https://www.ovhcloud.com/en/public-cloud/ai-endpoints/catalog/)
+
 ### 📚 What you'll learn 📚
 
 In this workshop, you'll build a complete chatbot application using **Quarkus** and **LangChain4j** with **OVHcloud AI Endpoints**. The workshop is divided into progressive modules:
@@ -83,6 +87,23 @@ You should see: `Hello from Quarkus REST`
 
 ---
 
+### 💡 Using VS Code Snippets 💡
+
+This workshop provides **VS Code code snippets** as progressive hints to help you if you get stuck.
+
+**How to use them:**
+1. 📂 Open the file you're working on in VS Code
+2. 📍 Place your cursor where you want to insert the code
+3. ⌨️ Type the snippet prefix (e.g., `quarkus-01`)
+4. ✅ Press `Tab` or select the snippet from the autocomplete dropdown
+5. ✨ The code will be automatically inserted!
+
+> 📌 **Note**: Snippets are provided as a **last resort** hint (Level 3).
+> Try to solve each step using the documentation and key classes hints first!
+> The learning experience is much better when you write the code yourself! 💪
+
+---
+
 ## 🤖 Module 1: Simple Chatbot 🤖
 
 **Goal**: Create a basic synchronous chatbot that answers questions using AI Endpoints.
@@ -111,12 +132,36 @@ Configure the connection to OVHcloud AI Endpoints with OpenAI compatible model.
 - Set `max-tokens` to 512
 - Set `temperature` to 0.2 for more deterministic responses
 
-📖 **Documentation**: 
+<details>
+<summary>🔎 Hint 1 — What concept to use</summary>
+
+Quarkus LangChain4j uses **application.properties** to configure the OpenAI-compatible model connection. You set the base URL, API key, model name, and tuning parameters (max tokens, temperature, logging) as Quarkus configuration properties.
+
+📖 **Documentation**:
 - [Quarkus LangChain4j OpenAI Configuration](https://docs.quarkiverse.io/quarkus-langchain4j/dev/openai-chat-model.html)
 - [LangChain4j OpenAI Integration](https://docs.langchain4j.dev/integrations/language-models/open-ai)
 
-🫶 **Solutions**:
-- You can use the `quarkus-01` snippet to fill the file if you don't know what to do 😉
+</details>
+
+<details>
+<summary>🧩 Hint 2 — Key properties</summary>
+
+- `quarkus.langchain4j.openai.base-url`: the AI Endpoints URL
+- `quarkus.langchain4j.openai.api-key`: the access token
+- `quarkus.langchain4j.openai.chat-model.model-name`: the model name
+- `quarkus.langchain4j.openai.chat-model.max-tokens`: max tokens (512)
+- `quarkus.langchain4j.openai.chat-model.temperature`: temperature (0.2)
+- `quarkus.langchain4j.openai.log-requests` / `log-responses`: logging flags
+- `quarkus.langchain4j.openai.timeout`: timeout in seconds
+
+</details>
+
+<details>
+<summary>🎁 Hint 3 — VS Code snippet (last resort!)</summary>
+
+Type `quarkus-01` in your editor and press **Tab** to insert the full configuration block.
+
+</details>
 
 ---
 
@@ -131,12 +176,33 @@ Create an AI Service that will handle the communication with the LLM:
 - `@SystemMessage`: Sets the AI's role and behavior
 - `@UserMessage`: Templates the user's prompt with parameters
 
-📖 **Documentation**: 
+<details>
+<summary>🔎 Hint 1 — What concept to use</summary>
+
+In Quarkus LangChain4j, you define an **interface** annotated with `@RegisterAiService`. Quarkus automatically generates the implementation that connects to the LLM. You use `@SystemMessage` to set the AI's personality and `@UserMessage` to template the user's prompt.
+
+📖 **Documentation**:
 - [Quarkus LangChain4j AI Services](https://docs.quarkiverse.io/quarkus-langchain4j/dev/ai-services.html)
 - [LangChain4j AI Services](https://docs.langchain4j.dev/tutorials/ai-services)
 
-🫶 **Solutions**:
-- You can use the `quarkus-02` and `quarkus-03` snippets to fill the file if you don't know what to do 😉
+</details>
+
+<details>
+<summary>🧩 Hint 2 — Key annotations & methods</summary>
+
+- Annotate the interface with `@RegisterAiService`
+- Add `@SystemMessage("You are a virtual assistant and your name is Nestor.")` on the method
+- Add `@UserMessage("Answer as best possible to the following question: {question}...")` on the method
+- The method signature: `String askAQuestion(String question)`, returns a `String` (synchronous)
+
+</details>
+
+<details>
+<summary>🎁 Hint 3 — VS Code snippets (last resort!)</summary>
+
+Type `quarkus-02` in your editor and press **Tab** to insert the class annotation, then type `quarkus-03` and press **Tab** to insert the method with system and user message annotations.
+
+</details>
 
 ---
 
@@ -148,12 +214,34 @@ Create a REST endpoint that exposes the chatbot:
 
 💡 **REST Endpoint**: `POST http://localhost:8080/chatbot/simple`
 
-📖 **Documentation**: 
+<details>
+<summary>🔎 Hint 1 — What concept to use</summary>
+
+In Quarkus, you expose HTTP endpoints using **Jakarta REST** (formerly JAX-RS) annotations on a resource class. You annotate the class with `@Path` to define the base URL, inject your AI service with `@Inject`, and create a method annotated with `@POST` and a sub-path to handle incoming requests.
+
+📖 **Documentation**:
 - [Quarkus REST Guide](https://quarkus.io/guides/rest)
 - [Jakarta REST Annotations](https://jakarta.ee/specifications/restful-ws/3.1/jakarta-restful-ws-spec-3.1.html)
 
-🫶 **Solutions**:
-- You can use the `quarkus-04`, `quarkus-05` and `quarkus-06` snippets to fill the file if you don't know what to do 😉
+</details>
+
+<details>
+<summary>🧩 Hint 2 — Key annotations & methods</summary>
+
+- `@Path("/chatbot")` on the class: sets the base path
+- `@Inject AISimpleService aiEndpointService`: injects the AI service
+- `@Path("simple")` + `@POST` on the method: defines a `POST /chatbot/simple` endpoint
+- Method signature: `public String ask(String question)`: takes the question as the request body, returns the AI response as a `String`
+- Inside the method, call `aiEndpointService.askAQuestion(question)` and return the result
+
+</details>
+
+<details>
+<summary>🎁 Hint 3 — VS Code snippets (last resort!)</summary>
+
+Type `quarkus-04` in your editor and press **Tab** to insert the class-level `@Path` annotation, then `quarkus-05` for the service injection, and `quarkus-06` for the POST endpoint method.
+
+</details>
 
 ---
 
@@ -209,12 +297,34 @@ Create a service similar to `AISimpleService`, but with streaming support.
 
 💡 **Key Change**: `Multi<String>` instead of `String` enables reactive streaming!
 
-📖 **Documentation**: 
+<details>
+<summary>🔎 Hint 1 — What concept to use</summary>
+
+This is very similar to `AISimpleService`, but the return type changes to enable **streaming**. In Quarkus LangChain4j, you use SmallRye Mutiny's `Multi<String>` as the return type instead of `String`. The framework automatically streams the LLM response token-by-token.
+
+📖 **Documentation**:
+- [Quarkus LangChain4j AI Services](https://docs.quarkiverse.io/quarkus-langchain4j/dev/ai-services.html)
 - [Quarkus Reactive Programming](https://quarkus.io/guides/getting-started-reactive)
 - [SmallRye Mutiny - Multi](https://smallrye.io/smallrye-mutiny/latest/)
 
-🫶 **Solutions**:
-- You can use the `quarkus-07` and `quarkus-08` snippets to fill the file if you don't know what to do 😉
+</details>
+
+<details>
+<summary>🧩 Hint 2 — Key annotations & methods</summary>
+
+- Same `@RegisterAiService` interface annotation as `AISimpleService`
+- Same `@SystemMessage` and `@UserMessage` annotations on the method
+- **Key difference**: the method returns `Multi<String>` instead of `String`
+- Method signature: `Multi<String> askAQuestion(String question)`
+
+</details>
+
+<details>
+<summary>🎁 Hint 3 — VS Code snippets (last resort!)</summary>
+
+Type `quarkus-07` in your editor and press **Tab** to insert the class annotation, then `quarkus-08` for the streaming method with system and user message annotations.
+
+</details>
 
 ---
 
@@ -226,11 +336,34 @@ Create a streaming endpoint
 
 💡 **Magic**: Quarkus automatically handles the streaming when you return `Multi<String>`!
 
-📖 **Documentation**: 
-- [Quarkus REST Streaming](https://quarkus.io/guides/rest#streaming-support)
+<details>
+<summary>🔎 Hint 1 — What concept to use</summary>
 
-🫶 **Solutions**:
-- You can use the `quarkus-09`, `quarkus-10` and `quarkus-11` snippets to fill the file if you don't know what to do 😉
+This is very similar to `SimpleResource`, but the endpoint returns a **reactive stream** instead of a plain string. In Quarkus REST, when you return `Multi<String>` from your endpoint method, the framework automatically streams the response to the client: no extra configuration needed.
+
+📖 **Documentation**:
+- [Quarkus REST Streaming](https://quarkus.io/guides/rest#streaming-support)
+- [Quarkus REST Guide](https://quarkus.io/guides/rest)
+
+</details>
+
+<details>
+<summary>🧩 Hint 2  —  Key annotations & methods</summary>
+
+- `@Path("/chatbot")` on the class: same base path as `SimpleResource`
+- `@Inject AIAdvancedService advancedService`: injects the streaming AI service
+- `@Path("advanced")` + `@POST` on the method: defines a `POST /chatbot/advanced` endpoint
+- Method signature: `public Multi<String> ask(String question)`: returns `Multi<String>` instead of `String`
+- Inside the method, call `advancedService.askAQuestion(question)` and return the `Multi<String>` result directly
+
+</details>
+
+<details>
+<summary>🎁 Hint 3 — VS Code snippets (last resort!)</summary>
+
+Type `quarkus-09` in your editor and press **Tab** to insert the class-level `@Path` annotation, then `quarkus-10` for the service injection, and `quarkus-11` for the streaming POST endpoint method.
+
+</details>
 
 ---
 
@@ -287,12 +420,34 @@ Create a service with memory support.
 - `@ApplicationScoped`: Bean lives for the application lifetime
 - `@MemoryId`: Associates conversations with specific users/sessions
 
-📖 **Documentation**: 
+<details>
+<summary>🔎 Hint 1 — What concept to use</summary>
+
+To add memory to an AI service in Quarkus LangChain4j, you need two things: make the bean **application-scoped** (so it lives for the entire application lifetime and retains state), and use a **memory ID** parameter to associate conversations with specific users or sessions.
+
+📖 **Documentation**:
 - [Quarkus LangChain4j Memory](https://docs.quarkiverse.io/quarkus-langchain4j/dev/messages-and-memory.html)
 - [LangChain4j Chat Memory](https://docs.langchain4j.dev/tutorials/chat-memory/)
 
-🫶 **Solutions**:
-- You can use the `quarkus-12` and `quarkus-13` snippets to fill the file if you don't know what to do 😉
+</details>
+
+<details>
+<summary>🧩 Hint 2 — Key annotations & methods</summary>
+
+- `@ApplicationScoped` on the interface: keeps the bean alive for the entire application (required for memory)
+- `@RegisterAiService` on the interface: same as before
+- Same `@SystemMessage` and `@UserMessage` on the method
+- **Key difference**: add a `@MemoryId String memoryId` parameter to the method: this identifies which conversation/user the memory belongs to
+- Method signature: `Multi<String> askAQuestion(String question, @MemoryId String memoryId)`: streaming with memory
+
+</details>
+
+<details>
+<summary>🎁 Hint 3 — VS Code snippets (last resort!)</summary>
+
+Type `quarkus-12` in your editor and press **Tab** to insert the class-level annotations (`@ApplicationScoped` + `@RegisterAiService`), then `quarkus-13` for the method with memory support.
+
+</details>
 
 ---
 
@@ -304,8 +459,34 @@ Create an endpoint with memory.
 
 💡 **Production Tip**: Replace `"user-one"` with actual user identifiers from authentication!
 
-🫶 **Solutions**:
-- You can use the `quarkus-14`, `quarkus-15` and `quarkus-16` snippets to fill the file if you don't know what to do 😉
+<details>
+<summary>🔎 Hint 1 — What concept to use</summary>
+
+This is very similar to `AdvancedResource`: a REST endpoint returning `Multi<String>`. The key difference is that you inject `AIMemoryService` instead, and when calling its method you pass a **memory ID** string to identify the user/session.
+
+📖 **Documentation**:
+- [Quarkus REST Guide](https://quarkus.io/guides/rest)
+- [Quarkus LangChain4j Memory](https://docs.quarkiverse.io/quarkus-langchain4j/dev/messages-and-memory.html)
+
+</details>
+
+<details>
+<summary>🧩 Hint 2 — Key annotations & methods</summary>
+
+- `@Path("/chatbot")` on the class: same base path
+- `@Inject AIMemoryService aiMemoryService`: injects the memory-aware AI service
+- `@Path("memory")` + `@POST` on the method: defines a `POST /chatbot/memory` endpoint
+- Method signature: `public Multi<String> ask(String question)`: returns a streaming response
+- Inside the method, call `aiMemoryService.askAQuestion(question, "user-one")`: pass a hardcoded memory ID for now
+
+</details>
+
+<details>
+<summary>🎁 Hint 3 — VS Code snippets (last resort!)</summary>
+
+Type `quarkus-14` in your editor and press **Tab** to insert the class-level `@Path` annotation, then `quarkus-15` for the service injection, and `quarkus-16` for the POST endpoint method with memory ID.
+
+</details>
 
 ---
 
@@ -374,12 +555,33 @@ In this module, you'll expose an image generation tool via MCP that can be calle
 - Add this in the `<dependencies>` section.
 - You can use also the `quarkus` CLI `quarkus ext add io.quarkiverse.mcp:quarkus-mcp-server-http`
 
-📖 **Documentation**: 
+<details>
+<summary>🔎 Hint 1 — What concept to use</summary>
+
+To expose tools via the **Model Context Protocol**, you need to add the Quarkus MCP Server extension to your project. This extension turns your Quarkus application into an MCP server that AI agents can connect to over HTTP/SSE.
+
+📖 **Documentation**:
 - [Quarkus MCP Server Guide](https://docs.quarkiverse.io/quarkus-mcp-server/dev/)
 - [Model Context Protocol Specification](https://modelcontextprotocol.io/)
 
-🫶 **Solutions**:
-- You can use the `quarkus-17` snippet to fill the file if you don't know what to do 😉
+</details>
+
+<details>
+<summary>🧩 Hint 2 — Key dependency</summary>
+
+- Add a Maven dependency in the `<dependencies>` section of `pom.xml`:
+  - Group ID: `io.quarkiverse.mcp`
+  - Artifact ID: `quarkus-mcp-server-http`
+- Alternatively, use the CLI: `quarkus ext add io.quarkiverse.mcp:quarkus-mcp-server-http`
+
+</details>
+
+<details>
+<summary>🎁 Hint 3 — VS Code snippet (last resort!)</summary>
+
+Type `quarkus-17` in your editor and press **Tab** to insert the Maven dependency block.
+
+</details>
 
 ---
 
@@ -387,12 +589,32 @@ In this module, you'll expose an image generation tool via MCP that can be calle
 
 **File to edit**: [src/main/resources/application.properties](src/main/resources/application.properties)
 
-📖 **Documentation**: 
-- [Quarkus REST Client](https://quarkus.io/guides/rest-client)
+<details>
+<summary>🔎 Hint 1 — What concept to use</summary>
+
+In Quarkus, REST clients are configured via **application.properties**. You need to set the base URL for the Stable Diffusion REST client interface using the Quarkus REST Client configuration key pattern.
+
+📖 **Documentation**:
+- [Quarkus REST Client Configuration](https://quarkus.io/guides/rest-client#configuring-the-client)
 - [OVH AI Endpoints - Stable Diffusion XL](https://www.ovhcloud.com/en/public-cloud/ai-endpoints/catalog/stable-diffusion-xl/)
 
-🫶 **Solutions**:
-- You can use the `quarkus-18` snippet to fill the file if you don't know what to do 😉
+</details>
+
+<details>
+<summary>🧩 Hint 2 — Key properties</summary>
+
+- `quarkus.rest-client."<fully-qualified-interface-name>".url`: sets the base URL for the REST client
+- The fully qualified name is `com.ovhcloud.ai.quarkus.chatbot.service.StableDiffusionService`
+- Use the `${OVH_AI_ENDPOINTS_SD_URL}` environment variable for the URL value
+
+</details>
+
+<details>
+<summary>🎁 Hint 3 — VS Code snippet (last resort!)</summary>
+
+Type `quarkus-18` in your editor and press **Tab** to insert the REST client URL configuration.
+
+</details>
 
 ---
 
@@ -404,12 +626,34 @@ Create a REST client to call the Stable Diffusion XL API.
 
 💡 **Note**: The payload structure is already defined in [SDPayload.java](src/main/java/com/ovhcloud/ai/quarkus/chatbot/repository/SDPayload.java)
 
-📖 **Documentation**: 
+<details>
+<summary>🔎 Hint 1 — What concept to use</summary>
+
+You need to create a **MicroProfile REST Client** interface that calls the Stable Diffusion XL API. In Quarkus, you annotate an interface with `@RegisterRestClient` and the framework generates the HTTP client implementation. You also use `@ClientHeaderParam` to set headers like `Content-Type` and `Authorization`.
+
+📖 **Documentation**:
 - [Quarkus REST Client](https://quarkus.io/guides/rest-client)
 - [MicroProfile REST Client](https://download.eclipse.org/microprofile/microprofile-rest-client-3.0/microprofile-rest-client-spec-3.0.html)
 
-🫶 **Solutions**:
-- You can use the `quarkus-19` and `quarkus-20` snippets to fill the file if you don't know what to do 😉
+</details>
+
+<details>
+<summary>🧩 Hint 2 — Key annotations & methods</summary>
+
+- `@RegisterRestClient` on the interface: registers it as a REST client
+- `@ClientHeaderParam(name = "Content-Type", value = "application/json")` on the interface: sets the content type header
+- `@POST` on the method: the Stable Diffusion API is called with a POST request
+- `@ClientHeaderParam(name = "Authorization", value = "Bearer ${quarkus.langchain4j.openai.api-key}")` on the method: sets the auth header using the existing API key config
+- Method signature: `byte[] generateImage(SDPayload payload)`: takes an `SDPayload` and returns raw image bytes
+
+</details>
+
+<details>
+<summary>🎁 Hint 3 — VS Code snippets (last resort!)</summary>
+
+Type `quarkus-19` in your editor and press **Tab** to insert the interface declaration with `@RegisterRestClient`, then `quarkus-20` for the POST method with authorization header.
+
+</details>
 
 ---
 
@@ -424,12 +668,35 @@ Create a tool that can be called by AI agents.
 - `@P`: Describes parameters for the AI agent
 - The tool will be automatically discovered by MCP clients!
 
-📖 **Documentation**: 
-- [Quarkus LangChain4J Tools](https://docs.quarkiverse.io/quarkus-langchain4j/dev/quickstart-function-calling.html)
+<details>
+<summary>🔎 Hint 1 — What concept to use</summary>
+
+You need to create a service class that exposes an image generation **tool** via MCP. The `@Tool` annotation (from `io.quarkiverse.mcp.server`) marks a method as callable by AI agents. You inject the `StableDiffusionService` REST client using `@RestClient`, and use `@P` to describe the tool's parameters for the AI agent.
+
+📖 **Documentation**:
+- [Quarkus MCP Server Tools](https://docs.quarkiverse.io/quarkus-mcp-server/dev/)
+- [Quarkus LangChain4j Function Calling](https://docs.quarkiverse.io/quarkus-langchain4j/dev/quickstart-function-calling.html)
 - [LangChain4j Tools](https://docs.langchain4j.dev/tutorials/tools)
 
-🫶 **Solutions**:
-- You can use the `quarkus-21`, `quarkus-22` and `quarkus-23` snippets to fill the file if you don't know what to do 😉
+</details>
+
+<details>
+<summary>🧩 Hint 2 — Key annotations & methods</summary>
+
+- `@RestClient StableDiffusionService stableDiffusionService`: injects the REST client for Stable Diffusion
+- `@Tool(description = "Tool to create an image with Stable Diffusion XL given a prompt and a negative prompt.")` on the method: exposes it as an MCP tool (note: this `@Tool` is from `io.quarkiverse.mcp.server`, not from LangChain4j)
+- `@P("Prompt that explains the image") String prompt`: describes the prompt parameter for the AI agent
+- `@P("Negative prompt that explains what the image must not contains") String negativePrompt`: describes the negative prompt parameter
+- Inside the method: call `stableDiffusionService.generateImage(new SDPayload(prompt, negativePrompt))` to get the image bytes, then write them to a file with `Files.write(Path.of("generated-image.jpeg"), image)`
+
+</details>
+
+<details>
+<summary>🎁 Hint 3 — VS Code snippets (last resort!)</summary>
+
+Type `quarkus-21` in your editor and press **Tab** to insert the REST client injection, then `quarkus-22` for the `@Tool` method signature, and `quarkus-23` for the method body that calls Stable Diffusion and writes the image file.
+
+</details>
 
 ---
 
