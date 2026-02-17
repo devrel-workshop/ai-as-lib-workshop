@@ -74,6 +74,8 @@ This workshop provides **VS Code code snippets** as progressive hints to help yo
 
 **Goal**: Transcribe audio into text using the **Whisper** model for automatic speech recognition (ASR).
 
+![](../../../assets/stt.png)
+
 ### 🎯 Architecture Overview
 
 ```
@@ -222,6 +224,8 @@ Run the exercise:
 
 **Goal**: Generate speech from text using the **NVIDIA RIVA** text-to-speech model (`nvr-tts-en-us`).
 
+![](../../../assets/tts.png)
+
 ### 🎯 Architecture Overview
 
 ```
@@ -369,6 +373,8 @@ Run the exercise:
 ## 🌍 Module 3: Bonus! Speech to Speech with Translation 🏴󠁧󠁢󠁥󠁮󠁧󠁿 🇪🇸
 
 **Goal**: Build a full pipeline that takes English speech, transcribes it, translates it to Spanish using an LLM, and generates Spanish audio.
+
+![](../../../assets/sts.png)
 
 ### 🎯 Architecture Overview
 

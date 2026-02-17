@@ -108,6 +108,8 @@ This workshop provides **VS Code code snippets** as progressive hints to help yo
 
 **Goal**: Create a basic synchronous chatbot that answers questions using AI Endpoints.
 
+![](../../../../assets/quarkus-simple-chatbot.png)
+
 ### 🎯 Architecture Overview
 
 ```
@@ -282,6 +284,8 @@ curl -X POST http://localhost:8080/chatbot/simple \
 
 **Goal**: Create a chatbot that streams responses in real-time using reactive programming.
 
+![](../../../../assets/quarkus-streaming-chatbot.png)
+
 ### 🎯 Why Streaming?
 
 Streaming responses provide:
@@ -402,6 +406,8 @@ curl -X POST http://localhost:8080/chatbot/advanced \
 ## 🧠 Module 3: Memory Chatbot 🧠
 
 **Goal**: Create a chatbot that remembers previous messages in a conversation.
+
+![](../../../../assets/quarkus-memory-chatbot.png)
 
 ### 🎯 Why Memory?
 
@@ -533,6 +539,8 @@ curl -X POST http://localhost:8080/chatbot/memory \
 ## 🎉 Bonus!!! Module 4: MCP Server with Image Generation 🎨
 
 **Goal**: Create a Model Context Protocol (MCP) server that exposes image generation tools using Stable Diffusion XL.
+
+![](../../../../assets/quarkus-mcp-chatbot.png)
 
 ### 🎯 What is MCP?
 

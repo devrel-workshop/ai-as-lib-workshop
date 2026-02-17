@@ -75,6 +75,8 @@ This workshop provides **VS Code code snippets** as progressive hints to help yo
 
 **Goal**: Create a basic synchronous chatbot that answers questions using AI Endpoints.
 
+![](../../../../assets/l4j-simple-chatbot.png)
+
 ### 🎯 Architecture Overview
 
 ```mermaid
@@ -292,6 +294,8 @@ Because they don't C#!
 
 **Goal**: Create a chatbot that streams responses in real-time, word by word.
 
+![](../../../../assets/l4j-streaming-chatbot.png)
+
 ### 🎯 Architecture Overview
 
 ```mermaid
@@ -472,6 +476,8 @@ You should see:
 ## 🧠 Module 3: Memory Chatbot 🧠
 
 **Goal**: Create a chatbot that remembers previous messages in the conversation.
+
+![](../../../../assets/l4j-memory-chatbot.png)
 
 ### 🎯 Architecture Overview
 
@@ -735,6 +741,8 @@ You should see:
 ## 📚 Module 4: RAG Chatbot 📚
 
 **Goal**: Create a chatbot that can answer questions based on your documents using Retrieval Augmented Generation.
+
+![](../../../../assets/l4j-rag-chatbot.png)
 
 ### 🎯 Architecture Overview
 
@@ -1110,6 +1118,8 @@ You should see answers based on the document content!
 
 **Goal**: Create tools that the AI can call to perform actions - in this case, generating images with Stable Diffusion XL.
 
+![](../../../../assets/l4j-function-calling-chatbot.png)
+
 ### 🎯 Architecture Overview
 
 ```mermaid
@@ -1455,6 +1465,8 @@ Response: Here is the generated image of a cat riding a bicycle:
 ## 🔌 Module 6: MCP Client (Bonus!) 🔌
 
 **Goal**: Consume the MCP (Model Context Protocol) server created with Quarkus to use remote tools.
+
+![](../../../../assets/l4j-mcp-chatbot.png)
 
 ### 🎯 Architecture Overview
 
