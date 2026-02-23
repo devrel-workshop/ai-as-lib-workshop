@@ -26,6 +26,7 @@ The workshop is divided into progressive modules:
 4. 📚 **RAG Chatbot** - Retrieval Augmented Generation with document embeddings
 5. 🎨 **Function Calling** - Create and use tools for image generation
 6. 🔌 **MCP Client** - Consume the MCP server created with Quarkus
+7. 🤖 **Agentic Image Generator** - ReAct loop with LangChain4j Agentic API
 
 ---
 
@@ -1838,6 +1839,480 @@ AI: [Calls remote generateImage tool via MCP]
 
 ---
 
+## 🤖 Module 7: Agentic Image Generator (ReAct Loop)
+
+In this module, you'll build an **agentic image generator** using the **LangChain4j Agentic API**. Instead of a simple tool-calling chatbot, you'll create a **ReAct loop** with three cooperating agents:
+
+1. **PromptRefiner** — Creates optimized Stable Diffusion XL prompts from a user description
+2. **ImageGenerator** — Calls the SDXL API to generate an image
+3. **VisionCritic** — Evaluates the generated image and provides feedback
+
+The loop iterates until the critic gives a score >= 0.8 (or max 3 iterations), refining prompts based on critic feedback each time.
+
+**File to edit**: [ImageGeneratorAgent.java](ImageGeneratorAgent.java)
+
+> **Note**: This module uses `langchain4j-agentic:1.11.0-beta19` — the new Agentic API for multi-agent orchestration.
+
+---
+
+### 📝 Step 7.1: Define SdxlPrompts Record
+
+**File to edit**: [ImageGeneratorAgent.java](ImageGeneratorAgent.java)
+
+Define a Java record to hold the SDXL prompt and negative prompt.
+
+💡 **Why a Record?**:
+- Agents communicate via structured data
+- The PromptRefiner will output this record
+- The ImageGenerator will consume it
+
+<details>
+<summary>🔎 Hint 1 — What concept to use</summary>
+
+A simple Java **record** with two `String` fields: `prompt` and `negativePrompt`. This is a data carrier used to pass SDXL prompts between agents in the loop.
+
+📖 **Documentation**:
+- [Java Records](https://docs.oracle.com/en/java/javase/21/language/records.html)
+
+</details>
+
+<details>
+<summary>🧩 Hint 2 — Key classes & methods</summary>
+
+- `public record SdxlPrompts(String prompt, String negativePrompt) {}`
+
+</details>
+
+<details>
+<summary>🎁 Hint 3 — VS Code snippet (last resort!)</summary>
+
+Type `java-41` in your editor and press **Tab** to insert the SdxlPrompts record.
+
+</details>
+
+---
+
+### 📝 Step 7.2: Create PromptRefiner Agent Interface
+
+**File to edit**: [ImageGeneratorAgent.java](ImageGeneratorAgent.java)
+
+Create the `PromptRefiner` agent interface. This agent takes a user request and optional critic feedback, and produces optimized SDXL prompts.
+
+💡 **Agent Annotations**:
+- `@SystemMessage` — defines the agent's persona and instructions
+- `@Agent` — marks this as an agent with a description and output key
+- `@UserMessage` — defines the template for user input
+- `@V` — binds method parameters to template variables
+
+<details>
+<summary>🔎 Hint 1 — What concept to use</summary>
+
+The **LangChain4j Agentic API** lets you define agents as Java interfaces with annotations. The `@Agent` annotation marks a method as an agent entry point, with `description` (used by orchestrators) and `outputKey` (the key under which the result is stored in shared scope).
+
+📖 **Documentation**:
+- [LangChain4j Agentic API](https://docs.langchain4j.dev/tutorials/agentic)
+
+</details>
+
+<details>
+<summary>🧩 Hint 2 — Key classes & methods</summary>
+
+- `@SystemMessage("""...""")` — instruct the agent to be an expert prompt engineer for SDXL
+- `@Agent(description = "...", outputKey = "sdxlPrompts")` — register as agent with output key
+- `@UserMessage("""...""")` — template with `{{userRequest}}` and `{{feedback}}` placeholders
+- `SdxlPrompts refinePrompt(@V("userRequest") String userRequest, @V("feedback") String feedback)` — method signature
+
+</details>
+
+<details>
+<summary>🎁 Hint 3 — VS Code snippet (last resort!)</summary>
+
+Type `java-42` in your editor and press **Tab** to insert the PromptRefiner agent interface body.
+
+</details>
+
+---
+
+### 📝 Step 7.3: Implement ImageGenerator Agent Class
+
+**File to edit**: [ImageGeneratorAgent.java](ImageGeneratorAgent.java)
+
+Implement the `ImageGenerator` agent class. This agent receives SDXL prompts and calls the Stable Diffusion XL API to generate an image.
+
+💡 **Why a Class (not Interface)?**:
+- This agent has real imperative logic (HTTP calls, file I/O)
+- It uses `@Agent` on a concrete method
+- Returns `ImageContent` (base64-encoded image) for the VisionCritic to evaluate
+
+<details>
+<summary>🔎 Hint 1 — What concept to use</summary>
+
+Unlike interface-based agents, the `ImageGenerator` is a **concrete class** with an `@Agent`-annotated method. It builds an HTTP POST request to the SDXL API endpoint, sends the prompt/negative prompt as JSON, and returns the result as a base64-encoded `ImageContent`.
+
+📖 **Documentation**:
+- [LangChain4j Agentic API](https://docs.langchain4j.dev/tutorials/agentic)
+- [Java HttpClient](https://docs.oracle.com/en/java/javase/21/docs/api/java.net.http/java/net/http/HttpClient.html)
+
+</details>
+
+<details>
+<summary>🧩 Hint 2 — Key classes & methods</summary>
+
+- `@Agent(value = "...", outputKey = "imageBase64")` — marks the method as an agent
+- `@V("sdxlPrompts") SdxlPrompts sdxlPrompts` — receives prompts from shared scope
+- `HttpRequest.newBuilder().uri(...).POST(...).header(...)` — build SDXL API request
+- `HttpClient.newHttpClient().send(httpRequest, HttpResponse.BodyHandlers.ofByteArray())` — execute request
+- `ImageContent.from(Base64.getEncoder().encodeToString(bytes), "image/jpeg")` — return as ImageContent
+
+</details>
+
+<details>
+<summary>🎁 Hint 3 — VS Code snippet (last resort!)</summary>
+
+Type `java-43` in your editor and press **Tab** to insert the ImageGenerator agent class body.
+
+</details>
+
+---
+
+### 📝 Step 7.4: Define Critique Record
+
+**File to edit**: [ImageGeneratorAgent.java](ImageGeneratorAgent.java)
+
+Define a Java record to hold the critic's evaluation (score and feedback).
+
+💡 **Why a Critique Record?**:
+- The VisionCritic outputs a structured evaluation
+- The score determines if the loop should continue
+- The feedback is passed back to the PromptRefiner for improvement
+
+<details>
+<summary>🔎 Hint 1 — What concept to use</summary>
+
+A simple Java **record** with a `double score` (0.0 to 1.0) and a `String feedback`. The exit condition reads this to decide whether to continue the loop.
+
+📖 **Documentation**:
+- [Java Records](https://docs.oracle.com/en/java/javase/21/language/records.html)
+
+</details>
+
+<details>
+<summary>🧩 Hint 2 — Key classes & methods</summary>
+
+- `public record Critique(double score, String feedback) {}`
+
+</details>
+
+<details>
+<summary>🎁 Hint 3 — VS Code snippet (last resort!)</summary>
+
+Type `java-44` in your editor and press **Tab** to insert the Critique record.
+
+</details>
+
+---
+
+### 📝 Step 7.5: Create VisionCritic Agent Interface
+
+**File to edit**: [ImageGeneratorAgent.java](ImageGeneratorAgent.java)
+
+Create the `VisionCritic` agent interface. This agent receives the generated image and original user request, then evaluates how well the image matches.
+
+💡 **Vision Model**:
+- This agent uses a vision-capable model (not the text-only model)
+- It receives an `ImageContent` parameter
+- It outputs a `Critique` with score and feedback
+
+<details>
+<summary>🔎 Hint 1 — What concept to use</summary>
+
+The VisionCritic is an interface-based agent similar to PromptRefiner, but it operates on **images**. It uses `@UserMessage` on a parameter to inject the base64-encoded image into the message. The `@Agent` annotation stores the result under the `"critique"` output key.
+
+📖 **Documentation**:
+- [LangChain4j Agentic API](https://docs.langchain4j.dev/tutorials/agentic)
+
+</details>
+
+<details>
+<summary>🧩 Hint 2 — Key classes & methods</summary>
+
+- `@SystemMessage("""...""")` — instruct the agent to be an expert image critic
+- `@Agent(description = "...", outputKey = "critique")` — register as agent
+- `@UserMessage("""...""")` — template with `{{userRequest}}`
+- `Critique critique(@V("userRequest") String userRequest, @UserMessage("{{imageBase64}}") ImageContent imageBase64)` — note the second `@UserMessage` on the image parameter
+
+</details>
+
+<details>
+<summary>🎁 Hint 3 — VS Code snippet (last resort!)</summary>
+
+Type `java-45` in your editor and press **Tab** to insert the VisionCritic agent interface body.
+
+</details>
+
+---
+
+### 📝 Step 7.6: Create Chat Model
+
+**File to edit**: [ImageGeneratorAgent.java](ImageGeneratorAgent.java)
+
+Create the main `ChatModel` for the PromptRefiner agent (text-based model).
+
+💡 **Model Configuration**:
+- Uses `OVH_AI_ENDPOINTS_MODEL_NAME` (text model)
+- Temperature 0.0 for deterministic outputs
+- 5-minute timeout (image generation can be slow)
+
+<details>
+<summary>🔎 Hint 1 — What concept to use</summary>
+
+Same `OpenAiChatModel.builder()` pattern as previous modules, configured with environment variables. The key difference is the longer timeout (`Duration.ofMinutes(5)`) since the agentic loop may take several minutes.
+
+📖 **Documentation**:
+- [LangChain4j OpenAI Integration](https://docs.langchain4j.dev/integrations/language-models/open-ai)
+
+</details>
+
+<details>
+<summary>🧩 Hint 2 — Key classes & methods</summary>
+
+- `OpenAiChatModel.builder()` with `.apiKey()`, `.baseUrl()`, `.modelName()`, `.temperature(0.0)`, `.timeout(Duration.ofMinutes(5))`, `.build()`
+- Environment variables: `OVH_AI_ENDPOINTS_ACCESS_TOKEN`, `OVH_AI_ENDPOINTS_MODEL_URL`, `OVH_AI_ENDPOINTS_MODEL_NAME`
+
+</details>
+
+<details>
+<summary>🎁 Hint 3 — VS Code snippet (last resort!)</summary>
+
+Type `java-46` in your editor and press **Tab** to insert the chat model creation.
+
+</details>
+
+---
+
+### 📝 Step 7.7: Create Vision Model
+
+**File to edit**: [ImageGeneratorAgent.java](ImageGeneratorAgent.java)
+
+Create a second `ChatModel` for the VisionCritic agent (vision-capable model).
+
+💡 **Vision Model**:
+- Uses `OVH_AI_ENDPOINTS_VLLM_MODEL` (different from text model!)
+- Must support image inputs for the critic to analyze generated images
+
+<details>
+<summary>🔎 Hint 1 — What concept to use</summary>
+
+A second `OpenAiChatModel` instance, but pointing to a **vision-capable model** via `OVH_AI_ENDPOINTS_VLLM_MODEL`. Everything else (API key, base URL, timeout) is the same as the text model.
+
+📖 **Documentation**:
+- [LangChain4j OpenAI Integration](https://docs.langchain4j.dev/integrations/language-models/open-ai)
+
+</details>
+
+<details>
+<summary>🧩 Hint 2 — Key classes & methods</summary>
+
+- Same `OpenAiChatModel.builder()` pattern
+- Use `.modelName(System.getenv("OVH_AI_ENDPOINTS_VLLM_MODEL"))` — note the different env variable
+
+</details>
+
+<details>
+<summary>🎁 Hint 3 — VS Code snippet (last resort!)</summary>
+
+Type `java-47` in your editor and press **Tab** to insert the vision model creation.
+
+</details>
+
+---
+
+### 📝 Step 7.8: Build PromptRefiner Agent
+
+**File to edit**: [ImageGeneratorAgent.java](ImageGeneratorAgent.java)
+
+Build the PromptRefiner agent using `AgenticServices.agentBuilder()`.
+
+💡 **Agent Builder**:
+- Wires the interface to a chat model
+- Adds an optional listener for observability
+- Sets the output key for the shared scope
+
+<details>
+<summary>🔎 Hint 1 — What concept to use</summary>
+
+`AgenticServices.agentBuilder()` creates an agent instance from an interface class. You configure it with a `ChatModel`, an optional `AgentListener` (for logging/observability), and an `outputKey` that determines where the result is stored in the shared agent scope.
+
+📖 **Documentation**:
+- [LangChain4j Agentic API](https://docs.langchain4j.dev/tutorials/agentic)
+
+</details>
+
+<details>
+<summary>🧩 Hint 2 — Key classes & methods</summary>
+
+- `AgenticServices.agentBuilder(PromptRefiner.class)` — create builder for the interface
+- `.chatModel(chatModel)` — wire the text model
+- `.listener(new AgentListener() { ... })` — optional observability callback
+- `.outputKey("sdxlPrompts")` — where to store result in shared scope
+- `.build()` — returns a `PromptRefiner` instance
+
+</details>
+
+<details>
+<summary>🎁 Hint 3 — VS Code snippet (last resort!)</summary>
+
+Type `java-48` in your editor and press **Tab** to insert the PromptRefiner agent builder.
+
+</details>
+
+---
+
+### 📝 Step 7.9: Build VisionCritic Agent
+
+**File to edit**: [ImageGeneratorAgent.java](ImageGeneratorAgent.java)
+
+Build the VisionCritic agent using `AgenticServices.agentBuilder()`.
+
+💡 **Vision Agent**:
+- Uses the **vision model** (not the text model)
+- Output key is `"critique"` — read by the exit condition
+
+<details>
+<summary>🔎 Hint 1 — What concept to use</summary>
+
+Same `AgenticServices.agentBuilder()` pattern, but wired to the **vision model** since this agent needs to analyze images. The output key `"critique"` is what the exit condition reads to decide whether to continue.
+
+📖 **Documentation**:
+- [LangChain4j Agentic API](https://docs.langchain4j.dev/tutorials/agentic)
+
+</details>
+
+<details>
+<summary>🧩 Hint 2 — Key classes & methods</summary>
+
+- `AgenticServices.agentBuilder(VisionCritic.class)` — create builder
+- `.chatModel(visionModel)` — wire the **vision** model
+- `.outputKey("critique")` — result stored under this key
+- `.build()` — returns a `VisionCritic` instance
+
+</details>
+
+<details>
+<summary>🎁 Hint 3 — VS Code snippet (last resort!)</summary>
+
+Type `java-49` in your editor and press **Tab** to insert the VisionCritic agent builder.
+
+</details>
+
+---
+
+### 📝 Step 7.10: Build Agent Loop
+
+**File to edit**: [ImageGeneratorAgent.java](ImageGeneratorAgent.java)
+
+Build the agent loop that orchestrates all three agents in a ReAct pattern.
+
+💡 **Loop Configuration**:
+- `maxIterations(3)` — safety limit to prevent infinite loops
+- `subAgents(...)` — the three agents executed in order each iteration
+- `exitCondition(...)` — reads the critic's score and decides whether to stop
+- `testExitAtLoopEnd(true)` — evaluate exit condition after all agents run
+
+<details>
+<summary>🔎 Hint 1 — What concept to use</summary>
+
+`AgenticServices.loopBuilder()` creates a **multi-agent loop**. Each iteration runs all sub-agents in order. The `exitCondition` is a lambda that reads the `Critique` from the shared scope — if the score >= 0.8, the loop exits. Otherwise, the critic's feedback is written back to scope so the PromptRefiner can use it in the next iteration.
+
+📖 **Documentation**:
+- [LangChain4j Agentic API](https://docs.langchain4j.dev/tutorials/agentic)
+
+</details>
+
+<details>
+<summary>🧩 Hint 2 — Key classes & methods</summary>
+
+- `AgenticServices.loopBuilder()` — creates an `UntypedAgent` loop
+- `.maxIterations(3)` — at most 3 refinement cycles
+- `.subAgents(promptRefiner, new ImageGenerator(), visionCritic)` — agents run in this order
+- `.testExitAtLoopEnd(true)` — check exit after all agents run
+- `.exitCondition((scope, loopCounter) -> { ... })` — lambda that:
+  - Reads `scope.readState("critique")` → `Critique`
+  - Writes `scope.writeState("feedback", critique.feedback)` for next iteration
+  - Returns `true` if `critique.score >= 0.8`
+
+</details>
+
+<details>
+<summary>🎁 Hint 3 — VS Code snippet (last resort!)</summary>
+
+Type `java-50` in your editor and press **Tab** to insert the agent loop builder.
+
+</details>
+
+---
+
+### 📝 Step 7.11: User Input and Agent Invocation
+
+**File to edit**: [ImageGeneratorAgent.java](ImageGeneratorAgent.java)
+
+Read the user's image description and invoke the agent loop.
+
+💡 **Initial State**:
+- The agent loop needs initial values for `userRequest`, `feedback`, and `imageBase64`
+- On the first iteration there is no feedback yet, so pass a placeholder string
+
+<details>
+<summary>🔎 Hint 1 — What concept to use</summary>
+
+Read user input, then invoke the agent with `agent.invoke(Map.of(...))` passing the initial shared state. The map keys must match what the sub-agents expect: `"userRequest"`, `"feedback"` (initially a placeholder), and `"imageBase64"` (initially empty).
+
+📖 **Documentation**:
+- [LangChain4j Agentic API](https://docs.langchain4j.dev/tutorials/agentic)
+
+</details>
+
+<details>
+<summary>🧩 Hint 2 — Key classes & methods</summary>
+
+- `IO.readln()` — read user input
+- `agent.invoke(Map.of("userRequest", userRequest, "feedback", "No previous feedback - this is the first iteration.", "imageBase64", ""))` — start the loop
+- The return value is an `Object` (the final agent result)
+
+</details>
+
+<details>
+<summary>🎁 Hint 3 — VS Code snippet (last resort!)</summary>
+
+Type `java-51` in your editor and press **Tab** to insert the user input and agent invocation.
+
+</details>
+
+---
+
+### 🧪 Step 7.12: Test Your Agentic Image Generator
+
+Run the agentic image generator:
+```bash
+./run-jbang.sh ImageGeneratorAgent.java
+```
+
+Try:
+```
+Enter your image description:
+A red cat sleeping on a velvet couch
+```
+
+✅ **Expected**:
+- PromptRefiner creates optimized SDXL prompts
+- ImageGenerator calls the SDXL API and generates an image
+- VisionCritic evaluates the image (score + feedback)
+- If score < 0.8, the loop repeats with improved prompts
+- Loop completes when score >= 0.8 or after 3 iterations
+- Generated image saved as `red-cat-02.jpeg`
+
+---
+
 ## 🎓 Workshop Complete! 🎓
 
 Congratulations! You've built complete AI-powered applications with LangChain4j:
@@ -1847,6 +2322,7 @@ Congratulations! You've built complete AI-powered applications with LangChain4j:
 - ✅ RAG with document embeddings
 - ✅ Function calling with image generation
 - ✅ MCP client consuming remote tools
+- ✅ Agentic image generator with ReAct loop
 
 ### 🚀 Next Steps
 
