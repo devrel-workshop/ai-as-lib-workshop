@@ -19,9 +19,19 @@ import org.slf4j.LoggerFactory;
  * The steps to create your agentic image generator are:
  * - Define the data records (SdxlPrompts, Critique)
  * - Create the agent interfaces/classes (PromptRefiner, ImageGenerator, VisionCritic)
+ *   (see https://docs.langchain4j.dev/tutorials/agentic)
  * - Build the agents with AgenticServices
+ *   (see https://docs.langchain4j.dev/tutorials/agentic#agenticservices)
  * - Configure the agent loop with exit condition
+ *   (see https://docs.langchain4j.dev/tutorials/agentic#loop)
  * - Read user input and invoke the agent
+ *
+ * Useful documentation:
+ * - LangChain4j Agentic API: https://docs.langchain4j.dev/tutorials/agentic
+ * - @Agent annotation: https://docs.langchain4j.dev/tutorials/agentic#agent-annotation
+ * - AgenticServices: https://docs.langchain4j.dev/tutorials/agentic#agenticservices
+ * - OpenAI model integration: https://docs.langchain4j.dev/integrations/language-models/open-ai
+ * - OVHcloud AI Endpoints: https://endpoints.ai.cloud.ovh.net
  */
 
 // java-41
