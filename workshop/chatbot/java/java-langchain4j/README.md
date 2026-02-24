@@ -1845,6 +1845,58 @@ AI: [Calls remote generateImage tool via MCP]
 
 ### 🎯 Architecture Overview
 
+```mermaid
+sequenceDiagram
+    participant User
+    participant AgentLoop
+    participant PromptRefiner
+    participant ImageGenerator
+    participant VisionCritic
+    participant ChatModel
+    participant VisionModel
+    participant SDXL API
+
+    User->>AgentLoop: "A red cat riding a skateboard"
+
+    Note over AgentLoop: Iteration 1
+
+    AgentLoop->>PromptRefiner: refinePrompt(userRequest, feedback)
+    PromptRefiner->>ChatModel: Generate optimized SDXL prompts
+    ChatModel-->>PromptRefiner: SdxlPrompts (prompt + negativePrompt)
+    PromptRefiner-->>AgentLoop: scope["sdxlPrompts"]
+
+    AgentLoop->>ImageGenerator: generateImage(sdxlPrompts)
+    ImageGenerator->>SDXL API: HTTP POST (prompt, negativePrompt)
+    SDXL API-->>ImageGenerator: Image bytes
+    ImageGenerator-->>AgentLoop: scope["imageBase64"] (ImageContent)
+
+    AgentLoop->>VisionCritic: critique(userRequest, imageBase64)
+    VisionCritic->>VisionModel: Evaluate image vs request
+    VisionModel-->>VisionCritic: Critique (score + feedback)
+    VisionCritic-->>AgentLoop: scope["critique"]
+
+    AgentLoop->>AgentLoop: exitCondition: score >= 0.8?
+
+    alt score < 0.8 and iterations < maxIterations
+        Note over AgentLoop: Loop again with critic feedback
+        AgentLoop->>PromptRefiner: refinePrompt(userRequest, critique.feedback)
+        PromptRefiner->>ChatModel: Refine prompts with feedback
+        ChatModel-->>PromptRefiner: Improved SdxlPrompts
+        PromptRefiner-->>AgentLoop: scope["sdxlPrompts"]
+        AgentLoop->>ImageGenerator: generateImage(sdxlPrompts)
+        ImageGenerator->>SDXL API: HTTP POST
+        SDXL API-->>ImageGenerator: Improved image
+        ImageGenerator-->>AgentLoop: scope["imageBase64"]
+        AgentLoop->>VisionCritic: critique(userRequest, imageBase64)
+        VisionCritic->>VisionModel: Re-evaluate
+        VisionModel-->>VisionCritic: Higher score
+        VisionCritic-->>AgentLoop: scope["critique"]
+    end
+
+    AgentLoop-->>User: Final image + score
+
+    Note over PromptRefiner,VisionCritic: ReAct loop: Refine → Generate → Critique → Repeat
+```
 
 In this module, you'll build an **agentic image generator** using the **LangChain4j Agentic API**. Instead of a simple tool-calling chatbot, you'll create a **ReAct loop** with three cooperating agents:
 
