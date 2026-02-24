@@ -34,14 +34,14 @@ import org.slf4j.LoggerFactory;
  * - OVHcloud AI Endpoints: https://endpoints.ai.cloud.ovh.net
  */
 
-// java-41
+// java-62
 // Define the SdxlPrompts record with prompt and negativePrompt fields
 
 
 // PromptRefiner agent interface
 // Creates optimized Stable Diffusion XL prompts from user request and feedback
 public interface PromptRefiner {
-    // java-42
+    // java-63
     // Add @SystemMessage, @Agent, @UserMessage annotations and refinePrompt method
 }
 
@@ -49,39 +49,40 @@ public interface PromptRefiner {
 // ImageGenerator agent class
 // Calls the SDXL API to generate an image from prompts
 public class ImageGenerator {
-    // java-43
+    // java-64
     // Add @Agent method that builds HTTP request, calls SDXL API, and returns ImageContent
 }
 
-// java-44
+// java-65
 // Define the Critique record with score and feedback fields
 
 
 // VisionCritic agent interface
 // Evaluates a generated image against the original user request
 public interface VisionCritic {
-    // java-45
+    // java-66
     // Add @SystemMessage, @Agent, @UserMessage annotations and critique method
+    
 }
 
 void main() {
 
-    // java-46
+    // java-67
     // Create the main ChatModel (for prompt refinement)
 
-    // java-47
+    // java-68
     // Create the vision ChatModel (for image critique)
 
-    // java-48
+    // java-69
     // Build the PromptRefiner agent with AgenticServices.agentBuilder
 
-    // java-49
+    // java-70
     // Build the VisionCritic agent with AgenticServices.agentBuilder
 
-    // java-50
+    // java-71
     // Build the agent loop with AgenticServices.loopBuilder,
     // subAgents, maxIterations, and exitCondition
 
-    // java-51
+    // java-72
     // Read user input and invoke the agent loop
 }

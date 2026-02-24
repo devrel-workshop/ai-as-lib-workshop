@@ -501,6 +501,201 @@ snippet java-40:
     }
     scanner.close();
 
+## java-agentic section
+snippet java-62:
+  name: "Agent: SdxlPrompts record"
+  prefix: "java-62-sdxl-prompts"
+  scope: "java"
+  body: |
+    public record SdxlPrompts(String prompt, String negativePrompt) {
+    }
+
+snippet java-63:
+  name: "Agent: PromptRefiner interface"
+  prefix: "java-63-prompt-refiner"
+  scope: "java"
+  body: |
+    @SystemMessage("""
+        You are an expert prompt engineer for Stable Diffusion XL.
+        Your job is to create or refine a detailed prompt and negative prompt for image generation.
+        When given feedback from a critic, incorporate that feedback to improve the prompts.
+        Respond with ONLY a JSON object (no markdown, no code fences) in this exact format:
+        {"prompt": "detailed SDXL prompt here", "negativePrompt": "negative prompt here"}
+        The prompt should be highly detailed with style, lighting, quality keywords.
+        The negative prompt should exclude common artifacts and unwanted elements.
+        """)
+    @Agent(description = "Creates or refines Stable Diffusion XL prompts from a user request and optional critic feedback", outputKey = "sdxlPrompts")
+    @UserMessage("""
+        User request: "{{userRequest}}"
+        Previous critic feedback: "{{feedback}}"
+        Create optimized Stable Diffusion XL prompts for this request.
+        """)
+    SdxlPrompts refinePrompt(@V("userRequest") String userRequest, @V("feedback") String feedback);
+
+snippet java-64:
+  name: "Agent: ImageGenerator class"
+  prefix: "java-64-image-generator"
+  scope: "java"
+  body: |
+    @Agent(value = "Agent to create an image with Stable Diffusion XL given a prompt and a negative prompt.", outputKey = "imageBase64")
+    public ImageContent generateImage(@V("sdxlPrompts") SdxlPrompts sdxlPrompts) throws IOException, InterruptedException {
+      //IO.println("Prompts: " + sdxlPrompts);
+
+      IO.println("🏞️ Generating image with SDXL prompts...");
+      HttpRequest httpRequest = HttpRequest.newBuilder()
+          .uri(URI.create(System.getenv("OVH_AI_ENDPOINTS_SD_URL")))
+          .POST(HttpRequest.BodyPublishers.ofString("""
+                          {"prompt": "%s", 
+                           "negative_prompt": "%s"}
+                          """.formatted(sdxlPrompts.prompt, sdxlPrompts.negativePrompt)))
+          .header("accept", "application/octet-stream")
+          .header("Content-Type", "application/json")
+          .header("Authorization", "Bearer " + System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
+          .build();
+
+      HttpResponse<byte[]> response = HttpClient.newHttpClient()
+          .send(httpRequest, HttpResponse.BodyHandlers.ofByteArray());
+
+      Files.write(Path.of("red-cat-02.jpeg"), response.body());
+      return ImageContent.from(Base64.getEncoder().encodeToString(response.body()), "image/jpeg");
+    }
+
+snippet java-65:
+  name: "Agent: Critique record"
+  prefix: "java-65-critique"
+  scope: "java"
+  body: |
+    public record Critique(double score, String feedback) {
+    }
+
+snippet java-66:
+  name: "Agent: VisionCritic interface"
+  prefix: "java-66-vision-critic"
+  scope: "java"
+  body: |
+    @SystemMessage("""
+                  You are an expert image critic with deep knowledge of visual composition, aesthetics, and prompt adherence.
+                  You will receive a base64-encoded image and the original user request.
+                  Analyze how well the generated image matches the user's request.
+                  Respond with ONLY a JSON object (no markdown, no code fences) in this exact format (value are examples, not fixed):
+                  {"score": "", "feedback": ""}
+                  The score must be between 0.0 (terrible match) and 1.0 (perfect match).
+                  Be constructive in your feedback - explain what should be improved for the next iteration.
+                  """)
+    @Agent(description = "Critiques a generated image against the original user request and provides a score and feedback", outputKey = "critique")
+    @UserMessage("""
+                  Original user request: "{{userRequest}}"
+                  Please critique this image and provide a score and feedback.
+                  """)
+    Critique critique(@V("userRequest") String userRequest, @UserMessage("{{imageBase64}}") ImageContent imageBase64);
+
+snippet java-67:
+  name: "Agent: ChatModel creation"
+  prefix: "java-67-chat-model"
+  scope: "java"
+  body: |
+    ChatModel chatModel = OpenAiChatModel.builder()
+        .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
+        .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
+        .modelName(System.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"))
+        .logRequests(false)
+        .logResponses(false)
+        .temperature(0.0)
+        .timeout(Duration.ofMinutes(5))
+        .build();
+
+snippet java-68:
+  name: "Agent: Vision model creation"
+  prefix: "java-68-vision-model"
+  scope: "java"
+  body: |
+    ChatModel visionModel = OpenAiChatModel.builder()
+        .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
+        .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
+        .modelName(System.getenv("OVH_AI_ENDPOINTS_VLLM_MODEL"))
+        .logRequests(false)
+        .logResponses(false)
+        .temperature(0.0)
+        .timeout(Duration.ofMinutes(5))
+        .build();
+
+snippet java-69:
+  name: "Agent: PromptRefiner agent builder"
+  prefix: "java-69-prompt-refiner-builder"
+  scope: "java"
+  body: |
+    PromptRefiner promptRefiner =  AgenticServices.agentBuilder(PromptRefiner.class)
+        .chatModel(chatModel)
+        .listener(new AgentListener() {
+          @Override
+          public void beforeAgentInvocation(AgentRequest request) {
+            IO.println("📝 Invoking promptRefiner");
+          }
+        })
+        .outputKey("sdxlPrompts")
+        .build();
+
+snippet java-70:
+  name: "Agent: VisionCritic agent builder"
+  prefix: "java-70-vision-critic-builder"
+  scope: "java"
+  body: |
+    VisionCritic visionCritic = AgenticServices.agentBuilder(VisionCritic.class)
+        .chatModel(visionModel)
+        .listener(new AgentListener() {
+          @Override
+          public void beforeAgentInvocation(AgentRequest request) {
+            IO.println("🧑‍⚖️ Invoking visionCritic");
+          }
+        })
+        .outputKey("critique")
+        .build();
+
+snippet java-71:
+  name: "Agent: Loop builder"
+  prefix: "java-71-loop-builder"
+  scope: "java"
+  body: |
+    UntypedAgent agent = AgenticServices.loopBuilder()
+        .maxIterations(3)
+        .subAgents(promptRefiner, new ImageGenerator(), visionCritic)
+        .testExitAtLoopEnd(true)
+        .exitCondition((scope, loopCounter) -> {
+          Critique critique = (Critique) scope.readState("critique");
+          if (critique == null)
+            return false;
+          try {
+            // Parse the score from the JSON critique response
+            IO.println("🧑‍⚖️ Critic score: %s".formatted(critique.score));
+            IO.println("📊 Feedback: %s".formatted(critique.feedback));
+
+            scope.writeState("feedback", critique.feedback);
+
+            return critique.score >= 0.8;
+          } catch (Exception e) {
+            IO.println("💥 Could not parse critic score, continuing loop 💥");
+            return false;
+          }
+        })
+        .build();
+
+snippet java-72:
+  name: "Agent: User input and invocation"
+  prefix: "java-72-agent-invoke"
+  scope: "java"
+  body: |
+    IO.println("🤖: Enter your image description:");
+    String userRequest = IO.readln();
+    IO.println("👩‍🎨 Starting agentic image generation loop...\n");
+
+    // Run the agent loop with initial state
+    Object result = agent.invoke(Map.of(
+        "userRequest", userRequest,
+        "feedback", "No previous feedback - this is the first iteration.",
+        "imageBase64", ""));
+
+    IO.println("\n🔄 Agent loop complete! ✅");
+
 ## java-quarkus section
 snippet quarkus-01:
   name: "Quarkus properties"

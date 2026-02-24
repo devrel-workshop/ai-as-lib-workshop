@@ -1886,7 +1886,7 @@ A simple Java **record** with two `String` fields: `prompt` and `negativePrompt`
 <details>
 <summary>🎁 Hint 3 — VS Code snippet (last resort!)</summary>
 
-Type `java-41` in your editor and press **Tab** to insert the SdxlPrompts record.
+Type `java-62` in your editor and press **Tab** to insert the SdxlPrompts record.
 
 </details>
 
@@ -1927,7 +1927,7 @@ The **LangChain4j Agentic API** lets you define agents as Java interfaces with a
 <details>
 <summary>🎁 Hint 3 — VS Code snippet (last resort!)</summary>
 
-Type `java-42` in your editor and press **Tab** to insert the PromptRefiner agent interface body.
+Type `java-63` in your editor and press **Tab** to insert the PromptRefiner agent interface body.
 
 </details>
 
@@ -1969,7 +1969,7 @@ Unlike interface-based agents, the `ImageGenerator` is a **concrete class** with
 <details>
 <summary>🎁 Hint 3 — VS Code snippet (last resort!)</summary>
 
-Type `java-43` in your editor and press **Tab** to insert the ImageGenerator agent class body.
+Type `java-64` in your editor and press **Tab** to insert the ImageGenerator agent class body.
 
 </details>
 
@@ -2006,7 +2006,7 @@ A simple Java **record** with a `double score` (0.0 to 1.0) and a `String feedba
 <details>
 <summary>🎁 Hint 3 — VS Code snippet (last resort!)</summary>
 
-Type `java-44` in your editor and press **Tab** to insert the Critique record.
+Type `java-65` in your editor and press **Tab** to insert the Critique record.
 
 </details>
 
@@ -2046,7 +2046,7 @@ The VisionCritic is an interface-based agent similar to PromptRefiner, but it op
 <details>
 <summary>🎁 Hint 3 — VS Code snippet (last resort!)</summary>
 
-Type `java-45` in your editor and press **Tab** to insert the VisionCritic agent interface body.
+Type `java-66` in your editor and press **Tab** to insert the VisionCritic agent interface body.
 
 </details>
 
@@ -2084,7 +2084,7 @@ Same `OpenAiChatModel.builder()` pattern as previous modules, configured with en
 <details>
 <summary>🎁 Hint 3 — VS Code snippet (last resort!)</summary>
 
-Type `java-46` in your editor and press **Tab** to insert the chat model creation.
+Type `java-67` in your editor and press **Tab** to insert the chat model creation.
 
 </details>
 
@@ -2121,7 +2121,7 @@ A second `OpenAiChatModel` instance, but pointing to a **vision-capable model** 
 <details>
 <summary>🎁 Hint 3 — VS Code snippet (last resort!)</summary>
 
-Type `java-47` in your editor and press **Tab** to insert the vision model creation.
+Type `java-68` in your editor and press **Tab** to insert the vision model creation.
 
 </details>
 
@@ -2162,7 +2162,7 @@ Build the PromptRefiner agent using `AgenticServices.agentBuilder()`.
 <details>
 <summary>🎁 Hint 3 — VS Code snippet (last resort!)</summary>
 
-Type `java-48` in your editor and press **Tab** to insert the PromptRefiner agent builder.
+Type `java-69` in your editor and press **Tab** to insert the PromptRefiner agent builder.
 
 </details>
 
@@ -2201,7 +2201,7 @@ Same `AgenticServices.agentBuilder()` pattern, but wired to the **vision model**
 <details>
 <summary>🎁 Hint 3 — VS Code snippet (last resort!)</summary>
 
-Type `java-49` in your editor and press **Tab** to insert the VisionCritic agent builder.
+Type `java-70` in your editor and press **Tab** to insert the VisionCritic agent builder.
 
 </details>
 
@@ -2246,7 +2246,7 @@ Build the agent loop that orchestrates all three agents in a ReAct pattern.
 <details>
 <summary>🎁 Hint 3 — VS Code snippet (last resort!)</summary>
 
-Type `java-50` in your editor and press **Tab** to insert the agent loop builder.
+Type `java-71` in your editor and press **Tab** to insert the agent loop builder.
 
 </details>
 
@@ -2284,7 +2284,7 @@ Read user input, then invoke the agent with `agent.invoke(Map.of(...))` passing 
 <details>
 <summary>🎁 Hint 3 — VS Code snippet (last resort!)</summary>
 
-Type `java-51` in your editor and press **Tab** to insert the user input and agent invocation.
+Type `java-72` in your editor and press **Tab** to insert the user input and agent invocation.
 
 </details>
 

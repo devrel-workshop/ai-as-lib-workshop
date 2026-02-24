@@ -20,14 +20,14 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-// java-41
+// java-62
 // Define the SdxlPrompts record with prompt and negativePrompt fields
 public record SdxlPrompts(String prompt, String negativePrompt) {
 }
 
 
 public interface PromptRefiner {
-  // java-42
+  // java-63
   // Add @SystemMessage, @Agent, @UserMessage annotations and refinePrompt method
   @SystemMessage("""
       You are an expert prompt engineer for Stable Diffusion XL.
@@ -50,7 +50,7 @@ public interface PromptRefiner {
 
 public class ImageGenerator {
 
-  // java-43
+  // java-64
   // Add @Agent method that builds HTTP request, calls SDXL API, and returns ImageContent
   @Agent(value = "Agent to create an image with Stable Diffusion XL given a prompt and a negative prompt.", outputKey = "imageBase64")
   public ImageContent generateImage(@V("sdxlPrompts") SdxlPrompts sdxlPrompts) throws IOException, InterruptedException {
@@ -76,13 +76,13 @@ public class ImageGenerator {
   }
 }
 
-// java-44
+// java-65
 // Define the Critique record with score and feedback fields
 public record Critique(double score, String feedback) {
 }
 
 public interface VisionCritic {
-  // java-45
+  // java-66
   // Add @SystemMessage, @Agent, @UserMessage annotations and critique method
   @SystemMessage("""
                 You are an expert image critic with deep knowledge of visual composition, aesthetics, and prompt adherence.
@@ -103,7 +103,7 @@ public interface VisionCritic {
 
 void main() {
 
-  // java-46
+  // java-67
   // Create the main ChatModel (for prompt refinement)
   ChatModel chatModel = OpenAiChatModel.builder()
       .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
@@ -115,7 +115,7 @@ void main() {
       .timeout(Duration.ofMinutes(5))
       .build();
 
-  // java-47
+  // java-68
   // Create the vision ChatModel (for image critique)
   ChatModel visionModel = OpenAiChatModel.builder()
       .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
@@ -127,7 +127,7 @@ void main() {
       .timeout(Duration.ofMinutes(5))
       .build();
 
-  // java-48
+  // java-69
   // Build the PromptRefiner agent with AgenticServices.agentBuilder
   PromptRefiner promptRefiner =  AgenticServices.agentBuilder(PromptRefiner.class)
       .chatModel(chatModel)
@@ -140,7 +140,7 @@ void main() {
       .outputKey("sdxlPrompts")
       .build();
 
-  // java-49
+  // java-70
   // Build the VisionCritic agent with AgenticServices.agentBuilder
   VisionCritic visionCritic = AgenticServices.agentBuilder(VisionCritic.class)
       .chatModel(visionModel)
@@ -153,7 +153,7 @@ void main() {
       .outputKey("critique")
       .build();
 
-  // java-50
+  // java-71
   // Build the agent loop with AgenticServices.loopBuilder,
   // subAgents, maxIterations, and exitCondition
   UntypedAgent agent = AgenticServices.loopBuilder()
@@ -179,7 +179,7 @@ void main() {
       })
       .build();
 
-  // java-51
+  // java-72
   // Read user input and invoke the agent loop
   IO.println("🤖: Enter your image description:");
   String userRequest = IO.readln();
