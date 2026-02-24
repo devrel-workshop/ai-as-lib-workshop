@@ -556,7 +556,7 @@ snippet java-64:
       HttpResponse<byte[]> response = HttpClient.newHttpClient()
           .send(httpRequest, HttpResponse.BodyHandlers.ofByteArray());
 
-      Files.write(Path.of("red-cat-02.jpeg"), response.body());
+      Files.write(Path.of("generated-image.jpeg"), response.body());
       return ImageContent.from(Base64.getEncoder().encodeToString(response.body()), "image/jpeg");
     }
 
