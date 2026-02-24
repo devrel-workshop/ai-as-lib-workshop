@@ -1841,6 +1841,11 @@ AI: [Calls remote generateImage tool via MCP]
 
 ## 🤖 Module 7: Agentic Image Generator (ReAct Loop)
 
+![](../../../../assets/l4j-image-generator-agent.png)
+
+### 🎯 Architecture Overview
+
+
 In this module, you'll build an **agentic image generator** using the **LangChain4j Agentic API**. Instead of a simple tool-calling chatbot, you'll create a **ReAct loop** with three cooperating agents:
 
 1. **PromptRefiner** — Creates optimized Stable Diffusion XL prompts from a user description
