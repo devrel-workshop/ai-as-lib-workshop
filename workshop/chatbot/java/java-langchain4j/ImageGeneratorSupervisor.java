@@ -33,7 +33,8 @@ import org.slf4j.LoggerFactory;
  *
  * Key differences from Module 7 (ReAct Loop):
  * - Uses SupervisorAgent instead of loopBuilder
- * - ImageGenerator returns String (status) and stores image in AgenticScope manually
+ * - ImageGenerator returns a file path String, wrapped in a sequence builder
+ *   that reads the file and creates ImageContent for the VisionCritic
  * - No explicit exitCondition — the supervisor LLM decides when to stop
  * - supervisorContext provides workflow instructions in natural language
  *
@@ -60,10 +61,10 @@ public interface PromptRefiner {
 
 
 // ImageGenerator agent class
-// Calls the SDXL API, stores image in AgenticScope, and returns a status String
+// Calls the SDXL API and returns the file path of the generated image
 public class ImageGenerator {
     // java-75
-    // Add @Agent method that calls SDXL API, stores image in AgenticScope, and returns status String
+    // Add @Agent method that calls SDXL API and returns the file path as a String
 }
 
 // java-76
@@ -90,12 +91,15 @@ void main() {
     // Build the PromptRefiner agent with AgenticServices.agentBuilder
 
     // java-81
-    // Build the VisionCritic agent with AgenticServices.agentBuilder
+    // Build the ImageGenerator agent wrapped in an UntypedAgent with AgenticServices.sequenceBuilder
 
     // java-82
+    // Build the VisionCritic agent with AgenticServices.agentBuilder
+
+    // java-83
     // Build the SupervisorAgent with AgenticServices.supervisorBuilder,
     // subAgents, responseStrategy, maxAgentsInvocations, supervisorContext, and listener
 
-    // java-83
+    // java-84
     // Read user input and invoke the supervisor
 }

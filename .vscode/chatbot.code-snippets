@@ -1456,9 +1456,9 @@
     "prefix": "java-76-critique",
     "scope": "java"
   },
-  "Supervisor: ImageGenerator class (AgenticScope)": {
+  "Supervisor: ImageGenerator class": {
     "body": [
-      "@Agent(value = \"Generates an image with Stable Diffusion XL given SDXL prompts (prompt and negative prompt). Returns a status message. The generated image is stored internally for the critic to evaluate.\", outputKey = \"imageStatus\")",
+      "@Agent(value = \"Generates an image with Stable Diffusion XL given SDXL prompts (prompt and negative prompt). Returns a status message. The generated image is stored internally for the critic to evaluate.\", outputKey = \"imagePath\")",
       "public String generateImage(@V(\"sdxlPrompts\") SdxlPrompts sdxlPrompts) throws IOException, InterruptedException {",
       "  IO.println(\"🏞️ Generating image with SDXL prompts...\");",
       "",
@@ -1478,18 +1478,30 @@
       "",
       "  IO.println(\"SDXL status code: \" + response.statusCode());",
       "",
-      "  var imageContent = ImageContent.from(Base64.getEncoder().encodeToString(response.body()), \"image/jpeg\");",
-      "  var scope = (AgenticScope) LangChain4jManaged.current().get(AgenticScope.class);",
-      "  scope.writeState(\"imageBase64\", imageContent);",
-      "",
       "  Files.write(Path.of(\"generated-image.jpeg\"), response.body());",
       "",
-      "  return \"Image generated successfully (HTTP %d)\".formatted(response.statusCode());",
+      "  return Path.of(\"generated-image.jpeg\").toString();",
       "}",
       ""
     ],
     "description": "",
     "prefix": "java-75-image-generator-supervisor",
+    "scope": "java"
+  },
+  "Supervisor: ImageGenerator sequence builder": {
+    "body": [
+      "UntypedAgent imageGenerator = AgenticServices.sequenceBuilder()",
+      "    .subAgents(new ImageGenerator())",
+      "    .output(agenticScope -\u003e {",
+      "      String imageLocation = agenticScope.readState(\"imagePath\", \"\");",
+      "      agenticScope.writeState(\"imageBase64\",  ImageContent.from(Path.of(imageLocation), \"image/jpeg\"));",
+      "      return imageLocation;",
+      "    })",
+      "    .build();",
+      ""
+    ],
+    "description": "",
+    "prefix": "java-81-image-generator-sequence",
     "scope": "java"
   },
   "Supervisor: PromptRefiner agent builder": {
@@ -1548,7 +1560,7 @@
     "body": [
       "SupervisorAgent supervisor = AgenticServices.supervisorBuilder()",
       "    .chatModel(chatModel)",
-      "    .subAgents(promptRefiner, new ImageGenerator(), visionCritic)",
+      "    .subAgents(promptRefiner, imageGenerator, visionCritic)",
       "    .responseStrategy(SupervisorResponseStrategy.SUMMARY)",
       "    .maxAgentsInvocations(10)",
       "    .supervisorContext(\"\"\"",
@@ -1580,7 +1592,7 @@
       ""
     ],
     "description": "",
-    "prefix": "java-82-supervisor-builder",
+    "prefix": "java-83-supervisor-builder",
     "scope": "java"
   },
   "Supervisor: User input and invocation": {
@@ -1596,7 +1608,7 @@
       ""
     ],
     "description": "",
-    "prefix": "java-83-supervisor-invoke",
+    "prefix": "java-84-supervisor-invoke",
     "scope": "java"
   },
   "Supervisor: Vision model creation": {
@@ -1631,7 +1643,7 @@
       ""
     ],
     "description": "",
-    "prefix": "java-81-vision-critic-builder",
+    "prefix": "java-82-vision-critic-builder",
     "scope": "java"
   },
   "Supervisor: VisionCritic interface": {

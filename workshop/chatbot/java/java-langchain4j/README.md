@@ -2400,8 +2400,9 @@ sequenceDiagram
     Supervisor->>ImageGenerator: generateImage(sdxlPrompts)
     ImageGenerator->>SDXL API: HTTP POST (prompt, negativePrompt)
     SDXL API-->>ImageGenerator: Image bytes
-    Note over ImageGenerator: Stores imageBase64 in AgenticScope
-    ImageGenerator-->>Supervisor: "Image generated successfully"
+    Note over ImageGenerator: Returns file path (imagePath)
+    Note over ImageGenerator: Sequence builder reads file,<br/>creates ImageContent,<br/>writes imageBase64 to scope
+    ImageGenerator-->>Supervisor: scope["imageBase64"]
 
     Supervisor->>VisionCritic: critique(userRequest, imageBase64)
     VisionCritic->>VisionModel: Evaluate image vs request
@@ -2418,7 +2419,7 @@ sequenceDiagram
         Supervisor->>ImageGenerator: generateImage(sdxlPrompts)
         ImageGenerator->>SDXL API: HTTP POST
         SDXL API-->>ImageGenerator: Improved image
-        ImageGenerator-->>Supervisor: "Image generated successfully"
+        ImageGenerator-->>Supervisor: scope["imageBase64"]
         Supervisor->>VisionCritic: critique(userRequest, imageBase64)
         VisionCritic->>VisionModel: Re-evaluate
         VisionModel-->>VisionCritic: Higher score
@@ -2433,7 +2434,7 @@ sequenceDiagram
 In this module, you'll build an **agentic image generator** using the **LangChain4j Supervisor pattern**. Unlike Module 7's fixed ReAct loop, the **Supervisor** uses an LLM to decide which agent to call next based on the current state:
 
 1. **PromptRefiner** — Creates optimized Stable Diffusion XL prompts from a user description
-2. **ImageGenerator** — Calls the SDXL API to generate an image (stores result in `AgenticScope`)
+2. **ImageGenerator** — Calls the SDXL API to generate an image, wrapped in a sequence builder that converts the file path to `ImageContent`
 3. **VisionCritic** — Evaluates the generated image and provides feedback
 
 The supervisor LLM receives workflow instructions via `supervisorContext` and autonomously decides when to refine, regenerate, or stop.
@@ -2443,7 +2444,7 @@ The supervisor LLM receives workflow instructions via `supervisorContext` and au
 |---|---|---|
 | Orchestration | Fixed loop with `exitCondition` | LLM-powered supervisor decides |
 | Builder | `AgenticServices.loopBuilder()` | `AgenticServices.supervisorBuilder()` |
-| ImageGenerator returns | `ImageContent` | `String` (stores image in `AgenticScope`) |
+| ImageGenerator returns | `ImageContent` | `String` (file path), wrapped in a `sequenceBuilder` that creates `ImageContent` |
 | Exit logic | Programmatic: `score >= 0.8` | Natural language in `supervisorContext` |
 | Invocation | `agent.invoke(Map.of(...))` | `supervisor.invoke(userRequest)` |
 
@@ -2543,25 +2544,24 @@ Type `java-74` in VS Code to insert the PromptRefiner body.
 
 **File to edit**: [ImageGeneratorSupervisor.java](ImageGeneratorSupervisor.java)
 
-Create the `ImageGenerator` class with an `@Agent` method that calls the SDXL API and stores the image in the `AgenticScope`.
+Create the `ImageGenerator` class with an `@Agent` method that calls the SDXL API and returns the file path of the generated image.
 
 💡 **Why is this different from Module 7?**:
 - In the **loop** pattern, `ImageGenerator` returns `ImageContent` directly — the loop manages scope automatically
-- In the **supervisor** pattern, `ImageGenerator` returns a `String` status message and **manually writes** the image to `AgenticScope` using `LangChain4jManaged.current()`
-- The supervisor LLM reads the status string; the VisionCritic reads the image from scope
+- In the **supervisor** pattern, `ImageGenerator` returns a `String` file path with `outputKey = "imagePath"`
+- A **sequence builder** (Step 8.9) wraps the `ImageGenerator` to read the file and create `ImageContent` for the VisionCritic
+- This separation keeps the `ImageGenerator` class simple and reusable
 
 <details>
 <summary>🔎 Hint 1 — What concept to use</summary>
 
 A plain Java **class** (not an interface) with an `@Agent` annotated method:
-- `outputKey = "imageStatus"` (not `"imageBase64"` like Module 7)
-- Returns `String` (status message), not `ImageContent`
-- Uses `LangChain4jManaged.current().get(AgenticScope.class)` to access the shared scope
-- Calls `scope.writeState("imageBase64", imageContent)` to store the image for the VisionCritic
+- `outputKey = "imagePath"`: stores the file path in the scope
+- Returns `String` (the file path), not `ImageContent`
+- Saves the image bytes to `generated-image.jpeg` and returns the path
 
 📖 **Documentation**:
-- [LangChain4j AgenticScope](https://docs.langchain4j.dev/tutorials/agents#introducing-the-agenticscope)
-- [LangChain4j Supervisor](https://docs.langchain4j.dev/tutorials/agents#supervisor-design-and-customization)
+- [LangChain4j @Agent annotation](https://docs.langchain4j.dev/tutorials/agents#agents-in-langchain4j)
 
 </details>
 
@@ -2569,20 +2569,14 @@ A plain Java **class** (not an interface) with an `@Agent` annotated method:
 <summary>🧩 Hint 2 — Key classes & methods</summary>
 
 ```java
-@Agent(value = "Generates an image with SDXL...", outputKey = "imageStatus")
+@Agent(value = "Generates an image with SDXL...", outputKey = "imagePath")
 public String generateImage(@V("sdxlPrompts") SdxlPrompts sdxlPrompts) throws IOException, InterruptedException {
     // Build HTTP request to SDXL API
     // Send request and get response bytes
-    // Create ImageContent from base64-encoded response
-    // Get AgenticScope: var scope = (AgenticScope) LangChain4jManaged.current().get(AgenticScope.class);
-    // Store image: scope.writeState("imageBase64", imageContent);
-    // Save to file and return status string
+    // Save to file
+    // Return the file path as a String
 }
 ```
-
-Key imports:
-- `dev.langchain4j.agentic.scope.AgenticScope`
-- `dev.langchain4j.invocation.LangChain4jManaged`
 
 </details>
 
@@ -2780,7 +2774,62 @@ Type `java-80` in VS Code to insert the PromptRefiner builder.
 
 ---
 
-### 📝 Step 8.9: Build the VisionCritic Agent
+### 📝 Step 8.9: Build the ImageGenerator UntypedAgent (Sequence Builder)
+
+**File to edit**: [ImageGeneratorSupervisor.java](ImageGeneratorSupervisor.java)
+
+Wrap the `ImageGenerator` in an `UntypedAgent` using `AgenticServices.sequenceBuilder()`. This sequence builder runs the `ImageGenerator`, then reads the file path from the scope and creates an `ImageContent` object for the VisionCritic.
+
+💡 **Why a Sequence Builder?**:
+- The `ImageGenerator` returns a simple file path string — it doesn't know about `ImageContent`
+- The sequence builder adds a post-processing `.output()` step that reads the file, creates `ImageContent`, and writes it to the scope as `"imageBase64"`
+- This keeps the `ImageGenerator` class clean and reusable, while the wrapping handles the conversion
+- The supervisor sees this as a single `UntypedAgent` sub-agent
+
+<details>
+<summary>🔎 Hint 1 — What concept to use</summary>
+
+Use `AgenticServices.sequenceBuilder()` to create an `UntypedAgent` that:
+1. Runs `new ImageGenerator()` as a sub-agent
+2. Has an `.output()` lambda that reads `"imagePath"` from scope, creates `ImageContent.from(Path, mimeType)`, and writes it as `"imageBase64"`
+
+📖 **Documentation**:
+- [LangChain4j Sequence](https://docs.langchain4j.dev/tutorials/agents#sequence)
+- [AgenticServices](https://docs.langchain4j.dev/tutorials/agents#agents-in-langchain4j)
+
+</details>
+
+<details>
+<summary>🧩 Hint 2 — Key classes & methods</summary>
+
+```java
+UntypedAgent imageGenerator = AgenticServices.sequenceBuilder()
+    .subAgents(new ImageGenerator())
+    .output(agenticScope -> {
+      String imageLocation = agenticScope.readState("imagePath", "");
+      agenticScope.writeState("imageBase64", ImageContent.from(Path.of(imageLocation), "image/jpeg"));
+      return imageLocation;
+    })
+    .build();
+```
+
+Key imports:
+- `dev.langchain4j.agentic.UntypedAgent`
+- `dev.langchain4j.agentic.AgenticServices`
+- `dev.langchain4j.data.message.ImageContent`
+
+</details>
+
+<details>
+<summary>🔧 Hint 3 — VS Code Snippet (last resort!)</summary>
+
+Type `java-81` in VS Code to insert the ImageGenerator sequence builder.
+
+</details>
+
+---
+
+### 📝 Step 8.10: Build the VisionCritic Agent
 
 **File to edit**: [ImageGeneratorSupervisor.java](ImageGeneratorSupervisor.java)
 
@@ -2809,13 +2858,13 @@ VisionCritic visionCritic = AgenticServices.agentBuilder(VisionCritic.class)
 <details>
 <summary>🔧 Hint 3 — VS Code Snippet (last resort!)</summary>
 
-Type `java-81` in VS Code to insert the VisionCritic builder.
+Type `java-82` in VS Code to insert the VisionCritic builder.
 
 </details>
 
 ---
 
-### 📝 Step 8.10: Build the SupervisorAgent
+### 📝 Step 8.11: Build the SupervisorAgent
 
 **File to edit**: [ImageGeneratorSupervisor.java](ImageGeneratorSupervisor.java)
 
@@ -2833,7 +2882,7 @@ This is the **key step** that differentiates Module 8 from Module 7. Build the `
 
 Use `AgenticServices.supervisorBuilder()` to create a `SupervisorAgent`. Key configuration:
 - `.chatModel(chatModel)` — the LLM that powers the supervisor's reasoning
-- `.subAgents(promptRefiner, new ImageGenerator(), visionCritic)` — the three sub-agents
+- `.subAgents(promptRefiner, imageGenerator, visionCritic)` — the three sub-agents (note: `imageGenerator` is the `UntypedAgent` from Step 8.9)
 - `.responseStrategy(SupervisorResponseStrategy.SUMMARY)` — supervisor summarizes at the end
 - `.maxAgentsInvocations(10)` — safety limit for total agent calls
 - `.supervisorContext(...)` — natural language workflow instructions
@@ -2851,7 +2900,7 @@ Use `AgenticServices.supervisorBuilder()` to create a `SupervisorAgent`. Key con
 ```java
 SupervisorAgent supervisor = AgenticServices.supervisorBuilder()
     .chatModel(chatModel)
-    .subAgents(promptRefiner, new ImageGenerator(), visionCritic)
+    .subAgents(promptRefiner, imageGenerator, visionCritic)
     .responseStrategy(SupervisorResponseStrategy.SUMMARY)
     .maxAgentsInvocations(10)
     .supervisorContext("""
@@ -2883,13 +2932,13 @@ Key imports:
 <details>
 <summary>🔧 Hint 3 — VS Code Snippet (last resort!)</summary>
 
-Type `java-82` in VS Code to insert the SupervisorAgent builder.
+Type `java-83` in VS Code to insert the SupervisorAgent builder.
 
 </details>
 
 ---
 
-### 📝 Step 8.11: Read User Input and Invoke the Supervisor
+### 📝 Step 8.12: Read User Input and Invoke the Supervisor
 
 **File to edit**: [ImageGeneratorSupervisor.java](ImageGeneratorSupervisor.java)
 
@@ -2922,13 +2971,13 @@ IO.println("➡️ Result: " + result);
 <details>
 <summary>🔧 Hint 3 — VS Code Snippet (last resort!)</summary>
 
-Type `java-83` in VS Code to insert the user input and supervisor invocation.
+Type `java-84` in VS Code to insert the user input and supervisor invocation.
 
 </details>
 
 ---
 
-### 🧪 Step 8.12: Test Your Supervisor-Based Image Generator
+### 🧪 Step 8.13: Test Your Supervisor-Based Image Generator
 
 Run the supervisor-based image generator:
 ```bash
@@ -2943,7 +2992,7 @@ A red cat sleeping on a velvet couch
 
 ✅ **Expected**:
 - The supervisor calls PromptRefiner to create optimized SDXL prompts
-- ImageGenerator calls the SDXL API and stores the image in AgenticScope
+- ImageGenerator calls the SDXL API, the sequence builder converts the file to ImageContent
 - VisionCritic evaluates the image (score + feedback printed via listener)
 - If score < 0.8, the supervisor autonomously decides to refine and regenerate
 - The supervisor provides a final summary when satisfied or after max invocations

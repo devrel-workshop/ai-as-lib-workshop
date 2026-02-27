@@ -144,8 +144,8 @@ void main() {
       .outputKey("sdxlPrompts")
       .build();
 
-  // java-82
-  // Build the ImageGenerator agent with AgenticServices.agentBuilder
+  // java-81
+  // Build the ImageGenerator agent with AgenticServices.sequenceBuilder
   UntypedAgent imageGenerator = AgenticServices.sequenceBuilder()
       .subAgents(new ImageGenerator())
       .output(agenticScope -> {
@@ -155,7 +155,7 @@ void main() {
       })
       .build();
 
-  // java-81
+  // java-82
   // Build the VisionCritic agent with AgenticServices.agentBuilder
   VisionCritic visionCritic = AgenticServices.agentBuilder(VisionCritic.class)
       .chatModel(visionModel)
@@ -168,7 +168,7 @@ void main() {
       .outputKey("critique")
       .build();
 
-  // java-82
+  // java-83
   // Build the SupervisorAgent with AgenticServices.supervisorBuilder,
   // subAgents, responseStrategy, maxAgentsInvocations, supervisorContext, and listener
   SupervisorAgent supervisor = AgenticServices.supervisorBuilder()
@@ -203,7 +203,7 @@ void main() {
       })
       .build();
 
-  // java-83
+  // java-84
   // Read user input and invoke the supervisor
   IO.println("🤖: Enter your image description:");
   var userRequest = IO.readln();
