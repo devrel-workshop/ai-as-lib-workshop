@@ -277,6 +277,7 @@ curl -X POST http://localhost:8080/chatbot/simple \
 ```
 
 ✅ **Expected**: You should receive a complete answer from the AI assistant named Nestor.
+❌ **Common Issues**: If you see noting, check the parameters (model name or max tokens for example 😇)
 
 ---
 
@@ -549,10 +550,6 @@ The Model Context Protocol allows AI models to:
 - 🌐 Access real-time data
 - 🤝 Interact with services
 
-<a href="../../../../assets/mcp-explained.png">
-  <img src="../../../../assets/mcp-explained.png" width="50%">
-</a>
-
 In this module, you'll expose an image generation tool via MCP that can be called by AI agents!
 
 ### 📝 Step 4.1: Add MCP Extension
@@ -726,8 +723,8 @@ Type `quarkus-21` in your editor and press **Tab** to insert the REST client inj
 
 
    ```bash
-   cd ../java-langchain4j
-   ./run-jbang.sh ImageGenerationMCPChatbot
+   cd ../java-langchain4j \
+   ./run-jbang.sh ImageGenerationMCPChatbot.java
    ```
 
 4. **Try it out**:

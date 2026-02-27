@@ -12,7 +12,7 @@ In the other case you need:
 > Note: This module uses [LangChain4j](https://docs.langchain4j.dev/intro/) - the library that makes development with LLMs simpler!
 
 ### 🤖 Models to use 🤖
- - the script [set-env-variables.sh](../../../../bin/set-env-variables.sh) se the default model name in the `OVH_AI_ENDPOINTS_MODEL_NAME` environment variable
+ - the script [set-env-variables.sh](../../../../bin/set-env-variables.sh) set the default model name in the `OVH_AI_ENDPOINTS_MODEL_NAME` environment variable
  - you can try another model from the [OVHcloud AI Endpoints catalog](https://www.ovhcloud.com/en/public-cloud/ai-endpoints/catalog/)
 
 ### 📚 What you'll learn 📚
@@ -1204,7 +1204,7 @@ Type `java-24` in your editor and press **Tab** to insert the tool method skelet
 
 **File to edit**: [ImageGenTools.java](ImageGenTools.java)
 
-Call the [Stable Diffusion XL API](www.ovhcloud.com/en/public-cloud/ai-endpoints/catalog/stable-diffusion-xl/) and save the image.
+Call the [Stable Diffusion XL API](https://www.ovhcloud.com/en/public-cloud/ai-endpoints/catalog/stable-diffusion-xl/) and save the image.
 
 💡 **API Call**:
 - Use Java's HttpClient
@@ -1516,7 +1516,7 @@ An MCP client allows:
 ### ⚠️ Prerequisites
 
 Before starting this module:
-1. Complete the [Quarkus workshop Module 4](../java-langchain4j/README.md)
+1. Complete the [Quarkus workshop Module 4](../java-langchain4j/README.md) or run it from the [solution part](../../../../solutions/chatbot/java/java-quarkus/)
 2. Have the Quarkus MCP server running
 3. Note the MCP server URL (usually `http://localhost:8080/mcp/sse`)
 
@@ -1968,7 +1968,7 @@ Create the `PromptRefiner` agent interface. This agent takes a user request and 
 The **LangChain4j Agentic API** lets you define agents as Java interfaces with annotations. The `@Agent` annotation marks a method as an agent entry point, with `description` (used by orchestrators) and `outputKey` (the key under which the result is stored in shared scope).
 
 📖 **Documentation**:
-- [LangChain4j Agentic API](https://docs.langchain4j.dev/tutorials/agentic)
+- [LangChain4j Agentic API](https://docs.langchain4j.dev/tutorials/agents)
 
 </details>
 
@@ -2008,7 +2008,7 @@ Implement the `ImageGenerator` agent class. This agent receives SDXL prompts and
 Unlike interface-based agents, the `ImageGenerator` is a **concrete class** with an `@Agent`-annotated method. It builds an HTTP POST request to the SDXL API endpoint, sends the prompt/negative prompt as JSON, and returns the result as a base64-encoded `ImageContent`.
 
 📖 **Documentation**:
-- [LangChain4j Agentic API](https://docs.langchain4j.dev/tutorials/agentic)
+- [LangChain4j Agentic API](https://docs.langchain4j.dev/tutorials/agents)
 - [Java HttpClient](https://docs.oracle.com/en/java/javase/21/docs/api/java.net.http/java/net/http/HttpClient.html)
 
 </details>
@@ -2087,7 +2087,7 @@ Create the `VisionCritic` agent interface. This agent receives the generated ima
 The VisionCritic is an interface-based agent similar to PromptRefiner, but it operates on **images**. It uses `@UserMessage` on a parameter to inject the base64-encoded image into the message. The `@Agent` annotation stores the result under the `"critique"` output key.
 
 📖 **Documentation**:
-- [LangChain4j Agentic API](https://docs.langchain4j.dev/tutorials/agentic)
+- [LangChain4j Agentic API](https://docs.langchain4j.dev/tutorials/agents)
 
 </details>
 
@@ -2202,7 +2202,7 @@ Build the PromptRefiner agent using `AgenticServices.agentBuilder()`.
 `AgenticServices.agentBuilder()` creates an agent instance from an interface class. You configure it with a `ChatModel`, an optional `AgentListener` (for logging/observability), and an `outputKey` that determines where the result is stored in the shared agent scope.
 
 📖 **Documentation**:
-- [LangChain4j Agentic API](https://docs.langchain4j.dev/tutorials/agentic)
+- [LangChain4j Agentic API](https://docs.langchain4j.dev/tutorials/agents)
 
 </details>
 
@@ -2242,7 +2242,7 @@ Build the VisionCritic agent using `AgenticServices.agentBuilder()`.
 Same `AgenticServices.agentBuilder()` pattern, but wired to the **vision model** since this agent needs to analyze images. The output key `"critique"` is what the exit condition reads to decide whether to continue.
 
 📖 **Documentation**:
-- [LangChain4j Agentic API](https://docs.langchain4j.dev/tutorials/agentic)
+- [LangChain4j Agentic API](https://docs.langchain4j.dev/tutorials/agents)
 
 </details>
 
@@ -2283,7 +2283,7 @@ Build the agent loop that orchestrates all three agents in a ReAct pattern.
 `AgenticServices.loopBuilder()` creates a **multi-agent loop**. Each iteration runs all sub-agents in order. The `exitCondition` is a lambda that reads the `Critique` from the shared scope — if the score >= 0.8, the loop exits. Otherwise, the critic's feedback is written back to scope so the PromptRefiner can use it in the next iteration.
 
 📖 **Documentation**:
-- [LangChain4j Agentic API](https://docs.langchain4j.dev/tutorials/agentic)
+- [LangChain4j Agentic API](https://docs.langchain4j.dev/tutorials/agents)
 
 </details>
 
@@ -2326,7 +2326,7 @@ Read the user's image description and invoke the agent loop.
 Read user input, then invoke the agent with `agent.invoke(Map.of(...))` passing the initial shared state. The map keys must match what the sub-agents expect: `"userRequest"`, `"feedback"` (initially a placeholder), and `"imageBase64"` (initially empty).
 
 📖 **Documentation**:
-- [LangChain4j Agentic API](https://docs.langchain4j.dev/tutorials/agentic)
+- [LangChain4j Agentic API](https://docs.langchain4j.dev/tutorials/agents)
 
 </details>
 
@@ -2513,7 +2513,7 @@ An **AI Service interface** with three annotations:
 The method returns `SdxlPrompts` and takes two `@V`-annotated String parameters.
 
 📖 **Documentation**:
-- [LangChain4j @Agent annotation](https://docs.langchain4j.dev/tutorials/agentic#agent-annotation)
+- [LangChain4j @Agent annotation](https://docs.langchain4j.dev/tutorials/agents#agents-in-langchain4j)
 - [AI Services](https://docs.langchain4j.dev/tutorials/ai-services/)
 
 </details>
@@ -2560,8 +2560,8 @@ A plain Java **class** (not an interface) with an `@Agent` annotated method:
 - Calls `scope.writeState("imageBase64", imageContent)` to store the image for the VisionCritic
 
 📖 **Documentation**:
-- [LangChain4j AgenticScope](https://docs.langchain4j.dev/tutorials/agentic#scope)
-- [LangChain4j Supervisor](https://docs.langchain4j.dev/tutorials/agentic#supervisor)
+- [LangChain4j AgenticScope](https://docs.langchain4j.dev/tutorials/agents#introducing-the-agenticscope)
+- [LangChain4j Supervisor](https://docs.langchain4j.dev/tutorials/agents#supervisor-design-and-customization)
 
 </details>
 
@@ -2640,7 +2640,7 @@ An **AI Service interface** with:
 - A second `@UserMessage("{{imageBase64}}")` on the `ImageContent` parameter for multimodal input
 
 📖 **Documentation**:
-- [LangChain4j @Agent annotation](https://docs.langchain4j.dev/tutorials/agentic#agent-annotation)
+- [LangChain4j @Agent annotation](https://docs.langchain4j.dev/tutorials/agents#agents-in-langchain4j)
 
 </details>
 
@@ -2754,7 +2754,7 @@ Build the `PromptRefiner` agent using `AgenticServices.agentBuilder()`.
 Use `AgenticServices.agentBuilder(PromptRefiner.class)` to create an agent from the interface. Configure it with the chat model, a listener for logging, and the output key.
 
 📖 **Documentation**:
-- [AgenticServices](https://docs.langchain4j.dev/tutorials/agentic#agenticservices)
+- [AgenticServices](https://docs.langchain4j.dev/tutorials/agents#agents-in-langchain4j)
 
 </details>
 
@@ -2840,8 +2840,8 @@ Use `AgenticServices.supervisorBuilder()` to create a `SupervisorAgent`. Key con
 - `.listener(...)` — `AgentListener` with `afterAgentInvocation` (not `before`) and `inheritedBySubagents() = true`
 
 📖 **Documentation**:
-- [LangChain4j Supervisor](https://docs.langchain4j.dev/tutorials/agentic#supervisor)
-- [AgentListener](https://docs.langchain4j.dev/tutorials/agentic#agenticservices)
+- [LangChain4j Supervisor](https://docs.langchain4j.dev/tutorials/agents#supervisor-design-and-customization)
+- [AgentListener](https://docs.langchain4j.dev/tutorials/agents#observability)
 
 </details>
 
@@ -2978,8 +2978,7 @@ Want to go further? Try:
 
 - [LangChain4j Documentation](https://docs.langchain4j.dev/)
 - [LangChain4j GitHub](https://github.com/langchain4j/langchain4j)
-- [[OVHcloud AI Endpoints](https://www.ovhcloud.com/en/public-cloud/ai-endpoints/catalog/)](https://endpoints.ai.cloud.ovh.net/)
-- [JBang Documentation](https://www.jbang.dev/)
+- [OVHcloud AI Endpoints](https://www.ovhcloud.com/en/public-cloud/ai-endpoints/catalog/)
 - [Model Context Protocol](https://modelcontextprotocol.io/)
 - [LangChain4j Examples](https://github.com/langchain4j/langchain4j-examples)
 
