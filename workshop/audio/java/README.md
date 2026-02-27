@@ -78,14 +78,20 @@ This workshop provides **VS Code code snippets** as progressive hints to help yo
 
 ### 🎯 Architecture Overview
 
-```
-🎤 Audio Input (WAV)
-    ↓
-OpenAI Java SDK (Whisper Client)
-    ↓
-OVHcloud AI Endpoints (Whisper large-v3)
-    ↓
-📝 Text Transcription
+```mermaid
+sequenceDiagram
+    participant User as User (Javelit UI)
+    participant App as SpeechToText.java
+    participant SDK as OpenAI Java SDK
+    participant Whisper as OVHcloud AI Endpoints<br/>(Whisper large-v3)
+
+    User->>App: Record audio (WAV)
+    App->>SDK: OpenAIOkHttpClient.builder()<br/>.baseUrl(WHISPER_URL).build()
+    App->>SDK: TranscriptionCreateParams<br/>(model, format=TEXT, lang="en", file)
+    SDK->>Whisper: POST /audio/transcriptions
+    Whisper-->>SDK: Transcription response
+    SDK-->>App: transcription.text()
+    App-->>User: Display transcribed text
 ```
 
 **File to edit**: [SpeechToText.java](SpeechToText.java)
@@ -228,14 +234,19 @@ Run the exercise:
 
 ### 🎯 Architecture Overview
 
-```
-📝 Text Input
-    ↓
-OkHttp Client (HTTP POST)
-    ↓
-OVHcloud AI Endpoints (NVIDIA RIVA nvr-tts-en-us)
-    ↓
-🔊 Audio Output (WAV)
+```mermaid
+sequenceDiagram
+    participant User as User (Javelit UI)
+    participant App as TextToSpeech.java
+    participant OkHttp as OkHttp Client
+    participant RIVA as OVHcloud AI Endpoints<br/>(NVIDIA RIVA nvr-tts-en-us)
+
+    User->>App: Enter text
+    App->>OkHttp: Build JSON payload<br/>(encoding, lang="en-US",<br/>sampleRate=16kHz, voice)
+    OkHttp->>RIVA: POST /api/v1/tts/text_to_audio<br/>(Bearer token + JSON body)
+    RIVA-->>OkHttp: Audio bytes (WAV)
+    OkHttp-->>App: response.body().bytes()
+    App-->>User: Play audio
 ```
 
 **File to edit**: [TextToSpeech.java](TextToSpeech.java)
@@ -378,20 +389,42 @@ Run the exercise:
 
 ### 🎯 Architecture Overview
 
-```
-🎤 English Audio Input (WAV)
-    ↓
-1️⃣ Speech to Text (Whisper, same as Module 1)
-    ↓
-📝 English Text
-    ↓
-2️⃣ Translation (LangChain4j AI Service + LLM)
-    ↓
-📝 Spanish Text
-    ↓
-3️⃣ Text to Speech (NVIDIA RIVA nvr-tts-es-es, adapted from Module 2)
-    ↓
-🔊 Spanish Audio Output (WAV)
+```mermaid
+sequenceDiagram
+    participant User as User (Javelit UI)
+    participant App as SpeechToSpeech.java
+    participant SDK as OpenAI Java SDK
+    participant Whisper as OVHcloud AI Endpoints<br/>(Whisper large-v3)
+    participant LLM as OVHcloud AI Endpoints<br/>(LLM via LangChain4j)
+    participant RIVA as OVHcloud AI Endpoints<br/>(NVIDIA RIVA nvr-tts-es-es)
+
+    User->>App: Record English audio (WAV)
+
+    rect rgb(230, 240, 255)
+        Note over App,Whisper: Step 1 - Speech to Text
+        App->>SDK: TranscriptionCreateParams<br/>(Whisper, lang="en")
+        SDK->>Whisper: POST /audio/transcriptions
+        Whisper-->>SDK: Transcription response
+        SDK-->>App: English text
+    end
+
+    App-->>User: Display English transcription
+
+    rect rgb(255, 243, 224)
+        Note over App,LLM: Step 2 - Translation (EN → ES)
+        App->>LLM: AiServices.create(ChatBot.class, model)<br/>chatbot.chat(englishText)
+        LLM-->>App: Spanish text
+    end
+
+    App-->>User: Display Spanish translation
+
+    rect rgb(224, 255, 230)
+        Note over App,RIVA: Step 3 - Text to Speech
+        App->>RIVA: POST /api/v1/tts/text_to_audio<br/>(lang="es-ES", voice="Spanish-ES-Female-1")
+        RIVA-->>App: Audio bytes (WAV)
+    end
+
+    App-->>User: Play Spanish audio
 ```
 
 **File to edit**: [SpeechToSpeech.java](SpeechToSpeech.java)
