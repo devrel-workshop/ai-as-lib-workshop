@@ -1,4 +1,5 @@
-/// usr/bin/env jbang "$0" "$@" ; exit $?
+//JAVA_OPTIONS -Dstdout.encoding=UTF-8 
+
 //DEPS com.squareup.okhttp3:okhttp-jvm:5.1.0
 //DEPS io.javelit:javelit:0.71.0
 
