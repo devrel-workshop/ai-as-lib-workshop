@@ -1,3 +1,5 @@
+//JAVA_OPTIONS -Dstdout.encoding=UTF-8 
+
 //DEPS dev.langchain4j:langchain4j:1.11.0
 //DEPS dev.langchain4j:langchain4j-open-ai:1.11.0
 //DEPS dev.langchain4j:langchain4j-agentic:1.11.0-beta19

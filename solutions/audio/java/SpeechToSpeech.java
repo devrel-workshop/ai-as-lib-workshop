@@ -1,4 +1,5 @@
-/// usr/bin/env jbang "$0" "$@" ; exit $?
+//JAVA_OPTIONS -Dstdout.encoding=UTF-8 
+
 //DEPS com.openai:openai-java:3.6.1
 //DEPS dev.langchain4j:langchain4j:1.5.0
 //DEPS dev.langchain4j:langchain4j-open-ai:1.5.0

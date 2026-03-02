@@ -1,3 +1,5 @@
+//JAVA_OPTIONS -Dstdout.encoding=UTF-8 
+
 //DEPS dev.langchain4j:langchain4j:1.7.1
 //DEPS dev.langchain4j:langchain4j-open-ai:1.7.1
 //DEPS dev.langchain4j:langchain4j-mcp:1.7.1-beta14
