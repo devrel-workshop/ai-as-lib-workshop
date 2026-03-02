@@ -1,9 +1,8 @@
 //JAVA_OPTIONS -Dstdout.encoding=UTF-8 
 
-//DEPS dev.langchain4j:langchain4j:1.5.0
-//DEPS dev.langchain4j:langchain4j-open-ai:1.5.0
-//DEPS dev.langchain4j:langchain4j-ovh-ai:1.5.0-beta11
+//DEPS dev.langchain4j:langchain4j:1.11.0
 //DEPS ch.qos.logback:logback-classic:1.5.6
+
 //FILES ./resources/logback.xml
 
 import dev.langchain4j.agent.tool.P;

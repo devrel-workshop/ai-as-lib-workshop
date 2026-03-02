@@ -1,8 +1,8 @@
 //JAVA_OPTIONS -Dstdout.encoding=UTF-8 
 
-//DEPS dev.langchain4j:langchain4j:1.7.1
-//DEPS dev.langchain4j:langchain4j-open-ai:1.7.1
-//DEPS dev.langchain4j:langchain4j-mcp:1.7.1-beta14
+//DEPS dev.langchain4j:langchain4j:1.11.0
+//DEPS dev.langchain4j:langchain4j-open-ai:1.11.0
+//DEPS dev.langchain4j:langchain4j-mcp:1.11.0-beta19
 //DEPS ch.qos.logback:logback-classic:1.5.6
 
 //FILES ./resources/logback.xml
