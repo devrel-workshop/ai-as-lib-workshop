@@ -18,7 +18,10 @@ You can open your VSCode instance in your browser, choose _code-server_ button o
 ### 🐳 Dev Containers usage 🐳 ###
 
 If you don't want or can't use Coder, you can use the Dev Container configuration file in [.devcontainer](./.devcontainer/).  
-You can ind more information about Dev Container in the V[SCode documentation](https://code.visualstudio.com/docs/devcontainers/containers).
+You can find more information about Dev Container in the [VSCode documentation](https://code.visualstudio.com/docs/devcontainers/containers).
+
+> 💡 You can pre-pull the image to avoid network latency on the D Day 💡.   
+> `mcr.microsoft.com/devcontainers/base:ubuntu`
 
 ### 🧰 Pre-requisites 🧰
 
