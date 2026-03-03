@@ -1,29 +1,14 @@
 {
   "name": "AI as Lib Workshop",
-  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
-  "features": {
-		"ghcr.io/jsburckhardt/devcontainer-features/bat:1": {},
-    "ghcr.io/devcontainers/features/java:1": {
-      "installMaven": true,
-			"mavenVersion": "3.9.12",
-      "version": "25",
-      "jdkDistro": "tem"
-    },
-		"ghcr.io/devcontainers-extra/features/jbang-sdkman:2": {
-			"jdkDistro": "tem",
-			"jdkVersion": "25-tem"
-		},
-		"ghcr.io/devcontainers-extra/features/quarkus-sdkman:2": {
-			"jdkDistro": "tem",
-			"jdkVersion": "25-tem"
-		}
-	},
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
   "customizations": {
     "vscode": {
       "java.configuration.runtimes": [
 					{
 						"name": "JavaSE-25",
-						"path": "/usr/local/sdkman/candidates/java/current/"
+						"path": "/home/vscode/.sdkman/candidates/java/current/"
 					}
 				],
       "extensions": [
