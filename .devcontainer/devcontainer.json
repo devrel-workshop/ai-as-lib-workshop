@@ -3,7 +3,7 @@
   // Pre-built image from OVH registry (multi-arch: amd64 + arm64)
   // To fallback to local Dockerfile build, replace "image" with:
   //   "build": { "dockerfile": "Dockerfile" }
-  "image": "ubf2r2if.c1.gra9.container-registry.ovh.net/lab/ai-as-lib-workshop-devcontainer:latest",
+  "image": "ubf2r2if.c1.gra9.container-registry.ovh.net/lab/ai-as-lib-workshop-devcontainer:1.0.0",
   "customizations": {
     "vscode": {
       "extensions": [

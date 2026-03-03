@@ -21,7 +21,7 @@ If you don't want or can't use Coder, you can use the Dev Container configuratio
 You can find more information about Dev Container in the [VSCode documentation](https://code.visualstudio.com/docs/devcontainers/containers).
 
 > 💡 You can pre-pull the image to avoid network latency on the D Day 💡.   
-> `docker pull ubf2r2if.c1.gra9.container-registry.ovh.net/lab/ai-as-lib-workshop-devcontainer:latest`
+> `docker pull ubf2r2if.c1.gra9.container-registry.ovh.net/lab/ai-as-lib-workshop-devcontainer:1.0.0`
 
 ### 🧰 Pre-requisites 🧰
 
@@ -59,7 +59,7 @@ If the pre-built image is unavailable or you need to test Dockerfile changes loc
 
 Replace:
 ```jsonc
-"image": "ubf2r2if.c1.gra9.container-registry.ovh.net/lab/ai-as-lib-workshop-devcontainer:latest",
+"image": "ubf2r2if.c1.gra9.container-registry.ovh.net/lab/ai-as-lib-workshop-devcontainer:1.0.0",
 ```
 
 With:
@@ -85,7 +85,7 @@ docker buildx create --name multiarch --driver docker-container --use
 # Build and push for amd64 + arm64
 docker buildx build \
   --platform linux/amd64,linux/arm64 \
-  --tag ubf2r2if.c1.gra9.container-registry.ovh.net/lab/ai-as-lib-workshop-devcontainer:latest \
+  --tag ubf2r2if.c1.gra9.container-registry.ovh.net/lab/ai-as-lib-workshop-devcontainer:1.0.0 \
   --push \
   .devcontainer/
 ```
