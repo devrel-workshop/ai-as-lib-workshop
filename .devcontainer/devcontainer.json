@@ -5,12 +5,6 @@
   },
   "customizations": {
     "vscode": {
-      "java.configuration.runtimes": [
-					{
-						"name": "JavaSE-25",
-						"path": "/home/vscode/.sdkman/candidates/java/current/"
-					}
-				],
       "extensions": [
         "ms-python.python",
         "vscjava.vscode-java-pack@0.30.5",
@@ -20,6 +14,12 @@
         "-GitHub.copilot"
       ],
       "settings": {
+				"java.configuration.runtimes": [
+					{
+						"name": "JavaSE-25",
+						"path": "/home/vscode/.sdkman/candidates/java/current/"
+					}
+				],
 				// disable github copilot chat panel
 				"github.copilot.chat.enable": false,
 				// disable chat panel
