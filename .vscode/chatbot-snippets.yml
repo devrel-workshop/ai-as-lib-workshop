@@ -74,7 +74,7 @@ snippet java-07:
   prefix: "java-07"
   scope: "java"
   body: |
-    StreamingChatModel steamingModel = OpenAiStreamingChatModel.builder()
+    StreamingChatModel streamingModel = OpenAiStreamingChatModel.builder()
             .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
             .modelName(System.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"))
             .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
@@ -90,7 +90,7 @@ snippet streaming-assistant:
   scope: "java"
   body: |
     Assistant assistant = AiServices.builder(Assistant.class)
-        .streamingChatModel(steamingModel)
+        .streamingChatModel(streamingModel)
         .build();
 
 snippet java-09:
@@ -124,7 +124,7 @@ snippet java-11:
   prefix: "java-11"
   scope: "java"
   body: |
-    StreamingChatModel steamingModel = OpenAiStreamingChatModel.builder()
+    StreamingChatModel streamingModel = OpenAiStreamingChatModel.builder()
             .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
             .modelName(System.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"))
             .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
@@ -147,7 +147,7 @@ snippet java-13:
   scope: "java"
   body: |
     Assistant assistant = AiServices.builder(Assistant.class)
-        .streamingChatModel(steamingModel)
+        .streamingChatModel(streamingModel)
         .chatMemory(chatMemory)
         .build();  
 
@@ -199,7 +199,7 @@ snippet java-17:
   prefix: "java-17"
   scope: "java"
   body: |
-    StreamingChatModel steamingModel = OpenAiStreamingChatModel.builder()
+    StreamingChatModel streamingModel = OpenAiStreamingChatModel.builder()
         .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
         .modelName(System.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"))
         .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
@@ -260,7 +260,7 @@ snippet java-22:
   scope: "java"
   body: |
     Assistant assistant = AiServices.builder(Assistant.class)
-        .streamingChatModel(steamingModel)
+        .streamingChatModel(streamingModel)
         .chatMemory(chatMemory)
         .contentRetriever(contentRetriever)
         .build();
