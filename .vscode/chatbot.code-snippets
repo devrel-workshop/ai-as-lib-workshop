@@ -1104,7 +1104,7 @@
   "Memory assistant": {
     "body": [
       "Assistant assistant = AiServices.builder(Assistant.class)",
-      "    .streamingChatModel(steamingModel)",
+      "    .streamingChatModel(streamingModel)",
       "    .chatMemory(chatMemory)",
       "    .build();  ",
       ""
@@ -1148,7 +1148,7 @@
   },
   "Memory model": {
     "body": [
-      "StreamingChatModel steamingModel = OpenAiStreamingChatModel.builder()",
+      "StreamingChatModel streamingModel = OpenAiStreamingChatModel.builder()",
       "        .apiKey(System.getenv(\"OVH_AI_ENDPOINTS_ACCESS_TOKEN\"))",
       "        .modelName(System.getenv(\"OVH_AI_ENDPOINTS_MODEL_NAME\"))",
       "        .baseUrl(System.getenv(\"OVH_AI_ENDPOINTS_MODEL_URL\"))",
@@ -1209,7 +1209,7 @@
   "RAG assistant": {
     "body": [
       "Assistant assistant = AiServices.builder(Assistant.class)",
-      "    .streamingChatModel(steamingModel)",
+      "    .streamingChatModel(streamingModel)",
       "    .chatMemory(chatMemory)",
       "    .contentRetriever(contentRetriever)",
       "    .build();",
@@ -1292,7 +1292,7 @@
   },
   "RAG model": {
     "body": [
-      "StreamingChatModel steamingModel = OpenAiStreamingChatModel.builder()",
+      "StreamingChatModel streamingModel = OpenAiStreamingChatModel.builder()",
       "    .apiKey(System.getenv(\"OVH_AI_ENDPOINTS_ACCESS_TOKEN\"))",
       "    .modelName(System.getenv(\"OVH_AI_ENDPOINTS_MODEL_NAME\"))",
       "    .baseUrl(System.getenv(\"OVH_AI_ENDPOINTS_MODEL_URL\"))",
@@ -1386,7 +1386,7 @@
   "Streaming assistant": {
     "body": [
       "Assistant assistant = AiServices.builder(Assistant.class)",
-      "    .streamingChatModel(steamingModel)",
+      "    .streamingChatModel(streamingModel)",
       "    .build();",
       ""
     ],
@@ -1414,7 +1414,7 @@
   },
   "Streaming model": {
     "body": [
-      "StreamingChatModel steamingModel = OpenAiStreamingChatModel.builder()",
+      "StreamingChatModel streamingModel = OpenAiStreamingChatModel.builder()",
       "        .apiKey(System.getenv(\"OVH_AI_ENDPOINTS_ACCESS_TOKEN\"))",
       "        .modelName(System.getenv(\"OVH_AI_ENDPOINTS_MODEL_NAME\"))",
       "        .baseUrl(System.getenv(\"OVH_AI_ENDPOINTS_MODEL_URL\"))",

@@ -48,7 +48,7 @@ public class MemoryChatbot {
         void main() {
                 // java-11
                 // Create a streaming chat model using OpenAI provider
-                StreamingChatModel steamingModel = OpenAiStreamingChatModel.builder()
+                StreamingChatModel streamingModel = OpenAiStreamingChatModel.builder()
                                 .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
                                 .modelName(System.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"))
                                 .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
@@ -66,7 +66,7 @@ public class MemoryChatbot {
                 // Build the chatbot thanks to the AIService builder
                 // The chatbot must be in streaming mode with memory
                 Assistant assistant = AiServices.builder(Assistant.class)
-                                .streamingChatModel(steamingModel)
+                                .streamingChatModel(streamingModel)
                                 .chatMemory(chatMemory)
                                 .build();
 

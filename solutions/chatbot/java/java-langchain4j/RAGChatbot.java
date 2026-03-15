@@ -65,7 +65,7 @@ public class RAGChatbot {
         void main() {
                 // java-17
                 // Create a streaming chat model using OpenAI provider
-                StreamingChatModel steamingModel = OpenAiStreamingChatModel.builder()
+                StreamingChatModel streamingModel = OpenAiStreamingChatModel.builder()
                                 .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
                                 .modelName(System.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"))
                                 .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
@@ -115,7 +115,7 @@ public class RAGChatbot {
                 // The chatbot must be in streaming mode with memory and RAC activated with the
                 // previous contentRetriever
                 Assistant assistant = AiServices.builder(Assistant.class)
-                                .streamingChatModel(steamingModel)
+                                .streamingChatModel(streamingModel)
                                 .chatMemory(chatMemory)
                                 .contentRetriever(contentRetriever)
                                 .build();
