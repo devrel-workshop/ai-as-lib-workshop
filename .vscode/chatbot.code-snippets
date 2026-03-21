@@ -1221,8 +1221,8 @@
   },
   "RAG call": {
     "body": [
-      "_LOG.info(\"💬: What is the program at Sopra tech lab?\\n\");",
-      "TokenStream tokenStream = assistant.chat(\"What is the program at Sopra tech lab?\");",
+      "_LOG.info(\"💬: What is the program at Devoxx France 2026?\\n\");",
+      "TokenStream tokenStream = assistant.chat(\"What is the program at Devoxx France 2026?\");",
       "CompletableFuture\u003cChatResponse\u003e futureChatResponse = new CompletableFuture\u003c\u003e();",
       "",
       "_LOG.info(\"🤖: \");",

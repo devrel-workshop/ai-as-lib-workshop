@@ -122,8 +122,8 @@ public class RAGChatbot {
 
                 // java-23
                 // Send a prompt
-                _LOG.info("💬: What is the program at Sopra tech lab?\n");
-                TokenStream tokenStream = assistant.chat("What is the program at Sopra tech lab?");
+                _LOG.info("💬: What is the program at Devoxx France 2026?\n");
+                TokenStream tokenStream = assistant.chat("What is the program at Devoxx France 2026?");
                 CompletableFuture<ChatResponse> futureChatResponse = new CompletableFuture<>();
 
                 _LOG.info("🤖: ");

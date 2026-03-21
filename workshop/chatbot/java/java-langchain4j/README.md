@@ -46,12 +46,12 @@ The project uses **JBang** - a Java scripting tool that allows running Java code
 All chatbots can be run using the helper script:
 
 ```bash
-./run-jbang.sh <ClassName>
+./run-jbang.sh <ClassName>.java
 ```
 
 For example:
 ```bash
-./run-jbang.sh SimpleChatbot
+./run-jbang.sh SimpleChatbot.java
 ```
 
 🎯 **Tip**: JBang automatically handles dependencies defined in the Java file headers!

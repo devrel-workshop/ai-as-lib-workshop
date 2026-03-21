@@ -2,15 +2,14 @@
 
 ## Agenda and venue
 
-### AI tech lab on 2, December at 9h AM.
-Will be in the room 42.
+### 3H Hands-on Lab on 24th, Wednesday 24 April 2026, 13:30.
+The hands-on session will be held in room TBA14.
 
 #### Subject
-
 Developing with AI: what if it's as simple as adding a library?
 
 #### Speakers 
-Matthieu Vincent (Sopra Steria) and Stéphane Philippart (OVHcloud)
+Mathieu Busquet (OVHcloud) and Stéphane Philippart (OVHcloud)
 
 #### Abstract
 Artificial intelligence and LLM are beginning to be part of our personal and professional lives.
