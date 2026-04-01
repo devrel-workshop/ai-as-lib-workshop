@@ -27,7 +27,7 @@ public class SimpleChatbot {
 
   public static void main(String[] args) {
     // java-03
-    // Create a chat model using OpenAI provider
+    // Create a chat model using OpenAI SDK
     ChatModel chatModel = OpenAiChatModel.builder()
         .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
         .modelName(System.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"))
