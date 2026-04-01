@@ -158,7 +158,7 @@ Configure the OpenAI-compatible chat model to connect to [OVHcloud AI Endpoints]
 <details>
 <summary>🔎 Hint 1 - Concept & Documentation</summary>
 
-A **ChatModel** is the component that communicates with the LLM API. Since [OVHcloud AI Endpoints](https://www.ovhcloud.com/en/public-cloud/ai-endpoints/catalog/) are OpenAI-compatible, you'll use the OpenAI provider. The model is configured with a builder pattern specifying the API key, base URL, model name, and generation parameters.
+A **ChatModel** is the component that communicates with the LLM API. Since [OVHcloud AI Endpoints](https://www.ovhcloud.com/en/public-cloud/ai-endpoints/catalog/) are OpenAI-compatible, you'll use the OpenAI SDK. The model is configured with a builder pattern specifying the API key, base URL, model name, and generation parameters.
 
 📖 **Tutorials**:
 - [OpenAI Chat Model Configuration](https://docs.langchain4j.dev/integrations/language-models/open-ai#chat-models)
@@ -420,8 +420,8 @@ Type `java-07` in your editor and press **Tab** to insert the streaming model co
 Build the service and handle the token stream.
 
 💡 **Stream Handling**:
-- Use `.onNext()` to process each token
-- Use `.onComplete()` to handle stream completion
+- Use `.onPartialResponse()` to process each token
+- Use `.onCompleteResponse()` to handle stream completion
 - Use `.onError()` to handle errors
 - Call `.start()` to begin streaming
 

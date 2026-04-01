@@ -9,16 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Here is the place where you will add the code to create an advanced chatbot.
- * The steps to create your chatbot are :
- * - choose the right model on AI Endpoints
- * (https://endpoints.ai.cloud.ovh.net)
- * - use the LangChain4J wrapper / lib to do the call to the model (use the AI
- * Service style)
- * - Use the streaming option, see
- * https://docs.langchain4j.dev/tutorials/response-streaming
- * - add parameters to create a virtual assistant named Nestor
- * - ask a question and display the answer in a streaming way
+ * Here is the place where you will add the code to create a Streaming chatbot.
+ * For instructions see the README.md file, 🌊 Module 2: Streaming Chatbot 🌊 section.
  */
 public class StreamingChatbot {
     private static final Logger _LOG = LoggerFactory.getLogger(StreamingChatbot.class);
@@ -28,7 +20,7 @@ public class StreamingChatbot {
 
     void main() {
         // java-07
-        // Create a streaming chat model using OpenAI provider
+        // Create a streaming chat model using OpenAI SDK
 
         // java-08
         // Build the chatbot thanks to the AIService builder

@@ -8,6 +8,10 @@
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Here is the place where you will add the code to create a simple chatbot.
+ * For instructions see the README.md file, 🤖 Module 1: Simple Chatbot 🤖 section.
+ */
 public class SimpleChatbot {
   private static final Logger _LOG = LoggerFactory.getLogger(SimpleChatbot.class);
 
@@ -17,7 +21,7 @@ public class SimpleChatbot {
 
   void main() {
     // java-03
-    // Create a chat model using OpenAI provider
+    // Create a chat model using OpenAI SDK
 
     // java-04
     // Build the chatbot thanks to the AIService builder

@@ -9,19 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Here is the place where you will add the code to create an advanced chatbot.
- * The steps to create your chatbot are :
- * - choose the right model on AI Endpoints
- * (https://endpoints.ai.cloud.ovh.net)
- * - use the LangChain4J wrapper / lib to do the call to the model (use the AI
- * Service style)
- * - Use the streaming option, see
- * https://docs.langchain4j.dev/tutorials/response-streaming
- * - Save the context in memory, see
- * https://docs.langchain4j.dev/tutorials/chat-memory
- * - add parameters to create a virtual assistant named Nestor
- * - ask two questions to test the chatbot memory and display the answer in a
- * streaming way
+ * Here is the place where you will add the code to create a Streaming chatbot.
+ * For instructions see the README.md file, 🧠 Module 3: Memory Chatbot 🧠 section.
  */
 public class MemoryChatbot {
     private static final Logger _LOG = LoggerFactory.getLogger(MemoryChatbot.class);
@@ -31,7 +20,7 @@ public class MemoryChatbot {
 
     void main() {
         // java-11
-        // Create a streaming chat model using OpenAI provider
+        // Create a streaming chat model using OpenAI SDK
 
         // java-12
         // Create the memory store "in memory"

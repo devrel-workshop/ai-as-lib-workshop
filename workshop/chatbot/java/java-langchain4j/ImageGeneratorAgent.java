@@ -9,32 +9,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Here is the place where you will add the code to create an agentic image
- * generator using the LangChain4j Agentic API (ReAct pattern).
- *
- * The agent loop works as follows:
- * 1. A PromptRefiner agent creates optimized SDXL prompts from the user request
- * 2. An ImageGenerator agent calls the SDXL API to generate an image
- * 3. A VisionCritic agent evaluates the image against the original request
- * 4. If the score is below 0.8, the loop repeats with the critic's feedback
- *
- * The steps to create your agentic image generator are:
- * - Define the data records (SdxlPrompts, Critique)
- * - Create the agent interfaces/classes (PromptRefiner, ImageGenerator, VisionCritic)
- *   (see https://docs.langchain4j.dev/tutorials/agentic)
- * - Build the agents with AgenticServices
- *   (see https://docs.langchain4j.dev/tutorials/agentic#agenticservices)
- * - Configure the agent loop with exit condition
- *   (see https://docs.langchain4j.dev/tutorials/agentic#loop)
- * - Read user input and invoke the agent
- *
- * Useful documentation:
- * - LangChain4j Agentic API: https://docs.langchain4j.dev/tutorials/agentic
- * - @Agent annotation: https://docs.langchain4j.dev/tutorials/agentic#agent-annotation
- * - AgenticServices: https://docs.langchain4j.dev/tutorials/agentic#agenticservices
- * - OpenAI model integration: https://docs.langchain4j.dev/integrations/language-models/open-ai
- * - OVHcloud AI Endpoints: https://endpoints.ai.cloud.ovh.net
+ * Here is the place where you will add the code to create a Streaming chatbot.
+ * For instructions see the README.md file, 🤖 Module 7: Agentic Image Generator (ReAct Loop) section.
  */
+
 
 // java-62
 // Define the SdxlPrompts record with prompt and negativePrompt fields
