@@ -74,6 +74,7 @@ public class ImageGenerator {
         .send(httpRequest, HttpResponse.BodyHandlers.ofByteArray());
 
     Files.write(Path.of("generated-image.jpeg"), response.body());
+    IO.println(String.format("🖼️  Image generated: %s", Path.of("generated-image.jpeg")));
     return ImageContent.from(Base64.getEncoder().encodeToString(response.body()), "image/jpeg");
   }
 }

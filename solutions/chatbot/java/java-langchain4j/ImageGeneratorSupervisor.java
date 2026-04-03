@@ -82,7 +82,7 @@ public class ImageGenerator {
     IO.println("SDXL status code: " + response.statusCode());
 
     Files.write(Path.of("generated-image.jpeg"), response.body());
-
+    IO.println(String.format("🖼️  Image generated: %s", Path.of("generated-image.jpeg")));
     return Path.of("generated-image.jpeg").toString();
   }
 }
