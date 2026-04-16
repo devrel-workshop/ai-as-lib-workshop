@@ -42,6 +42,9 @@ fi
 #python3 -m venv .venv
 #source .venv/bin/activate
 
+# ⬇️ Get last sources version
+git pull
+
 # Install Javelit
 jbang app install javelit@javelit
 # Reload shell configuration to pick up jbang PATH changes
