@@ -347,7 +347,7 @@ Define an interface that returns a `TokenStream`.
 For streaming, your AI Service interface must return a `TokenStream` instead of a `String`. This allows you to receive and process tokens as they arrive from the LLM, rather than waiting for the entire response.
 
 📖 **Tutorials**:
-- [Response Streaming](https://docs.langchain4j.dev/tutorials/response-streaming)
+- [Response Streaming](https://docs.langchain4j.dev/tutorials/ai-services/#streaming)
 
 📖 **Javadoc**:
 - [TokenStream](https://docs.langchain4j.dev/apidocs/dev/langchain4j/service/TokenStream.html)
@@ -390,7 +390,7 @@ Use `StreamingChatModel` instead of `AIChatModel`.
 LangChain4j provides a **streaming** variant of the chat model that sends tokens as they are generated instead of waiting for the full response.
 
 📖 **Documentation**:
-- [Streaming Chat Models](https://docs.langchain4j.dev/tutorials/response-streaming#streaming-chat-models)
+- [Streaming Chat Models](https://docs.langchain4j.dev/tutorials/ai-services/#streaming#streaming-chat-models)
 - [OpenAiStreamingChatModel Javadoc](https://docs.langchain4j.dev/apidocs/dev/langchain4j/model/openai/OpenAiStreamingChatModel.html)
 - [StreamingChatModel Javadoc](https://docs.langchain4j.dev/apidocs/dev/langchain4j/model/chat/StreamingChatModel.html)
 
@@ -431,7 +431,7 @@ Build the service and handle the token stream.
 Building the streaming service is similar to the non-streaming version, but you wire the **streaming model** instead. Then, to consume the response, you use a `TokenStream` with callback handlers for partial responses, completion, and errors.
 
 📖 **Documentation**:
-- [Handling Streaming Responses](https://docs.langchain4j.dev/tutorials/response-streaming#handling-streaming-responses)
+- [Handling Streaming Responses](https://docs.langchain4j.dev/tutorials/ai-services/#streaming#handling-streaming-responses)
 - [TokenStream Javadoc](https://docs.langchain4j.dev/apidocs/dev/langchain4j/service/TokenStream.html)
 - [AiServices Javadoc](https://docs.langchain4j.dev/apidocs/dev/langchain4j/service/AiServices.html)
 
@@ -574,7 +574,7 @@ Create the streaming model (same as Module 2).
 The streaming model setup is **exactly the same** as in Module 2 — use `OpenAiStreamingChatModel` with the same builder pattern and environment variables.
 
 📖 **Documentation**:
-- [Streaming Chat Models](https://docs.langchain4j.dev/tutorials/response-streaming#streaming-chat-models)
+- [Streaming Chat Models](https://docs.langchain4j.dev/tutorials/ai-services/#streaming#streaming-chat-models)
 - [OpenAiStreamingChatModel Javadoc](https://docs.langchain4j.dev/apidocs/dev/langchain4j/model/openai/OpenAiStreamingChatModel.html)
 
 </details>
@@ -832,7 +832,7 @@ Create the streaming model.
 Same streaming model setup as Modules 2 and 3 — use `OpenAiStreamingChatModel` with the builder pattern.
 
 📖 **Documentation**:
-- [Streaming Chat Models](https://docs.langchain4j.dev/tutorials/response-streaming#streaming-chat-models)
+- [Streaming Chat Models](https://docs.langchain4j.dev/tutorials/ai-services/#streaming#streaming-chat-models)
 - [OpenAiStreamingChatModel Javadoc](https://docs.langchain4j.dev/apidocs/dev/langchain4j/model/openai/OpenAiStreamingChatModel.html)
 
 </details>

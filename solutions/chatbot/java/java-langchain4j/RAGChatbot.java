@@ -44,7 +44,7 @@ import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore;
  * - use the LangChain4J wrapper / lib to do the call to the model (use the AI
  * Service style)
  * - Use the streaming option, see
- * https://docs.langchain4j.dev/tutorials/response-streaming
+ * https://docs.langchain4j.dev/tutorials/ai-services/#streaming
  * - Save the context in memory, see
  * https://docs.langchain4j.dev/tutorials/chat-memory
  * - Add RAG feature, see https://docs.langchain4j.dev/tutorials/rag

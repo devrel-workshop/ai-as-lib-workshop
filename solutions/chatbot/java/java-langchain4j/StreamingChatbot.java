@@ -25,7 +25,7 @@ import dev.langchain4j.service.TokenStream;
  * - use the LangChain4J wrapper / lib to do the call to the model (use the AI
  * Service style)
  * - Use the streaming option, see
- * https://docs.langchain4j.dev/tutorials/response-streaming
+ * https://docs.langchain4j.dev/tutorials/ai-services/#streaming
  * - add parameters to create a virtual assistant named Nestor
  * - ask a question and display the answer in a streaming way
  */
