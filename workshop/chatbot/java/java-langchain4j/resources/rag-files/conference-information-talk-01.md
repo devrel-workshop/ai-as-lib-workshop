@@ -3,7 +3,7 @@
 ## Agenda and venue
 
 ### 3H Hands-on Lab on 24th, Wednesday 24 April 2026, 13:30.
-The hands-on session will be held in room TBA14.
+The hands-on session will be held in room Neuilly 152.
 
 #### Subject
 Developing with AI: what if it's as simple as adding a library?
