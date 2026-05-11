@@ -2,20 +2,23 @@
 
 ## Agenda and venue
 
-### 3H Hands-on Lab on 24th, Wednesday 24 April 2026, 13:30.
-The hands-on session will be held in room Neuilly 152.
+### 1H30 workshop Lab le jeudi 21 mai 2026, 14h55.
+Le workshop aura lieu en salle B2.23.
 
 #### Subject
-Developing with AI: what if it's as simple as adding a library?
+Développer avec l'IA : et si c'était aussi simple qu'ajouter une librairie ?
 
 #### Speakers 
-Mathieu Busquet (OVHcloud) and Stéphane Philippart (OVHcloud)
+Stéphane Philippart (OVHcloud)
 
 #### Abstract
-Artificial intelligence and LLM are beginning to be part of our personal and professional lives.
-We are used to using them regularly, but our developments are different.
-Integrating them can seem more complex than using them in our daily lives.
-Do I need to learn a new language or a new stack?
-During this workshop, we will give you everything you need to start your journey through AI without leaving your preferred language: Java, JavaScript or Python.
-You will learn how to use the Frameworks of the moment (LangChain, LangChain4j, ...) but also the tools that make your life easier so that as soon as you return to your favorite application, integrating AI within it is no longer a fear but an action as simple as adding a third library.
-And to make your life easier, just bring your computer and a web browser, and we'll take care of the rest to build you a small-scale development environment using CDE.
+
+Intégrer de l'intelligence artificielle (IA) dans nos développements peut nous paraître plus complexe que de les utiliser dans notre quotidien.
+
+Dois-je apprendre un nouveau langage ou une nouvelle stack ?
+Durant ce workshop nous vous proposons de vous donner tous les éléments pour intégrer l'IA sans quitter votre langage de prédilection : Java 😍. Ce sera l'occasion de découvrir les Frameworks du moments : LangChain4j, Quarkus, ...
+
+Nous vous invitons à découvrir toutes les facettes d'un chatbot avec l'IA générative (customiser un prompt, rajouter vos données (RAG), appeler des outils locaux ou distants (MCP) et créer des agents) mais aussi parce que l’IA ne se limite pas aux chatbots : faire de la transcription, créer de l'audio ou même faire un traducteur.
+
+À la suite de ce talk vous repartirez avec une boîte à outils vous permettant d'intégrer simplement la puissance des modèles d'IA au sein de vos développements de tous les jours.
+Et, toujours pour vous simplifier la vie, venez juste avec votre ordinateur et un navigateur Internet, on se charge du reste pour vous construire un environnement de développement aux petits oignons grâce aux CDE.
