@@ -1223,8 +1223,8 @@
   },
   "RAG call": {
     "body": [
-      "_LOG.info(\"💬: What is the program at Devoxx France 2026?\\n\");",
-      "TokenStream tokenStream = assistant.chat(\"What is the program at Devoxx France 2026?\");",
+      "_LOG.info(\"💬: Quel est le programme de Devopsdays Genève 2026?\\n\");",
+      "TokenStream tokenStream = assistant.chat(\"Quel est le programme de Devopsdays Genève 2026?\");",
       "CompletableFuture\u003cChatResponse\u003e futureChatResponse = new CompletableFuture\u003c\u003e();",
       "",
       "_LOG.info(\"🤖: \");",
@@ -1698,8 +1698,8 @@
       "            Tool to create an image with Stable Diffusion XL given a prompt and a negative prompt.",
       "            \"\"\")",
       "void generateImage(@P(\"Prompt that explains the image\") String prompt, @P(\"Negative prompt that explains what the image must not contains\") String negativePrompt) throws IOException, InterruptedException {",
-      "    _LOG.info(\"Prompt: {}\", prompt);",
-      "    _LOG.info(\"Negative prompt: {}\", negativePrompt);",
+      "    _LOG.info(\"Prompt: {}\\n\", prompt);",
+      "    _LOG.info(\"Negative prompt: {}\\n\", negativePrompt);",
       "",
       "    // java-25",
       "",
@@ -1897,6 +1897,8 @@
       "byte[] image = stableDiffusionService.generateImage(new SDPayload(prompt, negativePrompt));",
       "",
       "Files.write(Path.of(\"generated-image.jpeg\"), image);",
+      "",
+      "_LOG.info(String.format(\"🖼️  Image generated: %s\", Path.of(\"generated-image.jpeg\")));",
       ""
     ],
     "description": "",
