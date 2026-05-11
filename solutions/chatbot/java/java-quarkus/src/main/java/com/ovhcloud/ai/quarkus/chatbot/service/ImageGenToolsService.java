@@ -38,6 +38,7 @@ public class ImageGenToolsService {
         byte[] image = stableDiffusionService.generateImage(new SDPayload(prompt, negativePrompt));
 
         Files.write(Path.of("generated-image.jpeg"), image);
+        _LOG.info(String.format("🖼️  Image generated: %s", Path.of("generated-image.jpeg")));
 
         return "Image generated";
     }

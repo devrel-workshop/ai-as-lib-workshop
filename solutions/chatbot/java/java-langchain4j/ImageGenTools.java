@@ -34,8 +34,8 @@ public class ImageGenTools {
                 Tool to create an image with Stable Diffusion XL given a prompt and a negative prompt.
                 """)
     void generateImage(@P("Prompt that explains the image") String prompt, @P("Negative prompt that explains what the image must not contains") String negativePrompt) throws IOException, InterruptedException {
-        _LOG.info("Prompt: {}", prompt);
-        _LOG.info("Negative prompt: {}", negativePrompt);
+        _LOG.info("Prompt: {}\n", prompt);
+        _LOG.info("Negative prompt: {}\n", negativePrompt);
 
         // java-25
         // Call Stable diffusion model with the prompt and negative prompt
