@@ -1223,8 +1223,8 @@
   },
   "RAG call": {
     "body": [
-      "_LOG.info(\"💬: Quel est le programme de Devopsdays Genève 2026?\\n\");",
-      "TokenStream tokenStream = assistant.chat(\"Quel est le programme de Devopsdays Genève 2026?\");",
+      "_LOG.info(\"💬: Quel est le programme de Dev Quest 2026?\\n\");",
+      "TokenStream tokenStream = assistant.chat(\"Quel est le programme de Dev Quest 2026?\");",
       "CompletableFuture\u003cChatResponse\u003e futureChatResponse = new CompletableFuture\u003c\u003e();",
       "",
       "_LOG.info(\"🤖: \");",

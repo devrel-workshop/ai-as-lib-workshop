@@ -1,22 +1,25 @@
 # Name and information about the conference
+Les 11 et 12 juin 2026, le DevQuest revient à Noron pour vous proposer toujours plus de conférences et d'aventures !
+
+Suivez-nous pour ne pas manquer les futures quêtes !
 
 ## Agenda and venue
 
 ### AI tech lab on 2, June at 9h AM.
-Will be in the room 42.
+Will be in the room Laboratoire.
 
 #### Subject
 
-Developing with AI: what if it's as simple as adding a library?
+Ajouter de l'IA à nos applications : et si c'était aussi simple qu'ajouter une librairie ?
 
 #### Speakers 
-Matthieu Vincent (Sopra Steria) and Stéphane Philippart (OVHcloud)
+Stéphane Philippart (OVHcloud)
 
 #### Abstract
-Artificial intelligence and LLM are beginning to be part of our personal and professional lives.
-We are used to using them regularly, but our developments are different.
-Integrating them can seem more complex than using them in our daily lives.
-Do I need to learn a new language or a new stack?
-During this workshop, we will give you everything you need to start your journey through AI without leaving your preferred language: Java, JavaScript or Python.
-You will learn how to use the Frameworks of the moment (LangChain, LangChain4j, ...) but also the tools that make your life easier so that as soon as you return to your favorite application, integrating AI within it is no longer a fear but an action as simple as adding a third library.
-And to make your life easier, just bring your computer and a web browser, and we'll take care of the rest to build you a small-scale development environment using CDE.
+L'intelligence artificielle et les LLM commencent à faire partie de nos vies personnelles mais aussi professionnelles.
+Si on est habitué•es à les utiliser régulièrement, il en est autrement pour ce qui concerne nos développements.
+Les intégrer peut nous paraître plus complexe que de les utiliser dans notre quotidien.
+Dois-je apprendre un nouveau langage ou une nouvelle stack ?
+Durant ce workshop nous vous proposons de vous donner tous les éléments pour débuter votre voyage au sein de l'IA sans quitter votre langage de prédilection : Java.
+Vous apprendrez comment utiliser les Frameworks du moment (Quarkus, LangChain4j, ...) mais aussi les outils vous facilitant la vie pour que dès le retour à votre application préférée, intégrer de l'IA au sein de celle-ci ne soit plus une peur mais une action aussi simple que de rajouter une librairie tierce.
+Et, toujours pour vous simplifier la vie, venez juste avec votre ordinateur et un navigateur Internet, je me charge du reste pour vous construire un environnement de développement aux petits oignons grâce aux CDE.
