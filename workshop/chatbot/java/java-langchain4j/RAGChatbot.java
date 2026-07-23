@@ -29,19 +29,19 @@ public class RAGChatbot {
         // Create the memory store "in memory"
 
         // java-19
-        // Load the document and split it into chunks
+        // Load the document
 
         // java-20
-        // Do the embeddings with AI Endpoint model using OpenAI compatibility and store
-        // them in an in memory embedding store
+        // Create the embedding model with AI Endpoint model using OpenAI compatibility
 
         // java-21
-        // Store the vectors in the in memory store, see
-        // https://docs.langchain4j.dev/integrations/embedding-stores/in-memory
+        // Ingest the document (split -> embed -> store) in one pipeline with
+        // EmbeddingStoreIngestor, then build the content retriever over the store, see
+        // https://docs.langchain4j.dev/tutorials/rag/#embedding-store-ingestor
 
         // java-22
         // Build the chatbot thanks to the AIService builder
-        // The chatbot must be in streaming mode with memory and RAC activated with the
+        // The chatbot must be in streaming mode with memory and RAG activated with the
         // previous contentRetriever
 
         // java-23
