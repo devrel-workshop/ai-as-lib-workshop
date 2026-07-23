@@ -47,6 +47,6 @@ public class SimpleChatbot {
     // java-05
     // Send a prompt
     _LOG.info("💬: Question: Tell me a joke about Java developers\n");
-    _LOG.info("🤖: {}", assistant.chat("Tell me a joke about Java developers"));
+    _LOG.info("🤖: {}\n", assistant.chat("Tell me a joke about Java developers"));
   }
 }

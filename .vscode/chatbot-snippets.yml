@@ -57,7 +57,7 @@ snippet java-05:
   scope: "java"
   body: |
     _LOG.info("💬: Question: Tell me a joke about Java developers\n");
-    _LOG.info("🤖: {}", assistant.chat("Tell me a joke about Java developers"));
+    _LOG.info("🤖: {}\n", assistant.chat("Tell me a joke about Java developers"));
 
 snippet java-06:
   name: "Streaming AI Services"
@@ -108,6 +108,7 @@ snippet java-09:
         .onPartialResponse(_LOG::info)
         .onError(Throwable::printStackTrace).start();
     futureChatResponse.join();
+    _LOG.info("\n");
 
 snippet java-10:
   name: "Memory AI Services"
@@ -172,6 +173,7 @@ snippet java-14:
             })
             .onError(Throwable::printStackTrace).start();
     futureChatResponse.join();
+    _LOG.info("\n");
 
 snippet java-15:
   name: "LangChain4j OVHai dependency"
@@ -281,6 +283,7 @@ snippet java-23:
         .onPartialResponse(_LOG::info)
         .onError(Throwable::printStackTrace).start();
     futureChatResponse.join();
+    _LOG.info("\n");
 
 snippet java-24:
   name: "Tool generateImage tool"
@@ -590,7 +593,7 @@ snippet java-66:
                   Original user request: "{{userRequest}}"
                   Please critique this image and provide a score and feedback.
                   """)
-    Critique critique(@V("userRequest") String userRequest, @UserMessage("{{imageBase64}}") ImageContent imageBase64);
+    Critique critique(@V("userRequest") String userRequest, @V("imageBase64") ImageContent imageBase64);
 
 snippet java-67:
   name: "Agent: ChatModel creation"
@@ -788,7 +791,7 @@ snippet java-77:
                   Original user request: "{{userRequest}}"
                   Please critique this image and provide a score and feedback.
                   """)
-    Critique critique(@V("userRequest") String userRequest, @UserMessage("{{imageBase64}}") ImageContent imageBase64);
+    Critique critique(@V("userRequest") String userRequest, @V("imageBase64") ImageContent imageBase64);
 
 snippet java-78:
   name: "Supervisor: ChatModel creation"

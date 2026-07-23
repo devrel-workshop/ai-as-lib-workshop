@@ -102,7 +102,7 @@ public interface VisionCritic {
                 Original user request: "{{userRequest}}"
                 Please critique this image and provide a score and feedback.
                 """)
-  Critique critique(@V("userRequest") String userRequest, @UserMessage("{{imageBase64}}") ImageContent imageBase64);
+  Critique critique(@V("userRequest") String userRequest, @V("imageBase64") ImageContent imageBase64);
 }
 
 void main() {

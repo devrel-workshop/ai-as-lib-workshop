@@ -72,5 +72,6 @@ public class StreamingChatbot {
                                 .onPartialResponse(_LOG::info)
                                 .onError(Throwable::printStackTrace).start();
                 futureChatResponse.join();
+                _LOG.info("\n");
         }
 }
