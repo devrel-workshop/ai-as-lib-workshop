@@ -1,4 +1,4 @@
-//JAVA_OPTIONS -Dstdout.encoding=UTF-8 
+//JAVA_OPTIONS -Dstdout.encoding=UTF-8
 
 //DEPS dev.langchain4j:langchain4j:1.18.0
 //DEPS dev.langchain4j:langchain4j-open-ai:1.18.0
@@ -8,7 +8,6 @@
 
 import static dev.langchain4j.data.document.loader.FileSystemDocumentLoader.loadDocument;
 
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import org.slf4j.Logger;
@@ -16,10 +15,8 @@ import org.slf4j.LoggerFactory;
 
 import dev.langchain4j.data.document.Document;
 import dev.langchain4j.data.document.DocumentParser;
-import dev.langchain4j.data.document.DocumentSplitter;
 import dev.langchain4j.data.document.parser.TextDocumentParser;
 import dev.langchain4j.data.document.splitter.DocumentSplitters;
-import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.memory.ChatMemory;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
@@ -34,6 +31,7 @@ import dev.langchain4j.service.AiServices;
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.TokenStream;
 import dev.langchain4j.store.embedding.EmbeddingStore;
+import dev.langchain4j.store.embedding.EmbeddingStoreIngestor;
 import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore;
 
 /**
@@ -80,29 +78,31 @@ public class RAGChatbot {
                 ChatMemory chatMemory = MessageWindowChatMemory.withMaxMessages(10);
 
                 // java-19
-                // Load the document and split it into chunks
+                // Load the document
                 DocumentParser documentParser = new TextDocumentParser();
                 Document document = loadDocument("./resources/rag-files/conference-information-talk-01.md",
                                 documentParser);
-                DocumentSplitter splitter = DocumentSplitters.recursive(8000, 50);
-
-                List<TextSegment> segments = splitter.split(document);
 
                 // java-20
-                // Do the embeddings with AI Endpoint model using OpenAI compatibility and store
-                // them in an in memory embedding store
+                // Create the embedding model with AI Endpoint model using OpenAI compatibility
                 EmbeddingModel embeddingModel = OpenAiEmbeddingModel.builder()
                                 .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
                                 .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
                                 .modelName(System.getenv("OVH_AI_ENDPOINTS_EMBEDDING_MODEL_NAME"))
                                 .build();
-                List<Embedding> embeddings = embeddingModel.embedAll(segments).content();
 
                 // java-21
-                // Store the vectors in the in memory store, see
-                // https://docs.langchain4j.dev/integrations/embedding-stores/in-memory
+                // Ingest the document (split -> embed -> store) in one pipeline with
+                // EmbeddingStoreIngestor, then build the content retriever over the store, see
+                // https://docs.langchain4j.dev/tutorials/rag/#embedding-store-ingestor
                 EmbeddingStore<TextSegment> embeddingStore = new InMemoryEmbeddingStore<>();
-                embeddingStore.addAll(embeddings, segments);
+                EmbeddingStoreIngestor.builder()
+                                .documentSplitter(DocumentSplitters.recursive(8000, 50))
+                                .embeddingModel(embeddingModel)
+                                .embeddingStore(embeddingStore)
+                                .build()
+                                .ingest(document);
+
                 ContentRetriever contentRetriever = EmbeddingStoreContentRetriever.builder()
                                 .embeddingStore(embeddingStore)
                                 .embeddingModel(embeddingModel)
@@ -112,7 +112,7 @@ public class RAGChatbot {
 
                 // java-22
                 // Build the chatbot thanks to the AIService builder
-                // The chatbot must be in streaming mode with memory and RAC activated with the
+                // The chatbot must be in streaming mode with memory and RAG activated with the
                 // previous contentRetriever
                 Assistant assistant = AiServices.builder(Assistant.class)
                                 .streamingChatModel(streamingModel)
