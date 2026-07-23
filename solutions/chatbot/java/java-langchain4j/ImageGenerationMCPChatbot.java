@@ -3,7 +3,7 @@
 //DEPS dev.langchain4j:langchain4j:1.18.0
 //DEPS dev.langchain4j:langchain4j-open-ai:1.18.0
 //DEPS dev.langchain4j:langchain4j-mcp:1.18.0-beta28
-//DEPS ch.qos.logback:logback-classic:1.5.6
+//DEPS ch.qos.logback:logback-classic:1.5.38
 
 //FILES ./resources/logback.xml
 
