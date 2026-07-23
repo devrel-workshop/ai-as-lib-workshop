@@ -89,6 +89,7 @@ public class MemoryChatbot {
                                 })
                                 .onError(Throwable::printStackTrace).start();
                 futureChatResponse.join();
+                _LOG.info("\n");
         }
 
 }
