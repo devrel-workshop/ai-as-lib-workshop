@@ -1185,7 +1185,7 @@
       "quarkus.langchain4j.openai.base-url=\\${OVH_AI_ENDPOINTS_MODEL_URL}",
       "quarkus.langchain4j.openai.api-key=\\${OVH_AI_ENDPOINTS_ACCESS_TOKEN}",
       "quarkus.langchain4j.openai.timeout=3600",
-      "quarkus.langchain4j.openai.chat-model.max-tokens=512",
+      "quarkus.langchain4j.openai.chat-model.max-completion-tokens=512",
       "quarkus.langchain4j.openai.chat-model.model-name=\\${OVH_AI_ENDPOINTS_MODEL_NAME}",
       "quarkus.langchain4j.openai.log-requests=false",
       "quarkus.langchain4j.openai.log-responses=false",
@@ -1827,7 +1827,7 @@
       "\u003cdependency\u003e",
       "  \u003cgroupId\u003eio.quarkiverse.mcp\u003c/groupId\u003e",
       "  \u003cartifactId\u003equarkus-mcp-server-http\u003c/artifactId\u003e",
-      "  \u003cversion\u003e1.8.0\u003c/version\u003e",
+      "  \u003cversion\u003e1.13.1\u003c/version\u003e",
       "\u003c/dependency\u003e",
       ""
     ],

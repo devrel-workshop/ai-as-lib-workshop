@@ -61,7 +61,7 @@ __  ____  __  _____   ___  __ ____  ______
  --/ __ \/ / / / _ | / _ \/ //_/ / / / __/ 
  -/ /_/ / /_/ / __ |/ , _/ ,< / /_/ /\ \   
 --\___\_\____/_/ |_/_/|_/_/|_|\____/___/   
-2026-01-30 09:49:22,865 INFO  [io.quarkus] (Quarkus Main Thread) java-quarkus-workshop 1.0.0-SNAPSHOT on JVM (powered by Quarkus 3.30.6) started in 2.007s. Listening on: http://localhost:8080
+2026-01-30 09:49:22,865 INFO  [io.quarkus] (Quarkus Main Thread) java-quarkus-workshop 1.0.0-SNAPSHOT on JVM (powered by Quarkus 3.37.4) started in 2.007s. Listening on: http://localhost:8080
 
 2026-01-30 09:49:22,867 INFO  [io.quarkus] (Quarkus Main Thread) Profile dev activated. Live Coding activated.
 2026-01-30 09:49:22,867 INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [cdi, langchain4j, langchain4j-openai, qute, rest, rest-client, rest-client-jackson, smallrye-context-propagation, vertx]
@@ -131,7 +131,7 @@ Configure the connection to OVHcloud AI Endpoints with OpenAI compatible model.
 
 💡 **Hints**:
 - Use environment variables: `${OVH_AI_ENDPOINTS_MODEL_URL}`, `${OVH_AI_ENDPOINTS_ACCESS_TOKEN}`, `${OVH_AI_ENDPOINTS_MODEL_NAME}`
-- Set `max-tokens` to 512
+- Set `max-completion-tokens` to 512
 - Set `temperature` to 0.2 for more deterministic responses
 
 <details>
@@ -151,7 +151,7 @@ Quarkus LangChain4j uses **application.properties** to configure the OpenAI-comp
 - `quarkus.langchain4j.openai.base-url`: the AI Endpoints URL
 - `quarkus.langchain4j.openai.api-key`: the access token
 - `quarkus.langchain4j.openai.chat-model.model-name`: the model name
-- `quarkus.langchain4j.openai.chat-model.max-tokens`: max tokens (512)
+- `quarkus.langchain4j.openai.chat-model.max-completion-tokens`: max completion tokens (512)
 - `quarkus.langchain4j.openai.chat-model.temperature`: temperature (0.2)
 - `quarkus.langchain4j.openai.log-requests` / `log-responses`: logging flags
 - `quarkus.langchain4j.openai.timeout`: timeout in seconds

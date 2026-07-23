@@ -925,7 +925,7 @@ snippet quarkus-01:
     quarkus.langchain4j.openai.base-url=\${OVH_AI_ENDPOINTS_MODEL_URL}
     quarkus.langchain4j.openai.api-key=\${OVH_AI_ENDPOINTS_ACCESS_TOKEN}
     quarkus.langchain4j.openai.timeout=3600
-    quarkus.langchain4j.openai.chat-model.max-tokens=512
+    quarkus.langchain4j.openai.chat-model.max-completion-tokens=512
     quarkus.langchain4j.openai.chat-model.model-name=\${OVH_AI_ENDPOINTS_MODEL_NAME}
     quarkus.langchain4j.openai.log-requests=false
     quarkus.langchain4j.openai.log-responses=false
@@ -1071,7 +1071,7 @@ snippet quarkus-17:
     <dependency>
       <groupId>io.quarkiverse.mcp</groupId>
       <artifactId>quarkus-mcp-server-http</artifactId>
-      <version>1.8.0</version>
+      <version>1.13.1</version>
     </dependency>
 
 snippet quarkus-18:
