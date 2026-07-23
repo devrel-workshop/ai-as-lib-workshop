@@ -886,28 +886,24 @@ Type `java-18` in your editor and press **Tab** to insert the memory creation.
 
 ---
 
-### 📝 Step 4.4: Load and Split Documents
+### 📝 Step 4.4: Load the Document
 
 **File to edit**: [RAGChatbot.java](RAGChatbot.java)
 
-Load your document and split it into chunks.
+Load your document from the filesystem.
 Documents are in the [rag-files](./resources/rag-files/) folder.
 
 💡 **Document Processing**:
 - Load document from file
-- Split into smaller chunks (segments)
-- Chunks should be semantically meaningful
-- Overlap helps maintain context
+- Splitting into chunks is handled later by the ingestion pipeline (Step 4.6)
 
 <details>
 <summary>🔎 Hint 1 — What concept to use</summary>
 
-RAG starts by **loading** a document from the filesystem and **splitting** it into smaller text segments (chunks). LangChain4j provides document loaders and recursive splitters for this purpose.
+RAG starts by **loading** a document from the filesystem. The splitting into smaller text segments (chunks) will be handled by the ingestion pipeline in Step 4.6. LangChain4j provides document loaders for this purpose.
 
 📖 **Documentation**:
 - [RAG Tutorial](https://docs.langchain4j.dev/tutorials/rag)
-- [Document Splitters](https://docs.langchain4j.dev/tutorials/rag/#document-splitter)
-- [DocumentSplitters Javadoc](https://docs.langchain4j.dev/apidocs/dev/langchain4j/data/document/splitter/DocumentSplitters.html)
 - [FileSystemDocumentLoader Javadoc](https://docs.langchain4j.dev/apidocs/dev/langchain4j/data/document/loader/FileSystemDocumentLoader.html)
 
 </details>
@@ -917,15 +913,13 @@ RAG starts by **loading** a document from the filesystem and **splitting** it in
 
 - Create a `TextDocumentParser` for parsing text/markdown files
 - Use `FileSystemDocumentLoader.loadDocument(path, parser)` to load the document (static import)
-- Use `DocumentSplitters.recursive(maxSegmentSize, overlap)` to create a splitter
-- Call `splitter.split(document)` to get a `List<TextSegment>`
 
 </details>
 
 <details>
 <summary>🎁 Hint 3 — VS Code snippet (last resort!)</summary>
 
-Type `java-19` in your editor and press **Tab** to insert the document loading and splitting code.
+Type `java-19` in your editor and press **Tab** to insert the document loading code.
 
 </details>
 
@@ -961,24 +955,28 @@ An **embedding model** converts text into numerical vectors. You need a separate
 <summary>🧩 Hint 2 — Key classes & methods</summary>
 
 - Use `OpenAiEmbeddingModel.builder()` with `.apiKey()`, `.baseUrl()`, `.modelName()` (use the embedding model env var `OVH_AI_ENDPOINTS_EMBEDDING_MODEL_NAME`), `.build()`
-- Call `embeddingModel.embedAll(segments).content()` to get a `List<Embedding>`
+- You only create the model here; splitting, embedding and storing are wired together in Step 4.6
 
 </details>
 
 <details>
 <summary>🎁 Hint 3 — VS Code snippet (last resort!)</summary>
 
-Type `java-20` in your editor and press **Tab** to insert the embedding model creation and embedding generation.
+Type `java-20` in your editor and press **Tab** to insert the embedding model creation.
 
 </details>
 
 ---
 
-### 📝 Step 4.6: Create Embedding Store and Index Documents
+### 📝 Step 4.6: Ingest the Document and Create the Content Retriever
 
 **File to edit**: [RAGChatbot.java](RAGChatbot.java)
 
-Store embeddings in memory and index your document segments.
+Ingest the document — split, embed and store — in one pipeline, then build a content retriever over the store.
+
+💡 **Ingestion pipeline**:
+- `EmbeddingStoreIngestor` bundles split → embed → store in a single call
+- The recursive splitter (chunk size / overlap) is configured on the ingestor
 
 💡 **Embedding Store**:
 - Stores vectors for semantic search
@@ -992,11 +990,12 @@ Store embeddings in memory and index your document segments.
 <details>
 <summary>🔎 Hint 1 — What concept to use</summary>
 
-You need two things: an **embedding store** to hold the indexed vectors, and a **content retriever** that queries the store to find the most relevant chunks for a given user question.
+You need three things: an **embedding store** to hold the indexed vectors, an **`EmbeddingStoreIngestor`** that splits the document, embeds each chunk and writes them to the store in one pipeline, and a **content retriever** that queries the store to find the most relevant chunks for a given user question. This is the idiomatic ingestion path recommended by the LangChain4j RAG tutorial.
 
 📖 **Documentation**:
 - [Embedding Stores](https://docs.langchain4j.dev/integrations/embedding-stores)
 - [Ingestion Process](https://docs.langchain4j.dev/tutorials/rag/#embedding)
+- [EmbeddingStoreIngestor Javadoc](https://docs.langchain4j.dev/apidocs/dev/langchain4j/store/embedding/EmbeddingStoreIngestor.html)
 - [Content Retrievers](https://docs.langchain4j.dev/tutorials/rag#retrieval)
 - [InMemoryEmbeddingStore Javadoc](https://docs.langchain4j.dev/apidocs/dev/langchain4j/store/embedding/inmemory/InMemoryEmbeddingStore.html)
 - [EmbeddingStoreContentRetriever Javadoc](https://docs.langchain4j.dev/apidocs/dev/langchain4j/rag/content/retriever/EmbeddingStoreContentRetriever.html)
@@ -1006,7 +1005,8 @@ You need two things: an **embedding store** to hold the indexed vectors, and a *
 <details>
 <summary>🧩 Hint 2 — Key classes & methods</summary>
 
-- Create an `InMemoryEmbeddingStore<TextSegment>` and call `.addAll(embeddings, segments)` to index the data
+- Create an `InMemoryEmbeddingStore<TextSegment>`
+- Build an `EmbeddingStoreIngestor` with `.documentSplitter(DocumentSplitters.recursive(8000, 50))`, `.embeddingModel(embeddingModel)`, `.embeddingStore(embeddingStore)`, `.build()`, then call `.ingest(document)` to split, embed and store in one go
 - Build an `EmbeddingStoreContentRetriever` with `.embeddingStore()`, `.embeddingModel()`, `.maxResults(3)`, `.minScore(0.1)`, `.build()`
 - The retriever is a `ContentRetriever` that you'll pass to the AI Service builder
 
@@ -1015,7 +1015,7 @@ You need two things: an **embedding store** to hold the indexed vectors, and a *
 <details>
 <summary>🎁 Hint 3 — VS Code snippet (last resort!)</summary>
 
-Type `java-21` in your editor and press **Tab** to insert the embedding store and content retriever setup.
+Type `java-21` in your editor and press **Tab** to insert the ingestion pipeline and content retriever setup.
 
 </details>
 
@@ -1909,7 +1909,7 @@ The loop iterates until the critic gives a score >= 0.8 (or max 3 iterations), r
 
 **File to edit**: [ImageGeneratorAgent.java](ImageGeneratorAgent.java)
 
-> **Note**: This module uses `langchain4j-agentic:1.11.0-beta19` — the new Agentic API for multi-agent orchestration.
+> **Note**: This module uses `langchain4j-agentic:1.18.0-beta28` — the new Agentic API for multi-agent orchestration.
 
 ---
 
@@ -2450,7 +2450,7 @@ The supervisor LLM receives workflow instructions via `supervisorContext` and au
 
 **File to edit**: [ImageGeneratorSupervisor.java](ImageGeneratorSupervisor.java)
 
-> **Note**: This module uses `langchain4j-agentic:1.11.0-beta19` — the new Agentic API for multi-agent orchestration.
+> **Note**: This module uses `langchain4j-agentic:1.18.0-beta28` — the new Agentic API for multi-agent orchestration.
 
 ---
 

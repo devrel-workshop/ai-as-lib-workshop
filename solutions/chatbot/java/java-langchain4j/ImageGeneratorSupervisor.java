@@ -1,9 +1,9 @@
 //JAVA_OPTIONS -Dstdout.encoding=UTF-8 
 
-//DEPS dev.langchain4j:langchain4j:1.11.0
-//DEPS dev.langchain4j:langchain4j-open-ai:1.11.0
-//DEPS dev.langchain4j:langchain4j-agentic:1.11.0-beta19
-//DEPS ch.qos.logback:logback-classic:1.5.6
+//DEPS dev.langchain4j:langchain4j:1.18.0
+//DEPS dev.langchain4j:langchain4j-open-ai:1.18.0
+//DEPS dev.langchain4j:langchain4j-agentic:1.18.0-beta28
+//DEPS ch.qos.logback:logback-classic:1.5.38
 
 import dev.langchain4j.agentic.Agent;
 import dev.langchain4j.agentic.AgenticServices;
@@ -11,11 +11,9 @@ import dev.langchain4j.agentic.UntypedAgent;
 import dev.langchain4j.agentic.observability.AgentListener;
 import dev.langchain4j.agentic.observability.AgentRequest;
 import dev.langchain4j.agentic.observability.AgentResponse;
-import dev.langchain4j.agentic.scope.AgenticScope;
 import dev.langchain4j.agentic.supervisor.SupervisorAgent;
 import dev.langchain4j.agentic.supervisor.SupervisorResponseStrategy;
 import dev.langchain4j.data.message.ImageContent;
-import dev.langchain4j.invocation.LangChain4jManaged;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.service.SystemMessage;

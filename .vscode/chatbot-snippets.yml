@@ -217,16 +217,13 @@ snippet java-18:
     ChatMemory chatMemory = MessageWindowChatMemory.withMaxMessages(10);
 
 snippet java-19:
-  name: "RAG chunk"
+  name: "RAG load document"
   prefix: "java-19"
   scope: "java"
   body: |
     DocumentParser documentParser = new TextDocumentParser();
     Document document = loadDocument("./resources/rag-files/conference-information-talk-01.md",
             documentParser);
-    DocumentSplitter splitter = DocumentSplitters.recursive(8000, 50);
-
-    List<TextSegment> segments = splitter.split(document);
 
 snippet java-20:
   name: "RAG embedding"
@@ -238,15 +235,19 @@ snippet java-20:
                                 .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
                                 .modelName(System.getenv("OVH_AI_ENDPOINTS_EMBEDDING_MODEL_NAME"))
                                 .build();
-    List<Embedding> embeddings = embeddingModel.embedAll(segments).content();
 
 snippet java-21:
-  name: "RAG embedding store"
+  name: "RAG ingest and retriever"
   prefix: "java-21"
   scope: "java"
   body: |
     EmbeddingStore<TextSegment> embeddingStore = new InMemoryEmbeddingStore<>();
-    embeddingStore.addAll(embeddings, segments);
+    EmbeddingStoreIngestor.builder()
+        .documentSplitter(DocumentSplitters.recursive(8000, 50))
+        .embeddingModel(embeddingModel)
+        .embeddingStore(embeddingStore)
+        .build()
+        .ingest(document);
     ContentRetriever contentRetriever = EmbeddingStoreContentRetriever.builder()
         .embeddingStore(embeddingStore)
         .embeddingModel(embeddingModel)
@@ -404,7 +405,7 @@ snippet java-32:
     <dependency>
       <groupId>dev.langchain4j</groupId>
       <artifactId>langchain4j-mcp</artifactId>
-      <version>1.4.0-beta10</version>
+      <version>1.18.0-beta28</version>
     </dependency>
 
 snippet java-33:

@@ -1,9 +1,9 @@
 //JAVA_OPTIONS -Dstdout.encoding=UTF-8 
 
-//DEPS dev.langchain4j:langchain4j:1.11.0
-//DEPS dev.langchain4j:langchain4j-open-ai:1.11.0
-//DEPS dev.langchain4j:langchain4j-agentic:1.11.0-beta19
-//DEPS ch.qos.logback:logback-classic:1.5.6
+//DEPS dev.langchain4j:langchain4j:1.18.0
+//DEPS dev.langchain4j:langchain4j-open-ai:1.18.0
+//DEPS dev.langchain4j:langchain4j-agentic:1.18.0-beta28
+//DEPS ch.qos.logback:logback-classic:1.5.38
 
 import dev.langchain4j.agentic.Agent;
 import dev.langchain4j.agentic.AgenticServices;
@@ -17,7 +17,6 @@ import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
 import dev.langchain4j.service.V;
 
-import java.awt.*;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
