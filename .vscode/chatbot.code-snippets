@@ -1133,6 +1133,7 @@
       "        })",
       "        .onError(Throwable::printStackTrace).start();",
       "futureChatResponse.join();",
+      "_LOG.info(\"\\n\");",
       ""
     ],
     "description": "",
@@ -1233,6 +1234,7 @@
       "    .onPartialResponse(_LOG::info)",
       "    .onError(Throwable::printStackTrace).start();",
       "futureChatResponse.join();",
+      "_LOG.info(\"\\n\");",
       ""
     ],
     "description": "",
@@ -1336,7 +1338,7 @@
   "Simple chatbot call": {
     "body": [
       "_LOG.info(\"💬: Question: Tell me a joke about Java developers\\n\");",
-      "_LOG.info(\"🤖: {}\", assistant.chat(\"Tell me a joke about Java developers\"));",
+      "_LOG.info(\"🤖: {}\\n\", assistant.chat(\"Tell me a joke about Java developers\"));",
       ""
     ],
     "description": "",
@@ -1409,6 +1411,7 @@
       "    .onPartialResponse(_LOG::info)",
       "    .onError(Throwable::printStackTrace).start();",
       "futureChatResponse.join();",
+      "_LOG.info(\"\\n\");",
       ""
     ],
     "description": "",
