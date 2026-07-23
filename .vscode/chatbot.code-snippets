@@ -225,7 +225,7 @@
       "              Original user request: \"{{userRequest}}\"",
       "              Please critique this image and provide a score and feedback.",
       "              \"\"\")",
-      "Critique critique(@V(\"userRequest\") String userRequest, @UserMessage(\"{{imageBase64}}\") ImageContent imageBase64);",
+      "Critique critique(@V(\"userRequest\") String userRequest, @UserMessage @V(\"imageBase64\") ImageContent imageBase64);",
       ""
     ],
     "description": "",
@@ -1669,7 +1669,7 @@
       "              Original user request: \"{{userRequest}}\"",
       "              Please critique this image and provide a score and feedback.",
       "              \"\"\")",
-      "Critique critique(@V(\"userRequest\") String userRequest, @UserMessage(\"{{imageBase64}}\") ImageContent imageBase64);",
+      "Critique critique(@V(\"userRequest\") String userRequest, @UserMessage @V(\"imageBase64\") ImageContent imageBase64);",
       ""
     ],
     "description": "",
