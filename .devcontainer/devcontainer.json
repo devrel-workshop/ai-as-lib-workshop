@@ -11,7 +11,7 @@
         "vscjava.vscode-java-pack@0.30.5",
         "redhat.java@1.51.0",
         "jbangdev.jbang-vscode@0.12.0",
-        "bierner.markdown-mermaid@1.32.0",
+        "mermaidchart.vscode-mermaid-chart@2.7.6",
         "-GitHub.copilot"
       ],
       "settings": {
