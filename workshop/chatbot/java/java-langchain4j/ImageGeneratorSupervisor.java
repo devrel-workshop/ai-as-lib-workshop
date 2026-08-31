@@ -57,7 +57,8 @@ void main() {
     // Build the PromptRefiner agent with AgenticServices.agentBuilder
 
     // java-81
-    // Build the ImageGenerator agent wrapped in an UntypedAgent with AgenticServices.sequenceBuilder
+    // Build the ImageGenerator agent wrapped in a named UntypedAgent with AgenticServices.sequenceBuilder
+    // (a .name() and a .description() are mandatory: they are what the supervisor shows to its planner)
 
     // java-82
     // Build the VisionCritic agent with AgenticServices.agentBuilder
