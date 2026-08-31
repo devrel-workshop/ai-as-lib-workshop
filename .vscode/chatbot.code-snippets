@@ -1498,6 +1498,11 @@
   "Supervisor: ImageGenerator sequence builder": {
     "body": [
       "UntypedAgent imageGenerator = AgenticServices.sequenceBuilder()",
+      "    .name(\"generateImage\")",
+      "    .description(\"\"\"",
+      "        Generates an image with Stable Diffusion XL from the SDXL prompts created by refinePrompt.",
+      "        Takes no argument: it reads the prompts from the shared context.",
+      "        Must be called after refinePrompt and before critique.\"\"\")",
       "    .subAgents(new ImageGenerator())",
       "    .output(agenticScope -\u003e {",
       "      String imageLocation = agenticScope.readState(\"imagePath\", \"\");",
@@ -1574,7 +1579,7 @@
       "        You are an image generation supervisor. Your goal is to produce the best possible image matching the user's request.",
       "        Follow this workflow:",
       "        1. First, call refinePrompt to create optimized SDXL prompts from the user's request. Use \"No previous feedback - this is the first iteration.\" as initial feedback.",
-      "        2. Then, call generateImage with those prompts to generate the image.",
+      "        2. Then, call generateImage (no argument needed) to generate the image.",
       "        3. Then, call critique to evaluate how well the image matches the user's request.",
       "        4. If the critic's score is below 0.8, call refinePrompt again incorporating the critic's feedback, then call generateImage again, then critique again.",
       "        5. Repeat until the critic's score is \u003e= 0.8 or you have completed 3 full iterations (refine + generate + critique).",
