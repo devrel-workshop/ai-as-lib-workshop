@@ -81,8 +81,9 @@ Types in use: `feat`, `fix`, `doc`, `clean`. Common emoji: `⬆️` version upgr
 Rules:
 
 - **One logical change per commit.** A version bump, its README updates and its snippet updates belong together; two different dependencies do not.
-- **Claude never commits.** Never run `git commit`, `git push`, `git tag`, or `git reset`. Apply the edits, then present the ready-to-use commit message as text — the maintainer stages and commits.
-- **Never add a Claude co-author trailer.** Commits are authored by the maintainer's own git account. The history has zero `Co-authored-by` lines; keep it that way.
+- **Never commit unasked.** Apply the edits, then present the ready-to-use commit message as text and stop. Commit only on the maintainer's explicit go-ahead ("go commit", "commit ça", an approval of the proposed message). Their silence is not approval, and neither is having approved the previous commit.
+- **The commit author is the maintainer's git account, alone.** Never add a `Co-authored-by` trailer for Claude, nor any "generated with" or 🤖 attribution line. The history has zero such trailers; keep it that way. This one has no exception, including when the commit was explicitly requested.
+- `git push`, `git tag` and `git reset` are never run unasked either — and a go-ahead to commit is not a go-ahead to push.
 - Work on a branch, never directly on `main`.
 
 ## Validating a change
