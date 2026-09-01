@@ -1,3 +1,4 @@
+//JAVA 25+
 //JAVA_OPTIONS -Dstdout.encoding=UTF-8
 
 //DEPS dev.langchain4j:langchain4j:1.19.0

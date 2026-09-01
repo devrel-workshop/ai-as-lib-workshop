@@ -81,7 +81,7 @@ Types in use: `feat`, `fix`, `doc`, `clean`. Common emoji: `⬆️` version upgr
 Rules:
 
 - **One logical change per commit.** A version bump, its README updates and its snippet updates belong together; two different dependencies do not.
-- **Never commit unasked.** Apply the edits, then present the ready-to-use commit message as text and stop. Commit only on the maintainer's explicit go-ahead ("go commit", "commit ça", an approval of the proposed message). Their silence is not approval, and neither is having approved the previous commit.
+- **Never commit unasked.** Apply the edits, then present the ready-to-use commit message as text and stop. Commit only on the maintainer's explicit go-ahead — a "go commit", a "commit it", or an approval of the proposed message, in whichever language they are using. Their silence is not approval, and neither is having approved the previous commit.
 - **The commit author is the maintainer's git account, alone.** Never add a `Co-authored-by` trailer for Claude, nor any "generated with" or 🤖 attribution line. The history has zero such trailers; keep it that way. This one has no exception, including when the commit was explicitly requested.
 - `git push`, `git tag` and `git reset` are never run unasked either — and a go-ahead to commit is not a go-ahead to push.
 - Work on a branch, never directly on `main`.
@@ -123,6 +123,9 @@ A green build never proves the workshop works: the exercises depend on the **mod
 | LangChain4j (JBang) | `//DEPS` lines in each `*.java`. **Two version lines**: stable (`1.19.0`) for `langchain4j`/`langchain4j-open-ai`, beta (`1.19.0-beta29`) for `langchain4j-mcp`/`langchain4j-agentic`. The beta suffix increments independently and cannot be derived from the stable number. |
 | Quarkus + Quarkus LangChain4j | `quarkus.platform.version` in both `pom.xml`. The platform BOM pins the `quarkus-langchain4j` version, which in turn pins `dev.langchain4j` — do **not** override those independently. |
 | Quarkus MCP server | explicit `<version>` on `io.quarkiverse.mcp:quarkus-mcp-server-http` (solutions `pom.xml` + snippet `quarkus-17`). Not in the platform BOM, so it is bumped by hand. |
+| Java | **25** everywhere: `maven.compiler.release` in both `pom.xml`, `//JAVA 25+` in every chatbot JBang script, `sdk install java 25-tem` in `.devcontainer/Dockerfile`, and the READMEs' prerequisites. Keep the four in sync. |
+
+The chatbot scripts genuinely need 25, not just as a preference: `ImageGeneratorAgent` and `ImageGeneratorSupervisor` are compact source files (top-level `void main()`) and use `IO.println` (JEP 512, final in 25). `//JAVA 25+` is a JDK *selector*, not a hard gate — with it, JBang picks or downloads a 25+ JDK when the ambient one is older, which is what makes the scripts work on an attendee's Java 21 machine. An explicit `jbang --java 21` still overrides it. Use the `25+` form, never bare `//JAVA 25`, which pins to exactly 25 and would ignore a newer local JDK.
 
 A version bump also touches: the `powered by Quarkus X.Y.Z` console output quoted in `workshop/chatbot/java/java-quarkus/README.md`, the agentic version notes in `workshop/chatbot/java/java-langchain4j/README.md`, and the dependency snippets (`java-32`, `quarkus-17`).
 
@@ -132,7 +135,6 @@ Past upgrade reports live in `docs/upgrades/` and record what was verified and w
 
 Not bugs to fix silently; raise them rather than assuming they are oversights:
 
-- Both `pom.xml` set `maven.compiler.release=21` while the READMEs and `.devcontainer/Dockerfile` specify Java 25.
 - `@dev.langchain4j.agent.tool.P` descriptions on MCP tools never reach the tool `inputSchema` (`@ToolArg(description = …)` does). The model picks arguments from their names alone.
 - Since Quarkus 3.38, `Host` header validation is auto-enabled when the app binds to localhost. The documented `localhost:8080` flow is fine; the **Coder CDE proxied path** is the one to re-test.
 
