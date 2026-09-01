@@ -1019,7 +1019,7 @@
       "\u003cdependency\u003e",
       "  \u003cgroupId\u003edev.langchain4j\u003c/groupId\u003e",
       "  \u003cartifactId\u003elangchain4j-mcp\u003c/artifactId\u003e",
-      "  \u003cversion\u003e1.18.0-beta28\u003c/version\u003e",
+      "  \u003cversion\u003e1.19.0-beta29\u003c/version\u003e",
       "\u003c/dependency\u003e",
       ""
     ],
