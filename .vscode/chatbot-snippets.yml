@@ -1,22 +1,5 @@
 # java-langchain4j section
 
-snippet java-01:
-  name: "java LangChain4J dependencies"
-  prefix: "java-01"
-  scope: "xml"
-  body: |
-    <dependency>
-      <groupId>dev.langchain4j</groupId>
-      <artifactId>langchain4j</artifactId>
-      <version>${langchain4j.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>dev.langchain4j</groupId>
-      <artifactId>langchain4j-mistral-ai</artifactId>
-      <version>${langchain4j.version}</version>
-    </dependency>
-
 snippet java-02:
   name: "Simple chatbot AI Services"
   prefix: "java-02"
@@ -174,17 +157,6 @@ snippet java-14:
             .onError(Throwable::printStackTrace).start();
     futureChatResponse.join();
     _LOG.info("\n");
-
-snippet java-15:
-  name: "LangChain4j OVHai dependency"
-  prefix: "java-15"
-  scope: "xml"
-  body: |
-    <dependency>
-      <groupId>dev.langchain4j</groupId>
-      <artifactId>langchain4j-ovh-ai</artifactId>
-      <version>${langchain4j.beta.version}</version>
-    </dependency>
 
 snippet java-16:
   name: "RAG AI Services"
@@ -399,17 +371,6 @@ snippet java-31:
         _LOG.info("\nResponse: " + chatBot.chat(userInput));
     }
     scanner.close();
-
-snippet java-32:
-  name: "MCP: dependency"
-  prefix: "java-32"
-  scope: "xml"
-  body: |
-    <dependency>
-      <groupId>dev.langchain4j</groupId>
-      <artifactId>langchain4j-mcp</artifactId>
-      <version>1.19.0-beta29</version>
-    </dependency>
 
 snippet java-33:
   name: "MCP: AI Services"

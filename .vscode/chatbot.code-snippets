@@ -810,19 +810,6 @@
     "prefix": "quarkus-05",
     "scope": "java"
   },
-  "LangChain4j OVHai dependency": {
-    "body": [
-      "\u003cdependency\u003e",
-      "  \u003cgroupId\u003edev.langchain4j\u003c/groupId\u003e",
-      "  \u003cartifactId\u003elangchain4j-ovh-ai\u003c/artifactId\u003e",
-      "  \u003cversion\u003e${langchain4j.beta.version}\u003c/version\u003e",
-      "\u003c/dependency\u003e",
-      ""
-    ],
-    "description": "",
-    "prefix": "java-15",
-    "scope": "xml"
-  },
   "MCP client client": {
     "body": [
       "client = MultiServerMCPClient(",
@@ -1013,19 +1000,6 @@
     "description": "",
     "prefix": "java-39-chatbot",
     "scope": "java"
-  },
-  "MCP: dependency": {
-    "body": [
-      "\u003cdependency\u003e",
-      "  \u003cgroupId\u003edev.langchain4j\u003c/groupId\u003e",
-      "  \u003cartifactId\u003elangchain4j-mcp\u003c/artifactId\u003e",
-      "  \u003cversion\u003e1.19.0-beta29\u003c/version\u003e",
-      "\u003c/dependency\u003e",
-      ""
-    ],
-    "description": "",
-    "prefix": "java-32",
-    "scope": "xml"
   },
   "MCP: mcp client": {
     "body": [
@@ -1810,25 +1784,6 @@
     "description": "",
     "prefix": "java-26",
     "scope": "java"
-  },
-  "java LangChain4J dependencies": {
-    "body": [
-      "\u003cdependency\u003e",
-      "  \u003cgroupId\u003edev.langchain4j\u003c/groupId\u003e",
-      "  \u003cartifactId\u003elangchain4j\u003c/artifactId\u003e",
-      "  \u003cversion\u003e${langchain4j.version}\u003c/version\u003e",
-      "\u003c/dependency\u003e",
-      "",
-      "\u003cdependency\u003e",
-      "  \u003cgroupId\u003edev.langchain4j\u003c/groupId\u003e",
-      "  \u003cartifactId\u003elangchain4j-mistral-ai\u003c/artifactId\u003e",
-      "  \u003cversion\u003e${langchain4j.version}\u003c/version\u003e",
-      "\u003c/dependency\u003e",
-      ""
-    ],
-    "description": "",
-    "prefix": "java-01",
-    "scope": "xml"
   },
   "quarkus-17-dep-mcp": {
     "body": [

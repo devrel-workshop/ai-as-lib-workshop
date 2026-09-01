@@ -31,6 +31,16 @@ Forgetting one of the three is the recurring failure mode here: attendees hit a 
 
 `// java-NN` (LangChain4j track) and `// quarkus-NN` (Quarkus track) are the join key between skeleton, snippet prefix, and README hint. They are sequential and referenced by name in the READMEs ("Type `quarkus-17` and press Tab"). **Never renumber them** — renumbering silently invalidates every README reference.
 
+### Deliberate divergences — do not "fix" these
+
+Some differences between the teaching path (README hints + snippets) and the reference solution are **pedagogical devices**, not drift. Never align them, and add any new one here so the next reader does not undo it:
+
+| Divergence | Why |
+|---|---|
+| `max-completion-tokens`: **512** in the `quarkus-01` snippet and the README hints, **50000** in the solution's `application.properties` | Attendees are meant to hit the consequence first-hand. With a reasoning model such as `gpt-oss-120b`, `max_completion_tokens` also covers reasoning tokens, so 512 can be exhausted before any answer is emitted — which is what the README's "if you see nothing, check max tokens" troubleshooting note refers to. The solution shows the working value. |
+
+Any automated snippet-vs-solution consistency check must carry these as explicit, commented exceptions — otherwise it reports them forever and gets switched off.
+
 ## Snippets: edit the YAML, never the generated file
 
 `.vscode/` holds both, and both are committed:
@@ -60,7 +70,7 @@ snippets generate \
 
 `snippets` is an external binary on the maintainer's `PATH`, not vendored here. If it is missing, edit the `.yml` and say the generated file still needs regenerating — never hand-edit it instead.
 
-Generation is deterministic: regenerating after a one-line YAML change produces a one-line diff. If the generated diff is larger than the YAML change warrants, something else moved — investigate rather than committing it. Both files belong in the same commit as the code change that motivated them.
+Generation is deterministic and rewrites the file wholesale, so a snippet deleted from the YAML is pruned from the generated file too. Regenerating after a one-line YAML change produces a one-line diff; if the generated diff is larger than the YAML change warrants, something else moved — investigate rather than committing it. Both files belong in the same commit as the code change that motivated them.
 
 ## Scope
 
@@ -127,7 +137,7 @@ A green build never proves the workshop works: the exercises depend on the **mod
 
 The chatbot scripts genuinely need 25, not just as a preference: `ImageGeneratorAgent` and `ImageGeneratorSupervisor` are compact source files (top-level `void main()`) and use `IO.println` (JEP 512, final in 25). `//JAVA 25+` is a JDK *selector*, not a hard gate — with it, JBang picks or downloads a 25+ JDK when the ambient one is older, which is what makes the scripts work on an attendee's Java 21 machine. An explicit `jbang --java 21` still overrides it. Use the `25+` form, never bare `//JAVA 25`, which pins to exactly 25 and would ignore a newer local JDK.
 
-A version bump also touches: the `powered by Quarkus X.Y.Z` console output quoted in `workshop/chatbot/java/java-quarkus/README.md`, the agentic version notes in `workshop/chatbot/java/java-langchain4j/README.md`, and the dependency snippets (`java-32`, `quarkus-17`).
+A version bump also touches: the `powered by Quarkus X.Y.Z` console output quoted in `workshop/chatbot/java/java-quarkus/README.md`, the agentic version notes in `workshop/chatbot/java/java-langchain4j/README.md`, and the `quarkus-17` dependency snippet. The LangChain4j track carries no dependency snippet: it declares versions in `//DEPS` only.
 
 Past upgrade reports live in `docs/upgrades/` and record what was verified and what was not — read the most recent one before starting a new bump.
 
