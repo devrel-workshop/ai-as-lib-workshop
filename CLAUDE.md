@@ -98,33 +98,21 @@ Rules:
 
 ## Validating a change
 
-Set the environment first — every run script sources it, and the Quarkus config resolves `${OVH_AI_ENDPOINTS_*}` at startup:
+One command, and it is the same one CI runs — keep it that way rather than growing a parallel set of manual steps:
 
 ```bash
-source bin/set-env-variables.sh
+bin/preflight.sh                 # 18 JBang scripts + both Quarkus modules, ~35 s
+bin/preflight.sh --only jbang    # or --only quarkus, to narrow down
+bin/preflight.sh --verbose       # full build output instead of the failure excerpt
 ```
 
-**JBang track** — compile every script in both trees:
+It needs **no AI Endpoints token**: the Quarkus config is resolved with dummy values and nothing calls a model. It builds both the `workshop` skeletons and the `solutions`, uses `jbang build --fresh` so a stale cache cannot mask a break, and runs `mvn package` rather than `compile` because Quarkus augmentation happens at package time — that is where an incompatible extension surfaces. Exit code 0 or 1, so it drops straight into CI.
 
-```bash
-cd solutions/chatbot/java/java-langchain4j   # then repeat in workshop/…
-for f in *.java; do jbang build "$f" || echo "FAIL $f"; done
-```
+When touching a run script's environment, `source bin/set-env-variables.sh` first — that is what the `run-*.sh` scripts do.
 
-**Quarkus track** — `package` rather than `compile`: Quarkus augmentation runs at package time, and that is where an incompatible extension surfaces. Dummy values are enough for a build:
+**MCP interop** (module 4 ↔ module 6) is the one cross-component risk and is not yet in preflight. Whenever either side moves, start the Quarkus app and connect a client to list the tools: `modernProtocol = true` means the stateless `2026-07-28` protocol was negotiated, `false` means it fell back to the legacy handshake. Both are functional.
 
-```bash
-cd solutions/chatbot/java/java-quarkus       # then repeat in workshop/…
-OVH_AI_ENDPOINTS_MODEL_URL=https://example.invalid/v1 \
-OVH_AI_ENDPOINTS_ACCESS_TOKEN=dummy \
-OVH_AI_ENDPOINTS_MODEL_NAME=dummy-model \
-OVH_AI_ENDPOINTS_SD_URL=https://example.invalid/api/text2image \
-mvn -B clean package
-```
-
-**MCP interop** (module 4 ↔ module 6) — the one cross-component risk, worth an explicit check whenever either side moves. Start the Quarkus app, then connect a client and list the tools; `modernProtocol = true` means the stateless `2026-07-28` protocol was negotiated, `false` means it fell back to the legacy handshake (both are functional).
-
-A green build never proves the workshop works: the exercises depend on the **model actually calling the tool**. Before a session, run modules 4 and 6 end-to-end once against a real token.
+**A green preflight never proves the workshop works.** The exercises depend on the model actually calling the tool, which no build checks. Before a session, run modules 4 and 6 end-to-end once against a real token.
 
 ## Where versions live
 
