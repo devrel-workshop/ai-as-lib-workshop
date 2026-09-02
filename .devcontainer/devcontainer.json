@@ -12,9 +12,11 @@
         "redhat.java@1.51.0",
         "jbangdev.jbang-vscode@0.12.0",
         "mermaidchart.vscode-mermaid-chart@2.7.6",
-        "-GitHub.copilot"
+        "-GitHub.copilot-chat"
       ],
       "settings": {
+        "chat.commandCenter.enabled": false,
+        "chat.disableAIFeatures": true,
 				"java.configuration.runtimes": [
 					{
 						"name": "JavaSE-25",
