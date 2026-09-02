@@ -108,6 +108,8 @@ bin/preflight.sh --verbose       # full build output instead of the failure exce
 
 It needs **no AI Endpoints token**: the Quarkus config is resolved with dummy values and nothing calls a model. It builds both the `workshop` skeletons and the `solutions`, uses `jbang build --fresh` so a stale cache cannot mask a break, and runs `mvn package` rather than `compile` because Quarkus augmentation happens at package time — that is where an incompatible extension surfaces. Exit code 0 or 1, so it drops straight into CI.
 
+`.github/workflows/preflight.yml` runs that same script on every push and pull request, on Java 25 (what the workshop requires and Coder CDE provides) and Java 26 (what the maintainer runs locally). **Put new checks in the script, never in the workflow** — the workflow only provides the toolchain, which is what keeps local and CI results from drifting apart.
+
 When touching a run script's environment, `source bin/set-env-variables.sh` first — that is what the `run-*.sh` scripts do.
 
 **MCP interop** (module 4 ↔ module 6) is the one cross-component risk and is not yet in preflight. Whenever either side moves, start the Quarkus app and connect a client to list the tools: `modernProtocol = true` means the stateless `2026-07-28` protocol was negotiated, `false` means it fell back to the legacy handshake. Both are functional.

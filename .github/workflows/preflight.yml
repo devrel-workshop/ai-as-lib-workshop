@@ -1,0 +1,67 @@
+# Runs bin/preflight.sh — the same script used locally before a rehearsal.
+# Keep the logic in that script, not here: this workflow only provides the
+# toolchain, so local and CI results cannot drift apart.
+#
+# No secret is needed. Nothing here calls a model.
+
+name: Preflight
+
+on:
+  push:
+    paths-ignore:
+      - 'assets/**'
+      - 'docs/**'
+  pull_request:
+    paths-ignore:
+      - 'assets/**'
+      - 'docs/**'
+  workflow_dispatch:
+
+concurrency:
+  group: preflight-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    name: Java ${{ matrix.java }}
+    runs-on: ubuntu-latest
+    strategy:
+      # Report every failing combination, not just the first.
+      fail-fast: false
+      matrix:
+        # 25 is what the workshop requires and what Coder CDE provides;
+        # 26 is what the maintainer runs locally. Both must stay green.
+        java: ['25', '26']
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v7
+
+      - name: Set up Java ${{ matrix.java }}
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.java }}
+          cache: maven
+
+      - name: Cache JBang dependencies
+        uses: actions/cache@v6
+        with:
+          # Only the dependency and JDK cache — not ~/.jbang/bin, which the
+          # install step below writes.
+          path: ~/.jbang/cache
+          key: jbang-${{ runner.os }}-java${{ matrix.java }}-${{ hashFiles('**/chatbot/java/java-langchain4j/*.java') }}
+          restore-keys: |
+            jbang-${{ runner.os }}-java${{ matrix.java }}-
+            jbang-${{ runner.os }}-
+
+      - name: Install JBang
+        run: |
+          curl -Ls https://sh.jbang.dev | bash -s - app setup
+          echo "$HOME/.jbang/bin" >> "$GITHUB_PATH"
+
+      - name: Preflight
+        run: bin/preflight.sh
