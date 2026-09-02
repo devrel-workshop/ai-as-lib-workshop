@@ -76,6 +76,7 @@ Generation is deterministic and rewrites the file wholesale, so a snippet delete
 
 - **The audio module (`workshop/audio/`, `solutions/audio/`) is out of scope** unless explicitly asked for. Default work targets the chatbot modules only.
 - `attendee-conf.json` holds a **real OVHcloud AI Endpoints token**. It is untracked and gitignored — keep it that way. Never read it out, print it, or paste its contents into a summary, a report, or a commit.
+- **This repository is public, so every CI log is world-readable.** Treat anything a workflow prints as published. Concretely: keep `logRequests`/`logResponses` and `quarkus.langchain4j.openai.log-requests` at `false` for the model clients (the MCP transport's `logRequests(true)` is fine — it only carries local JSON-RPC, no credential), never enable `quarkus.rest-client.logging.scope`, and never call `setup_env.sh` from a workflow: unlike `bin/set-env-variables.sh`, it echoes the token and dumps the config file. Pass secrets to `jq` through the environment rather than `--arg`, which would expose them in the process argv.
 - `.claude/` is gitignored; this `CLAUDE.md` at the repo root is not.
 
 ## Commits
@@ -114,7 +115,29 @@ When touching a run script's environment, `source bin/set-env-variables.sh` firs
 
 **MCP interop** (module 4 ↔ module 6) is the one cross-component risk and is not yet in preflight. Whenever either side moves, start the Quarkus app and connect a client to list the tools: `modernProtocol = true` means the stateless `2026-07-28` protocol was negotiated, `false` means it fell back to the legacy handshake. Both are functional.
 
-**A green preflight never proves the workshop works.** The exercises depend on the model actually calling the tool, which no build checks. Before a session, run modules 4 and 6 end-to-end once against a real token.
+**A green preflight never proves the workshop works.** The exercises depend on the model answering, retrieving, remembering and calling tools, and no build checks any of that. That is what `bin/e2e.sh` is for:
+
+```bash
+bin/e2e.sh                    # chatbot + image + quarkus + mcp, ~5 min
+bin/e2e.sh --only chatbot     # or image | quarkus | mcp
+bin/e2e.sh --with-agentic     # also the agent loop and supervisor (slow, costly)
+bin/e2e.sh --dry-run          # list what would run, call nothing
+```
+
+It needs a **real token** (it sources `bin/set-env-variables.sh` itself when `attendee-conf.json` is present) and it **costs tokens**, so it is not on the push path. `.github/workflows/e2e.yml` runs it weekly and on demand, off `workflow_dispatch` — use that before an event.
+
+Its assertions are on side effects and on facts a model could not invent, never on phrasing, which is what makes them meaningful against a non-deterministic model:
+
+| Check | Assertion | What a failure means |
+|---|---|---|
+| simple, streaming | non-empty answer after the `🤖` marker | often `max-completion-tokens` too low for a reasoning model |
+| memory | the name from the first turn comes back in the second | chat memory is not wired |
+| RAG | the answer contains `Noron` / `Laboratoire` / `juin`, which exist only in the indexed file | retrieval is not happening |
+| image, MCP | a file with real PNG/JPEG magic bytes appears on disk | the model did not call the tool |
+
+Assert on the *answer*, never on the size of the whole log: a log-size threshold sits inside the normal length variance of a short answer and flakes. When adding a check, prove it can fail — disable the feature it covers and confirm it goes red.
+
+A red e2e is usually the service, not the code: check the model is still in the catalogue, the token is valid, and quota is left. Run `bin/preflight.sh` to rule the code out.
 
 ## Where versions live
 
