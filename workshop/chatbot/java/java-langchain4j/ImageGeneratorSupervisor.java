@@ -1,8 +1,9 @@
+//JAVA 25+
 //JAVA_OPTIONS -Dstdout.encoding=UTF-8 
 
-//DEPS dev.langchain4j:langchain4j:1.18.0
-//DEPS dev.langchain4j:langchain4j-open-ai:1.18.0
-//DEPS dev.langchain4j:langchain4j-agentic:1.18.0-beta28
+//DEPS dev.langchain4j:langchain4j:1.19.0
+//DEPS dev.langchain4j:langchain4j-open-ai:1.19.0
+//DEPS dev.langchain4j:langchain4j-agentic:1.19.0-beta29
 //DEPS ch.qos.logback:logback-classic:1.5.38
 
 import org.slf4j.Logger;
@@ -57,7 +58,8 @@ void main() {
     // Build the PromptRefiner agent with AgenticServices.agentBuilder
 
     // java-81
-    // Build the ImageGenerator agent wrapped in an UntypedAgent with AgenticServices.sequenceBuilder
+    // Build the ImageGenerator agent wrapped in a named UntypedAgent with AgenticServices.sequenceBuilder
+    // (a .name() and a .description() are mandatory: they are what the supervisor shows to its planner)
 
     // java-82
     // Build the VisionCritic agent with AgenticServices.agentBuilder

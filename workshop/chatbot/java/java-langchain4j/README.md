@@ -1909,7 +1909,7 @@ The loop iterates until the critic gives a score >= 0.8 (or max 3 iterations), r
 
 **File to edit**: [ImageGeneratorAgent.java](ImageGeneratorAgent.java)
 
-> **Note**: This module uses `langchain4j-agentic:1.18.0-beta28` — the new Agentic API for multi-agent orchestration.
+> **Note**: This module uses `langchain4j-agentic:1.19.0-beta29` — the new Agentic API for multi-agent orchestration.
 
 ---
 
@@ -2450,7 +2450,7 @@ The supervisor LLM receives workflow instructions via `supervisorContext` and au
 
 **File to edit**: [ImageGeneratorSupervisor.java](ImageGeneratorSupervisor.java)
 
-> **Note**: This module uses `langchain4j-agentic:1.18.0-beta28` — the new Agentic API for multi-agent orchestration.
+> **Note**: This module uses `langchain4j-agentic:1.19.0-beta29` — the new Agentic API for multi-agent orchestration.
 
 ---
 
@@ -2786,12 +2786,20 @@ Wrap the `ImageGenerator` in an `UntypedAgent` using `AgenticServices.sequenceBu
 - This keeps the `ImageGenerator` class clean and reusable, while the wrapping handles the conversion
 - The supervisor sees this as a single `UntypedAgent` sub-agent
 
+⚠️ **Always give the wrapper a `.name()` and a `.description()`**: the supervisor advertises its sub-agents
+to the planner LLM as `{name, description, arguments}`. Without them this agent shows up as
+`{'Sequential$1', 'null', []}` — the planner has no idea what it does, cannot match it with the
+`generateImage` step of the supervisor context, and simply skips it. The workflow then jumps straight to
+the critic, which fails on a missing image with
+`MismatchedInputException: Cannot construct instance of ImageContent`.
+
 <details>
 <summary>🔎 Hint 1 — What concept to use</summary>
 
 Use `AgenticServices.sequenceBuilder()` to create an `UntypedAgent` that:
-1. Runs `new ImageGenerator()` as a sub-agent
-2. Has an `.output()` lambda that reads `"imagePath"` from scope, creates `ImageContent.from(Path, mimeType)`, and writes it as `"imageBase64"`
+1. Is named `generateImage` — the exact name used in the supervisor context — with a `.description()` the planner can understand
+2. Runs `new ImageGenerator()` as a sub-agent
+3. Has an `.output()` lambda that reads `"imagePath"` from scope, creates `ImageContent.from(Path, mimeType)`, and writes it as `"imageBase64"`
 
 📖 **Documentation**:
 - [LangChain4j Sequence](https://docs.langchain4j.dev/tutorials/agents#sequence)
@@ -2804,6 +2812,11 @@ Use `AgenticServices.sequenceBuilder()` to create an `UntypedAgent` that:
 
 ```java
 UntypedAgent imageGenerator = AgenticServices.sequenceBuilder()
+    .name("generateImage")
+    .description("""
+        Generates an image with Stable Diffusion XL from the SDXL prompts created by refinePrompt.
+        Takes no argument: it reads the prompts from the shared context.
+        Must be called after refinePrompt and before critique.""")
     .subAgents(new ImageGenerator())
     .output(agenticScope -> {
       String imageLocation = agenticScope.readState("imagePath", "");
@@ -2876,6 +2889,7 @@ This is the **key step** that differentiates Module 8 from Module 7. Build the `
 - `responseStrategy(SUMMARY)` tells the supervisor to return a summary when done
 - `maxAgentsInvocations(10)` sets a safety limit
 - The listener's `afterAgentInvocation` + `inheritedBySubagents()` logs critic scores
+- The workflow steps must use the **exact agent names** (`refinePrompt`, `generateImage`, `critique`), otherwise the planner cannot map the instructions to the agents it was given
 
 <details>
 <summary>🔎 Hint 1 — What concept to use</summary>
