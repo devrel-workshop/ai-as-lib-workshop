@@ -123,8 +123,8 @@ public class RAGChatbot {
 
                 // java-23
                 // Send a prompt
-                _LOG.info("💬: Quel est le programme de Dev Quest 2026?\n");
-                TokenStream tokenStream = assistant.chat("Quel est le programme de Dev Quest 2026?");
+                _LOG.info("💬: Give me the 2026 Devoxx Belgium program.\n");
+                TokenStream tokenStream = assistant.chat("Give me the 2026 Devoxx Belgium program.");
                 CompletableFuture<ChatResponse> futureChatResponse = new CompletableFuture<>();
 
                 _LOG.info("🤖: ");
