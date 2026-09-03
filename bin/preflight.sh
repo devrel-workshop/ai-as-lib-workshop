@@ -57,6 +57,16 @@ export OVH_AI_ENDPOINTS_ACCESS_TOKEN="preflight-dummy-token"
 export OVH_AI_ENDPOINTS_MODEL_NAME="preflight-dummy-model"
 export OVH_AI_ENDPOINTS_SD_URL="https://example.invalid/api/text2image"
 
+# Extending it:
+#   - A new JBang script in a directory already listed in JBANG_DIRS needs
+#     nothing: the glob below picks it up on the next run.
+#   - A new directory or Maven module: add its path to JBANG_DIRS or
+#     QUARKUS_DIRS. Add both the workshop and the solutions copy, or the
+#     skeleton silently stops being checked.
+#   - Anything that needs an API token does NOT belong here. Put it in
+#     bin/e2e.sh: preflight must stay runnable without a credential, which is
+#     what lets CI run it on every push.
+#
 JBANG_DIRS=(
   "workshop/chatbot/java/java-langchain4j"
   "solutions/chatbot/java/java-langchain4j"

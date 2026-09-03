@@ -139,6 +139,36 @@ Assert on the *answer*, never on the size of the whole log: a log-size threshold
 
 A red e2e is usually the service, not the code: check the model is still in the catalogue, the token is valid, and quota is left. Run `bin/preflight.sh` to rule the code out.
 
+### Adding a check when the workshop grows
+
+**A new JBang script in an existing track directory needs nothing.** `bin/preflight.sh` globs `*.java` in each of its `JBANG_DIRS`, so the compile check picks it up on the next run. Verify with `bin/preflight.sh --only jbang` and count the lines.
+
+**A new directory or Maven module** does need wiring: add its path to `JBANG_DIRS` or `QUARKUS_DIRS` at the top of `bin/preflight.sh`. Both arrays list the `workshop` and the `solutions` copy — add both, or the skeleton stops being checked.
+
+**A new end-to-end check** goes in `bin/e2e.sh`, never in the workflow. Copy the nearest existing block and keep its shape:
+
+```bash
+run_script "MyNewChatbot" 180 "" "MyNewChatbot.java"
+case $? in
+  0) n=$(answer_chars "$LAST_LOG")
+     if [ "$n" -gt 20 ]; then pass "answered ($n chars)"
+     else fail "MyNewChatbot" "empty answer — check max-completion-tokens" "$LAST_LOG"; fi ;;
+  3) ;;                                    # dry run: mandatory, see below
+  *) fail "MyNewChatbot" "non-zero exit" "$LAST_LOG" ;;
+esac
+```
+
+`run_script <label> <timeout-seconds> <stdin> <script>` runs the script from the LangChain4j solutions directory and sets `LAST_LOG`. Four things to get right:
+
+1. **The `3)` branch is mandatory.** `run_script` returns 3 under `--dry-run`; without that branch the `*)` case fires and the dry run reports a failure that did not happen.
+2. **Feed stdin for interactive scripts.** Pass `""` for a script that runs to completion (`SimpleChatbot`, `StreamingChatbot`, `MemoryChatbot`, `RAGChatbot`), `$'a prompt\nexit\n'` for a `Scanner` loop (`ImageGenerationChatbot`, `ImageGenerationMCPChatbot`), `$'a prompt\n'` for a single `IO.readln` (`ImageGeneratorAgent`, `ImageGeneratorSupervisor`). Never invoke `run-jbang.sh` from a check — it blocks on "Press any key".
+3. **Assert on a side effect or an uninventable token, never on phrasing or log size.** For a script that generates an image, use the `check_image_producer` helper instead: it clears the file first and asserts real PNG/JPEG magic bytes, which is the only proof the model actually called the tool.
+4. **Prove the check can fail** before committing it: disable the feature it covers — comment out `.contentRetriever(...)`, drop `.chatMemory(...)` — and confirm it goes red with a useful message. A check never seen failing is decoration.
+
+**A new Quarkus endpoint** goes in the `for e in simple advanced memory` loop in the Quarkus block; a new group for `--only` needs three edits: the validation list in the argument parser, the block itself, and the `--dry-run` listing in that block, which is written out by hand and will otherwise under-report.
+
+**Anything needing a token belongs in `e2e.sh`, never in `preflight.sh`** — preflight must stay runnable with no credential, since that is what lets CI run it on every push.
+
 ## Where versions live
 
 | What | Where |

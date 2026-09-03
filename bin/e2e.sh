@@ -167,6 +167,38 @@ echo "${C_DIM}these checks call a live service and consume tokens${C_0}"
 [ "$DRY_RUN" -eq 1 ] && echo "${C_WARN}dry run — nothing will be called${C_0}"
 echo
 
+# Adding a check — copy the nearest block and keep its shape:
+#
+#   run_script "MyNewChatbot" 180 "" "MyNewChatbot.java"
+#   case $? in
+#     0) n=$(answer_chars "$LAST_LOG")
+#        if [ "$n" -gt 20 ]; then pass "answered ($n chars)"
+#        else fail "MyNewChatbot" "empty answer" "$LAST_LOG"; fi ;;
+#     3) ;;
+#     *) fail "MyNewChatbot" "non-zero exit" "$LAST_LOG" ;;
+#   esac
+#
+# run_script <label> <timeout-seconds> <stdin> <script> runs the script from
+# $L4J_DIR and sets LAST_LOG. Four things to get right:
+#
+#   1. The "3)" branch is mandatory: run_script returns 3 under --dry-run, and
+#      without it the "*)" case reports a failure that never happened.
+#   2. stdin depends on how the script reads input: "" for one that runs to
+#      completion, $'a prompt\nexit\n' for a Scanner loop, $'a prompt\n' for a
+#      single IO.readln. Never call run-jbang.sh from a check — it blocks on
+#      "Press any key".
+#   3. Assert a side effect or a token the model could not invent, never
+#      phrasing and never log size. For an image-producing script use
+#      check_image_producer, which clears the file first and asserts real image
+#      magic bytes — the only proof the tool was really called.
+#   4. Prove the check can fail before committing it: disable the feature it
+#      covers (comment out .contentRetriever(...), drop .chatMemory(...)) and
+#      confirm it goes red with a useful message.
+#
+# A new --only group needs three edits: the validation list in the argument
+# parser, the block itself, and the --dry-run listing inside that block, which
+# is written by hand and will otherwise under-report.
+#
 run_script() {          # run_script <label> <timeout> <stdin> <script>
   local label="$1" secs="$2" input="$3" script="$4"
   local log="$LOG_DIR/$(echo "$label" | tr -cd '[:alnum:]').log"
