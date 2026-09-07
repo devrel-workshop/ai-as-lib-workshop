@@ -1,22 +1,5 @@
 # java-langchain4j section
 
-snippet java-01:
-  name: "java LangChain4J dependencies"
-  prefix: "java-01"
-  scope: "xml"
-  body: |
-    <dependency>
-      <groupId>dev.langchain4j</groupId>
-      <artifactId>langchain4j</artifactId>
-      <version>${langchain4j.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>dev.langchain4j</groupId>
-      <artifactId>langchain4j-mistral-ai</artifactId>
-      <version>${langchain4j.version}</version>
-    </dependency>
-
 snippet java-02:
   name: "Simple chatbot AI Services"
   prefix: "java-02"
@@ -175,17 +158,6 @@ snippet java-14:
     futureChatResponse.join();
     _LOG.info("\n");
 
-snippet java-15:
-  name: "LangChain4j OVHai dependency"
-  prefix: "java-15"
-  scope: "xml"
-  body: |
-    <dependency>
-      <groupId>dev.langchain4j</groupId>
-      <artifactId>langchain4j-ovh-ai</artifactId>
-      <version>${langchain4j.beta.version}</version>
-    </dependency>
-
 snippet java-16:
   name: "RAG AI Services"
   prefix: "java-16"
@@ -273,8 +245,8 @@ snippet java-23:
   prefix: "java-23"
   scope: "java"
   body: |
-    _LOG.info("💬: Quel est le programme de Dev Quest 2026?\n");
-    TokenStream tokenStream = assistant.chat("Quel est le programme de Dev Quest 2026?");
+    _LOG.info("\n💬: Give me the 2026 Devoxx Belgium program.\n");
+    TokenStream tokenStream = assistant.chat("Give me the 2026 Devoxx Belgium program.");
     CompletableFuture<ChatResponse> futureChatResponse = new CompletableFuture<>();
 
     _LOG.info("🤖: ");
@@ -399,17 +371,6 @@ snippet java-31:
         _LOG.info("\nResponse: " + chatBot.chat(userInput));
     }
     scanner.close();
-
-snippet java-32:
-  name: "MCP: dependency"
-  prefix: "java-32"
-  scope: "xml"
-  body: |
-    <dependency>
-      <groupId>dev.langchain4j</groupId>
-      <artifactId>langchain4j-mcp</artifactId>
-      <version>1.18.0-beta28</version>
-    </dependency>
 
 snippet java-33:
   name: "MCP: AI Services"
@@ -1079,7 +1040,7 @@ snippet quarkus-17:
     <dependency>
       <groupId>io.quarkiverse.mcp</groupId>
       <artifactId>quarkus-mcp-server-http</artifactId>
-      <version>1.13.1</version>
+      <version>2.0.0</version>
     </dependency>
 
 snippet quarkus-18:

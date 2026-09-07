@@ -1,0 +1,108 @@
+# Runs bin/e2e.sh against the real OVHcloud AI Endpoints.
+#
+# Deliberately NOT on push or pull_request: it costs tokens and depends on a
+# live service, so a red run here often means the endpoint or the model moved,
+# not that the code broke. Keeping it off the PR path also keeps a forked PR
+# from ever reaching the secret.
+#
+# Run it before an event with "Run workflow", and let the weekly schedule catch
+# a model being retired from the catalogue between sessions.
+#
+# Requires the OVH_AI_ENDPOINTS_ACCESS_TOKEN repository secret.
+
+name: End-to-end
+
+on:
+  schedule:
+    # Mondays 06:00 UTC — early enough to notice before a week of sessions.
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+    inputs:
+      scope:
+        description: 'What to run'
+        type: choice
+        default: all
+        options: [all, chatbot, image, quarkus, mcp]
+      with_agentic:
+        description: 'Also the agent loop and supervisor (slow and costly)'
+        type: boolean
+        default: false
+
+concurrency:
+  # Never let two live runs overlap; queue instead of cancelling, so a
+  # pre-event run is not silently dropped.
+  group: e2e
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  e2e:
+    name: End-to-end (live model)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v7
+
+      - name: Set up Java 25
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+
+      - name: Install JBang
+        run: |
+          curl -Ls https://sh.jbang.dev | bash -s - app setup
+          echo "$HOME/.jbang/bin" >> "$GITHUB_PATH"
+
+      - name: Provision credentials
+        env:
+          TOKEN: ${{ secrets.OVH_AI_ENDPOINTS_ACCESS_TOKEN }}
+        run: |
+          if [ -z "$TOKEN" ]; then
+            echo "::error::The OVH_AI_ENDPOINTS_ACCESS_TOKEN secret is not set."
+            exit 1
+          fi
+          # bin/set-env-variables.sh reads the token from this file and exports
+          # every model URL. Writing the file, rather than re-declaring those
+          # URLs here, keeps that script the single source of truth.
+          #
+          # env.TOKEN rather than --arg: a --arg value lands in the jq process
+          # argv, which is world-readable through /proc. Reading it from the
+          # environment keeps it out of any process listing.
+          umask 077
+          jq -n '{aiEndpointsToken: env.TOKEN, maxAttendees: 1}' > attendee-conf.json
+
+      - name: End-to-end
+        env:
+          SCOPE: ${{ inputs.scope || 'all' }}
+          WITH_AGENTIC: ${{ inputs.with_agentic }}
+        run: |
+          args=()
+          # e2e.sh has no "--only all": running everything is the default.
+          if [ "$SCOPE" != "all" ]; then
+            args+=(--only "$SCOPE")
+          fi
+          if [ "$WITH_AGENTIC" = "true" ]; then
+            args+=(--with-agentic)
+          fi
+          bin/e2e.sh "${args[@]}"
+
+      - name: Remove credentials
+        if: always()
+        run: rm -f attendee-conf.json
+
+      - name: Upload generated images
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: generated-images
+          path: |
+            solutions/chatbot/java/java-langchain4j/generated-image.jpeg
+            solutions/chatbot/java/java-quarkus/generated-image.jpeg
+          if-no-files-found: ignore
+          retention-days: 7

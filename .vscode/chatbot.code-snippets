@@ -810,19 +810,6 @@
     "prefix": "quarkus-05",
     "scope": "java"
   },
-  "LangChain4j OVHai dependency": {
-    "body": [
-      "\u003cdependency\u003e",
-      "  \u003cgroupId\u003edev.langchain4j\u003c/groupId\u003e",
-      "  \u003cartifactId\u003elangchain4j-ovh-ai\u003c/artifactId\u003e",
-      "  \u003cversion\u003e${langchain4j.beta.version}\u003c/version\u003e",
-      "\u003c/dependency\u003e",
-      ""
-    ],
-    "description": "",
-    "prefix": "java-15",
-    "scope": "xml"
-  },
   "MCP client client": {
     "body": [
       "client = MultiServerMCPClient(",
@@ -1013,19 +1000,6 @@
     "description": "",
     "prefix": "java-39-chatbot",
     "scope": "java"
-  },
-  "MCP: dependency": {
-    "body": [
-      "\u003cdependency\u003e",
-      "  \u003cgroupId\u003edev.langchain4j\u003c/groupId\u003e",
-      "  \u003cartifactId\u003elangchain4j-mcp\u003c/artifactId\u003e",
-      "  \u003cversion\u003e1.18.0-beta28\u003c/version\u003e",
-      "\u003c/dependency\u003e",
-      ""
-    ],
-    "description": "",
-    "prefix": "java-32",
-    "scope": "xml"
   },
   "MCP: mcp client": {
     "body": [
@@ -1224,8 +1198,8 @@
   },
   "RAG call": {
     "body": [
-      "_LOG.info(\"💬: Quel est le programme de Dev Quest 2026?\\n\");",
-      "TokenStream tokenStream = assistant.chat(\"Quel est le programme de Dev Quest 2026?\");",
+      "_LOG.info(\"\\n💬: Give me the 2026 Devoxx Belgium program.\\n\");",
+      "TokenStream tokenStream = assistant.chat(\"Give me the 2026 Devoxx Belgium program.\");",
       "CompletableFuture\u003cChatResponse\u003e futureChatResponse = new CompletableFuture\u003c\u003e();",
       "",
       "_LOG.info(\"🤖: \");",
@@ -1811,31 +1785,12 @@
     "prefix": "java-26",
     "scope": "java"
   },
-  "java LangChain4J dependencies": {
-    "body": [
-      "\u003cdependency\u003e",
-      "  \u003cgroupId\u003edev.langchain4j\u003c/groupId\u003e",
-      "  \u003cartifactId\u003elangchain4j\u003c/artifactId\u003e",
-      "  \u003cversion\u003e${langchain4j.version}\u003c/version\u003e",
-      "\u003c/dependency\u003e",
-      "",
-      "\u003cdependency\u003e",
-      "  \u003cgroupId\u003edev.langchain4j\u003c/groupId\u003e",
-      "  \u003cartifactId\u003elangchain4j-mistral-ai\u003c/artifactId\u003e",
-      "  \u003cversion\u003e${langchain4j.version}\u003c/version\u003e",
-      "\u003c/dependency\u003e",
-      ""
-    ],
-    "description": "",
-    "prefix": "java-01",
-    "scope": "xml"
-  },
   "quarkus-17-dep-mcp": {
     "body": [
       "\u003cdependency\u003e",
       "  \u003cgroupId\u003eio.quarkiverse.mcp\u003c/groupId\u003e",
       "  \u003cartifactId\u003equarkus-mcp-server-http\u003c/artifactId\u003e",
-      "  \u003cversion\u003e1.13.1\u003c/version\u003e",
+      "  \u003cversion\u003e2.0.0\u003c/version\u003e",
       "\u003c/dependency\u003e",
       ""
     ],
