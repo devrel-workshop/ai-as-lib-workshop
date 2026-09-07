@@ -1,9 +1,9 @@
 //JAVA 25+
 //JAVA_OPTIONS -Dstdout.encoding=UTF-8 
 
-//DEPS dev.langchain4j:langchain4j:1.19.0
-//DEPS dev.langchain4j:langchain4j-open-ai:1.19.0
-//DEPS dev.langchain4j:langchain4j-mcp:1.19.0-beta29
+//DEPS dev.langchain4j:langchain4j:1.20.0
+//DEPS dev.langchain4j:langchain4j-open-ai:1.20.0
+//DEPS dev.langchain4j:langchain4j-mcp:1.20.0-beta30
 //DEPS ch.qos.logback:logback-classic:1.5.38
 
 //FILES ./resources/logback.xml
@@ -62,7 +62,7 @@ public class ImageGenerationMCPChatbot {
                 String chat(@V("userMessage") String userMessage);
         }
 
-        void main() {
+        void main() throws Exception {
                 
 
                 // java-34
@@ -81,7 +81,7 @@ public class ImageGenerationMCPChatbot {
 
                 // java-35
                 // Configure the MCP server to use
-                McpTransport transport = new StreamableHttpMcpTransport.Builder()
+                McpTransport transport = StreamableHttpMcpTransport.builder()
                                 // https://xxxx/mcp/sse
                                 .url(System.getenv("MCP_SERVER_URL"))
                                 .logRequests(true)
@@ -90,7 +90,7 @@ public class ImageGenerationMCPChatbot {
 
                 // java-36
                 // Create the MCP client for the given MCP server
-                McpClient mcpClient = new DefaultMcpClient.Builder()
+                McpClient mcpClient = DefaultMcpClient.builder()
                                 .transport(transport)
                                 .build();
 
@@ -124,5 +124,6 @@ public class ImageGenerationMCPChatbot {
                         _LOG.info("\nResponse: " + bot.chat(userInput));
                 }
                 scanner.close();
+                mcpClient.close();
         }
 }

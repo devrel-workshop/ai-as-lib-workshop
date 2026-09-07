@@ -982,6 +982,7 @@
       "    _LOG.info(\"\\nResponse: \" + bot.chat(userInput));",
       "}",
       "scanner.close();",
+      "mcpClient.close();",
       ""
     ],
     "description": "",
@@ -1003,7 +1004,7 @@
   },
   "MCP: mcp client": {
     "body": [
-      "McpClient mcpClient = new DefaultMcpClient.Builder()",
+      "McpClient mcpClient = DefaultMcpClient.builder()",
       "        .transport(transport)",
       "        .build();",
       ""
@@ -1053,7 +1054,7 @@
   },
   "MCP: transport": {
     "body": [
-      "McpTransport transport = new StreamableHttpMcpTransport.Builder()",
+      "McpTransport transport = StreamableHttpMcpTransport.builder()",
       "        // https://xxxx/mcp/sse",
       "        .url(System.getenv(\"MCP_SERVER_URL\"))",
       "        .logRequests(true)",

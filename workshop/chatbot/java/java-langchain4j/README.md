@@ -1616,7 +1616,7 @@ MCP (Model Context Protocol) allows AI to use **remote tools** exposed by an MCP
 <details>
 <summary>🧩 Hint 2 — Key classes & methods</summary>
 
-- Use `new StreamableHttpMcpTransport.Builder()` with `.url(System.getenv("MCP_SERVER_URL"))`, `.logRequests(true)`, `.logResponses(true)`, `.build()`
+- Use `StreamableHttpMcpTransport.builder()` with `.url(System.getenv("MCP_SERVER_URL"))`, `.logRequests(true)`, `.logResponses(true)`, `.build()`
 - Assign to a `McpTransport` variable
 
 </details>
@@ -1654,7 +1654,7 @@ The **MCP client** wraps the transport and manages the protocol-level communicat
 <details>
 <summary>🧩 Hint 2 — Key classes & methods</summary>
 
-- Use `new DefaultMcpClient.Builder().transport(transport).build()` to create an `McpClient`
+- Use `DefaultMcpClient.builder().transport(transport).build()` to create an `McpClient`
 
 </details>
 
@@ -1790,7 +1790,7 @@ Create the interaction loop (same as Module 5).
 <details>
 <summary>🔎 Hint 1 — What concept to use</summary>
 
-Same read-eval-print loop as Module 5 — read user input with a `Scanner`, send to the chatbot, display the response.
+Same read-eval-print loop as Module 5 — read user input with a `Scanner`, send to the chatbot, display the response. One addition: the MCP client holds a connection to the server, so close it when the loop ends, as the [MCP documentation](https://docs.langchain4j.dev/tutorials/mcp) does.
 
 </details>
 
@@ -1800,6 +1800,7 @@ Same read-eval-print loop as Module 5 — read user input with a `Scanner`, send
 - Use a `Scanner` in a `while(true)` loop
 - Call `bot.chat(userInput)` which returns a `String`
 - Break when user types `"exit"`
+- After the loop, call `mcpClient.close()` — `McpClient` is `AutoCloseable`
 
 </details>
 
@@ -1909,7 +1910,7 @@ The loop iterates until the critic gives a score >= 0.8 (or max 3 iterations), r
 
 **File to edit**: [ImageGeneratorAgent.java](ImageGeneratorAgent.java)
 
-> **Note**: This module uses `langchain4j-agentic:1.19.0-beta29` — the new Agentic API for multi-agent orchestration.
+> **Note**: This module uses `langchain4j-agentic:1.20.0-beta30` — the new Agentic API for multi-agent orchestration.
 
 ---
 
@@ -2450,7 +2451,7 @@ The supervisor LLM receives workflow instructions via `supervisorContext` and au
 
 **File to edit**: [ImageGeneratorSupervisor.java](ImageGeneratorSupervisor.java)
 
-> **Note**: This module uses `langchain4j-agentic:1.19.0-beta29` — the new Agentic API for multi-agent orchestration.
+> **Note**: This module uses `langchain4j-agentic:1.20.0-beta30` — the new Agentic API for multi-agent orchestration.
 
 ---
 
