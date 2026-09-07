@@ -27,7 +27,7 @@ public class ImageGenerationMCPChatbot {
         // and use
     }
 
-    void main() {
+    void main() throws Exception {
 
         // java-34
         // Main chatbot configuration, try to be more deterministic as possible ;)

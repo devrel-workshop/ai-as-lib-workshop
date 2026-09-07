@@ -408,7 +408,7 @@ snippet java-35:
   prefix: "java-35-mcp-transport"
   scope: "java"
   body: |
-    McpTransport transport = new StreamableHttpMcpTransport.Builder()
+    McpTransport transport = StreamableHttpMcpTransport.builder()
             // https://xxxx/mcp/sse
             .url(System.getenv("MCP_SERVER_URL"))
             .logRequests(true)
@@ -420,7 +420,7 @@ snippet java-36:
   prefix: "java-36-mcp-client"
   scope: "java"
   body: |
-    McpClient mcpClient = new DefaultMcpClient.Builder()
+    McpClient mcpClient = DefaultMcpClient.builder()
             .transport(transport)
             .build();
 
@@ -465,6 +465,7 @@ snippet java-40:
         _LOG.info("\nResponse: " + bot.chat(userInput));
     }
     scanner.close();
+    mcpClient.close();
 
 ## java-agentic section
 snippet java-62:

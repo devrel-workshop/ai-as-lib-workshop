@@ -62,7 +62,7 @@ public class ImageGenerationMCPChatbot {
                 String chat(@V("userMessage") String userMessage);
         }
 
-        void main() {
+        void main() throws Exception {
                 
 
                 // java-34
@@ -81,7 +81,7 @@ public class ImageGenerationMCPChatbot {
 
                 // java-35
                 // Configure the MCP server to use
-                McpTransport transport = new StreamableHttpMcpTransport.Builder()
+                McpTransport transport = StreamableHttpMcpTransport.builder()
                                 // https://xxxx/mcp/sse
                                 .url(System.getenv("MCP_SERVER_URL"))
                                 .logRequests(true)
@@ -90,7 +90,7 @@ public class ImageGenerationMCPChatbot {
 
                 // java-36
                 // Create the MCP client for the given MCP server
-                McpClient mcpClient = new DefaultMcpClient.Builder()
+                McpClient mcpClient = DefaultMcpClient.builder()
                                 .transport(transport)
                                 .build();
 
@@ -124,5 +124,6 @@ public class ImageGenerationMCPChatbot {
                         _LOG.info("\nResponse: " + bot.chat(userInput));
                 }
                 scanner.close();
+                mcpClient.close();
         }
 }
