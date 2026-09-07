@@ -1,5 +1,5 @@
 # Name and information about the conference
-LDevoxx Belgium 2026 will once again transform Antwerp into the meeting place for developers, architects, builders, and innovators shaping the future of software engineering.
+Devoxx Belgium 2026 will once again transform Antwerp into the meeting place for developers, architects, builders, and innovators shaping the future of software engineering.
 
 One thing is becoming increasingly clear: we are entering a new era where developers are evolving into builders. AI Agents, autonomous workflows, Spec-Driven Development, and ever more capable coding assistants are fundamentally reshaping how software is designed, built, reviewed, and maintained. From multi-agent architectures (A2A) and Model Context Protocol (MCP) to local LLM clusters, GPU inference, and next-generation Java AI libraries, Devoxx Belgium 2026 will explore a future where humans and intelligent systems collaborate side by side.
 
