@@ -17,6 +17,11 @@
       "settings": {
         "chat.commandCenter.enabled": false,
         "chat.disableAIFeatures": true,
+        // open the README (rendered) on startup, and render every markdown file as a preview
+        "workbench.startupEditor": "readme",
+        "workbench.editorAssociations": {
+          "*.md": "vscode.markdown.preview.editor"
+        },
 				"java.configuration.runtimes": [
 					{
 						"name": "JavaSE-25",

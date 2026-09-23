@@ -1,0 +1,8 @@
+{
+  // Open the README (rendered) on startup
+  "workbench.startupEditor": "readme",
+  // Render every markdown file as a preview; use "Reopen Editor With… > Text Editor" to edit one
+  "workbench.editorAssociations": {
+    "*.md": "vscode.markdown.preview.editor"
+  }
+}
