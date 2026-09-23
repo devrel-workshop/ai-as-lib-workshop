@@ -4,5 +4,7 @@
   // Render every markdown file as a preview; use "Reopen Editor With… > Text Editor" to edit one
   "workbench.editorAssociations": {
     "*.md": "vscode.markdown.preview.editor"
-  }
+  },
+  // List the workshop snippets (java-NN / quarkus-NN) above the language completions
+  "editor.snippetSuggestions": "top"
 }
