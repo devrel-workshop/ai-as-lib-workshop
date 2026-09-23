@@ -270,7 +270,7 @@ snippet java-24:
         _LOG.info("Prompt: {}\n", prompt);
         _LOG.info("Negative prompt: {}\n", negativePrompt);
 
-        // java-25000
+        // java-25
 
         // java-26
     }
