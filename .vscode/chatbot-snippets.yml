@@ -264,13 +264,13 @@ snippet java-24:
   body: |
     // Define the tool using the @Tool annotation
     @Tool("""
-                Tool to create an image with Stable Diffusion XL given a prompt and a negative prompt.
-                """)
+            Tool to create an image with Stable Diffusion XL given a prompt and a negative prompt.
+            """)
     void generateImage(@P("Prompt that explains the image") String prompt, @P("Negative prompt that explains what the image must not contains") String negativePrompt) throws IOException, InterruptedException {
         _LOG.info("Prompt: {}\n", prompt);
         _LOG.info("Negative prompt: {}\n", negativePrompt);
 
-        // java-25
+        // java-25000
 
         // java-26
     }
