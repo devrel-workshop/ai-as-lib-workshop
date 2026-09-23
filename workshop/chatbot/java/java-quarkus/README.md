@@ -46,7 +46,7 @@ quarkus create app com.ovhcloud.ai.quarkus.chatbot:java-quarkus \
 
 ### ▶️ Start Quarkus Dev Mode
 
-Go to [workshop/chatbot/java/java-quarkus](./).
+In a dedicated terminal, go to [workshop/chatbot/java/java-quarkus](./).
 
 Start Quarkus in development mode and **keep it running** throughout the exercises:
 
@@ -716,8 +716,8 @@ Type `quarkus-21` in your editor and press **Tab** to insert the REST client inj
    ```
 
 2. **Test the MCP** (the MCP server is automatically exposed):
-    - go to the [Dev UI](https://quarkus.io/guides/dev-ui) in the section `Extensions` and check the available tools in the `MCP Server - HTTP/SSE section`   
-    **⚠️ Dev UI is not available if your are using Coder 😢 ⚠️**
+    - go to the URL displayed when running the `./run-quarkus.sh` in the section `Extensions` and check the available tools in the `MCP Server - HTTP/SSE section`   
+      - for more information regarding Dev UI, check [official documentation](https://quarkus.io/guides/dev-ui)
 3. **Connect an MCP client** to use the tool:
    
    In the [java-langchain4j](../java-langchain4j) folder, there's an `ImageGenerationMCPChatbot.java` that can connect to your MCP server!

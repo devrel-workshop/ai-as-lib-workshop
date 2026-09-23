@@ -1469,7 +1469,9 @@ Response: Here is the generated image of a cat riding a bicycle:
 
 ## 🔌 Module 6: MCP Client (Bonus!) 🔌
 
-**Goal**: Consume the MCP (Model Context Protocol) server created with Quarkus to use remote tools.
+**Goal**: Consume the MCP (Model Context Protocol) server to use remote tools.
+
+*In this part, you'll need to (re)use the Quarkus part. See *Prerequisites* below.
 
 ![](../../../../assets/l4j-mcp-chatbot.png)
 

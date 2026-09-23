@@ -9,15 +9,15 @@
 
 To use this workshop you just have to clone this repository.
 
-### 🧑‍💻 Note on the use of [Coder](https://coder.com/) CDE ☁️
+### 🧑‍💻 Note on the use of [Easylab](https://docs.easylab.yodamad.fr/) CDE ☁️
 
-To help people with their IDE configuration we use Coder during the workshop, this is not a mandatory step, but it will help you to have a better experience.  
-Ask to have the URL where you can start a Coder workspace giving the AI workshop template.  
+To help people with their IDE configuration we use Easylab during the workshop, this is not a mandatory step, but it will help you to have a better experience.  
+Ask to have the URL where you can start an Easylab workspace giving the AI workshop template.  
 You can open your VSCode instance in your browser, choose _code-server_ button or with a ssh tunnel on your local VSCode, choose _VS Code Desktop_.
 
 ### 🐳 Dev Containers usage 🐳 ###
 
-If you don't want or can't use Coder, you can use the Dev Container configuration file in [.devcontainer](./.devcontainer/).  
+If you don't want or can't use Easylab, you can use the Dev Container configuration file in [.devcontainer](./.devcontainer/).  
 You can find more information about Dev Container in the [VSCode documentation](https://code.visualstudio.com/docs/devcontainers/containers).
 
 > 💡 You can pre-pull the image to avoid network latency on the D Day 💡.   
@@ -25,7 +25,7 @@ You can find more information about Dev Container in the [VSCode documentation](
 
 ### 🧰 Pre-requisites 🧰
 
-Here are all the needed stuff to use it on your device witout Coder or Dev Containers.
+Here are all the needed stuff to use it on your device without Easylab or Dev Containers.
 
  - [Bat](https://github.com/sharkdp/bat) utility
  - Java 25
