@@ -71,6 +71,9 @@ This workshop provides **VS Code code snippets** as progressive hints to help yo
 > Try to solve each step using the documentation and key classes hints first!
 > The learning experience is much better when you write the code yourself! 💪
 
+> 📦 **Missing import?** Put the cursor on the unresolved class and press `Ctrl+.` (`Cmd+.` on macOS), then pick *Import '…'*. Picking a class from the autocomplete list also adds its import.
+> Avoid *Organize Imports* (`Shift+Alt+O`) until the step is done: it also removes the imports the exercise files already declare for you.
+
 ---
 
 ## 🤖 Module 1: Simple Chatbot 🤖
@@ -1466,7 +1469,9 @@ Response: Here is the generated image of a cat riding a bicycle:
 
 ## 🔌 Module 6: MCP Client (Bonus!) 🔌
 
-**Goal**: Consume the MCP (Model Context Protocol) server created with Quarkus to use remote tools.
+**Goal**: Consume the MCP (Model Context Protocol) server to use remote tools.
+
+*In this part, you'll need to (re)use the Quarkus part. See *Prerequisites* below.
 
 ![](../../../../assets/l4j-mcp-chatbot.png)
 

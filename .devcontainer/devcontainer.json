@@ -12,11 +12,22 @@
         "redhat.java@1.51.0",
         "jbangdev.jbang-vscode@0.12.0",
         "mermaidchart.vscode-mermaid-chart@2.7.6",
+        "usernamehw.errorlens",
+        "vscode-icons-team.vscode-icons",
         "-GitHub.copilot-chat"
       ],
       "settings": {
         "chat.commandCenter.enabled": false,
         "chat.disableAIFeatures": true,
+        // open the README (rendered) on startup, and render every markdown file as a preview
+        "workbench.startupEditor": "readme",
+        "workbench.editorAssociations": {
+          "*.md": "vscode.markdown.preview.editor"
+        },
+        // list the workshop snippets (java-NN / quarkus-NN) above the language completions
+        "editor.snippetSuggestions": "top",
+        // activate the icon theme installed above (installing it alone does not switch to it)
+        "workbench.iconTheme": "vscode-icons",
 				"java.configuration.runtimes": [
 					{
 						"name": "JavaSE-25",

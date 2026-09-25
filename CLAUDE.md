@@ -110,7 +110,7 @@ bin/preflight.sh --verbose       # full build output instead of the failure exce
 
 It needs **no AI Endpoints token**: the Quarkus config is resolved with dummy values and nothing calls a model. It builds both the `workshop` skeletons and the `solutions`, uses `jbang build --fresh` so a stale cache cannot mask a break, and runs `mvn package` rather than `compile` because Quarkus augmentation happens at package time — that is where an incompatible extension surfaces. Exit code 0 or 1, so it drops straight into CI.
 
-`.github/workflows/preflight.yml` runs that same script on every push and pull request, on Java 25 (what the workshop requires and Coder CDE provides) and Java 26 (what the maintainer runs locally). **Put new checks in the script, never in the workflow** — the workflow only provides the toolchain, which is what keeps local and CI results from drifting apart.
+`.github/workflows/preflight.yml` runs that same script on every push and pull request, on Java 25 (what the workshop requires and coder-server CDE provides) and Java 26 (what the maintainer runs locally). **Put new checks in the script, never in the workflow** — the workflow only provides the toolchain, which is what keeps local and CI results from drifting apart.
 
 When touching a run script's environment, `source bin/set-env-variables.sh` first — that is what the `run-*.sh` scripts do.
 
@@ -190,7 +190,7 @@ Past upgrade reports live in `docs/upgrades/` and record what was verified and w
 Not bugs to fix silently; raise them rather than assuming they are oversights:
 
 - `@dev.langchain4j.agent.tool.P` descriptions on MCP tools never reach the tool `inputSchema` (`@ToolArg(description = …)` does). The model picks arguments from their names alone.
-- Since Quarkus 3.38, `Host` header validation is auto-enabled when the app binds to localhost. The documented `localhost:8080` flow is fine; the **Coder CDE proxied path** is the one to re-test.
+- Since Quarkus 3.38, `Host` header validation is auto-enabled when the app binds to localhost. The documented `localhost:8080` flow is fine; the **code-server CDE proxied path** is the one to re-test.
 
 ## Language
 
