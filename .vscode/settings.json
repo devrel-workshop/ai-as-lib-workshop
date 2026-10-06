@@ -6,5 +6,8 @@
     "*.md": "vscode.markdown.preview.editor"
   },
   // List the workshop snippets (java-NN / quarkus-NN) above the language completions
-  "editor.snippetSuggestions": "top"
+  "editor.snippetSuggestions": "top",
+  // Re-import the Maven project as soon as pom.xml changes (step quarkus-17 adds a dependency),
+  // instead of showing a "synchronize the Java classpath?" prompt that is easy to miss
+  "java.configuration.updateBuildConfiguration": "automatic"
 }

@@ -117,6 +117,31 @@ run() {
   return 1
 }
 
+# Every script in a JBang directory must declare the *same* //DEPS block.
+#
+# The VS Code JBang extension builds ONE classpath per folder, taken from whichever
+# script it imported or synchronized last. A script declaring fewer dependencies than
+# its neighbours therefore turns their imports red as soon as it is saved. Keeping the
+# blocks identical makes the folder's classpath the same whatever the attendee opens.
+#
+# Do not "fix" the duplication by trimming a script to what it alone uses; see the
+# "Uniform //DEPS blocks" note in CLAUDE.md.
+same_deps() {
+  local dir="$1" ref="" reffile="" f block
+  for f in "$dir"/*.java; do
+    block="$(grep '^//DEPS ' "$f" | sort)"
+    if [ -z "$ref" ]; then
+      ref="$block"; reffile="$(basename "$f")"; continue
+    fi
+    if [ "$block" != "$ref" ]; then
+      echo "ERROR: $(basename "$f") and $reffile declare different //DEPS blocks"
+      diff <(echo "$ref") <(echo "$block") | sed 's/^/ERROR:   /'
+      return 1
+    fi
+  done
+  return 0
+}
+
 require() {
   command -v "$1" >/dev/null 2>&1 && return 0
   echo "${C_KO}Missing required tool: $1${C_0}" >&2
@@ -147,6 +172,8 @@ if [ "$ONLY" = "all" ] || [ "$ONLY" = "jbang" ]; then
       run "$(basename "$f")" "jbang-$(echo "$dir/$f" | tr '/.' '--')" \
         jbang build --fresh "$f"
     done
+    run "identical //DEPS block in every script" "deps-$(echo "$dir" | tr '/' '-')" \
+      same_deps "$dir"
   done
   echo
 fi

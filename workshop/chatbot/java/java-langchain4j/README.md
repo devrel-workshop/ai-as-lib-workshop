@@ -74,6 +74,10 @@ This workshop provides **VS Code code snippets** as progressive hints to help yo
 > 📦 **Missing import?** Put the cursor on the unresolved class and press `Ctrl+.` (`Cmd+.` on macOS), then pick *Import '…'*. Picking a class from the autocomplete list also adds its import.
 > Avoid *Organize Imports* (`Shift+Alt+O`) until the step is done: it also removes the imports the exercise files already declare for you.
 
+> 🧩 **A whole file is red, every `dev.langchain4j…` import unresolved?** The import is fine — the editor has not built this folder's classpath yet. This happens on the first file you open from a folder the editor had not seen, typically a file under [solutions](../../../../solutions/chatbot/java/java-langchain4j).
+> Click the **Synchronize JBang** button that the editor shows above the first line of the script (or right-click the file → *JBang* → *Synchronize JBang*), and wait a few seconds.
+> If it is still red afterwards, run *Java: Clean Java Language Server Workspace* from the command palette (`Ctrl+Shift+P` / `Cmd+Shift+P`) and let the editor reload.
+
 ---
 
 ## 🤖 Module 1: Simple Chatbot 🤖

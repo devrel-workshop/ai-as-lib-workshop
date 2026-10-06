@@ -42,6 +42,14 @@ Some differences between the teaching path (README hints + snippets) and the ref
 
 Any automated snippet-vs-solution consistency check must carry these as explicit, commented exceptions — otherwise it reports them forever and gets switched off.
 
+### Uniform `//DEPS` blocks — do not trim them either
+
+All 9 JBang scripts of a `java-langchain4j` directory declare the **same 5 `//DEPS` lines**, including `langchain4j-mcp` and `langchain4j-agentic` in `SimpleChatbot` where module 1 does not use them. This is deliberate, and `bin/preflight.sh` enforces it (`identical //DEPS block in every script`).
+
+The reason is the VS Code JBang extension, not the scripts: it builds **one classpath per folder**, from whichever script it imported or synchronized last, and `java.import.jbang.projectPerScript` does not change that (it creates 9 projects that all link the whole folder, so they still share a single classpath). With per-script `//DEPS`, saving `ImageGenTools.java` — which alone needed only `langchain4j` core — replaced the folder's classpath with those 11 jars and turned the imports red in all 9 scripts at once. Measured against `redhat.java` 1.51.0 + `jbang-vscode` 0.12.0 on 2026-10-06: 71 unresolved symbols after that one save, 0 with the blocks uniform.
+
+So a new script in these directories copies the shared block verbatim, and a genuinely new dependency is added to **all 18 files**, not just the one that uses it. The cost is paid on purpose: an attendee on module 1 sees two libraries they will only use in modules 6–8, which is cheaper than red imports in every exercise.
+
 ## Snippets: edit the YAML, never the generated file
 
 `.vscode/` holds both, and both are committed:
