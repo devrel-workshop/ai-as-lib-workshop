@@ -1087,7 +1087,7 @@ snippet quarkus-22:
   body: |
     // Define the tool using the @Tool annotation
     @Tool(description = "Tool to create an image with Stable Diffusion XL given a prompt and a negative prompt.")
-    String generateImage(@P("Prompt that explains the image") String prompt, @P("Negative prompt that explains what the image must not contains") String negativePrompt) throws IOException, InterruptedException {
+    String generateImage(@ToolArg(description = "Prompt that explains the image") String prompt, @ToolArg(description = "Negative prompt that explains what the image must not contains") String negativePrompt) throws IOException, InterruptedException {
         _LOG.info("Prompt: {}", prompt);
         _LOG.info("Negative prompt: {}", negativePrompt);
 

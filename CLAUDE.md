@@ -189,7 +189,6 @@ Past upgrade reports live in `docs/upgrades/` and record what was verified and w
 
 Not bugs to fix silently; raise them rather than assuming they are oversights:
 
-- `@dev.langchain4j.agent.tool.P` descriptions on MCP tools never reach the tool `inputSchema` (`@ToolArg(description = …)` does). The model picks arguments from their names alone.
 - Since Quarkus 3.38, `Host` header validation is auto-enabled when the app binds to localhost. The documented `localhost:8080` flow is fine; the **code-server CDE proxied path** is the one to re-test.
 
 ## Language

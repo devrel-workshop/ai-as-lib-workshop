@@ -10,8 +10,8 @@ import org.slf4j.LoggerFactory;
 
 import com.ovhcloud.ai.quarkus.chatbot.repository.SDPayload;
 
-import dev.langchain4j.agent.tool.P;
 import io.quarkiverse.mcp.server.Tool;
+import io.quarkiverse.mcp.server.ToolArg;
 
 /**
  * Here is the place where you'll add the code to generate images using Stable Diffusion XL.
@@ -30,7 +30,7 @@ public class ImageGenToolsService {
     // quarkus-22
     // Define the tool using the @Tool annotation
     @Tool(description = "Tool to create an image with Stable Diffusion XL given a prompt and a negative prompt.")
-    String generateImage(@P("Prompt that explains the image") String prompt, @P("Negative prompt that explains what the image must not contains") String negativePrompt) throws IOException, InterruptedException {
+    String generateImage(@ToolArg(description = "Prompt that explains the image") String prompt, @ToolArg(description = "Negative prompt that explains what the image must not contains") String negativePrompt) throws IOException, InterruptedException {
         _LOG.info("Prompt: {}", prompt);
         _LOG.info("Negative prompt: {}", negativePrompt);
 

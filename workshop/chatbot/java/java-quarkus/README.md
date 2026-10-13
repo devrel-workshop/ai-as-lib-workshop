@@ -673,13 +673,13 @@ Create a tool that can be called by AI agents.
 
 💡 **Key Concepts**:
 - `@Tool`: Exposes this method as a callable tool via MCP
-- `@P`: Describes parameters for the AI agent
+- `@ToolArg`: Describes parameters for the AI agent
 - The tool will be automatically discovered by MCP clients!
 
 <details>
 <summary>🔎 Hint 1 — What concept to use</summary>
 
-You need to create a service class that exposes an image generation **tool** via MCP. The `@Tool` annotation (from `io.quarkiverse.mcp.server`) marks a method as callable by AI agents. You inject the `StableDiffusionService` REST client using `@RestClient`, and use `@P` to describe the tool's parameters for the AI agent.
+You need to create a service class that exposes an image generation **tool** via MCP. The `@Tool` annotation (from `io.quarkiverse.mcp.server`) marks a method as callable by AI agents. You inject the `StableDiffusionService` REST client using `@RestClient`, and use `@ToolArg` (also from `io.quarkiverse.mcp.server`) to describe the tool's parameters: its `description` is published in the tool's input schema, which the AI agent reads to fill the arguments.
 
 📖 **Documentation**:
 - [Quarkus MCP Server Tools](https://docs.quarkiverse.io/quarkus-mcp-server/dev/)
@@ -693,8 +693,8 @@ You need to create a service class that exposes an image generation **tool** via
 
 - `@RestClient StableDiffusionService stableDiffusionService`: injects the REST client for Stable Diffusion
 - `@Tool(description = "Tool to create an image with Stable Diffusion XL given a prompt and a negative prompt.")` on the method: exposes it as an MCP tool (note: this `@Tool` is from `io.quarkiverse.mcp.server`, not from LangChain4j)
-- `@P("Prompt that explains the image") String prompt`: describes the prompt parameter for the AI agent
-- `@P("Negative prompt that explains what the image must not contains") String negativePrompt`: describes the negative prompt parameter
+- `@ToolArg(description = "Prompt that explains the image") String prompt`: describes the prompt parameter for the AI agent
+- `@ToolArg(description = "Negative prompt that explains what the image must not contains") String negativePrompt`: describes the negative prompt parameter
 - Inside the method: call `stableDiffusionService.generateImage(new SDPayload(prompt, negativePrompt))` to get the image bytes, then write them to a file with `Files.write(Path.of("generated-image.jpeg"), image)`
 
 </details>
