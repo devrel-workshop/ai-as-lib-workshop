@@ -1106,9 +1106,9 @@
       "            assistant.chat(\"Do you remember what is my name?\")",
       "                    .onPartialResponse(_LOG::info)",
       "                    .onCompleteResponse(response -\u003e futureChatResponse.complete(response))",
-      "                    .onError(Throwable::printStackTrace).start();",
+      "                    .onError(futureChatResponse::completeExceptionally).start();",
       "        })",
-      "        .onError(Throwable::printStackTrace).start();",
+      "        .onError(futureChatResponse::completeExceptionally).start();",
       "futureChatResponse.join();",
       "_LOG.info(\"\\n\");",
       ""
@@ -1209,7 +1209,7 @@
       "tokenStream",
       "    .onCompleteResponse(response -\u003e futureChatResponse.complete(response))",
       "    .onPartialResponse(_LOG::info)",
-      "    .onError(Throwable::printStackTrace).start();",
+      "    .onError(futureChatResponse::completeExceptionally).start();",
       "futureChatResponse.join();",
       "_LOG.info(\"\\n\");",
       ""
@@ -1386,7 +1386,7 @@
       "tokenStream",
       "    .onCompleteResponse(response -\u003e futureChatResponse.complete(response))",
       "    .onPartialResponse(_LOG::info)",
-      "    .onError(Throwable::printStackTrace).start();",
+      "    .onError(futureChatResponse::completeExceptionally).start();",
       "futureChatResponse.join();",
       "_LOG.info(\"\\n\");",
       ""

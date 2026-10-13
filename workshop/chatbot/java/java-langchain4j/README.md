@@ -446,6 +446,7 @@ Building the streaming service is similar to the non-streaming version, but you 
 - Use `AiServices.builder(Assistant.class).streamingChatModel(model).build()` to create the streaming assistant
 - The assistant's `chat()` method returns a `TokenStream` instead of a `String`
 - On the `TokenStream`, chain `.onPartialResponse(...)`, `.onCompleteResponse(...)`, `.onError(...)`, then call `.start()`
+- In `.onError(...)`, complete the future exceptionally (`futureChatResponse::completeExceptionally`): otherwise a model error leaves `join()` waiting forever
 - Use a `CompletableFuture<ChatResponse>` and `.join()` to block until the stream completes
 
 </details>
@@ -1090,6 +1091,7 @@ To test RAG, ask a question whose answer is **only in the loaded document** (not
 
 - Call `assistant.chat("question about your document")` to get a `TokenStream`
 - Handle the stream with `.onPartialResponse(...)`, `.onCompleteResponse(...)`, `.onError(...)`, `.start()`
+- In `.onError(...)`, complete the future exceptionally (`futureChatResponse::completeExceptionally`): otherwise a model error leaves `join()` waiting forever
 - Use `CompletableFuture<ChatResponse>` and `.join()` to block until completion
 
 </details>

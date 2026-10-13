@@ -71,7 +71,7 @@ public class StreamingChatbot {
                 tokenStream
                                 .onCompleteResponse(response -> futureChatResponse.complete(response))
                                 .onPartialResponse(_LOG::info)
-                                .onError(Throwable::printStackTrace).start();
+                                .onError(futureChatResponse::completeExceptionally).start();
                 futureChatResponse.join();
                 _LOG.info("\n");
         }

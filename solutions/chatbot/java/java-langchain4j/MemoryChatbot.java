@@ -86,9 +86,9 @@ public class MemoryChatbot {
                                                         .onPartialResponse(_LOG::info)
                                                         .onCompleteResponse(response -> futureChatResponse
                                                                         .complete(response))
-                                                        .onError(Throwable::printStackTrace).start();
+                                                        .onError(futureChatResponse::completeExceptionally).start();
                                 })
-                                .onError(Throwable::printStackTrace).start();
+                                .onError(futureChatResponse::completeExceptionally).start();
                 futureChatResponse.join();
                 _LOG.info("\n");
         }

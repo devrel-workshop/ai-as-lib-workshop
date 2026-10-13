@@ -89,7 +89,7 @@ snippet java-09:
     tokenStream
         .onCompleteResponse(response -> futureChatResponse.complete(response))
         .onPartialResponse(_LOG::info)
-        .onError(Throwable::printStackTrace).start();
+        .onError(futureChatResponse::completeExceptionally).start();
     futureChatResponse.join();
     _LOG.info("\n");
 
@@ -152,9 +152,9 @@ snippet java-14:
                 assistant.chat("Do you remember what is my name?")
                         .onPartialResponse(_LOG::info)
                         .onCompleteResponse(response -> futureChatResponse.complete(response))
-                        .onError(Throwable::printStackTrace).start();
+                        .onError(futureChatResponse::completeExceptionally).start();
             })
-            .onError(Throwable::printStackTrace).start();
+            .onError(futureChatResponse::completeExceptionally).start();
     futureChatResponse.join();
     _LOG.info("\n");
 
@@ -253,7 +253,7 @@ snippet java-23:
     tokenStream
         .onCompleteResponse(response -> futureChatResponse.complete(response))
         .onPartialResponse(_LOG::info)
-        .onError(Throwable::printStackTrace).start();
+        .onError(futureChatResponse::completeExceptionally).start();
     futureChatResponse.join();
     _LOG.info("\n");
 
