@@ -68,7 +68,6 @@ public class RAGChatbot {
                                 .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
                                 .modelName(System.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"))
                                 .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
-                                .maxTokens(512)
                                 .temperature(0.0)
                                 .logRequests(false)
                                 .logResponses(false)

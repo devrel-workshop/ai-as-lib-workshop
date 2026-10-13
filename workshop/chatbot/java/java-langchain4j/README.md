@@ -833,7 +833,7 @@ Create the streaming model.
 <details>
 <summary>🔎 Hint 1 — What concept to use</summary>
 
-Same streaming model setup as Modules 2 and 3 — use `OpenAiStreamingChatModel` with the builder pattern.
+Same streaming model setup as Modules 2 and 3 — use `OpenAiStreamingChatModel` with the builder pattern — but **without** a max tokens limit: the answer draws on the whole document, and a reasoning model also spends tokens thinking, so 512 tokens would cut it before the end.
 
 📖 **Documentation**:
 - [Streaming Chat Models](https://docs.langchain4j.dev/tutorials/ai-services/#streaming#streaming-chat-models)
@@ -844,7 +844,8 @@ Same streaming model setup as Modules 2 and 3 — use `OpenAiStreamingChatModel`
 <details>
 <summary>🧩 Hint 2 — Key classes & methods</summary>
 
-- `OpenAiStreamingChatModel.builder()` with `.apiKey()`, `.modelName()`, `.baseUrl()`, `.maxTokens()`, `.temperature()`, `.logRequests()`, `.logResponses()`, `.build()`
+- `OpenAiStreamingChatModel.builder()` with `.apiKey()`, `.modelName()`, `.baseUrl()`, `.temperature()`, `.logRequests()`, `.logResponses()`, `.build()`
+- Do not set `.maxTokens()` here
 
 </details>
 
