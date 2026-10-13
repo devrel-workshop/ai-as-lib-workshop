@@ -174,7 +174,7 @@ esac
 
 | What | Where |
 |---|---|
-| LangChain4j (JBang) | `//DEPS` lines in each `*.java`. **Two version lines**: stable (`1.19.0`) for `langchain4j`/`langchain4j-open-ai`, beta (`1.19.0-beta29`) for `langchain4j-mcp`/`langchain4j-agentic`. The beta suffix increments independently and cannot be derived from the stable number. |
+| LangChain4j (JBang) | `//DEPS` lines in each `*.java`. **Two version lines**: stable (`1.22.0`) for `langchain4j`/`langchain4j-open-ai`, beta (`1.22.0-beta32`) for `langchain4j-mcp`/`langchain4j-agentic`. The beta suffix increments independently and cannot be derived from the stable number. |
 | Quarkus + Quarkus LangChain4j | `quarkus.platform.version` in both `pom.xml`. The platform BOM pins the `quarkus-langchain4j` version, which in turn pins `dev.langchain4j` — do **not** override those independently. |
 | Quarkus MCP server | explicit `<version>` on `io.quarkiverse.mcp:quarkus-mcp-server-http` (solutions `pom.xml` + snippet `quarkus-17`). Not in the platform BOM, so it is bumped by hand. |
 | Java | **25** everywhere: `maven.compiler.release` in both `pom.xml`, `//JAVA 25+` in every chatbot JBang script, `sdk install java 25-tem` in `.devcontainer/Dockerfile`, and the READMEs' prerequisites. Keep the four in sync. |
