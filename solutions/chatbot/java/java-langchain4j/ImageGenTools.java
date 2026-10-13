@@ -2,7 +2,7 @@
 //JAVA_OPTIONS -Dstdout.encoding=UTF-8 
 
 //DEPS dev.langchain4j:langchain4j:1.22.0
-//DEPS ch.qos.logback:logback-classic:1.5.38
+//DEPS ch.qos.logback:logback-classic:1.6.5
 
 //FILES ./resources/logback.xml
 
