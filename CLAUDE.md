@@ -133,7 +133,7 @@ Its assertions are on side effects and on facts a model could not invent, never 
 |---|---|---|
 | simple, streaming | non-empty answer after the `🤖` marker | often `max-completion-tokens` too low for a reasoning model |
 | memory | the name from the first turn comes back in the second | chat memory is not wired |
-| RAG | the answer contains `Noron` / `Laboratoire` / `juin`, which exist only in the indexed file | retrieval is not happening |
+| RAG | the answer quotes a fact read at run time from the indexed markdown — the talk subject (`Subject`/`Sujet` section), a speaker or their company (`Speakers`/`Intervenants`), or the room (`room X`/`salle X`) — so the check follows the file when it is rewritten | retrieval is not happening, or the file's headings were renamed (reported separately) |
 | image, MCP | a file with real PNG/JPEG magic bytes appears on disk | the model did not call the tool |
 
 Assert on the *answer*, never on the size of the whole log: a log-size threshold sits inside the normal length variance of a short answer and flakes. When adding a check, prove it can fail — disable the feature it covers and confirm it goes red.
