@@ -133,7 +133,7 @@ Its assertions are on side effects and on facts a model could not invent, never 
 |---|---|---|
 | simple, streaming | non-empty answer after the `🤖` marker | often `max-completion-tokens` too low for a reasoning model |
 | memory | the name from the first turn comes back in the second | chat memory is not wired |
-| RAG | the answer contains `Noron` / `Laboratoire` / `juin`, which exist only in the indexed file | retrieval is not happening |
+| RAG | the answer quotes a fact read at run time from the indexed markdown — the talk subject (`Subject`/`Sujet` section), a speaker or their company (`Speakers`/`Intervenants`), or the room (`room X`/`salle X`) — so the check follows the file when it is rewritten | retrieval is not happening, or the file's headings were renamed (reported separately) |
 | image, MCP | a file with real PNG/JPEG magic bytes appears on disk | the model did not call the tool |
 
 Assert on the *answer*, never on the size of the whole log: a log-size threshold sits inside the normal length variance of a short answer and flakes. When adding a check, prove it can fail — disable the feature it covers and confirm it goes red.
@@ -174,9 +174,9 @@ esac
 
 | What | Where |
 |---|---|
-| LangChain4j (JBang) | `//DEPS` lines in each `*.java`. **Two version lines**: stable (`1.19.0`) for `langchain4j`/`langchain4j-open-ai`, beta (`1.19.0-beta29`) for `langchain4j-mcp`/`langchain4j-agentic`. The beta suffix increments independently and cannot be derived from the stable number. |
+| LangChain4j (JBang) | `//DEPS` lines in each `*.java`. **Two version lines**: stable (`1.22.0`) for `langchain4j`/`langchain4j-open-ai`, beta (`1.22.0-beta32`) for `langchain4j-mcp`/`langchain4j-agentic`. The beta suffix increments independently and cannot be derived from the stable number. |
 | Quarkus + Quarkus LangChain4j | `quarkus.platform.version` in both `pom.xml`. The platform BOM pins the `quarkus-langchain4j` version, which in turn pins `dev.langchain4j` — do **not** override those independently. |
-| Quarkus MCP server | explicit `<version>` on `io.quarkiverse.mcp:quarkus-mcp-server-http` (solutions `pom.xml` + snippet `quarkus-17`). Not in the platform BOM, so it is bumped by hand. |
+| Quarkus MCP server | explicit `<version>` on `io.quarkiverse.mcp:quarkus-mcp-server-http` (solutions `pom.xml` + snippet `quarkus-17`), bumped by hand. The platform does ship an `io.quarkus.platform:quarkus-mcp-server-bom` (2.0.1 in 3.40.1), but it is deliberately not imported: the explicit version stays ahead of it to get fixes the platform has not picked up yet (2.0.3: request context destroyed after each tool call). Check that BOM before each bump and drop the explicit version once the platform catches up. |
 | Java | **25** everywhere: `maven.compiler.release` in both `pom.xml`, `//JAVA 25+` in every chatbot JBang script, `sdk install java 25-tem` in `.devcontainer/Dockerfile`, and the READMEs' prerequisites. Keep the four in sync. |
 
 The chatbot scripts genuinely need 25, not just as a preference: `ImageGeneratorAgent` and `ImageGeneratorSupervisor` are compact source files (top-level `void main()`) and use `IO.println` (JEP 512, final in 25). `//JAVA 25+` is a JDK *selector*, not a hard gate — with it, JBang picks or downloads a 25+ JDK when the ambient one is older, which is what makes the scripts work on an attendee's Java 21 machine. An explicit `jbang --java 21` still overrides it. Use the `25+` form, never bare `//JAVA 25`, which pins to exactly 25 and would ignore a newer local JDK.
@@ -189,7 +189,6 @@ Past upgrade reports live in `docs/upgrades/` and record what was verified and w
 
 Not bugs to fix silently; raise them rather than assuming they are oversights:
 
-- `@dev.langchain4j.agent.tool.P` descriptions on MCP tools never reach the tool `inputSchema` (`@ToolArg(description = …)` does). The model picks arguments from their names alone.
 - Since Quarkus 3.38, `Host` header validation is auto-enabled when the app binds to localhost. The documented `localhost:8080` flow is fine; the **code-server CDE proxied path** is the one to re-test.
 
 ## Language

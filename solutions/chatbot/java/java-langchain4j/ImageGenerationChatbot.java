@@ -1,9 +1,9 @@
 //JAVA 25+
 //JAVA_OPTIONS -Dstdout.encoding=UTF-8 
 
-//DEPS dev.langchain4j:langchain4j:1.20.0
-//DEPS dev.langchain4j:langchain4j-open-ai:1.20.0
-//DEPS ch.qos.logback:logback-classic:1.5.38
+//DEPS dev.langchain4j:langchain4j:1.22.0
+//DEPS dev.langchain4j:langchain4j-open-ai:1.22.0
+//DEPS ch.qos.logback:logback-classic:1.6.5
 //FILES ./resources/logback.xml
 
 //SOURCES ImageGenTools.java
@@ -22,6 +22,8 @@ import dev.langchain4j.service.AiServices;
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
 import dev.langchain4j.service.V;
+import dev.langchain4j.service.tool.ToolArgumentsErrorHandler;
+import dev.langchain4j.service.tool.ToolExecutionErrorHandler;
 
 /**
  * Here is the place where you will add the code to create a chatbot used to
@@ -84,6 +86,10 @@ public class ImageGenerationChatbot {
                 .chatModel(chatModel)
                 .tools(new ImageGenTools())
                 .chatMemory(chatMemory)
+                // Explicit tool error policy: invalid arguments fail the call,
+                // a tool exception is sent back to the LLM so it can react
+                .toolArgumentsErrorHandler(ToolArgumentsErrorHandler.failInvocation())
+                .toolExecutionErrorHandler(ToolExecutionErrorHandler.sendExceptionMessageToLlm())
                 .build();
 
         // java-31

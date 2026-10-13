@@ -89,7 +89,7 @@ snippet java-09:
     tokenStream
         .onCompleteResponse(response -> futureChatResponse.complete(response))
         .onPartialResponse(_LOG::info)
-        .onError(Throwable::printStackTrace).start();
+        .onError(futureChatResponse::completeExceptionally).start();
     futureChatResponse.join();
     _LOG.info("\n");
 
@@ -152,9 +152,9 @@ snippet java-14:
                 assistant.chat("Do you remember what is my name?")
                         .onPartialResponse(_LOG::info)
                         .onCompleteResponse(response -> futureChatResponse.complete(response))
-                        .onError(Throwable::printStackTrace).start();
+                        .onError(futureChatResponse::completeExceptionally).start();
             })
-            .onError(Throwable::printStackTrace).start();
+            .onError(futureChatResponse::completeExceptionally).start();
     futureChatResponse.join();
     _LOG.info("\n");
 
@@ -177,7 +177,6 @@ snippet java-17:
         .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
         .modelName(System.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"))
         .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
-        .maxTokens(512)
         .temperature(0.0)
         .logRequests(false)
         .logResponses(false)
@@ -253,7 +252,7 @@ snippet java-23:
     tokenStream
         .onCompleteResponse(response -> futureChatResponse.complete(response))
         .onPartialResponse(_LOG::info)
-        .onError(Throwable::printStackTrace).start();
+        .onError(futureChatResponse::completeExceptionally).start();
     futureChatResponse.join();
     _LOG.info("\n");
 
@@ -354,6 +353,8 @@ snippet java-30:
             .chatModel(chatModel)
             .tools(new ImageGenTools())
             .chatMemory(chatMemory)
+            .toolArgumentsErrorHandler(ToolArgumentsErrorHandler.failInvocation())
+            .toolExecutionErrorHandler(ToolExecutionErrorHandler.sendExceptionMessageToLlm())
             .build();
 
 snippet java-31:
@@ -449,6 +450,8 @@ snippet java-39:
             .chatModel(chatModel)
             .toolProvider(toolProvider)
             .chatMemory(chatMemory)
+            .toolArgumentsErrorHandler(ToolArgumentsErrorHandler.failInvocation())
+            .toolExecutionErrorHandler(ToolExecutionErrorHandler.sendExceptionMessageToLlm())
             .build();
 
 snippet java-40:
@@ -1041,7 +1044,7 @@ snippet quarkus-17:
     <dependency>
       <groupId>io.quarkiverse.mcp</groupId>
       <artifactId>quarkus-mcp-server-http</artifactId>
-      <version>2.0.0</version>
+      <version>2.0.3</version>
     </dependency>
 
 snippet quarkus-18:
@@ -1083,7 +1086,7 @@ snippet quarkus-22:
   body: |
     // Define the tool using the @Tool annotation
     @Tool(description = "Tool to create an image with Stable Diffusion XL given a prompt and a negative prompt.")
-    String generateImage(@P("Prompt that explains the image") String prompt, @P("Negative prompt that explains what the image must not contains") String negativePrompt) throws IOException, InterruptedException {
+    String generateImage(@ToolArg(description = "Prompt that explains the image") String prompt, @ToolArg(description = "Negative prompt that explains what the image must not contains") String negativePrompt) throws IOException {
         _LOG.info("Prompt: {}", prompt);
         _LOG.info("Negative prompt: {}", negativePrompt);
 

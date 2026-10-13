@@ -1,9 +1,9 @@
 //JAVA 25+
 //JAVA_OPTIONS -Dstdout.encoding=UTF-8
 
-//DEPS dev.langchain4j:langchain4j:1.20.0
-//DEPS dev.langchain4j:langchain4j-open-ai:1.20.0
-//DEPS ch.qos.logback:logback-classic:1.5.38
+//DEPS dev.langchain4j:langchain4j:1.22.0
+//DEPS dev.langchain4j:langchain4j-open-ai:1.22.0
+//DEPS ch.qos.logback:logback-classic:1.6.5
 
 //FILES ./resources/logback.xml
 
@@ -68,7 +68,6 @@ public class RAGChatbot {
                                 .apiKey(System.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN"))
                                 .modelName(System.getenv("OVH_AI_ENDPOINTS_MODEL_NAME"))
                                 .baseUrl(System.getenv("OVH_AI_ENDPOINTS_MODEL_URL"))
-                                .maxTokens(512)
                                 .temperature(0.0)
                                 .logRequests(false)
                                 .logResponses(false)
@@ -131,7 +130,7 @@ public class RAGChatbot {
                 tokenStream
                                 .onCompleteResponse(response -> futureChatResponse.complete(response))
                                 .onPartialResponse(_LOG::info)
-                                .onError(Throwable::printStackTrace).start();
+                                .onError(futureChatResponse::completeExceptionally).start();
                 futureChatResponse.join();
                 _LOG.info("\n");
         }

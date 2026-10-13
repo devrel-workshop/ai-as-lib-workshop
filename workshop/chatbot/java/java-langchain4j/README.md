@@ -446,6 +446,7 @@ Building the streaming service is similar to the non-streaming version, but you 
 - Use `AiServices.builder(Assistant.class).streamingChatModel(model).build()` to create the streaming assistant
 - The assistant's `chat()` method returns a `TokenStream` instead of a `String`
 - On the `TokenStream`, chain `.onPartialResponse(...)`, `.onCompleteResponse(...)`, `.onError(...)`, then call `.start()`
+- In `.onError(...)`, complete the future exceptionally (`futureChatResponse::completeExceptionally`): otherwise a model error leaves `join()` waiting forever
 - Use a `CompletableFuture<ChatResponse>` and `.join()` to block until the stream completes
 
 </details>
@@ -832,7 +833,7 @@ Create the streaming model.
 <details>
 <summary>🔎 Hint 1 — What concept to use</summary>
 
-Same streaming model setup as Modules 2 and 3 — use `OpenAiStreamingChatModel` with the builder pattern.
+Same streaming model setup as Modules 2 and 3 — use `OpenAiStreamingChatModel` with the builder pattern — but **without** a max tokens limit: the answer draws on the whole document, and a reasoning model also spends tokens thinking, so 512 tokens would cut it before the end.
 
 📖 **Documentation**:
 - [Streaming Chat Models](https://docs.langchain4j.dev/tutorials/ai-services/#streaming#streaming-chat-models)
@@ -843,7 +844,8 @@ Same streaming model setup as Modules 2 and 3 — use `OpenAiStreamingChatModel`
 <details>
 <summary>🧩 Hint 2 — Key classes & methods</summary>
 
-- `OpenAiStreamingChatModel.builder()` with `.apiKey()`, `.modelName()`, `.baseUrl()`, `.maxTokens()`, `.temperature()`, `.logRequests()`, `.logResponses()`, `.build()`
+- `OpenAiStreamingChatModel.builder()` with `.apiKey()`, `.modelName()`, `.baseUrl()`, `.temperature()`, `.logRequests()`, `.logResponses()`, `.build()`
+- Do not set `.maxTokens()` here
 
 </details>
 
@@ -1090,6 +1092,7 @@ To test RAG, ask a question whose answer is **only in the loaded document** (not
 
 - Call `assistant.chat("question about your document")` to get a `TokenStream`
 - Handle the stream with `.onPartialResponse(...)`, `.onCompleteResponse(...)`, `.onError(...)`, `.start()`
+- In `.onError(...)`, complete the future exceptionally (`futureChatResponse::completeExceptionally`): otherwise a model error leaves `join()` waiting forever
 - Use `CompletableFuture<ChatResponse>` and `.join()` to block until completion
 
 </details>
@@ -1392,6 +1395,7 @@ When building the AI Service, you wire in your **tool instances** using `.tools(
 
 - Use `AiServices.builder(ChatBot.class)` with `.chatModel(chatModel)`, `.tools(new ImageGenTools())`, `.chatMemory(chatMemory)`, `.build()`
 - Note: use `.chatModel()` (not streaming) and `.tools()` to pass tool instances
+- Declare the tool error policy explicitly (LangChain4j logs a warning otherwise): `.toolArgumentsErrorHandler(ToolArgumentsErrorHandler.failInvocation())` and `.toolExecutionErrorHandler(ToolExecutionErrorHandler.sendExceptionMessageToLlm())`, both from `dev.langchain4j.service.tool`. See [Error Handling](https://docs.langchain4j.dev/tutorials/tools#error-handling)
 
 </details>
 
@@ -1774,6 +1778,7 @@ Instead of `.tools()` (for local tool instances), use `.toolProvider()` to wire 
 
 - Use `AiServices.builder(ChatBot.class)` with `.chatModel(chatModel)`, `.toolProvider(toolProvider)`, `.chatMemory(chatMemory)`, `.build()`
 - Note: `.toolProvider()` replaces `.tools()` — everything else is the same
+- Declare the tool error policy explicitly (LangChain4j logs a warning otherwise): `.toolArgumentsErrorHandler(ToolArgumentsErrorHandler.failInvocation())` and `.toolExecutionErrorHandler(ToolExecutionErrorHandler.sendExceptionMessageToLlm())`, both from `dev.langchain4j.service.tool`. See [Error Handling](https://docs.langchain4j.dev/tutorials/tools#error-handling)
 
 </details>
 
@@ -1915,7 +1920,7 @@ The loop iterates until the critic gives a score >= 0.8 (or max 3 iterations), r
 
 **File to edit**: [ImageGeneratorAgent.java](ImageGeneratorAgent.java)
 
-> **Note**: This module uses `langchain4j-agentic:1.20.0-beta30` — the new Agentic API for multi-agent orchestration.
+> **Note**: This module uses `langchain4j-agentic:1.22.0-beta32` — the new Agentic API for multi-agent orchestration.
 
 ---
 
@@ -2456,7 +2461,7 @@ The supervisor LLM receives workflow instructions via `supervisorContext` and au
 
 **File to edit**: [ImageGeneratorSupervisor.java](ImageGeneratorSupervisor.java)
 
-> **Note**: This module uses `langchain4j-agentic:1.20.0-beta30` — the new Agentic API for multi-agent orchestration.
+> **Note**: This module uses `langchain4j-agentic:1.22.0-beta32` — the new Agentic API for multi-agent orchestration.
 
 ---
 

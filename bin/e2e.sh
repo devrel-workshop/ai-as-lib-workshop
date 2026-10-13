@@ -111,6 +111,56 @@ answer_chars() {
   sed -n '/🤖/,$p' "$1" | sed '1s/.*🤖[: ]*//' | tr -d '[:space:]' | wc -c | tr -d ' '
 }
 
+# Whether the model's answer quotes a fact read from the indexed RAG document.
+#
+# The facts are extracted from the markdown at run time, so the check follows
+# the document when it is rewritten for another event or language: the talk
+# subject (section "Subject" / "Sujet"), each speaker's full name, surname and
+# company (section "Speakers" / "Intervenants"), and the room ("room X" /
+# "salle X"). A model cannot invent those, so one of them in the answer proves
+# retrieval happened. Only the answer (after the robot marker) is searched, and
+# both sides are compared case-insensitively with punctuation and emoji folded
+# to spaces, so "Subject: Title" and "**Subject – Title**" both match.
+#
+# Prints the matched fact and returns 0; returns 1 when no fact is in the
+# answer, 2 when the document yields no fact at all (headings renamed).
+rag_facts_in_answer() {
+  perl -CSD -e '
+    use strict; use warnings; use utf8; use feature "fc";
+    my ($doc, $log) = @ARGV;
+    sub norm { my $s = fc(shift); $s =~ s/[^\p{L}\p{N}]+/ /g; $s =~ s/^ | $//g; return $s }
+    open my $d, "<", $doc or exit 2;
+    my (@facts, $section);
+    while (my $line = <$d>) {
+      chomp $line;
+      if ($line =~ /^#+\s*(.+?)\s*$/) { $section = fc($1); next }
+      next unless $line =~ /\S/;
+      push @facts, $1 while $line =~ /\b(?:room|salle)\s+([\p{L}\p{N}-]{3,})/gi;
+      next unless defined $section;
+      if ($section =~ /^(subject|sujet)\b/) {
+        (my $subject = $line) =~ s/^[^\p{L}\p{N}]+|[^\p{L}\p{N}?!.]+$//g;
+        push @facts, $subject if length $subject >= 10;
+      } elsif ($section =~ /^(speakers?|intervenant|orateur|speakeur)/) {
+        my ($name, $company) = $line =~ /^\s*[-*]?\s*([^(]+?)\s*(?:\(([^)]+)\))?\s*$/ or next;
+        push @facts, $name;
+        push @facts, (split /\s+/, $name)[-1] if $name =~ /\s/;
+        push @facts, $company if defined $company;
+      }
+    }
+    exit 2 unless @facts;
+    open my $l, "<", $log or exit 1;
+    my $text = do { local $/; <$l> };
+    $text =~ s/^.*?🤖//s or exit 1;
+    my $answer = " " . norm($text) . " ";
+    for my $fact (@facts) {
+      my $f = norm($fact);
+      next if length $f < 3;
+      if (index($answer, " $f ") >= 0) { print "$fact\n"; exit 0 }
+    }
+    exit 1;
+  ' "$1" "$2"
+}
+
 # An image is asserted by its magic bytes rather than its extension: Stable
 # Diffusion XL returns PNG even though the workshop names the file .jpeg.
 is_image() {
@@ -244,12 +294,17 @@ if [ "$ONLY" = "all" ] || [ "$ONLY" = "chatbot" ]; then
     *) fail "MemoryChatbot" "non-zero exit" "$LAST_LOG" ;;
   esac
 
-  # "Noron" and "Laboratoire" appear only in the indexed document, so either one
-  # coming back proves retrieval actually happened.
+  # The expected facts are read from the indexed document itself (subject,
+  # speakers, room), so the check survives a rewrite of that document.
+  RAG_DOC="$L4J_DIR/resources/rag-files/conference-information-talk-01.md"
   run_script "RAGChatbot" 240 "" "RAGChatbot.java"
   case $? in
-    0) if grep -qiE "noron|laboratoire|juin" "$LAST_LOG"; then pass "answered from the indexed document"
-       else fail "RAGChatbot" "no fact from the RAG file in the answer — retrieval may be broken" "$LAST_LOG"; fi ;;
+    0) fact="$(rag_facts_in_answer "$RAG_DOC" "$LAST_LOG")"
+       case $? in
+         0) pass "answered from the indexed document (\"$fact\")" ;;
+         2) fail "RAGChatbot" "no subject, speaker or room found in $RAG_DOC — check its headings" ;;
+         *) fail "RAGChatbot" "no fact from the RAG file in the answer — retrieval may be broken" "$LAST_LOG" ;;
+       esac ;;
     3) ;;
     *) fail "RAGChatbot" "non-zero exit" "$LAST_LOG" ;;
   esac

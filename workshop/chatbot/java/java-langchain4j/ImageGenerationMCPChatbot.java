@@ -1,10 +1,10 @@
 //JAVA 25+
 //JAVA_OPTIONS -Dstdout.encoding=UTF-8 
 
-//DEPS dev.langchain4j:langchain4j:1.20.0
-//DEPS dev.langchain4j:langchain4j-open-ai:1.20.0
-//DEPS dev.langchain4j:langchain4j-mcp:1.20.0-beta30
-//DEPS ch.qos.logback:logback-classic:1.5.38
+//DEPS dev.langchain4j:langchain4j:1.22.0
+//DEPS dev.langchain4j:langchain4j-open-ai:1.22.0
+//DEPS dev.langchain4j:langchain4j-mcp:1.22.0-beta32
+//DEPS ch.qos.logback:logback-classic:1.6.5
 
 //FILES ./resources/logback.xml
 

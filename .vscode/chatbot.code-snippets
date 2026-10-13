@@ -995,6 +995,8 @@
       "        .chatModel(chatModel)",
       "        .toolProvider(toolProvider)",
       "        .chatMemory(chatMemory)",
+      "        .toolArgumentsErrorHandler(ToolArgumentsErrorHandler.failInvocation())",
+      "        .toolExecutionErrorHandler(ToolExecutionErrorHandler.sendExceptionMessageToLlm())",
       "        .build();",
       ""
     ],
@@ -1104,9 +1106,9 @@
       "            assistant.chat(\"Do you remember what is my name?\")",
       "                    .onPartialResponse(_LOG::info)",
       "                    .onCompleteResponse(response -\u003e futureChatResponse.complete(response))",
-      "                    .onError(Throwable::printStackTrace).start();",
+      "                    .onError(futureChatResponse::completeExceptionally).start();",
       "        })",
-      "        .onError(Throwable::printStackTrace).start();",
+      "        .onError(futureChatResponse::completeExceptionally).start();",
       "futureChatResponse.join();",
       "_LOG.info(\"\\n\");",
       ""
@@ -1207,7 +1209,7 @@
       "tokenStream",
       "    .onCompleteResponse(response -\u003e futureChatResponse.complete(response))",
       "    .onPartialResponse(_LOG::info)",
-      "    .onError(Throwable::printStackTrace).start();",
+      "    .onError(futureChatResponse::completeExceptionally).start();",
       "futureChatResponse.join();",
       "_LOG.info(\"\\n\");",
       ""
@@ -1276,7 +1278,6 @@
       "    .apiKey(System.getenv(\"OVH_AI_ENDPOINTS_ACCESS_TOKEN\"))",
       "    .modelName(System.getenv(\"OVH_AI_ENDPOINTS_MODEL_NAME\"))",
       "    .baseUrl(System.getenv(\"OVH_AI_ENDPOINTS_MODEL_URL\"))",
-      "    .maxTokens(512)",
       "    .temperature(0.0)",
       "    .logRequests(false)",
       "    .logResponses(false)",
@@ -1384,7 +1385,7 @@
       "tokenStream",
       "    .onCompleteResponse(response -\u003e futureChatResponse.complete(response))",
       "    .onPartialResponse(_LOG::info)",
-      "    .onError(Throwable::printStackTrace).start();",
+      "    .onError(futureChatResponse::completeExceptionally).start();",
       "futureChatResponse.join();",
       "_LOG.info(\"\\n\");",
       ""
@@ -1717,6 +1718,8 @@
       "        .chatModel(chatModel)",
       "        .tools(new ImageGenTools())",
       "        .chatMemory(chatMemory)",
+      "        .toolArgumentsErrorHandler(ToolArgumentsErrorHandler.failInvocation())",
+      "        .toolExecutionErrorHandler(ToolExecutionErrorHandler.sendExceptionMessageToLlm())",
       "        .build();",
       ""
     ],
@@ -1791,7 +1794,7 @@
       "\u003cdependency\u003e",
       "  \u003cgroupId\u003eio.quarkiverse.mcp\u003c/groupId\u003e",
       "  \u003cartifactId\u003equarkus-mcp-server-http\u003c/artifactId\u003e",
-      "  \u003cversion\u003e2.0.0\u003c/version\u003e",
+      "  \u003cversion\u003e2.0.3\u003c/version\u003e",
       "\u003c/dependency\u003e",
       ""
     ],
@@ -1844,7 +1847,7 @@
     "body": [
       "// Define the tool using the @Tool annotation",
       "@Tool(description = \"Tool to create an image with Stable Diffusion XL given a prompt and a negative prompt.\")",
-      "String generateImage(@P(\"Prompt that explains the image\") String prompt, @P(\"Negative prompt that explains what the image must not contains\") String negativePrompt) throws IOException, InterruptedException {",
+      "String generateImage(@ToolArg(description = \"Prompt that explains the image\") String prompt, @ToolArg(description = \"Negative prompt that explains what the image must not contains\") String negativePrompt) throws IOException {",
       "    _LOG.info(\"Prompt: {}\", prompt);",
       "    _LOG.info(\"Negative prompt: {}\", negativePrompt);",
       "",

@@ -1,10 +1,10 @@
 //JAVA 25+
 //JAVA_OPTIONS -Dstdout.encoding=UTF-8 
 
-//DEPS dev.langchain4j:langchain4j:1.20.0
-//DEPS dev.langchain4j:langchain4j-open-ai:1.20.0
-//DEPS dev.langchain4j:langchain4j-mcp:1.20.0-beta30
-//DEPS ch.qos.logback:logback-classic:1.5.38
+//DEPS dev.langchain4j:langchain4j:1.22.0
+//DEPS dev.langchain4j:langchain4j-open-ai:1.22.0
+//DEPS dev.langchain4j:langchain4j-mcp:1.22.0-beta32
+//DEPS ch.qos.logback:logback-classic:1.6.5
 
 //FILES ./resources/logback.xml
 
@@ -21,6 +21,8 @@ import dev.langchain4j.service.AiServices;
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
 import dev.langchain4j.service.V;
+import dev.langchain4j.service.tool.ToolArgumentsErrorHandler;
+import dev.langchain4j.service.tool.ToolExecutionErrorHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -110,6 +112,10 @@ public class ImageGenerationMCPChatbot {
                                 .chatModel(chatModel)
                                 .toolProvider(toolProvider)
                                 .chatMemory(chatMemory)
+                                // Explicit tool error policy: invalid arguments fail the call,
+                                // a tool exception is sent back to the LLM so it can react
+                                .toolArgumentsErrorHandler(ToolArgumentsErrorHandler.failInvocation())
+                                .toolExecutionErrorHandler(ToolExecutionErrorHandler.sendExceptionMessageToLlm())
                                 .build();
 
                 // java-40
