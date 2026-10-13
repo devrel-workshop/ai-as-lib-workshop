@@ -566,7 +566,7 @@ In this module, you'll expose an image generation tool via MCP that can be calle
 <details>
 <summary>🔎 Hint 1 — What concept to use</summary>
 
-To expose tools via the **Model Context Protocol**, you need to add the Quarkus MCP Server extension to your project. This extension turns your Quarkus application into an MCP server that AI agents can connect to over HTTP/SSE.
+To expose tools via the **Model Context Protocol**, you need to add the Quarkus MCP Server extension to your project. This extension turns your Quarkus application into an MCP server that AI agents can connect to over Streamable HTTP.
 
 📖 **Documentation**:
 - [Quarkus MCP Server Guide](https://docs.quarkiverse.io/quarkus-mcp-server/dev/)

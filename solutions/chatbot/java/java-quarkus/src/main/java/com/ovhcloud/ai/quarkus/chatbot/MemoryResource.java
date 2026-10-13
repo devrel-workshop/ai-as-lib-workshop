@@ -1,6 +1,5 @@
 package com.ovhcloud.ai.quarkus.chatbot;
 
-import com.ovhcloud.ai.quarkus.chatbot.service.AIAdvancedService;
 import com.ovhcloud.ai.quarkus.chatbot.service.AIMemoryService;
 
 import io.smallrye.mutiny.Multi;

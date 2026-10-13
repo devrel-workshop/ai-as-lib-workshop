@@ -47,7 +47,7 @@
         </dependency>
         
         <!-- Add quarkus MCP extension, see: https://docs.quarkiverse.io/quarkus-mcp-server/dev/
-             Use the SSE version. -->
+             Use the Streamable HTTP version (quarkus-mcp-server-http). -->
         <!-- quarkus-17 -->
 
         <dependency>
@@ -134,7 +134,7 @@
             </activation>
             <properties>
                 <skipITs>false</skipITs>
-                <quarkus.package.type>native</quarkus.package.type>
+                <quarkus.native.enabled>true</quarkus.native.enabled>
             </properties>
         </profile>
     </profiles>

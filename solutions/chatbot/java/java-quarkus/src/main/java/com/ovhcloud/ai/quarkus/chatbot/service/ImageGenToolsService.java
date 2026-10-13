@@ -16,7 +16,7 @@ import io.quarkiverse.mcp.server.ToolArg;
 /**
  * Here is the place where you'll add the code to generate images using Stable Diffusion XL.
  * The steps to create your image generation tool:
- *   - define the right Tool description thanks to the @Tool annotation from LangChain4J (https://docs.langchain4j.dev/tutorials/tools#tool)
+ *   - define the right Tool description thanks to the @Tool annotation from Quarkus MCP Server (https://docs.quarkiverse.io/quarkus-mcp-server/dev/index.html)
  *   - call Stable Diffusion XL model (see https://endpoints.ai.cloud.ovh.net/models/a363a190-ff7b-4c38-a1b9-147f9aae9328)
  *   - generate image file with the Stable Diffusion response
  */
@@ -30,7 +30,7 @@ public class ImageGenToolsService {
     // quarkus-22
     // Define the tool using the @Tool annotation
     @Tool(description = "Tool to create an image with Stable Diffusion XL given a prompt and a negative prompt.")
-    String generateImage(@ToolArg(description = "Prompt that explains the image") String prompt, @ToolArg(description = "Negative prompt that explains what the image must not contains") String negativePrompt) throws IOException, InterruptedException {
+    String generateImage(@ToolArg(description = "Prompt that explains the image") String prompt, @ToolArg(description = "Negative prompt that explains what the image must not contains") String negativePrompt) throws IOException {
         _LOG.info("Prompt: {}", prompt);
         _LOG.info("Negative prompt: {}", negativePrompt);
 

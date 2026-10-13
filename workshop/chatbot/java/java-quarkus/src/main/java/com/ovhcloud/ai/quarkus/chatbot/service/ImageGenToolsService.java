@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Here is the place where you'll add the code to generate images using Stable Diffusion XL.
  * The steps to create your image generation tool:
- *   - define the right Tool description thanks to the @Tool annotation from LangChain4J (https://docs.langchain4j.dev/tutorials/tools#tool)
+ *   - define the right Tool description thanks to the @Tool annotation from Quarkus MCP Server (https://docs.quarkiverse.io/quarkus-mcp-server/dev/index.html)
  *   - call Stable Diffusion XL model (see https://endpoints.ai.cloud.ovh.net/models/a363a190-ff7b-4c38-a1b9-147f9aae9328)
  *   - generate image file with the Stable Diffusion response
  */
