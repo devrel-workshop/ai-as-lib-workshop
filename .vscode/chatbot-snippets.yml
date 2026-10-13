@@ -354,6 +354,8 @@ snippet java-30:
             .chatModel(chatModel)
             .tools(new ImageGenTools())
             .chatMemory(chatMemory)
+            .toolArgumentsErrorHandler(ToolArgumentsErrorHandler.failInvocation())
+            .toolExecutionErrorHandler(ToolExecutionErrorHandler.sendExceptionMessageToLlm())
             .build();
 
 snippet java-31:
@@ -449,6 +451,8 @@ snippet java-39:
             .chatModel(chatModel)
             .toolProvider(toolProvider)
             .chatMemory(chatMemory)
+            .toolArgumentsErrorHandler(ToolArgumentsErrorHandler.failInvocation())
+            .toolExecutionErrorHandler(ToolExecutionErrorHandler.sendExceptionMessageToLlm())
             .build();
 
 snippet java-40:

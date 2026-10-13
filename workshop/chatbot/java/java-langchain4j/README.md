@@ -1392,6 +1392,7 @@ When building the AI Service, you wire in your **tool instances** using `.tools(
 
 - Use `AiServices.builder(ChatBot.class)` with `.chatModel(chatModel)`, `.tools(new ImageGenTools())`, `.chatMemory(chatMemory)`, `.build()`
 - Note: use `.chatModel()` (not streaming) and `.tools()` to pass tool instances
+- Declare the tool error policy explicitly (LangChain4j logs a warning otherwise): `.toolArgumentsErrorHandler(ToolArgumentsErrorHandler.failInvocation())` and `.toolExecutionErrorHandler(ToolExecutionErrorHandler.sendExceptionMessageToLlm())`, both from `dev.langchain4j.service.tool`. See [Error Handling](https://docs.langchain4j.dev/tutorials/tools#error-handling)
 
 </details>
 
@@ -1774,6 +1775,7 @@ Instead of `.tools()` (for local tool instances), use `.toolProvider()` to wire 
 
 - Use `AiServices.builder(ChatBot.class)` with `.chatModel(chatModel)`, `.toolProvider(toolProvider)`, `.chatMemory(chatMemory)`, `.build()`
 - Note: `.toolProvider()` replaces `.tools()` — everything else is the same
+- Declare the tool error policy explicitly (LangChain4j logs a warning otherwise): `.toolArgumentsErrorHandler(ToolArgumentsErrorHandler.failInvocation())` and `.toolExecutionErrorHandler(ToolExecutionErrorHandler.sendExceptionMessageToLlm())`, both from `dev.langchain4j.service.tool`. See [Error Handling](https://docs.langchain4j.dev/tutorials/tools#error-handling)
 
 </details>
 
