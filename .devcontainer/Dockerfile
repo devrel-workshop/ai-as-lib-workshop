@@ -13,12 +13,12 @@ RUN sed -i '1i# Skip bash-specific content when sourced from zsh\n[ -n "$ZSH_VER
 USER vscode
 ENV SDKMAN_DIR=/home/vscode/.sdkman
 
-# Install SDKMAN and tools: Java 25 Temurin, Maven 3.9.12, JBang, Quarkus CLI
+# Install SDKMAN and tools: Java 27 Temurin, Maven 3.10.0, JBang, Quarkus CLI
 RUN curl -s "https://get.sdkman.io" | bash \
     && bash -c "\
         source $SDKMAN_DIR/bin/sdkman-init.sh \
-        && sdk install java 25-tem \
-        && sdk install maven 3.9.12 \
+        && sdk install java 27.0.0.0+35-tem \
+        && sdk install maven 3.10.0 \
         && sdk install jbang \
         && sdk install quarkus \
         && sdk flush tmp"

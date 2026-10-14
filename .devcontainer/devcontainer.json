@@ -3,15 +3,15 @@
   // Pre-built image from OVH registry (multi-arch: amd64 + arm64)
   // To fallback to local Dockerfile build, replace "image" with:
   //   "build": { "dockerfile": "Dockerfile" }
-  "image": "ubf2r2if.c1.gra9.container-registry.ovh.net/lab/ai-as-lib-workshop-devcontainer:1.0.0",
+  "image": "ubf2r2if.c1.gra9.container-registry.ovh.net/lab/ai-as-lib-workshop-devcontainer:1.1.0",
   "customizations": {
     "vscode": {
       "extensions": [
         "ms-python.python",
-        "vscjava.vscode-java-pack@0.30.5",
-        "redhat.java@1.51.0",
+        "vscjava.vscode-java-pack@0.31.1",
+        "redhat.java@1.57.0",
         "jbangdev.jbang-vscode@0.12.0",
-        "mermaidchart.vscode-mermaid-chart@2.7.6",
+        "mermaidchart.vscode-mermaid-chart@2.8.2",
         "usernamehw.errorlens",
         "vscode-icons-team.vscode-icons",
         "-GitHub.copilot-chat"
@@ -30,7 +30,7 @@
         "workbench.iconTheme": "vscode-icons",
 				"java.configuration.runtimes": [
 					{
-						"name": "JavaSE-25",
+						"name": "JavaSE-27",
 						"path": "/home/vscode/.sdkman/candidates/java/current/"
 					}
 				],
