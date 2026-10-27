@@ -298,7 +298,7 @@
   "Chatbot RAG vector DB": {
     "body": [
       "vectorstore = Chroma.from_documents(documents=splits, ",
-      "               embedding=OVHCloudEmbeddings(model_name=\"bge-multilingual-gemma2\", ",
+      "               embedding=OVHCloudEmbeddings(model_name=\"bge-m3\", ",
       "               access_token=os.getenv(\"OVH_AI_ENDPOINTS_ACCESS_TOKEN\")))",
       ""
     ],
