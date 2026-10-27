@@ -44,7 +44,7 @@ splits = text_splitter.split_documents(docs)
 # py-52
 # Create the vector thanks to OVHcloud embedding model, see https://python.langchain.com/docs/tutorials/rag/#storing-documents
 vectorstore = Chroma.from_documents(documents=splits, 
-                                    embedding=OVHCloudEmbeddings(model_name="bge-multilingual-gemma2", 
+                                    embedding=OVHCloudEmbeddings(model_name="bge-m3", 
                                                                   access_token=os.getenv("OVH_AI_ENDPOINTS_ACCESS_TOKEN")))
 
 # py-53
