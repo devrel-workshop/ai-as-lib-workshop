@@ -244,8 +244,8 @@ snippet java-23:
   prefix: "java-23"
   scope: "java"
   body: |
-    _LOG.info("\n💬: Give me the 2026 Devoxx Belgium program.\n");
-    TokenStream tokenStream = assistant.chat("Give me the 2026 Devoxx Belgium program.");
+    _LOG.info("\n💬: Quel est le programme de Cloud Nord 2026\n");
+    TokenStream tokenStream = assistant.chat("Quel est le programme de Cloud Nord 2026");
     CompletableFuture<ChatResponse> futureChatResponse = new CompletableFuture<>();
 
     _LOG.info("🤖: ");
