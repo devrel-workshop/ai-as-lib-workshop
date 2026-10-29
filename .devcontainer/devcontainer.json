@@ -19,6 +19,7 @@
       "settings": {
         "chat.commandCenter.enabled": false,
         "chat.disableAIFeatures": true,
+        "extensions.autoUpdate": false,
         // open the README (rendered) on startup, and render every markdown file as a preview
         "workbench.startupEditor": "readme",
         "workbench.editorAssociations": {
