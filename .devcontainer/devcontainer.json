@@ -8,8 +8,8 @@
     "vscode": {
       "extensions": [
         "ms-python.python",
+        "redhat.java@1.57.0",        
         "vscjava.vscode-java-pack@0.31.1",
-        "redhat.java@1.57.0",
         "jbangdev.jbang-vscode@0.12.0",
         "mermaidchart.vscode-mermaid-chart@2.8.2",
         "usernamehw.errorlens",
@@ -19,6 +19,7 @@
       "settings": {
         "chat.commandCenter.enabled": false,
         "chat.disableAIFeatures": true,
+        "extensions.autoUpdate": false,
         // open the README (rendered) on startup, and render every markdown file as a preview
         "workbench.startupEditor": "readme",
         "workbench.editorAssociations": {
