@@ -8,8 +8,8 @@
     "vscode": {
       "extensions": [
         "ms-python.python",
+        "redhat.java@1.57.0",        
         "vscjava.vscode-java-pack@0.31.1",
-        "redhat.java@1.57.0",
         "jbangdev.jbang-vscode@0.12.0",
         "mermaidchart.vscode-mermaid-chart@2.8.2",
         "usernamehw.errorlens",
