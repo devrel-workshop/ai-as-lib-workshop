@@ -4,7 +4,7 @@
 //DEPS dev.langchain4j:langchain4j:1.23.0
 //DEPS dev.langchain4j:langchain4j-open-ai:1.23.0
 //DEPS dev.langchain4j:langchain4j-agentic:1.23.0-beta33
-//DEPS ch.qos.logback:logback-classic:1.6.5
+//DEPS ch.qos.logback:logback-classic:1.6.6
 
 import dev.langchain4j.agentic.Agent;
 import dev.langchain4j.agentic.AgenticServices;
