@@ -1920,7 +1920,7 @@ The loop iterates until the critic gives a score >= 0.8 (or max 3 iterations), r
 
 **File to edit**: [ImageGeneratorAgent.java](ImageGeneratorAgent.java)
 
-> **Note**: This module uses `langchain4j-agentic:1.22.0-beta32` — the new Agentic API for multi-agent orchestration.
+> **Note**: This module uses `langchain4j-agentic:1.23.0-beta33` — the new Agentic API for multi-agent orchestration.
 
 ---
 
@@ -2461,7 +2461,7 @@ The supervisor LLM receives workflow instructions via `supervisorContext` and au
 
 **File to edit**: [ImageGeneratorSupervisor.java](ImageGeneratorSupervisor.java)
 
-> **Note**: This module uses `langchain4j-agentic:1.22.0-beta32` — the new Agentic API for multi-agent orchestration.
+> **Note**: This module uses `langchain4j-agentic:1.23.0-beta33` — the new Agentic API for multi-agent orchestration.
 
 ---
 

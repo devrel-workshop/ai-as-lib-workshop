@@ -1,9 +1,9 @@
 //JAVA 25+
 //JAVA_OPTIONS -Dstdout.encoding=UTF-8
 
-//DEPS dev.langchain4j:langchain4j:1.22.0
-//DEPS dev.langchain4j:langchain4j-open-ai:1.22.0
-//DEPS ch.qos.logback:logback-classic:1.6.5
+//DEPS dev.langchain4j:langchain4j:1.23.0
+//DEPS dev.langchain4j:langchain4j-open-ai:1.23.0
+//DEPS ch.qos.logback:logback-classic:1.6.6
 
 //FILES ./resources/logback.xml
 
@@ -122,7 +122,7 @@ public class RAGChatbot {
 
                 // java-23
                 // Send a prompt
-                _LOG.info("💬: What is J-Fall 2026 program?\n");
+                _LOG.info("\n💬: What is J-Fall 2026 program?\n");
                 TokenStream tokenStream = assistant.chat("What is J-Fall 2026 program?");
                 CompletableFuture<ChatResponse> futureChatResponse = new CompletableFuture<>();
 
