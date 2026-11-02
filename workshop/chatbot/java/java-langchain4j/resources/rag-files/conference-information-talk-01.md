@@ -1,30 +1,27 @@
-# Name and information about the conference
-Cloud Nord 2026.
+# Name and information about the conference J-Fall 2026.
 
-Un événement qui se tient à Lille et dédié à la Tech avec pour thématique le Cloud, l’Architecture et tout ce qui se rapporte aux pratiques de développement : Finops, Greenops, Serverless, Cloud Native, technique de déploiement, sécurisation…
+J-Fall — The biggest community conference in Europe. November 11 & 12 , 2026. The Conference for Modern Java, Architecture and Software Innovation for NLJUG Members only.
 
 ## Agenda and venue
 
-### Hands on lab - 120 mins.
-Salle RS 105.
+### Hands on lab - 115 mins.
+Tuesday, November 12 - 10h35 AM - Salle RS 105.
 
 #### Subject
-Ajouter de l'IA à nos applications : et si c'était aussi simple qu'ajouter une librairie ?
+👩‍💻 Developing with AI: What if it were as simple as adding a library? 🧑‍💻
 
 #### Speakers 
-Stéphane Philippart (OVHcloud)
+Matthieu Vincent (Sopra Steria) - Stéphane Philippart (OVHcloud)
 
 #### Abstract
-’intelligence artificielle et les LLM commencent à faire partie de nos vies personnelles mais aussi professionnelles.
+Integrating Artificial Intelligence (AI) into our applications can seem much more complex than simply using AI tools in our daily lives.
 
-Si on est habitué•es à les utiliser régulièrement, il en est autrement pour ce qui concerne nos développements.
+Do I need to learn a new language or adopt an entirely new technology stack?
 
-Les intégrer peut nous paraître plus complexe que de les utiliser dans notre quotidien.
+In this workshop, we'll give you everything you need to integrate AI into your applications without leaving your favorite language: Java 😍. It will also be an opportunity to discover some of today's most popular frameworks, including LangChain4j, Quarkus, and more.
 
-Dois-je apprendre un nouveau langage ou une nouvelle stack ?
+We'll explore every aspect of building applications with generative AI: customizing prompts, enriching models with your own data (RAG), calling local or remote tools (MCP), and creating agents.
 
-Durant ce workshop nous vous proposons de vous donner tous les éléments pour débuter votre voyage au sein de l’IA sans quitter votre langage de prédilection : Java.
+By the end of this workshop, you'll leave with a practical toolbox that will enable you to easily integrate the power of AI models into your everyday development projects.
 
-Vous apprendrez comment utiliser les Frameworks du moment (Quarkus, LangChain4j, …) mais aussi les outils vous facilitant la vie pour que dès le retour à votre application préférée, intégrer de l’IA au sein de celle-ci ne soit plus une peur mais une action aussi simple que de rajouter une librairie tierce.
-
-Et, toujours pour vous simplifier la vie, venez juste avec votre ordinateur et un navigateur Internet, je me charge du reste pour vous construire un environnement de développement aux petits oignons grâce aux CDE.
+And to make things even easier, just bring your laptop and a web browser, we'll take care of the rest and provide a fully configured development environment through EasyLab 😍.
