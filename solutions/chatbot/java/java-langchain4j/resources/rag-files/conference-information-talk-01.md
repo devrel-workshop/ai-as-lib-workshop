@@ -5,7 +5,7 @@ J-Fall — The biggest community conference in Europe. November 11 & 12 , 2026. 
 ## Agenda and venue
 
 ### Hands on lab - 115 mins.
-Tuesday, November 12 - 10h35 AM - Salle RS 105.
+Tuesday, November 12 - 10h35 AM - Room Hands-on labs.
 
 #### Subject
 👩‍💻 Developing with AI: What if it were as simple as adding a library? 🧑‍💻
